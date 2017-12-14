@@ -1,0 +1,60 @@
+{
+  "decks": [
+    {
+      "type": 26,
+      "id": 0,
+      "count": 0,
+      "level": 0,
+      "new": 2
+    },
+    {
+      "type": 26,
+      "id": 1,
+      "count": 0,
+      "level": 0,
+      "new": 2
+    },
+    {
+      "type": 26,
+      "id": 2,
+      "count": 0,
+      "level": 0,
+      "new": 2
+    },
+    {
+      "type": 26,
+      "id": 3,
+      "count": 0,
+      "level": 0,
+      "new": 2
+    },
+    {
+      "type": 26,
+      "id": 4,
+      "count": 0,
+      "level": 0,
+      "new": 2
+    },
+    {
+      "type": 26,
+      "id": 5,
+      "count": 0,
+      "level": 0,
+      "new": 2
+    },
+    {
+      "type": 26,
+      "id": 6,
+      "count": 0,
+      "level": 0,
+      "new": 2
+    },
+    {
+      "type": 26,
+      "id": 7,
+      "count": 0,
+      "level": 0,
+      "new": 2
+    }
+  ]
+}
