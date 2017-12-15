@@ -73,7 +73,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Patchs\VERSION" />
+    <None Include="Patchs\VERSION">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Logic\Gamefiles.cs" />
     <Compile Include="Logic\Gamefile.cs" />
     <Compile Include="Logic\Version.cs" />
