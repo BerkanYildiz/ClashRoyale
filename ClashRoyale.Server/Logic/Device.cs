@@ -1,13 +1,16 @@
 ﻿namespace ClashRoyale.Server.Logic
 {
     using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Server.Logic.Mode;
+    using ClashRoyale.Server.Logic.Structures;
     using ClashRoyale.Server.Network;
 
     internal class Device
     {
         internal NetworkManager NetworkManager;
         internal NetworkToken   Network;
-        internal Player         Player;
+        internal Defines        Defines;
+        internal GameMode       GameMode;
 
         internal State State;
 

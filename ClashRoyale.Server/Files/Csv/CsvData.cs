@@ -24,8 +24,8 @@
         internal CsvData(CsvRow Row, CsvTable Table)
         {
             this.Type       = Table.Offset;
-            this.Instance   = Table.Files.Count;
-            this.GlobalId   = Table.Files.Count + 1000000 * Table.Offset;
+            this.Instance   = Table.Datas.Count;
+            this.GlobalId   = Table.Datas.Count + 1000000 * Table.Offset;
 
             Row.LoadData(this);
         }

@@ -17,7 +17,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
         /// </summary>
 		internal override void LoadingFinished()
 		{
-	    	Csv.Tables.Characters.Add(this);
+	    	CsvFiles.Characters.Add(this);
 		}
 	
         internal string Rarity

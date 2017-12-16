@@ -4,12 +4,12 @@
 
     internal class ChecksumEncoder
     {
-        private int Checksum;
-        private int BefChecksum;
+        internal int Checksum;
+        internal int BefChecksum;
 
-        private bool Enabled;
+        internal bool Enabled;
 
-        private ByteStream ByteStream;
+        internal ByteStream ByteStream;
 
         /// <summary>
         /// Gets if this instance is checksum only mode.

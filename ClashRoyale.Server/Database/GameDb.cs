@@ -3,7 +3,6 @@
     using System;
 
     using ClashRoyale.Server.Database.Models;
-    using ClashRoyale.Server.Logic.Collections;
 
     using MongoDB.Driver;
 
@@ -20,6 +19,7 @@
 
         internal static IMongoCollection<PlayerDb> Players;
         internal static IMongoCollection<ClanDb> Clans;
+        internal static IMongoCollection<BattleDb> Battles;
 
         /// <summary>
         /// Initializes this instance.
@@ -51,8 +51,14 @@
                 MongoDb.CreateCollection("Clans");
             }
 
+            if (MongoDb.GetCollection<BattleDb>("Battles") == null)
+            {
+                MongoDb.CreateCollection("Battles");
+            }
+
             GameDb.Players      = MongoDb.GetCollection<PlayerDb>("Players");
             GameDb.Clans        = MongoDb.GetCollection<ClanDb>("Clans");
+            GameDb.Battles      = MongoDb.GetCollection<BattleDb>("Battles");
 
             GameDb.Players.Indexes.CreateOne(Builders<PlayerDb>.IndexKeys.Combine(
                 Builders<PlayerDb>.IndexKeys.Ascending(T => T.HighId),
@@ -69,6 +75,18 @@
             GameDb.Clans.Indexes.CreateOne(Builders<ClanDb>.IndexKeys.Combine(
                 Builders<ClanDb>.IndexKeys.Ascending(T => T.HighId),
                 Builders<ClanDb>.IndexKeys.Descending(T => T.LowId)),
+
+                new CreateIndexOptions()
+                {
+                    Name = "entityIds",
+                    Background = true
+                    
+                }
+            );
+
+            GameDb.Battles.Indexes.CreateOne(Builders<BattleDb>.IndexKeys.Combine(
+                Builders<BattleDb>.IndexKeys.Ascending(T => T.HighId),
+                Builders<BattleDb>.IndexKeys.Descending(T => T.LowId)),
 
                 new CreateIndexOptions()
                 {
@@ -100,6 +118,17 @@
         {
             return GameDb.Clans.Find(T => T.HighId == Constants.ServerId)
                 .Sort(Builders<ClanDb>.Sort.Descending(T => T.LowId))
+                .Limit(1)
+                .SingleOrDefault()?.LowId ?? 0;
+        }
+
+        /// <summary>
+        /// Gets the seed for the specified collection.
+        /// </summary>
+        internal static int GetBattlesSeed()
+        {
+            return GameDb.Battles.Find(T => T.HighId == Constants.ServerId)
+                .Sort(Builders<BattleDb>.Sort.Descending(T => T.LowId))
                 .Limit(1)
                 .SingleOrDefault()?.LowId ?? 0;
         }

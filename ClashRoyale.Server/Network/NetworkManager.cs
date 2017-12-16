@@ -2,18 +2,21 @@
 {
     using System;
     using System.Net;
+
     using ClashRoyale.Server.Crypto;
     using ClashRoyale.Server.Crypto.Encrypters;
     using ClashRoyale.Server.Crypto.Inits;
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Server.Logic.Structures;
     using ClashRoyale.Server.Network.Packets;
 
     internal class NetworkManager
     {
         internal Device Device;
-        // internal RequestTime RequestTime;
+        internal RequestTime RequestTime;
+        internal LogicLong AccountId;
 
         internal int Ping;
         internal int InvalidMessageStateCnt;

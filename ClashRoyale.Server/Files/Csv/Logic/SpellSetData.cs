@@ -25,7 +25,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 
 		    for (int I = 0; I < this.Spells.Count; I++)
 		    {
-		        this.SpellsData[I] = Csv.Tables.GetSpellDataByName(this.Spells[I]);
+		        this.SpellsData[I] = CsvFiles.GetSpellDataByName(this.Spells[I]);
 		    }
 		}
 	

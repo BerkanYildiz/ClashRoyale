@@ -2,6 +2,8 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 {
     using System;
 
+    using ClashRoyale.Server.Logic.Enums;
+
     internal class SpellData : CsvData
     {
         internal RarityData RarityData;
@@ -35,18 +37,18 @@ namespace ClashRoyale.Server.Files.Csv.Logic
         /// </summary>
         internal override void LoadingFinished()
         {
-            this.RarityData = Csv.Tables.Get(Gamefile.Rarity).GetData<RarityData>(this.Rarity);
+            this.RarityData = CsvFiles.Get(Gamefile.Rarity).GetData<RarityData>(this.Rarity);
 
             if (this.RarityData == null)
             {
-                throw new Exception("Spell " + this.GlobalID + " rarity is NULL.");
+                throw new Exception("Spell " + this.GlobalId + " rarity is NULL.");
             }
 
-            this.UnlockArenaData = Csv.Tables.Get(Gamefile.Arena).GetData<ArenaData>(this.UnlockArena);
+            this.UnlockArenaData = CsvFiles.Get(Gamefile.Arena).GetData<ArenaData>(this.UnlockArena);
 
             if (this.UnlockArenaData == null)
             {
-                throw new Exception("UnlockArena not defined for spell " + this.GlobalID + ".");
+                throw new Exception("UnlockArena not defined for spell " + this.GlobalId + ".");
             }
 
             if (!string.IsNullOrEmpty(this.ReleaseDate))
@@ -63,7 +65,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 
             if (!this.NotInUse)
             {
-                Csv.Tables.Spells.Add(this);
+                CsvFiles.Spells.Add(this);
             }
         }
 

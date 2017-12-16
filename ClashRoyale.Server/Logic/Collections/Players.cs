@@ -1,13 +1,13 @@
-﻿namespace ClashRoyale.Server.Logic.Collections
+namespace ClashRoyale.Server.Logic.Collections
 {
-    using System;
     using System.Collections.Concurrent;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
-    using ClashRoyale.Server.Files;
+    using ClashRoyale.Server.Logic.Commands;
 
     using Newtonsoft.Json;
 
@@ -22,13 +22,23 @@
             set;
         }
 
-        private static ConcurrentDictionary<long, Player> Entities;
-
-        private static int HighId;
-        private static int LowId;
+        /// <summary>
+        /// Gets or sets the highest seed.
+        /// </summary>
+        private static int HighSeed;
 
         /// <summary>
-        /// Initializes this instance.
+        /// Gets or sets the lowest seed.
+        /// </summary>
+        private static int LowSeed;
+
+        /// <summary>
+        /// Gets or sets the entities.
+        /// </summary>
+        private static ConcurrentDictionary<long, Player> Entities;
+
+        /// <summary>
+        /// Initializes the slot.
         /// </summary>
         internal static void Initialize()
         {
@@ -38,10 +48,32 @@
             }
 
             Players.Entities    = new ConcurrentDictionary<long, Player>();
-            Players.HighId      = Constants.ServerId;
-            Players.LowId       = GameDb.GetPlayersSeed();
+            Players.HighSeed    = Constants.ServerId;
+            Players.LowSeed     = GameDb.GetPlayersSeed();
 
             Players.Initialized = true;
+        }
+
+        /// <summary>
+        /// Adds the specified entity.
+        /// </summary>
+        /// <param name="Entity">The entity.</param>
+        internal static void Add(Player Entity)
+        {
+            if (Players.Entities.ContainsKey(Entity.PlayerId))
+            {
+                if (!Players.Entities.TryUpdate(Entity.PlayerId, Entity, Entity))
+                {
+                    Logging.Error(typeof(Players), "TryUpdate(EntityId, Entity, Entity) != true at Add(Entity).");
+                }
+            }
+            else
+            {
+                if (!Players.Entities.TryAdd(Entity.PlayerId, Entity))
+                {
+                    Logging.Error(typeof(Players), "TryAdd(EntityId, Entity) != true at Add(Entity).");
+                }
+            }
         }
 
         /// <summary>
@@ -50,17 +82,51 @@
         /// <param name="Entity">The entity.</param>
         internal static async Task Remove(Player Entity)
         {
-            if (Entity == null)
+            Player TmpPlayer;
+
+            if (Entity.GameMode != null)
             {
-                throw new ArgumentNullException(nameof(Entity), "Entity was null at Remove(Entity).");
+                if (Entity.GameMode.CommandManager.AvailableServerCommands.Count > 0)
+                {
+                    foreach (Command Command in Entity.GameMode.CommandManager.AvailableServerCommands.Values.ToArray())
+                    {
+                        if (Command.IsServerCommand)
+                        {
+                            Command.Execute(Entity.GameMode);
+                        }
+                    }
+                }
+
+                if (Entity.IsInAlliance)
+                {
+                    Clan Clan = Clans.Get(Entity.AllianceHighId, Entity.AllianceLowId).Result;
+
+                    if (Clan != null)
+                    {
+                        await Clan.Members.RemoveOnlinePlayer(Entity);
+                    }
+                }
+
+                if (Entity.GameMode.Battle != null)
+                {
+                    foreach (Player Player2 in Entity.GameMode.Battle.Players)
+                    {
+                        if (Player2 != null)
+                        {
+                            Player2.GameMode.SectorManager.OpponentLeftMatch();
+                        }
+                    }
+                }
             }
 
             await Players.Save(Entity);
         }
 
         /// <summary>
-        /// Creates a new <see cref="Player"/> and store it into the database.
+        /// Creates the specified entity.
         /// </summary>
+        /// <param name="Entity">The entity.</param>
+        /// <param name="Store">Whether it has to be stored.</param>
         internal static async Task<Player> Create(Player Entity = null, bool Store = true)
         {
             if (Entity == null)
@@ -69,40 +135,32 @@
                 Entity.Initialize();
             }
 
-            JsonConvert.PopulateObject(Home.Json.ToString(), Entity.Home);
+            Entity.HighId       = Players.HighSeed;
+            Entity.LowId        = Interlocked.Increment(ref Players.LowSeed);
 
-            Entity.HighId   = Players.HighId;
-            Entity.LowId    = Interlocked.Increment(ref Players.LowId);
-            Entity.Token    = Program.Random.NextToken();
+            JsonConvert.PopulateObject(Files.Home.Json.ToString(), Entity.Home);
+
+            Entity.Home.HighId  = Entity.HighId;
+            Entity.Home.LowId   = Entity.LowId;
+
+            Entity.PassToken    = Program.Random.NextToken();
 
             await PlayerDb.Create(Entity);
 
             if (Store)
             {
-                if (Players.Entities.ContainsKey(Entity.PlayerId))
-                {
-                    if (!Players.Entities.TryUpdate(Entity.PlayerId, Entity, Entity))
-                    {
-                        Logging.Error(typeof(Players), "TryUpdate(EntityId, Entity, Entity) != true at Add(Entity).");
-                    }
-                }
-                else
-                {
-                    if (!Players.Entities.TryAdd(Entity.PlayerId, Entity))
-                    {
-                        Logging.Error(typeof(Players), "TryAdd(EntityId, Entity) != true at Add(Entity).");
-                    }
-                }
+                Players.Add(Entity);
             }
 
             return Entity;
         }
 
         /// <summary>
-        /// Gets a <see cref="Player"/> from the database using the specified identifiers.
+        /// Gets the entity using the specified identifiers.
         /// </summary>
         /// <param name="HighId">The high identifier.</param>
         /// <param name="LowId">The low identifier.</param>
+        /// <param name="Store">Whether it has to be stored.</param>
         internal static async Task<Player> Get(int HighId, int LowId, bool Store = true)
         {
             Logging.Warning(typeof(Players), "Get(" + HighId + ", " + LowId + ") has been called.");
@@ -114,7 +172,7 @@
 
             if (Players.Entities.TryGetValue(PlayerId, out Player))
             {
-                return Player;
+                return Player; 
             }
             else
             {
@@ -124,20 +182,7 @@
                     {
                         if (Store)
                         {
-                            if (Players.Entities.ContainsKey(Player.PlayerId))
-                            {
-                                if (!Players.Entities.TryUpdate(Player.PlayerId, Player, Player))
-                                {
-                                    Logging.Error(typeof(Players), "TryUpdate(EntityId, Player, Player) != true at Get(" + HighId + ", " + LowId + ").");
-                                }
-                            }
-                            else
-                            {
-                                if (!Players.Entities.TryAdd(Player.PlayerId, Player))
-                                {
-                                    Logging.Error(typeof(Players), "TryAdd(EntityId, Player) != true at Get(" + HighId + ", " + LowId + ").");
-                                }
-                            }
+                            Players.Add(Player);
                         }
 
                         return Player;
@@ -153,21 +198,37 @@
                 }
             }
 
-            return null;
+            return Player;
         }
 
         /// <summary>
-        /// Saves the specified <see cref="Player"/> in the database.
+        /// Saves the specified entity.
         /// </summary>
-        /// <param name="Player">The player.</param>
-        internal static async Task Save(Player Player)
+        /// <param name="Entity">The entity.</param>
+        internal static async Task Save(Player Entity)
         {
-            var Result = await PlayerDb.Save(Player);
+            var Result = await PlayerDb.Save(Entity);
 
             if (Result == null)
             {
-                Logging.Error(typeof(Players), "Result == null");
+                Logging.Error(typeof(Players), "Result == null at Save(Entity).");
             }
+        }
+
+        /// <summary>
+        /// Saves every entities in this slot.
+        /// </summary>
+        internal static async Task SaveAll()
+        {
+            var Players       = Collections.Players.Entities.Values.ToArray();
+            var RequestsTasks = new Task[Players.Length];
+
+            for (var I = 0; I < Players.Length; I++)
+            {
+                RequestsTasks[I] = Collections.Players.Save(Players[I]);
+            }
+
+            await Task.WhenAll(RequestsTasks);
         }
     }
 }

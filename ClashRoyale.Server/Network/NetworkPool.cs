@@ -40,8 +40,9 @@
         /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
         internal void Enqueue(SocketAsyncEventArgs AsyncEvent)
         {
-            AsyncEvent.AcceptSocket = null;
-            AsyncEvent.RemoteEndPoint = null;
+            AsyncEvent.AcceptSocket     = null;
+            AsyncEvent.RemoteEndPoint   = null;
+
             if (AsyncEvent.DisconnectReuseSocket)
             {
                 this.Push(AsyncEvent);

@@ -1,17 +1,28 @@
 ﻿namespace ClashRoyale.Server.Database.Models
 {
-    using System;
     using System.Threading.Tasks;
 
     using ClashRoyale.Server.Logic;
 
     using MongoDB.Bson;
-    using MongoDB.Bson.Serialization;
     using MongoDB.Bson.Serialization.Attributes;
     using MongoDB.Driver;
 
+    using Newtonsoft.Json;
+
     internal class PlayerDb
     {
+        /// <summary>
+        /// The settings for the <see cref="JsonConvert" /> class.
+        /// </summary>
+        [BsonIgnore]
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling            = TypeNameHandling.None,            MissingMemberHandling   = MissingMemberHandling.Ignore,
+            DefaultValueHandling        = DefaultValueHandling.Include,     NullValueHandling       = NullValueHandling.Ignore,
+            Formatting                  = Formatting.None
+        };
+
         [BsonId]                    internal BsonObjectId _id;
 
         [BsonElement("highId")]     internal int HighId;
@@ -33,11 +44,11 @@
         /// <param name="HighId">The high identifier.</param>
         /// <param name="LowId">The low identifier.</param>
         /// <param name="Profile">The profile.</param>
-        internal PlayerDb(int HighId, int LowId, BsonDocument Profile = null)
+        internal PlayerDb(int HighId, int LowId, string Json)
         {
             this.HighId     = HighId;
             this.LowId      = LowId;
-            this.Profile    = Profile;
+            this.Profile    = BsonDocument.Parse(Json);
         }
 
         /// <summary>
@@ -48,7 +59,7 @@
         {
             this.HighId     = Player.HighId;
             this.LowId      = Player.LowId;
-            this.Profile    = Player.ToBsonDocument();
+            this.Profile    = BsonDocument.Parse(JsonConvert.SerializeObject(Player, PlayerDb.JsonSettings));
         }
 
         /// <summary>
@@ -65,7 +76,13 @@
         /// </summary>
         internal static async Task<PlayerDb> Save(Player Player)
         {
-            var UpdatedEntity = await GameDb.Players.FindOneAndUpdateAsync(PlayerDb => PlayerDb.HighId == Player.HighId && PlayerDb.LowId == Player.LowId, Builders<PlayerDb>.Update.Set(PlayerDb => PlayerDb.Profile, Player.ToBsonDocument()));
+            var UpdatedEntity = await GameDb.Players.FindOneAndUpdateAsync(PlayerDb =>
+
+                PlayerDb.HighId == Player.HighId &&
+                PlayerDb.LowId  == Player.LowId,
+
+                Builders<PlayerDb>.Update.Set(PlayerDb => PlayerDb.Profile, BsonDocument.Parse(JsonConvert.SerializeObject(Player, PlayerDb.JsonSettings)))
+            );
 
             if (UpdatedEntity != null)
             {
@@ -156,6 +173,28 @@
             else
             {
                 Logging.Error(typeof(PlayerDb), "LowId <= 0 at Delete(HighId, LowId).");
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Deserializes the specified entity.
+        /// </summary>
+        internal bool Deserialize(out Player Player)
+        {
+            if (this.Profile != null)
+            {
+                Player = JsonConvert.DeserializeObject<Player>(this.Profile.ToJson(), PlayerDb.JsonSettings);
+
+                if (Player != null)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                Player = null;
             }
 
             return false;

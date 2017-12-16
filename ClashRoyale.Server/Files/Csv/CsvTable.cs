@@ -2,6 +2,9 @@
 {
     using System.Collections.Generic;
 
+    using ClashRoyale.Server.Files.Csv.Client;
+    using ClashRoyale.Server.Files.Csv.Logic;
+
     internal class CsvTable
     {
         internal readonly List<CsvData> Datas;
@@ -44,6 +47,300 @@
         /// <param name="CsvRow">The CSV row.</param>
         internal CsvData Load(CsvRow CsvRow)
         {
+            switch (this.Offset)
+            {
+                case 1:
+                {
+                    return new LocaleData(CsvRow, this);
+                }
+
+                case 2:
+                {
+                    return new BillingPackageData(CsvRow, this);
+                }
+
+                case 3:
+                case 20:
+                {
+                    return new GlobalData(CsvRow, this);
+                }
+
+                case 4:
+                {
+                    return new SoundData(CsvRow, this);
+                }
+
+                case 5:
+                {
+                    return new ResourceData(CsvRow, this);
+                }
+
+                case 9:
+                {
+                    return new CharacterBuffData(CsvRow, this);
+                }
+
+                case 10:
+                {
+                    return new ProjectileData(CsvRow, this);
+                }
+
+                case 11:
+                {
+                    return new EffectData(CsvRow, this);
+                }
+
+                case 12:
+                {
+                    return new PredefinedDeckData(CsvRow, this);
+                }
+                    
+                case 14:
+                {
+                    return new RarityData(CsvRow, this);
+                }
+
+                case 15:
+                {
+                    return new LocationData(CsvRow, this);
+                }
+
+                case 16:
+                {
+                    return new AllianceBadgeData(CsvRow, this);
+                }
+                    
+                case 18:
+                {
+                    return new NpcData(CsvRow, this);
+                }
+
+                case 19:
+                {
+                    return new TreasureChestData(CsvRow, this);
+                }
+
+                case 21:
+                {
+                    return new ParticleEmitterData(CsvRow, this);
+                }
+
+                case 22:
+                {
+                    return new AreaEffectObjectData(CsvRow, this);
+                }
+
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                {
+                    return new SpellData(CsvRow, this);
+                }
+
+                case 34:
+                case 35:
+                {
+                    return new CharacterData(CsvRow, this);
+                }
+
+                case 40:
+                {
+                    return new HealthBarData(CsvRow, this);
+                }
+
+                case 41:
+                {
+                    return new MusicData(CsvRow, this);
+                }
+
+                case 42:
+                {
+                    return new DecoData(CsvRow, this);
+                }
+
+                case 43:
+                {
+                    return new GambleChestData(CsvRow, this);
+                }
+
+                case 45:
+                case 48:
+                {
+                    return new TutorialData(CsvRow, this);
+                }
+
+                case 46:
+                {
+                    return new ExpLevelData(CsvRow, this);
+                }
+                    
+                case 50:
+                {
+                    return new BackgroundDecoData(CsvRow, this);
+                }
+
+                case 51:
+                {
+                    return new SpellSetData(CsvRow, this);
+                }
+
+                case 52:
+                {
+                    return new ChestOrderData(CsvRow, this);
+                }
+
+                case 53:
+                {
+                    return new TauntData(CsvRow, this);
+                }
+
+                case 54:
+                {
+                    return new ArenaData(CsvRow, this);
+                }
+
+                case 55:
+                {
+                    return new ResourcePackData(CsvRow, this);
+                }
+
+                case 56:
+                {
+                    return new CsvData(CsvRow, this); // TODO
+                }
+
+                case 57:
+                {
+                    return new RegionData(CsvRow, this);
+                }
+
+                case 58:
+                {
+                    return new NewsData(CsvRow, this);
+                }
+
+                case 59:
+                {
+                    return new AllianceRoleData(CsvRow, this);
+                }
+
+                case 60:
+                {
+                    return new AchievementData(CsvRow, this);
+                }
+
+                case 61:
+                {
+                    return new HintData(CsvRow, this);
+                }
+
+                case 62:
+                {
+                    return new HelpshiftData(CsvRow, this);
+                }
+				
+                case 63:
+                {
+                    return new TournamentTierData(CsvRow, this);
+                }
+
+                case 64:
+                {
+                    return new ContentTestData(CsvRow, this);
+                }
+
+                case 65:
+                {
+                    return new SurvivalModeData(CsvRow, this);
+                }
+
+                case 66:
+                {
+                    return new ShopData(CsvRow, this);
+                }
+
+                case 67:
+                {
+                    return new EventCategoryData(CsvRow, this);
+                }
+
+                case 68:
+                {
+                    return new DraftDeckData(CsvRow, this);
+                }
+
+                case 70:
+                {
+                    return new AbilityData(CsvRow, this);
+                }
+
+                case 72:
+                {
+                    return new GameModeData(CsvRow, this);
+                }
+
+                case 74:
+                {
+                    return new EventCategoryDefinitionData(CsvRow, this);
+                }
+
+                case 75:
+                {
+                    return new EventCategoryObjectDefinitionData(CsvRow, this);
+                }
+
+                case 76:
+                {
+                    return new EventCategoryEnumData(CsvRow, this);
+                }
+
+                case 77:
+                {
+                    return new ConfigurationDefinitionData(CsvRow, this);
+                }
+
+                case 79:
+                {
+                    return new PveGamemodeData(CsvRow, this);
+                }
+
+                case 81:
+                {
+                    return new TveGamemodeData(CsvRow, this);
+                }
+
+                case 82:
+                {
+                    return new TutorialChestOrderData(CsvRow, this);
+                }
+				
+                case 83:
+                {
+                    return new SkinData(CsvRow, this);
+                }
+				
+                case 84:
+                {
+                    return new QuestOrderData(CsvRow, this);
+                }
+
+                case 85:
+                {
+                    return new EventTargetingDefinitionData(CsvRow, this);
+                }
+
+                case 86:
+                {
+                    return new ShopCycleData(CsvRow, this);
+                }
+
+                case 87:
+                {
+                    return new SkinSetData(CsvRow, this);
+                }
+            }
+
             return new CsvData(CsvRow, this);
         }
 

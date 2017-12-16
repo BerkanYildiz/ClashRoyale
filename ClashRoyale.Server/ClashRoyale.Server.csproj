@@ -1,17 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0" DefaultTargets="Build">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2195C41C-B2E2-4763-8F7F-F34D1F9B9C0C}</ProjectGuid>
+    <ProjectGuid>{D37FC105-EF32-4B9E-B347-1436D72693EA}</ProjectGuid>
     <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClashRoyale.Server</RootNamespace>
     <AssemblyName>ClashRoyale.Server</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>1024</FileAlignment>
+    <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <NuGetPackageImportStamp />
+    <PublishUrl>ftp://ns3028394.ip-149-202-90.eu/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>
+    </InstallUrl>
+    <SupportUrl>https://www.gobelinland.fr/</SupportUrl>
+    <ErrorReportUrl>https://www.gobelinland.fr/</ErrorReportUrl>
+    <TargetCulture>en</TargetCulture>
+    <ProductName>GL - Royale Server</ProductName>
+    <PublisherName>GobelinLand</PublisherName>
+    <SuiteName>GL - Servers</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.html</WebPage>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,54 +52,103 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>1</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>Builds\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>default</LangVersion>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <FileAlignment>1024</FileAlignment>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <DocumentationFile />
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>ClashRoyale.Server.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestTimestampUrl>http://tsa.startssl.com/timestamp</ManifestTimestampUrl>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>4FD39E2DECBB936853CE1DC994BB73BCFF045994</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>Internet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>Builds\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <LangVersion>default</LangVersion>
+    <FileAlignment>1024</FileAlignment>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>0</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
+      <HintPath>..\..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MongoDB.Bson, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.5.0\lib\net45\MongoDB.Bson.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Bson.2.5.0\lib\net45\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.5.0\lib\net45\MongoDB.Driver.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Driver.2.5.0\lib\net45\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver.Core, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.5.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.5.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+      <HintPath>..\..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
-      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Files\Csv\Tilemaps\LayoutRow.cs" />
+    <Compile Include="Files\Csv\Tilemaps\MapRow.cs" />
+    <Compile Include="Files\Csv\Tilemaps\Object.cs" />
     <Compile Include="Crypto\Blake\Blake2BBase.cs" />
     <Compile Include="Crypto\Blake\Blake2BBuilder.cs" />
     <Compile Include="Crypto\Blake\Blake2BConfig.cs" />
@@ -80,6 +158,7 @@
     <Compile Include="Crypto\Blake\Blake2BTreeConfig.cs" />
     <Compile Include="Crypto\Encrypters\IEncrypter.cs" />
     <Compile Include="Crypto\Encrypters\PepperEncrypter.cs" />
+    <Compile Include="Crypto\Encrypters\Rc4Encrypter.cs" />
     <Compile Include="Crypto\Inits\PepperInit.cs" />
     <Compile Include="Crypto\Nacl\curve25519.cs" />
     <Compile Include="Crypto\Nacl\curve25519xsalsa20poly1305.cs" />
@@ -91,19 +170,40 @@
     <Compile Include="Crypto\Nacl\xsalsa20poly1305.cs" />
     <Compile Include="Crypto\PepperCrypto.cs" />
     <Compile Include="Crypto\PepperFactory.cs" />
-    <Compile Include="Crypto\Encrypters\Rc4Encrypter.cs" />
-    <Compile Include="Crypto\Randomizers\XorShift.cs" />
+    <Compile Include="Crypto\Randomizers\Xorshift.cs" />
     <Compile Include="Database\GameDb.cs" />
+    <Compile Include="Database\Models\BattleDb.cs" />
     <Compile Include="Database\Models\ClanDb.cs" />
     <Compile Include="Database\Models\PlayerDb.cs" />
     <Compile Include="Extensions\ByteHelper.cs" />
     <Compile Include="Extensions\ByteStream.cs" />
     <Compile Include="Extensions\ChecksumEncoder.cs" />
+    <Compile Include="Extensions\Game\GamePlayUtil.cs" />
+    <Compile Include="Extensions\Game\ClientGlobals.cs" />
+    <Compile Include="Extensions\Game\Globals.cs" />
+    <Compile Include="Extensions\Helper\ByteStreamHelper.cs" />
+    <Compile Include="Extensions\Helper\JsonHelper.cs" />
+    <Compile Include="Extensions\Helper\ListHelper.cs" />
+    <Compile Include="Extensions\Helper\ZLibHelper.cs" />
+    <Compile Include="Extensions\Utils\TimeUtil.cs" />
+    <Compile Include="Files\Csv\Client\BackgroundDecoData.cs" />
+    <Compile Include="Files\Csv\Client\BillingPackageData.cs" />
+    <Compile Include="Files\Csv\Client\ClientGlobalData.cs" />
+    <Compile Include="Files\Csv\Client\EffectData.cs" />
+    <Compile Include="Files\Csv\Client\EventOutputData.cs" />
+    <Compile Include="Files\Csv\Client\HealthBarData.cs" />
+    <Compile Include="Files\Csv\Client\HelpshiftData.cs" />
+    <Compile Include="Files\Csv\Client\HintData.cs" />
+    <Compile Include="Files\Csv\Client\LocaleData.cs" />
+    <Compile Include="Files\Csv\Client\MusicData.cs" />
+    <Compile Include="Files\Csv\Client\NewsData.cs" />
+    <Compile Include="Files\Csv\Client\ParticleEmitterData.cs" />
+    <Compile Include="Files\Csv\Client\SoundData.cs" />
     <Compile Include="Files\Csv\CsvColumn.cs" />
     <Compile Include="Files\Csv\CsvData.cs" />
     <Compile Include="Files\Csv\CsvFiles.cs" />
-    <Compile Include="Files\Csv\CsvRow.cs" />
     <Compile Include="Files\Csv\CsvReader.cs" />
+    <Compile Include="Files\Csv\CsvRow.cs" />
     <Compile Include="Files\Csv\CsvTable.cs" />
     <Compile Include="Files\Csv\Logic\AbilityData.cs" />
     <Compile Include="Files\Csv\Logic\AchievementData.cs" />
@@ -162,41 +262,220 @@
     <Compile Include="Files\Fingerprint.cs" />
     <Compile Include="Files\Home.cs" />
     <Compile Include="Logging.cs" />
-    <Compile Include="Logic\Collections\Players.cs" />
-    <Compile Include="Logic\Device.cs" />
-    <Compile Include="Logic\Enums\Rank.cs" />
+    <Compile Include="Logic\Alliance\Clan.cs" />
+    <Compile Include="Logic\Alliance\Entries\AllianceHeaderEntry.cs" />
+    <Compile Include="Logic\Alliance\Entries\AllianceMemberEntry.cs" />
+    <Compile Include="Logic\Alliance\Slots\AllianceMemberEntries.cs" />
+    <Compile Include="Logic\Alliance\Slots\AllianceStreamEntries.cs" />
+    <Compile Include="Logic\Alliance\Stream\JoinRequestAllianceStreamEntry.cs" />
+    <Compile Include="Logic\Alliance\Stream\ChallengeStreamEntry.cs" />
+    <Compile Include="Logic\Alliance\Stream\AllianceEventStreamEntry.cs" />
+    <Compile Include="Logic\Alliance\Stream\DonateStreamEntry.cs" />
+    <Compile Include="Logic\Alliance\Stream\ChatStreamEntry.cs" />
+    <Compile Include="Logic\Alliance\Stream\Factory\StreamEntryFactory.cs" />
+    <Compile Include="Logic\Alliance\Stream\StreamEntry.cs" />
+    <Compile Include="Logic\Alliance\Stream\StreamEntryConverter.cs" />
+    <Compile Include="Logic\Apis\ApiManager.cs" />
+    <Compile Include="Logic\Battle\Battle.cs" />
+    <Compile Include="Logic\Battle\BattleLog.cs" />
+    <Compile Include="Logic\Battle\BattleLogConfig.cs" />
+    <Compile Include="Logic\Battle\BattleLogPlayer.cs" />
+    <Compile Include="Logic\Battle\Event\BattleEvent.cs" />
+    <Compile Include="Logic\Battle\Manager\BattleManager.cs" />
+    <Compile Include="Logic\Commands\BuyResourcePackCommand.cs" />
+    <Compile Include="Logic\Commands\BuyChestCommand.cs" />
+    <Compile Include="Logic\Commands\Server\ChangeAllianceRoleCommand.cs" />
+    <Compile Include="Logic\Commands\Server\LeaveAllianceCommand.cs" />
+    <Compile Include="Logic\Commands\Server\JoinAllianceCommand.cs" />
+    <Compile Include="Logic\Commands\ShopOpenedCommand.cs" />
+    <Compile Include="Logic\Commands\RefreshAchievementsCommand.cs" />
+    <Compile Include="Logic\Commands\ClaimAchievementRewardCommand.cs" />
+    <Compile Include="Logic\Commands\SpellPageOpenedCommand.cs" />
+    <Compile Include="Logic\Commands\Storage\CommandStorage.cs" />
     <Compile Include="Logic\Enums\Reason.cs" />
-    <Compile Include="Logic\Enums\Node.cs" />
     <Compile Include="Logic\Enums\State.cs" />
-    <Compile Include="Logic\Home.cs" />
-    <Compile Include="Logic\Player.cs" />
+    <Compile Include="Logic\Enums\Rank.cs" />
+    <Compile Include="Logic\GameObject\Character.cs" />
+    <Compile Include="Logic\GameObject\Factory\GameObjectFactory.cs" />
+    <Compile Include="Logic\GameObject\Summoner.cs" />
+    <Compile Include="Logic\Commands\DoSpellCommand.cs" />
+    <Compile Include="Logic\Commands\PageOpenedCommand.cs" />
+    <Compile Include="Logic\Commands\StartMatchmakeCommand.cs" />
+    <Compile Include="Logic\Commands\SelectDeckCommand.cs" />
+    <Compile Include="Logic\Commands\UpdateLastShownLevelUpCommand.cs" />
+    <Compile Include="Logic\Commands\SwapSpellsCommand.cs" />
+    <Compile Include="Logic\Commands\FuseSpellsCommand.cs" />
+    <Compile Include="Logic\Commands\Command.cs" />
+    <Compile Include="Logic\Commands\Server\AllianceUnitReceivedCommand.cs" />
+    <Compile Include="Logic\Commands\Server\AddChestCommand.cs" />
+    <Compile Include="Logic\Commands\Server\TransactionsRevokedCommand.cs" />
+    <Compile Include="Logic\Commands\Server\DiamondsAddedCommand.cs" />
+    <Compile Include="Logic\Commands\Server\ClaimRewardCommand.cs" />
+    <Compile Include="Logic\Commands\Server\ChangeAvatarNameCommand.cs" />
+    <Compile Include="Logic\Commands\Server\ServerCommand.cs" />
+    <Compile Include="Logic\Enums\Database.cs" />
+    <Compile Include="Logic\Enums\Gamefile.cs" />
+    <Compile Include="Logic\Enums\Node.cs" />
+    <Compile Include="Logic\Event\Manager\EventManager.cs" />
+    <Compile Include="Logic\GameObject\Component\CombatComponent.cs" />
+    <Compile Include="Logic\GameObject\Component\Component.cs" />
+    <Compile Include="Logic\GameObject\Component\CharacterBuffComponent.cs" />
+    <Compile Include="Logic\GameObject\Component\MovementComponent.cs" />
+    <Compile Include="Logic\GameObject\Component\HitpointComponent.cs" />
+    <Compile Include="Logic\GameObject\GameObject.cs" />
+    <Compile Include="Logic\GameObject\Manager\GameObjectManager.cs" />
+    <Compile Include="Logic\Home\Chest.cs" />
+    <Compile Include="Logic\Home\Spells\Spell.cs" />
+    <Compile Include="Logic\Home\Spells\SpellCollection.cs" />
+    <Compile Include="Logic\Home\Spells\SpellDeck.cs" />
+    <Compile Include="Logic\Home\Spells\SpellSet.cs" />
+    <Compile Include="Logic\Inbox\InboxManager.cs" />
+    <Compile Include="Logic\Inbox\Entry\InboxEntry.cs" />
+    <Compile Include="Logic\RoyalTV\Entry\RoyalTvEntry.cs" />
+    <Compile Include="Logic\RoyalTV\RoyalTvManager.cs" />
+    <Compile Include="Logic\Scoring\Entries\RankingEntry.cs" />
+    <Compile Include="Logic\Scoring\LeaderboardClans.cs" />
+    <Compile Include="Logic\Scoring\LeaderboardPlayers.cs" />
+    <Compile Include="Logic\Scoring\Leaderboards.cs" />
+    <Compile Include="Logic\Home\Home.cs" />
+    <Compile Include="Logic\Commands\Manager\CommandManager.cs" />
+    <Compile Include="Logic\Manager\AchievementManager.cs" />
+    <Compile Include="Logic\Math\Long.cs" />
+    <Compile Include="Logic\Math\Math.cs" />
+    <Compile Include="Logic\Math\Random.cs" />
+    <Compile Include="Logic\Enums\HomeState.cs" />
+    <Compile Include="Logic\Mode\GameMode.cs" />
+    <Compile Include="Logic\Player\Enums\CommodityType.cs" />
+    <Compile Include="Logic\Player\Items\DataSlot.cs" />
+    <Compile Include="Logic\Player\PlayerBase.cs" />
+    <Compile Include="Logic\Player\Slots\CommoditySlots.cs" />
+    <Compile Include="Logic\Replay\Replay.cs" />
+    <Compile Include="Logic\Reward\DraftReward.cs" />
+    <Compile Include="Logic\Reward\Reward.cs" />
+    <Compile Include="Logic\Reward\RewardRandomizer.cs" />
+    <Compile Include="Logic\Scoring\Entries\AllianceRankingEntry.cs" />
+    <Compile Include="Logic\Scoring\Entries\AvatarRankingEntry.cs" />
+    <Compile Include="Logic\Sector\Manager\SectorManager.cs" />
+    <Compile Include="Logic\Shop\Items\DiamondShopItem.cs" />
+    <Compile Include="Logic\Shop\Items\SpecialChestShopItem.cs" />
+    <Compile Include="Logic\Shop\Items\ShopItem.cs" />
+    <Compile Include="Logic\Shop\Items\ShopItemFactory.cs" />
+    <Compile Include="Logic\Shop\Items\ResourceShopItem.cs" />
+    <Compile Include="Logic\Shop\Items\ChestShopItem.cs" />
+    <Compile Include="Logic\Shop\Items\SpellShopItem.cs" />
+    <Compile Include="Logic\Collections\Battles.cs" />
+    <Compile Include="Logic\Collections\Clans.cs" />
+    <Compile Include="Logic\Apis\Facebook.cs" />
+    <Compile Include="Logic\Apis\Gamecenter.cs" />
+    <Compile Include="Logic\Apis\Google.cs" />
+    <Compile Include="Logic\Collections\Players.cs" />
+    <Compile Include="Logic\Structures\Defines.cs" />
+    <Compile Include="Logic\Math\Vector2.cs" />
+    <Compile Include="Logic\Structures\RequestTime.cs" />
+    <Compile Include="Logic\Structures\Stats.cs" />
+    <Compile Include="Logic\Time\Time.cs" />
+    <Compile Include="Logic\Time\Timer.cs" />
+    <Compile Include="Logic\Version.cs" />
+    <Compile Include="Logic\Device.cs" />
+    <Compile Include="Logic\Player\Player.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Network\NetworkPool.cs" />
     <Compile Include="Network\NetworkToken.cs" />
-    <Compile Include="Network\Packets\Client\KeepAliveMessage.cs" />
-    <Compile Include="Network\Packets\Client\LoginMessage.cs" />
-    <Compile Include="Network\Packets\Client\PreLoginMessage.cs" />
-    <Compile Include="Network\Packets\Factory.cs" />
-    <Compile Include="Network\Packets\Message.cs" />
-    <Compile Include="Network\Packets\Server\OwnHomeDataMessage.cs" />
-    <Compile Include="Network\Packets\Server\PreLoginOkMessage.cs" />
-    <Compile Include="Network\Packets\Server\KeepAliveOkMessage.cs" />
-    <Compile Include="Network\Packets\Server\LoginOkMessage.cs" />
-    <Compile Include="Network\Packets\Server\LoginFailedMessage.cs" />
     <Compile Include="Network\TcpGateway.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Config.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Gamefiles\csv_client\client_globals.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Gamefiles\csv_client\texts.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
+    <Compile Include="Network\Packets\Factory.cs" />
+    <Compile Include="Network\Packets\Client\Account\UdpCheckConnectionMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\ReplyJoinRequestMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\AskForAllianceDataMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\ChangeAllianceMemberRoleMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\JoinAllianceMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\ChatToAllianceStreamMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\EditAllianceMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\SearchAllianceMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\LeaveAllianceMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\CreateAllianceMessage.cs" />
+    <Compile Include="Network\Packets\Client\Alliance\AskForJoinableAlliancesListMessage.cs" />
+    <Compile Include="Network\Packets\Client\Account\InboxOpenedMessage.cs" />
+    <Compile Include="Network\Packets\Client\Avatar\HomeBattleReplayMessage.cs" />
+    <Compile Include="Network\Packets\Client\RoyalTv\AskForTVContentMessage.cs" />
+    <Compile Include="Network\Packets\Client\Scoring\AskForAllianceRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Client\Scoring\AskForAvatarLocalRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Client\Scoring\AskForAvatarRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Message.cs" />
+    <Compile Include="Network\Packets\Client\Account\ReportUserMessage.cs" />
+    <Compile Include="Network\Packets\Client\Attack\SendBattleEventMessage.cs" />
+    <Compile Include="Network\Packets\Client\Avatar\AskForAvatarStreamMessage.cs" />
+    <Compile Include="Network\Packets\Client\Avatar\AskForBattleReplayStreamMessage.cs" />
+    <Compile Include="Network\Packets\Client\Matchmaking\CancelMatchmakeMessage.cs" />
+    <Compile Include="Network\Packets\Client\Attack\SectorCommandMessage.cs" />
+    <Compile Include="Network\Packets\Client\Sector\RequestSectorStateMessage.cs" />
+    <Compile Include="Network\Packets\Client\Socials\AskForFriendsInviteMessage.cs" />
+    <Compile Include="Network\Packets\Client\Socials\AskForPlayingInvitedFriendsListMessage.cs" />
+    <Compile Include="Network\Packets\Client\Socials\AskForPlayingGamecenterFriendsMessage.cs" />
+    <Compile Include="Network\Packets\Client\Home\VisitHomeMessage.cs" />
+    <Compile Include="Network\Packets\Client\Account\LoginMessage.cs" />
+    <Compile Include="Network\Packets\Client\Socials\Bind\BindGamecenterAccount.cs" />
+    <Compile Include="Network\Packets\Client\Socials\Bind\BindGoogleAccount.cs" />
+    <Compile Include="Network\Packets\Client\Avatar\ChangeAvatarNameMessage.cs" />
+    <Compile Include="Network\Packets\Client\Account\ClientCapabilitiesMessage.cs" />
+    <Compile Include="Network\Packets\Client\Home\EndClientTurnMessage.cs" />
+    <Compile Include="Network\Packets\Client\Socials\Bind\BindFacebookAccount.cs" />
+    <Compile Include="Network\Packets\Client\Account\SetDeviceTokenMessage.cs" />
+    <Compile Include="Network\Packets\Client\Home\GoHomeMessage.cs" />
+    <Compile Include="Network\Packets\Client\Avatar\AvatarNameCheckRequestMessage.cs" />
+    <Compile Include="Network\Packets\Client\Account\KeepAliveMessage.cs" />
+    <Compile Include="Network\Packets\Client\Account\ClientHelloMessage.cs" />
+    <Compile Include="Network\Packets\Client\Socials\AskForPlayingFacebookFriendsMessage.cs" />
+    <Compile Include="Network\Packets\Client\Tournament\AskForJoinableTournamentMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\AuthentificationFailedMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\AuthentificationOkMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\DeviceReloadMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\InboxCountMessage.cs" />
+    <Compile Include="Network\Packets\Server\Alliance\AllianceDataMessage.cs" />
+    <Compile Include="Network\Packets\Server\Alliance\AllianceOnlineStatusUpdatedMessage.cs" />
+    <Compile Include="Network\Packets\Server\Alliance\AllianceStreamMessage.cs" />
+    <Compile Include="Network\Packets\Server\Alliance\AllianceStreamRemovedMessage.cs" />
+    <Compile Include="Network\Packets\Server\Alliance\AllianceStreamEntryMessage.cs" />
+    <Compile Include="Network\Packets\Server\Alliance\SearchClansDataMessage.cs" />
+    <Compile Include="Network\Packets\Server\Alliance\JoinableAllianceListMessage.cs" />
+    <Compile Include="Network\Packets\Server\Attack\BattleEventMessage.cs" />
+    <Compile Include="Network\Packets\Server\Attack\OpponentLeftMatchNotificationMessage.cs" />
+    <Compile Include="Network\Packets\Server\Attack\OpponentRejoinsMatchNotificationMessage.cs" />
+    <Compile Include="Network\Packets\Server\Avatar\AvatarQuestsDataMessage.cs" />
+    <Compile Include="Network\Packets\Server\Avatar\HomeBattleReplayDataMessage.cs" />
+    <Compile Include="Network\Packets\Server\Avatar\BattleResultMessage.cs" />
+    <Compile Include="Network\Packets\Server\Avatar\AvatarStreamMessage.cs" />
+    <Compile Include="Network\Packets\Server\Avatar\AvatarNameChangeFailedMessage.cs" />
+    <Compile Include="Network\Packets\Server\Home\BattleReportStreamMessage.cs" />
+    <Compile Include="Network\Packets\Server\Home\MatchmakeInfoMessage.cs" />
+    <Compile Include="Network\Packets\Server\Matchmaking\MatchmakeFailedMessage.cs" />
+    <Compile Include="Network\Packets\Server\Matchmaking\CancelMatchmakeDoneMessage.cs" />
+    <Compile Include="Network\Packets\Server\RoyalTv\RoyalTVContentMessage.cs" />
+    <Compile Include="Network\Packets\Server\Scoring\AllianceLocaleRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Server\Scoring\AvatarLocaleRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Server\Scoring\AllianceRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Server\Scoring\AvatarRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Server\Sector\SectorHearbeatMessage.cs" />
+    <Compile Include="Network\Packets\Server\Sector\SectorStateMessage.cs" />
+    <Compile Include="Network\Packets\Server\Sector\UdpConnectionInfoMessage.cs" />
+    <Compile Include="Network\Packets\Server\Socials\FacebookAccountAlreadyBoundMessage.cs" />
+    <Compile Include="Network\Packets\Server\Socials\FriendsListMessage.cs" />
+    <Compile Include="Network\Packets\Server\Socials\GamecenterAccountBoundMessage.cs" />
+    <Compile Include="Network\Packets\Server\Socials\FacebookAccountBoundMessage.cs" />
+    <Compile Include="Network\Packets\Server\Socials\DeviceAlreadyBoundMessage.cs" />
+    <Compile Include="Network\Packets\Server\Socials\FriendsInviteDataMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\DisconnectedMessage.cs" />
+    <Compile Include="Network\Packets\Server\Socials\OnlineInvitedFriendsMessage.cs" />
+    <Compile Include="Network\Packets\Server\Socials\OnlineFacebookFriendsMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\InboxListMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\KeepAliveServerMessage.cs" />
+    <Compile Include="Network\Packets\Server\Avatar\AvatarNameCheckResponseMessage.cs" />
+    <Compile Include="Network\Packets\Server\Home\OutOfSyncMessage.cs" />
+    <Compile Include="Network\Packets\Server\Home\OwnHomeDataMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\ServerHelloMessage.cs" />
+    <Compile Include="Network\Packets\Server\Home\VisitedHomeDataMessage.cs" />
+    <Compile Include="Network\Packets\Server\Home\AvailableServerCommandMessage.cs" />
+    <Compile Include="Network\Packets\Server\Home\ServerErrorMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\ServerShutdownMessage.cs" />
     <None Include="Gamefiles\csv_client\animations.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -204,6 +483,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Gamefiles\csv_client\billing_packages.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\csv_client\client_globals.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Gamefiles\csv_client\credits.csv">
@@ -249,6 +531,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Gamefiles\csv_client\sounds.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\csv_client\texts.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Gamefiles\csv_client\texts_patch.csv">
@@ -1430,6 +1715,32 @@
     <None Include="Gamefiles\tilemaps\tilemap_tve.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Network\Packets\Server\Tournament\JoinableTournamentListMessage.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GL.Patcher\GL.Patcher.csproj">
+      <Project>{15a935b7-d610-435e-9ade-5eb8fcd004ea}</Project>
+      <Name>GL.Patcher</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.2 %28x86 et x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Gamefiles\fingerprint.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1490,6 +1801,11 @@
     <None Include="Gamefiles\music\ios\wizmen04.m4a">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Gamefiles\sfx\10_cd_02.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -3181,17 +3497,35 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClashRoyale.Patcher\ClashRoyale.Patcher.csproj">
-      <Project>{15a935b7-d610-435e-9ade-5eb8fcd004ea}</Project>
-      <Name>ClashRoyale.Patcher</Name>
-    </ProjectReference>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Logic\Commands\Debug\" />
+    <Folder Include="Logic\Home\Manager\" />
+    <Folder Include="Logic\Home\Slot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Files\Csv\Tilemaps\TilemapData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
+    <PreBuildEvent>RMDIR "$(TargetDir)Library\" /S /Q
+RMDIR "$(TargetDir)Patch\" /S /Q
+RMDIR "$(TargetDir)Tools\" /S /Q
+RMDIR "$(TargetDir)Gamefiles\" /S /Q
+RMDIR "$(TargetDir)Logs\" /S /Q
+
+mkdir "$(TargetDir)Logs\"
+mkdir "$(TargetDir)Tools\"
+mkdir "$(TargetDir)Patch\"
+mkdir "$(TargetDir)Gamefiles\"
+mkdir "$(TargetDir)Library\"</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
     <PostBuildEvent>cd "$(TargetDir)"
-del /F /Q *.xml
-del /F /Q *.pdb
-move /Y *.dll "Library\"</PostBuildEvent>
+move *.dll "Library\"
+del *.xml
+del *.pdb</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>IF EXIST "$(TargetDir)Library\" RMDIR /S /Q "$(TargetDir)Library\"
@@ -3199,5 +3533,11 @@ IF EXIST "$(TargetDir)Logs\" RMDIR /S /Q "$(TargetDir)Logs\"
 
 MKDIR "$(TargetDir)Library\"
 MKDIR "$(TargetDir)Logs\"</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>cd "$(TargetDir)"
+del /F /Q *.xml
+del /F /Q *.pdb
+move /Y *.dll "Library\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

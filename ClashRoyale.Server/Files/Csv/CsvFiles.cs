@@ -4,11 +4,14 @@
     using System.IO;
 
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Files.Csv.Tilemaps;
+    using ClashRoyale.Server.Logic.Enums;
 
     internal static class CsvFiles
     {
         internal static Dictionary<int, CsvTable> Files;
         internal static Dictionary<int, string> Paths;
+        internal static Dictionary<string, TilemapData> Tilemaps;
 
         internal static ResourceData GoldData;
         internal static ResourceData FreeGoldData;
@@ -46,6 +49,7 @@
 
             CsvFiles.Files      = new Dictionary<int, CsvTable>();
             CsvFiles.Paths      = new Dictionary<int, string>();
+            CsvFiles.Tilemaps   = new Dictionary<string, TilemapData>(32);
 
             CsvFiles.Spells     = new List<SpellData>(72);
             CsvFiles.Characters = new List<CharacterData>(72);
@@ -139,12 +143,30 @@
                 }
             }
 
+            CsvFiles.MaxExpLevel        = CsvFiles.Get(Gamefile.ExpLevel).Datas.Count;
+
+            CsvFiles.GoldData           = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("Gold");
+            CsvFiles.FreeGoldData       = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("FreeGold");
+            CsvFiles.StarCountData      = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("StarCount");
+            CsvFiles.CardCountData      = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("CardCount");
+            CsvFiles.ChestCountData     = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("ChestCount");
+            CsvFiles.SummonerData       = CsvFiles.Get(Gamefile.Building).GetData<CharacterData>("KingTower");
+            CsvFiles.GameModeLadderData = CsvFiles.Get(Gamefile.GameMode).GetData<GameModeData>("Ladder");
+
             foreach (CsvTable Table in CsvFiles.Files.Values)
             {
                 Table.Finish();
             }
 
-            CsvFiles.Initialized = true;
+            foreach (ArenaData ArenaData in CsvFiles.Get(Gamefile.Arena).Datas)
+            {
+                ArenaData.ConfigureSpells();
+            }
+
+            foreach (string FilePath in Directory.GetFiles(@"Gamefiles/tilemaps/"))
+            {
+                CsvFiles.Tilemaps.Add(FilePath, new TilemapData(FilePath));
+            }
         }
 
         /// <summary>

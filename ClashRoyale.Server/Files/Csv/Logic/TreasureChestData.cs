@@ -2,6 +2,8 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 {
     using System;
 
+    using ClashRoyale.Server.Logic.Enums;
+
     internal class TreasureChestData : CsvData
     {
         internal ArenaData ArenaData;
@@ -142,7 +144,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 		{
 		    if (!string.IsNullOrEmpty(this.Arena))
 		    {
-		        this.ArenaData = CsvFiles.Files.Get(Gamefile.Arena).GetData<ArenaData>(this.Arena);
+		        this.ArenaData = CsvFiles.Get(Gamefile.Arena).GetData<ArenaData>(this.Arena);
 
 		        if (this.ArenaData == null)
 		        {
@@ -152,7 +154,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 
 		    if (!string.IsNullOrEmpty(this.BaseChest))
 		    {
-		        this.BaseTreasureChestData = this.CsvTable.GetData<TreasureChestData>(this.BaseChest);
+		        this.BaseTreasureChestData = CsvFiles.Get(this.Instance).GetData<TreasureChestData>(this.BaseChest);
 		    }
 
 		    if (!string.IsNullOrEmpty(this.GuaranteedSpells[0]))
@@ -161,7 +163,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 
 		        for (int I = 0; I < this.GuaranteedSpells.Length; I++)
 		        {
-		            this.GuaranteedSpellsData[I] = Csv.Tables.GetSpellDataByName(this.GuaranteedSpells[I]);
+		            this.GuaranteedSpellsData[I] = CsvFiles.GetSpellDataByName(this.GuaranteedSpells[I]);
 		        }
 		    }
             else 
@@ -239,7 +241,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
                 return 0;
             }
 
-            return Math.Clamp((this.TotalTimeTakenSeconds + 600 * RemainingTime - 1) / this.TotalTimeTakenSeconds, 1, this.TotalTimeTakenSeconds / 600);
+            return Server.Logic.Math.Clamp((this.TotalTimeTakenSeconds + 600 * RemainingTime - 1) / this.TotalTimeTakenSeconds, 1, this.TotalTimeTakenSeconds / 600);
         }
 
         internal string BaseChest

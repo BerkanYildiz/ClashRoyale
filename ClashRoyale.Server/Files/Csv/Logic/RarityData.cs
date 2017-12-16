@@ -19,7 +19,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 		{
 		    if (this.Name == "Common")
 		    {
-		        Csv.Tables.RarityCommonData = this;
+		        CsvFiles.RarityCommonData = this;
 		    }
 		}
 	

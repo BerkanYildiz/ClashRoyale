@@ -126,14 +126,5 @@
                 TcpGateway.Disconnect(this.AsyncEvent);
             }
         }
-        
-        /// <summary>
-        /// Processes the buffer according to the UDP method.
-        /// </summary>
-        /// <param name="Buffer">The buffer.</param>
-        internal void UdpProcess(byte[] Buffer)
-        {
-            throw new NotImplementedException("UdpProcess(Buffer) is not implemented.");
-        }
     }
 }
