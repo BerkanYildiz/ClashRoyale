@@ -1,5 +1,7 @@
 ﻿namespace ClashRoyale.Server
 {
+    using System;
+
     using ClashRoyale.Server.Crypto.Randomizers;
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Extensions.Game;
@@ -34,6 +36,8 @@
         /// </summary>
         private static void Main()
         {
+            Program.Random = new XorShift();
+
             CsvFiles.Initialize();
             Fingerprint.Initialize();
             Home.Initialize();
@@ -59,8 +63,8 @@
             Factory.Initialize();
             TcpGateway.Initialize();
 
-            Program.Random      = new XorShift();
             Program.Initialized = true;
+            Console.ReadKey(false);
         }
     }
 }

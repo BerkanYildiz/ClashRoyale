@@ -25,20 +25,20 @@ namespace ClashRoyale.Server.Logic
         [JsonProperty("accountHigh")]           internal int HighId;
         [JsonProperty("accountLow")]            internal int LowId;
         
-        [JsonProperty("accountToken")]          internal string PassToken;
+        [JsonProperty("accountToken")]          internal string Token;
         [JsonProperty("accountLocation")]       internal LocaleData AccountLocation;
 
-        [JsonProperty("allianceHighId")]        internal int AllianceHighId;
-        [JsonProperty("allianceLowId")]         internal int AllianceLowId;
+        [JsonProperty("allianceHighId")]        internal int ClanHighId;
+        [JsonProperty("allianceLowId")]         internal int ClanLowId;
 
-        [JsonProperty("demoAccount")]           internal bool DemoAccount;
+        [JsonProperty("isDemoAccount")]         internal bool IsDemoAccount;
 
         // Game
         
-        [JsonProperty("nameSet")]               internal bool NameSetByUser;
+        [JsonProperty("isNameSet")]             internal bool IsNameSet;
 
         [JsonProperty("diamonds")]              internal int Diamonds;
-        [JsonProperty("freediamonds")]          internal int FreeDiamonds;
+        [JsonProperty("freeDiamonds")]          internal int FreeDiamonds;
         [JsonProperty("score")]                 internal int Score;
         [JsonProperty("score2v2")]              internal int Score2V2;
         [JsonProperty("npcWins")]               internal int NpcWins;
@@ -48,10 +48,10 @@ namespace ClashRoyale.Server.Logic
         [JsonProperty("battles")]               internal int Battles;
         [JsonProperty("tbattles")]              internal int TotalBattles;
 
-        [JsonProperty("lastTournamentScore")]   internal int LastTournamentScore;
-        [JsonProperty("lastTournamentBestScore")] internal int LastTournamentBestScore;
-        [JsonProperty("lastTournamentHighId")]  internal int LastTournamentHighId;
-        [JsonProperty("lastTournamentLowId")]   internal int LastTournamentLowId;
+        [JsonProperty("lastTourScore")]         internal int LastTournamentScore;
+        [JsonProperty("lastTourBestScore")]     internal int LastTournamentBestScore;
+        [JsonProperty("lastTourHighId")]        internal int LastTournamentHighId;
+        [JsonProperty("lastTourLowId")]         internal int LastTournamentLowId;
 
         [JsonProperty("expLevel")]              internal int ExpLevel;
         [JsonProperty("expPoints")]             internal int ExpPoints;
@@ -62,7 +62,7 @@ namespace ClashRoyale.Server.Logic
         [JsonProperty("allianceName")]          internal string AllianceName;
 
         [JsonProperty("arena")]                 internal ArenaData Arena;
-        [JsonProperty("lastTournamentArena")]   internal ArenaData LastTournamentArena;
+        [JsonProperty("lastTourArena")]         internal ArenaData LastTournamentArena;
         [JsonProperty("allianceBadge")]         internal AllianceBadgeData Badge;
 
         [JsonProperty("commodities")]           internal CommoditySlots CommoditySlots;
@@ -103,7 +103,7 @@ namespace ClashRoyale.Server.Logic
         {
             get
             {
-                return (long) this.AllianceHighId << 32 | (uint) this.AllianceLowId;
+                return (long) this.ClanHighId << 32 | (uint) this.ClanLowId;
             }
         }
         
@@ -428,8 +428,8 @@ namespace ClashRoyale.Server.Logic
         /// </summary>
         internal void SetAllianceId(int HighId, int LowId)
         {
-            this.AllianceHighId = HighId;
-            this.AllianceLowId  = LowId;
+            this.ClanHighId = HighId;
+            this.ClanLowId  = LowId;
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace ClashRoyale.Server.Logic
         /// </summary>
         internal void SetNameSetByUser(bool Value)
         {
-            this.NameSetByUser = Value;
+            this.IsNameSet = Value;
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ namespace ClashRoyale.Server.Logic
             Stream.WriteLogicLong(this.HighId, this.LowId); // Account
             Stream.WriteLogicLong(this.HighId, this.LowId); // Home
 
-            Stream.WriteBytes("00-00-00-06-42-65-72-6B-61-6E-02-0A-9D-25-98-04-98-24-00-00-00-00-00-00-26-00-00-00-00-00-08-13-05-00-89-F9-01-05-01-A2-B5-01-05-02-B2-04-05-03-00-05-04-00-05-05-A2-B5-01-05-0C-A3-0E-05-0D-00-05-0E-00-05-0F-8F-06-05-10-B3-01-05-11-B6-01-05-12-B5-01-05-13-B4-01-05-16-90-06-05-19-B0-DD-9E-F2-01-05-1A-09-05-1C-00-05-1D-B3-88-D5-44-00-1E-3C-00-22-3C-01-BE-76-3C-02-BE-76-3C-03-BE-76-3C-04-09-3C-05-09-3C-06-09-3C-07-80-01-3C-08-80-01-3C-09-80-01-3C-0A-01-3C-0B-3D-3C-0C-3D-3C-0D-3D-3C-0E-01-3C-0F-01-3C-10-01-3C-11-31-3C-12-08-3C-13-08-3C-14-08-3C-15-15-3C-16-15-3C-17-15-3C-18-09-3C-19-09-3C-1A-09-3C-1B-BE-76-3C-1C-BE-76-3C-1D-BE-76-16-3C-00-01-3C-01-01-3C-02-01-3C-03-01-3C-04-01-3C-05-01-3C-06-01-3C-07-01-3C-08-01-3C-09-01-3C-0A-01-3C-0E-01-3C-11-01-3C-12-01-3C-13-01-3C-15-01-3C-16-01-3C-17-01-3C-18-01-3C-19-01-3C-1A-01-3C-1B-01-09-05-06-BF-28-05-07-95-02-05-08-80-01-05-09-9A-EA-E5-18-05-0A-BE-76-05-0B-26-05-14-08-05-15-A8-07-05-1B-09-86-01-1A-00-00-1A-01-00-1A-02-00-1A-03-00-1A-04-00-1A-05-00-1A-06-00-1A-07-00-1A-08-00-1A-09-00-1A-0A-00-1A-0B-00-1A-0C-00-1A-0D-00-1A-0E-00-1A-0F-00-1A-10-00-1A-11-00-1A-12-00-1A-13-00-1A-14-00-1A-15-00-1A-16-00-1A-17-8A-01-1A-18-00-1A-19-00-1A-1A-00-1A-1B-00-1A-1C-00-1A-1D-04-1A-1E-00-1A-1F-00-1A-20-00-1A-22-00-1A-23-26-1A-24-00-1A-25-11-1A-26-00-1A-27-00-1A-28-00-1A-29-00-1A-2A-15-1A-2B-00-1A-2D-00-1A-2E-04-1A-36-05-1B-00-00-1B-01-00-1B-02-00-1B-03-00-1B-04-00-1B-05-00-1B-06-00-1B-07-00-1B-08-00-1B-09-00-1B-0A-00-1C-00-00-1C-01-00-1C-02-00-1C-03-00-1C-04-00-1C-05-00-1C-06-00-1C-07-00-1C-08-00-1C-09-00-1C-0B-3E-1C-0C-00-1C-0D-00-00-00-9C-02-8A-01-A3-72-09-86-B0-02-09-1E-97-8D-69-00-00-00-0B-6C-6F-73-20-70-69-74-75-64-6F-73-B3-01-04-99-0E-9C-02-00-A9-06-BA-05-01-B6-01-03-00-00-00-01".HexaToBytes());
+            Stream.AddRange("00-00-00-06-42-65-72-6B-61-6E-02-0A-9D-25-98-04-98-24-00-00-00-00-00-00-26-00-00-00-00-00-08-13-05-00-89-F9-01-05-01-A2-B5-01-05-02-B2-04-05-03-00-05-04-00-05-05-A2-B5-01-05-0C-A3-0E-05-0D-00-05-0E-00-05-0F-8F-06-05-10-B3-01-05-11-B6-01-05-12-B5-01-05-13-B4-01-05-16-90-06-05-19-B0-DD-9E-F2-01-05-1A-09-05-1C-00-05-1D-B3-88-D5-44-00-1E-3C-00-22-3C-01-BE-76-3C-02-BE-76-3C-03-BE-76-3C-04-09-3C-05-09-3C-06-09-3C-07-80-01-3C-08-80-01-3C-09-80-01-3C-0A-01-3C-0B-3D-3C-0C-3D-3C-0D-3D-3C-0E-01-3C-0F-01-3C-10-01-3C-11-31-3C-12-08-3C-13-08-3C-14-08-3C-15-15-3C-16-15-3C-17-15-3C-18-09-3C-19-09-3C-1A-09-3C-1B-BE-76-3C-1C-BE-76-3C-1D-BE-76-16-3C-00-01-3C-01-01-3C-02-01-3C-03-01-3C-04-01-3C-05-01-3C-06-01-3C-07-01-3C-08-01-3C-09-01-3C-0A-01-3C-0E-01-3C-11-01-3C-12-01-3C-13-01-3C-15-01-3C-16-01-3C-17-01-3C-18-01-3C-19-01-3C-1A-01-3C-1B-01-09-05-06-BF-28-05-07-95-02-05-08-80-01-05-09-9A-EA-E5-18-05-0A-BE-76-05-0B-26-05-14-08-05-15-A8-07-05-1B-09-86-01-1A-00-00-1A-01-00-1A-02-00-1A-03-00-1A-04-00-1A-05-00-1A-06-00-1A-07-00-1A-08-00-1A-09-00-1A-0A-00-1A-0B-00-1A-0C-00-1A-0D-00-1A-0E-00-1A-0F-00-1A-10-00-1A-11-00-1A-12-00-1A-13-00-1A-14-00-1A-15-00-1A-16-00-1A-17-8A-01-1A-18-00-1A-19-00-1A-1A-00-1A-1B-00-1A-1C-00-1A-1D-04-1A-1E-00-1A-1F-00-1A-20-00-1A-22-00-1A-23-26-1A-24-00-1A-25-11-1A-26-00-1A-27-00-1A-28-00-1A-29-00-1A-2A-15-1A-2B-00-1A-2D-00-1A-2E-04-1A-36-05-1B-00-00-1B-01-00-1B-02-00-1B-03-00-1B-04-00-1B-05-00-1B-06-00-1B-07-00-1B-08-00-1B-09-00-1B-0A-00-1C-00-00-1C-01-00-1C-02-00-1C-03-00-1C-04-00-1C-05-00-1C-06-00-1C-07-00-1C-08-00-1C-09-00-1C-0B-3E-1C-0C-00-1C-0D-00-00-00-9C-02-8A-01-A3-72-09-86-B0-02-09-1E-97-8D-69-00-00-00-0B-6C-6F-73-20-70-69-74-75-64-6F-73-B3-01-04-99-0E-9C-02-00-A9-06-BA-05-01-B6-01-03-00-00-00-01".HexaToBytes());
 
             return;
 
@@ -670,7 +670,7 @@ namespace ClashRoyale.Server.Logic
                 Stream.WriteVInt(this.ExpLevel);
                 Stream.WriteVInt(0);
 
-                Stream.WriteBoolean(this.NameSetByUser);
+                Stream.WriteBoolean(this.IsNameSet);
                 Stream.WriteBoolean(false); // ?
             }
             else
@@ -683,7 +683,7 @@ namespace ClashRoyale.Server.Logic
 
             if (this.IsInAlliance)
             {
-                Stream.WriteLogicLong(this.AllianceHighId, this.AllianceLowId);
+                Stream.WriteLogicLong(this.ClanHighId, this.ClanLowId);
                 Stream.WriteString(this.AllianceName);
                 Stream.EncodeLogicData(this.Badge, 16);
 
@@ -715,8 +715,8 @@ namespace ClashRoyale.Server.Logic
                 Json.Add("name", this.Name);
                 Json.Add("clan_name", this.AllianceName);
                 Json.Add("scr", this.Score);
-                Json.Add("clan_id_hi", this.AllianceHighId);
-                Json.Add("clan_id_lo", this.AllianceLowId);
+                Json.Add("clan_id_hi", this.ClanHighId);
+                Json.Add("clan_id_lo", this.ClanLowId);
                 Json.Add("productRed", false);
 
                 JsonHelper.SetLogicData(Json, "arena", this.Arena);

@@ -99,8 +99,8 @@
 
             this.AccountHighId = Player.HighId;
             this.AccountLowId = Player.LowId;
-            this.AllianceHighId = Player.AllianceHighId;
-            this.AllianceLowId = Player.AllianceLowId;
+            this.AllianceHighId = Player.ClanHighId;
+            this.AllianceLowId = Player.ClanLowId;
             this.HomeHighId = Player.Home.HighId;
             this.HomeLowId = Player.Home.LowId;
 

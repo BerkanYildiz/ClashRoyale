@@ -49,7 +49,7 @@ namespace ClashRoyale.Server.Network.Packets.Server.Home
 
                 if (this.Device.GameMode.Player != null)
                 {
-                    if (this.Device.GameMode.Player.NameSetByUser)
+                    if (this.Device.GameMode.Player.IsNameSet)
                     {
                         this.Reason.AppendLine("Your Player Name    : " + this.Device.GameMode.Player.Name + ".");
                     }

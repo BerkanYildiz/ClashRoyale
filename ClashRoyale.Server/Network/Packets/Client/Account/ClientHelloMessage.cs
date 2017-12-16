@@ -90,10 +90,7 @@
                             {
                                 if (!Logic.Version.IsDev)
                                 {
-                                    this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)
-                                    {
-                                        RedirectDomain = ClientHelloMessage.DevHost
-                                    });
+                                    this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)); // Dev Host
 
                                     return;
                                 }
@@ -110,10 +107,7 @@
                             {
                                 if (Logic.Version.IsDev)
                                 {
-                                    this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)
-                                    {
-                                        RedirectDomain = ClientHelloMessage.ProdHost
-                                    });
+                                    this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)); // Prod Host
 
                                     return;
                                 }
@@ -123,10 +117,7 @@
                             {
                                 if (!Logic.Version.IsKunlunServer)
                                 {
-                                    this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)
-                                    {
-                                        RedirectDomain = ClientHelloMessage.KunlunHost
-                                    });
+                                    this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)); // Kunlun Host
 
                                     return;
                                 }
@@ -135,11 +126,7 @@
                             {
                                 if (Logic.Version.IsKunlunServer)
                                 {
-                                    this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)
-                                    {
-                                        RedirectDomain = ClientHelloMessage.ProdHost
-                                    });
-
+                                    this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)); // Prod Host
                                     return;
                                 }
                             }

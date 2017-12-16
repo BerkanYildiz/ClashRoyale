@@ -109,7 +109,7 @@
 
             if (Player.IsInAlliance)
             {
-                Clan Clan = await Clans.Get(Player.AllianceHighId, Player.AllianceLowId);
+                Clan Clan = await Clans.Get(Player.ClanHighId, Player.ClanLowId);
 
                 if (Clan != null)
                 {

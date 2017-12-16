@@ -94,7 +94,7 @@
             }
             else
             {
-                if (Player.NameSetByUser == false)
+                if (Player.IsNameSet == false)
                 {
                     return;
                 }

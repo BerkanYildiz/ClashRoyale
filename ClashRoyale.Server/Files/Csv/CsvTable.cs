@@ -34,9 +34,18 @@
                 CsvRow Row      = Reader.GetRowAt(i);
                 CsvData Data    = this.Load(Row);
 
+                if (Row == null)
+                {
+                    Logging.Error(this.GetType(), "CsvRow == null.");
+                }
+
                 if (Data != null)
                 {
                     this.Datas.Add(Data);
+                }
+                else
+                {
+                    Logging.Info(this.GetType(), "Data == null at CsvTable(" + Offset + ", " + Path + ").");
                 }
             }
         }
@@ -342,17 +351,6 @@
             }
 
             return new CsvData(CsvRow, this);
-        }
-
-        /// <summary>
-        /// Finishes every <see cref="CsvData"/> in this instance.
-        /// </summary>
-        internal void Finish()
-        {
-            foreach (CsvData CsvData in this.Datas)
-            {
-                CsvData.LoadingFinished();
-            }
         }
 
         /// <summary>

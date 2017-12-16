@@ -154,7 +154,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 
 		    if (!string.IsNullOrEmpty(this.BaseChest))
 		    {
-		        this.BaseTreasureChestData = CsvFiles.Get(this.Instance).GetData<TreasureChestData>(this.BaseChest);
+		        this.BaseTreasureChestData = this.CsvTable.GetData<TreasureChestData>(this.BaseChest);
 		    }
 
 		    if (!string.IsNullOrEmpty(this.GuaranteedSpells[0]))

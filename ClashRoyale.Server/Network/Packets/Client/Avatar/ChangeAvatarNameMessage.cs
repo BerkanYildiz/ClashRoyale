@@ -64,7 +64,7 @@
 
                     if (this.Name.Length >= 2 && this.Name.Length <= 16)
                     {
-                        if (this.Device.GameMode.Player.NameSetByUser)
+                        if (this.Device.GameMode.Player.IsNameSet)
                         {
                             if (this.Device.GameMode.Player.NameChangeState > 1)
                             {

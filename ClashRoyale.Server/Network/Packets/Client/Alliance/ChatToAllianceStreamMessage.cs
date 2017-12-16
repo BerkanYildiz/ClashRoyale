@@ -65,7 +65,7 @@
 
             if (Player.IsInAlliance)
             {
-                Task<Clan> RetrieveClan = Clans.Get(Player.AllianceHighId, Player.AllianceLowId);
+                Task<Clan> RetrieveClan = Clans.Get(Player.ClanHighId, Player.ClanLowId);
 
                 if (DateTime.UtcNow.AddSeconds(-2) > this.Device.NetworkManager.LastChatMessage)
                 {

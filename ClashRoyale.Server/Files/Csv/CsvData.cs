@@ -8,6 +8,9 @@
 
         internal readonly string Name;
 
+        internal CsvRow CsvRow;
+        internal CsvTable CsvTable;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CsvData"/> class.
         /// </summary>
@@ -23,6 +26,10 @@
         /// <param name="Table">The table.</param>
         internal CsvData(CsvRow Row, CsvTable Table)
         {
+            this.CsvRow     = Row;
+            this.Name       = Row.Name;
+
+            this.CsvTable   = Table;
             this.Type       = Table.Offset;
             this.Instance   = Table.Datas.Count;
             this.GlobalId   = Table.Datas.Count + 1000000 * Table.Offset;

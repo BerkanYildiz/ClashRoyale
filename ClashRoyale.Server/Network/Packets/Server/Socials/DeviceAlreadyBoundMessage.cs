@@ -50,7 +50,7 @@
             this.Stream.WriteInt(this.Player.HighId);
             this.Stream.WriteInt(this.Player.LowId);
 
-            this.Stream.WriteString(this.Player.PassToken);
+            this.Stream.WriteString(this.Player.Token);
 
             this.Player.Encode(this.Stream);
         }

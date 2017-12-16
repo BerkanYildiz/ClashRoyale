@@ -7,9 +7,19 @@
     internal class CsvRow
     {
         public readonly int Offset;
-        public readonly string Name;
 
         public readonly CsvReader Reader;
+
+        /// <summary>
+        /// Gets the name of this CSV.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.Reader.GetValueAt(0, this.Offset);
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CsvRow"/> class.
@@ -18,9 +28,7 @@
         public CsvRow(CsvReader Reader)
         {
             this.Reader     = Reader;
-
             this.Offset     = this.Reader.GetColumnRowCount();
-            this.Name       = this.Reader.GetValueAt(0, this.Offset);
         }
 
         /// <summary>

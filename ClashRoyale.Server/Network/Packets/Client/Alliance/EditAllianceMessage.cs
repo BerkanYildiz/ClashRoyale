@@ -73,7 +73,7 @@
 
             if (this.Device.GameMode.Player.IsInAlliance)
             {
-                Task<Clan> GetAlliance = Clans.Get(this.Device.GameMode.Player.AllianceHighId, this.Device.GameMode.Player.AllianceLowId);
+                Task<Clan> GetAlliance = Clans.Get(this.Device.GameMode.Player.ClanHighId, this.Device.GameMode.Player.ClanLowId);
 
                 // Check the edited values here.
 

@@ -74,7 +74,7 @@
         {
             if (this.Device.GameMode.Player.IsInAlliance)
             {
-                Clan Clan = await Clans.Get(this.Device.GameMode.Player.AllianceHighId, this.Device.GameMode.Player.AllianceLowId);
+                Clan Clan = await Clans.Get(this.Device.GameMode.Player.ClanHighId, this.Device.GameMode.Player.ClanLowId);
 
                 if (Clan != null)
                 {

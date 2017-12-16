@@ -99,7 +99,7 @@ namespace ClashRoyale.Server.Logic.Collections
 
                 if (Entity.IsInAlliance)
                 {
-                    Clan Clan = Clans.Get(Entity.AllianceHighId, Entity.AllianceLowId).Result;
+                    Clan Clan = Clans.Get(Entity.ClanHighId, Entity.ClanLowId).Result;
 
                     if (Clan != null)
                     {
@@ -143,7 +143,7 @@ namespace ClashRoyale.Server.Logic.Collections
             Entity.Home.HighId  = Entity.HighId;
             Entity.Home.LowId   = Entity.LowId;
 
-            Entity.PassToken    = Program.Random.NextToken();
+            Entity.Token    = Program.Random.NextToken();
 
             await PlayerDb.Create(Entity);
 

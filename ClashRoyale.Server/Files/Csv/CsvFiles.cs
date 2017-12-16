@@ -143,6 +143,14 @@
                 }
             }
 
+            foreach (CsvTable CsvTable in CsvFiles.Files.Values)
+            {
+                foreach (CsvData CsvData in CsvTable.Datas)
+                {
+                    CsvData.LoadingFinished();
+                }
+            }
+
             CsvFiles.MaxExpLevel        = CsvFiles.Get(Gamefile.ExpLevel).Datas.Count;
 
             CsvFiles.GoldData           = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("Gold");
@@ -152,11 +160,6 @@
             CsvFiles.ChestCountData     = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("ChestCount");
             CsvFiles.SummonerData       = CsvFiles.Get(Gamefile.Building).GetData<CharacterData>("KingTower");
             CsvFiles.GameModeLadderData = CsvFiles.Get(Gamefile.GameMode).GetData<GameModeData>("Ladder");
-
-            foreach (CsvTable Table in CsvFiles.Files.Values)
-            {
-                Table.Finish();
-            }
 
             foreach (ArenaData ArenaData in CsvFiles.Get(Gamefile.Arena).Datas)
             {
@@ -174,7 +177,9 @@
         /// </summary>
         internal static SpellData GetSpellDataByName(string Name)
         {
-            return Spells.Find(T => T.Name == Name);
+            return Spells.Find(T =>
+                T.Name == Name
+            );
         }
 
         /// <summary>

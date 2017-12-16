@@ -11,6 +11,7 @@
     using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Network.Packets.Server.Account;
+    using ClashRoyale.Server.Network.Packets.Server.Home;
 
     internal class LoginMessage : Message
     {
@@ -161,7 +162,7 @@
 
                 if (Player != null)
                 {
-                    if (string.Equals(this.Token, Player.PassToken))
+                    if (string.Equals(this.Token, Player.Token))
                     {
                         if (!Player.IsBanned)
                         {
@@ -215,28 +216,17 @@
             {
                 Player.AccountLocation = this.Locale;
             }
-            else
-            {
-                // Logging.Warning(this.GetType(), "Server is maxing " + Player + ".");
-
-                if (Logic.Version.IsMaxedServer)
-                {
-                    Player.Score        = 5000;
-                    Player.ExpLevel     = 13;
-                    Player.ExpPoints    = 80000;
-                }
-            }
 
             this.Device.GameMode = new GameMode(this.Device);
             this.Device.GameMode.SetPlayer(Player);
             this.Device.NetworkManager.AccountId = new LogicLong(Player.HighId, Player.LowId);
 
-            this.Device.NetworkManager.SendMessage(new AuthentificationOkMessage(this.Device, Player.PassToken));
-            // this.Device.NetworkManager.SendMessage(new OwnHomeDataMessage(this.Device, Player));
+            this.Device.NetworkManager.SendMessage(new AuthentificationOkMessage(this.Device, Player));
+            this.Device.NetworkManager.SendMessage(new OwnHomeDataMessage(this.Device, Player));
 
             /* if (Player.IsInAlliance)
             {
-                Clan Clan = await Resources.Alliances.Get(Player.AllianceHighId, Player.AllianceLowId);
+                Clan Clan = await Resources.Alliances.Get(Player.ClanHighId, Player.ClanLowId);
 
                 if (Clan != null)
                 {
