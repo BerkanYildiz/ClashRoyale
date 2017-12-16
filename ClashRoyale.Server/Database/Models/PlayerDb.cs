@@ -160,22 +160,5 @@
 
             return false;
         }
-
-        /// <summary>
-        /// Deserializes the specified entity.
-        /// </summary>
-        internal bool Deserialize(out Player Player)
-        {
-            if (this.Profile != null)
-            {
-                Player = BsonSerializer.Deserialize<Player>(this.Profile);
-            }
-            else
-            {
-                Player = null;
-            }
-
-            return false;
-        }
     }
 }

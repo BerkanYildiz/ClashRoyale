@@ -8,7 +8,7 @@
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
     using ClashRoyale.Server.Files;
-    using MongoDB.Bson;
+
     using Newtonsoft.Json;
 
     internal static class Players
@@ -45,44 +45,17 @@
         }
 
         /// <summary>
-        /// Adds the specified entity.
-        /// </summary>
-        /// <param name="Entity">The entity.</param>
-        internal static void Add(Player Entity)
-        {
-            if (Entity == null)
-            {
-                throw new ArgumentNullException(nameof(Entity), "Entity was null at Add(Entity).");
-            }
-
-            if (Players.Entities.ContainsKey(Entity.PlayerId))
-            {
-                if (!Players.Entities.TryUpdate(Entity.PlayerId, Entity, Entity))
-                {
-                    Logging.Error(typeof(Players), "TryUpdate(EntityId, Entity, Entity) != true at Add(Entity).");
-                }
-            }
-            else
-            {
-                if (!Players.Entities.TryAdd(Entity.PlayerId, Entity))
-                {
-                    Logging.Error(typeof(Players), "TryAdd(EntityId, Entity) != true at Add(Entity).");
-                }
-            }
-        }
-
-        /// <summary>
         /// Removes the specified entity.
         /// </summary>
         /// <param name="Entity">The entity.</param>
-        internal static void Remove(Player Entity)
+        internal static async Task Remove(Player Entity)
         {
             if (Entity == null)
             {
                 throw new ArgumentNullException(nameof(Entity), "Entity was null at Remove(Entity).");
             }
 
-            Players.Save(Entity);
+            await Players.Save(Entity);
         }
 
         /// <summary>
@@ -106,7 +79,20 @@
 
             if (Store)
             {
-                Players.Add(Entity);
+                if (Players.Entities.ContainsKey(Entity.PlayerId))
+                {
+                    if (!Players.Entities.TryUpdate(Entity.PlayerId, Entity, Entity))
+                    {
+                        Logging.Error(typeof(Players), "TryUpdate(EntityId, Entity, Entity) != true at Add(Entity).");
+                    }
+                }
+                else
+                {
+                    if (!Players.Entities.TryAdd(Entity.PlayerId, Entity))
+                    {
+                        Logging.Error(typeof(Players), "TryAdd(EntityId, Entity) != true at Add(Entity).");
+                    }
+                }
             }
 
             return Entity;
@@ -117,7 +103,7 @@
         /// </summary>
         /// <param name="HighId">The high identifier.</param>
         /// <param name="LowId">The low identifier.</param>
-        internal static async Task<Player> Get(int HighId, int LowId)
+        internal static async Task<Player> Get(int HighId, int LowId, bool Store = true)
         {
             Logging.Warning(typeof(Players), "Get(" + HighId + ", " + LowId + ") has been called.");
 
@@ -136,11 +122,29 @@
                 {
                     if (PlayerDb.Deserialize(out Player))
                     {
+                        if (Store)
+                        {
+                            if (Players.Entities.ContainsKey(Player.PlayerId))
+                            {
+                                if (!Players.Entities.TryUpdate(Player.PlayerId, Player, Player))
+                                {
+                                    Logging.Error(typeof(Players), "TryUpdate(EntityId, Player, Player) != true at Get(" + HighId + ", " + LowId + ").");
+                                }
+                            }
+                            else
+                            {
+                                if (!Players.Entities.TryAdd(Player.PlayerId, Player))
+                                {
+                                    Logging.Error(typeof(Players), "TryAdd(EntityId, Player) != true at Get(" + HighId + ", " + LowId + ").");
+                                }
+                            }
+                        }
+
                         return Player;
                     }
                     else
                     {
-                        Logging.Error(typeof(Players), "PlayerDb.Deserialize(out Player) != true at Get(HighId, LowId).");
+                        Logging.Error(typeof(Players), "PlayerDb.Deserialize(out Player) != true at Get(" + HighId + ", " + LowId + ").");
                     }
                 }
                 else

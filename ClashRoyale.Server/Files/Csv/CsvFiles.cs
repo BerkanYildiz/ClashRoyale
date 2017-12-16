@@ -3,10 +3,27 @@
     using System.Collections.Generic;
     using System.IO;
 
+    using ClashRoyale.Server.Files.Csv.Logic;
+
     internal static class CsvFiles
     {
         internal static Dictionary<int, CsvTable> Files;
         internal static Dictionary<int, string> Paths;
+
+        internal static ResourceData GoldData;
+        internal static ResourceData FreeGoldData;
+        internal static ResourceData CardCountData;
+        internal static ResourceData StarCountData;
+        internal static ResourceData ChestCountData;
+
+        internal static CharacterData SummonerData;
+        internal static RarityData RarityCommonData;
+        internal static GameModeData GameModeLadderData;
+
+        internal static List<SpellData> Spells;
+        internal static List<CharacterData> Characters;
+
+        internal static int MaxExpLevel;
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="CsvFiles"/> has been already initialized.
@@ -27,8 +44,11 @@
                 return;
             }
 
-            CsvFiles.Files = new Dictionary<int, CsvTable>();
-            CsvFiles.Paths = new Dictionary<int, string>();
+            CsvFiles.Files      = new Dictionary<int, CsvTable>();
+            CsvFiles.Paths      = new Dictionary<int, string>();
+
+            CsvFiles.Spells     = new List<SpellData>(72);
+            CsvFiles.Characters = new List<CharacterData>(72);
 
             CsvFiles.Paths.Add(1,  @"Gamefiles/csv_client/locales.csv");
             CsvFiles.Paths.Add(2,  @"Gamefiles/csv_client/billing_packages.csv");
@@ -125,6 +145,51 @@
             }
 
             CsvFiles.Initialized = true;
+        }
+
+        /// <summary>
+        /// Gets the spell data by name.
+        /// </summary>
+        internal static SpellData GetSpellDataByName(string Name)
+        {
+            return Spells.Find(T => T.Name == Name);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="DataTable"/> at the specified index.
+        /// </summary>
+        /// <param name="Index">The index.</param>
+        internal static CsvTable Get(Gamefile Index)
+        {
+            return Get((int) Index);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="DataTable"/> at the specified index.
+        /// </summary>
+        /// <param name="Index">The index.</param>
+        internal static CsvTable Get(int Index)
+        {
+            if (CsvFiles.Files.ContainsKey(Index))
+            {
+                return CsvFiles.Files[Index];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the with global identifier.
+        /// </summary>
+        /// <param name="GlobalId">The global identifier.</param>
+        internal static CsvData GetWithGlobalId(int GlobalId)
+        {
+            if (CsvFiles.Files.TryGetValue(GlobalId / 1000000, out CsvTable Table))
+            {
+                return Table.GetWithGlobalId(GlobalId);
+            }
+
+            return null;
         }
     }
 }

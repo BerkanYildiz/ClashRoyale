@@ -4,7 +4,7 @@
 
     internal class CsvTable
     {
-        internal readonly List<CsvData> Files;
+        internal readonly List<CsvData> Datas;
 
         /// <summary>
         /// Gets the offset of this <see cref="CsvTable"/>.
@@ -23,7 +23,7 @@
         {
             this.Offset = Offset;
 
-            this.Files  = new List<CsvData>();
+            this.Datas  = new List<CsvData>();
             var Reader  = new CsvReader(Path);
 
             for (int i = 0; i < Reader.GetRowCount(); i++)
@@ -33,7 +33,7 @@
 
                 if (Data != null)
                 {
-                    this.Files.Add(Data);
+                    this.Datas.Add(Data);
                 }
             }
         }
@@ -52,10 +52,74 @@
         /// </summary>
         internal void Finish()
         {
-            foreach (CsvData CsvData in this.Files)
+            foreach (CsvData CsvData in this.Datas)
             {
                 CsvData.LoadingFinished();
             }
+        }
+
+        /// <summary>
+        /// Gets the data with identifier.
+        /// </summary>
+        /// <param name="Identifier">The identifier.</param>
+        internal CsvData GetWithInstanceId(int Identifier)
+        {
+            if (this.Datas.Count > Identifier)
+            {
+                return this.Datas[Identifier];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the data with identifier.
+        /// </summary>
+        /// <param name="Identifier">The identifier.</param>
+        internal T GetWithInstanceId<T>(int Identifier) where T : CsvData
+        {
+            if (this.Datas.Count > Identifier)
+            {
+                return this.Datas[Identifier] as T;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the data with identifier.
+        /// </summary>
+        /// <param name="GlobalId">The identifier.</param>
+        internal CsvData GetWithGlobalId(int GlobalId)
+        {
+            return this.GetWithInstanceId(GlobalId % 1000000);
+        }
+
+        /// <summary>
+        /// Gets the data with identifier.
+        /// </summary>
+        /// <param name="GlobalId">The identifier.</param>
+        internal T GetWithGlobalId<T>(int GlobalId) where T : CsvData
+        {
+            return this.GetWithInstanceId(GlobalId % 1000000) as T;
+        }
+
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
+        /// <param name="Name">The name.</param>
+        internal CsvData GetData(string Name)
+        {
+            return this.Datas.Find(Data => Data.Name == Name);
+        }
+
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
+        /// <param name="Name">The name.</param>
+        internal T GetData<T>(string Name) where T : CsvData
+        {
+            return this.Datas.Find(Data => Data.Name == Name) as T;
         }
     }
 }
