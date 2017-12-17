@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Time
 {
     using System;
 
@@ -8,6 +8,8 @@
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+
+    using Math = ClashRoyale.Server.Logic.Math.Math;
 
     [JsonConverter(typeof(TimerConverter))]
     internal class Timer

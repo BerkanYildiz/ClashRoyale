@@ -1,10 +1,10 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Home
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Home;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     using HomeState = ClashRoyale.Server.Logic.Enums.HomeState;
 

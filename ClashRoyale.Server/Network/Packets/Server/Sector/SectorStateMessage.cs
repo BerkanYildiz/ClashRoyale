@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Sector
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Logic;

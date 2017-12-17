@@ -1,10 +1,10 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Avatar
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Commands.Server;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Avatar;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class ChangeAvatarNameMessage : Message
     {

@@ -1,9 +1,10 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Battle
 {
     using System;
 
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Replay;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;

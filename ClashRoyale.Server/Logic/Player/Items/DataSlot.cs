@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Items
+﻿namespace ClashRoyale.Server.Logic.Player.Items
 {
     using System;
 

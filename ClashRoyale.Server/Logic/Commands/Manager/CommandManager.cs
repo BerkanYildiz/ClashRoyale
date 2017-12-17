@@ -8,7 +8,7 @@
     using ClashRoyale.Server.Logic.Commands.Server;
     using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Mode;
-    using ClashRoyale.Server.Network.Packets.Server.Home;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     using Newtonsoft.Json.Linq;
 
@@ -132,7 +132,7 @@
         /// </summary>
         internal static Command CreateCommand(int Type)
         {
-            if (Type == 1000)
+            /* if (Type == 1000)
             {
                 Logging.Error(typeof(CommandManager), "CreateCommand() - Debug command is not allowed when debug is off.");
             }
@@ -191,7 +191,7 @@
                     return new RefreshAchievementsCommand();
                 case 527:
                     return new PageOpenedCommand();
-            }
+            } */
 
             Logging.Info(typeof(CommandManager), "CreateCommand() - Command type " + Type + " does not exist.");
 

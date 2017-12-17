@@ -1,7 +1,8 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Socials
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Server.Logic.Player;
 
     internal class DeviceAlreadyBoundMessage : Message
     {

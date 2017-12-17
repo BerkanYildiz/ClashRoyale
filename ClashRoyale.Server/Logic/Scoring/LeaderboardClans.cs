@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Scoring.Entries;
 
     internal class LeaderboardClans

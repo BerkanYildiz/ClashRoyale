@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Stream.Factory
+﻿namespace ClashRoyale.Server.Logic.Alliance.Stream.Factory
 {
     internal static class StreamEntryFactory
     {

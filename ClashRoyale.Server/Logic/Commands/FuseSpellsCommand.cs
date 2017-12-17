@@ -4,8 +4,8 @@
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv;
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
-    using ClashRoyale.Server.Logic.Spells;
 
     internal class FuseSpellsCommand : Command
     {

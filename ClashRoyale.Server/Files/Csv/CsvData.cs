@@ -1,5 +1,8 @@
 ﻿namespace ClashRoyale.Server.Files.Csv
 {
+    using Newtonsoft.Json;
+
+    [JsonConverter(typeof(CsvConverter))]
     internal class CsvData
     {
         internal readonly int Type;

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.GameObject
 {
     using System.Collections.Generic;
 
@@ -7,7 +7,9 @@
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv;
     using ClashRoyale.Server.Files.Csv.Logic;
-    using ClashRoyale.Server.Logic.Spells;
+    using ClashRoyale.Server.Logic.Home.Spells;
+    using ClashRoyale.Server.Logic.Math;
+    using ClashRoyale.Server.Logic.Player;
 
     internal class Summoner : Character
     {

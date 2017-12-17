@@ -1,14 +1,17 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Home
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using System.Collections.Generic;
 
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Commands;
     using ClashRoyale.Server.Logic.Commands.Manager;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Home;
+    using ClashRoyale.Server.Logic.Player;
+
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class EndClientTurnMessage : Message
     {
@@ -19,7 +22,7 @@
         {
             get
             {
-                return 14102;
+                return 18688;
             }
         }
 
@@ -124,6 +127,7 @@
                 }
             }
 
+            /* 
             if (this.Device.GameMode.State == HomeState.Home)
             {
                 if (this.Checksum != this.Device.GameMode.Checksum)
@@ -131,7 +135,7 @@
                     Logging.Error(this.GetType(), "Player is out of sync (S: " + this.Device.GameMode.Checksum + ", C: " + this.Checksum + ").");
                     this.Device.NetworkManager.SendMessage(new OutOfSyncMessage(this.Device, this.Checksum, this.Device.GameMode.Checksum));
                 }
-            }
+            } */
         }
     }
 }

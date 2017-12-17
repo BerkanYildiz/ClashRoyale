@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Event
+﻿namespace ClashRoyale.Server.Logic.Battle.Event
 {
     using System.Collections.Generic;
 

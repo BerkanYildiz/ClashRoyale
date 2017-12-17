@@ -5,6 +5,7 @@
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Mode;
+    using ClashRoyale.Server.Logic.Player;
 
     internal class JoinAllianceCommand : ServerCommand
     {

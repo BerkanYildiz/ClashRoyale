@@ -1,9 +1,9 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Attack
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Battle.Event;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Event;
 
     internal class SendBattleEventMessage : Message
     {

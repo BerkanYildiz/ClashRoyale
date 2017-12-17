@@ -7,7 +7,9 @@ namespace ClashRoyale.Server.Logic.Collections
 
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
+    using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Commands;
+    using ClashRoyale.Server.Logic.Player;
 
     using Newtonsoft.Json;
 

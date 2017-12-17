@@ -1,8 +1,9 @@
-﻿namespace ClashRoyale.Server.Logic.Spells
+﻿namespace ClashRoyale.Server.Logic.Home.Spells
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Math;
 
     using Newtonsoft.Json.Linq;
 

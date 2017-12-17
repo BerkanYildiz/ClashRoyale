@@ -1,19 +1,19 @@
-﻿namespace ClashRoyale.Server.Logic.Manager
+﻿namespace ClashRoyale.Server.Logic.Sector.Manager
 {
     using System;
     using System.Collections.Generic;
 
     using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Server.Logic.Battle.Event;
     using ClashRoyale.Server.Logic.Commands;
     using ClashRoyale.Server.Logic.Commands.Storage;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Event;
     using ClashRoyale.Server.Logic.Mode;
-    using ClashRoyale.Server.Network.Packets.Server.Attack;
-    using ClashRoyale.Server.Network.Packets.Server.Avatar;
-    using ClashRoyale.Server.Network.Packets.Server.Sector;
+    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Server.Logic.Time;
+    using ClashRoyale.Server.Network.Packets.Server;
 
-    using Math = ClashRoyale.Server.Logic.Math;
+    using Math = ClashRoyale.Server.Logic.Math.Math;
 
     internal class SectorManager
     {

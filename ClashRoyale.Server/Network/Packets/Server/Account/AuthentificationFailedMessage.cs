@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Account
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Server.Files;
     using ClashRoyale.Server.Logic;

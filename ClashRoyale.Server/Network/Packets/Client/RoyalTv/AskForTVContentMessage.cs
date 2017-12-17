@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.RoyalTv
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using System.Linq;
 
@@ -8,7 +8,7 @@
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.RoyalTV;
-    using ClashRoyale.Server.Network.Packets.Server.RoyalTv;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForTvContentMessage : Message
     {

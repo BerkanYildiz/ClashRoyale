@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Items
+﻿namespace ClashRoyale.Server.Logic.Shop.Items
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Extensions.Helper;

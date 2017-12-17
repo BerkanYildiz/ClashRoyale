@@ -1,8 +1,8 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Attack
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Battle.Event;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Event;
 
     internal class BattleEventMessage : Message
     {

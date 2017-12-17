@@ -1,11 +1,12 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.GameObject
 {
     using System.Collections.Generic;
 
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Logic.Component;
-    using ClashRoyale.Server.Logic.Manager;
+    using ClashRoyale.Server.Logic.GameObject.Component;
+    using ClashRoyale.Server.Logic.GameObject.Manager;
+    using ClashRoyale.Server.Logic.Math;
 
     internal class GameObject
     {

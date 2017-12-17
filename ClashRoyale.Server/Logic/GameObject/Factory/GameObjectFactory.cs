@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Factory
+﻿namespace ClashRoyale.Server.Logic.GameObject.Factory
 {
     using ClashRoyale.Server.Files.Csv;
 

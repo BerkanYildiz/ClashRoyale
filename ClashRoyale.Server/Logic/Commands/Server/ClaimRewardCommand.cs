@@ -2,10 +2,13 @@
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Home;
+    using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
-    using ClashRoyale.Server.Logic.Spells;
+    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Server.Logic.Reward;
 
-    using Math = ClashRoyale.Server.Logic.Math;
+    using Math = ClashRoyale.Server.Logic.Math.Math;
 
     internal class ClaimRewardCommand : ServerCommand
     {

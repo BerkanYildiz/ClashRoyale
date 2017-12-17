@@ -1,9 +1,9 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Tournament
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Tournament;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForJoinableTournamentMessage : Message
     {

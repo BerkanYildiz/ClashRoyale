@@ -1,4 +1,4 @@
-namespace ClashRoyale.Server.Network.Packets.Server.Home
+namespace ClashRoyale.Server.Network.Packets.Server
 {
     using System.Text;
 

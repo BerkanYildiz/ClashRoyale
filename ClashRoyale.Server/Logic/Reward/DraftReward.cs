@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Reward
 {
     using ClashRoyale.Server.Extensions;
 

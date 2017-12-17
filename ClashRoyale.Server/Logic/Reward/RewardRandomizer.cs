@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Reward
 {
     using System.Collections.Generic;
 
@@ -8,7 +8,8 @@
     using ClashRoyale.Server.Files.Csv;
     using ClashRoyale.Server.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Spells;
+    using ClashRoyale.Server.Logic.Home;
+    using ClashRoyale.Server.Logic.Home.Spells;
 
     internal class RewardRandomizer
     {

@@ -1,12 +1,13 @@
-﻿namespace ClashRoyale.Server.Logic.Slots
+﻿namespace ClashRoyale.Server.Logic.Alliance.Slots
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using ClashRoyale.Server.Logic.Stream;
-    using ClashRoyale.Server.Network.Packets.Server.Alliance;
+    using ClashRoyale.Server.Logic.Alliance.Stream;
+    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     using Newtonsoft.Json;
 

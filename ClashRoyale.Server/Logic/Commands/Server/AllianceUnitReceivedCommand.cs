@@ -4,8 +4,9 @@
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Extensions.Utils;
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
-    using ClashRoyale.Server.Logic.Spells;
+    using ClashRoyale.Server.Logic.Player;
 
     internal class AllianceUnitReceivedCommand : ServerCommand
     {

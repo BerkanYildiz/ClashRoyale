@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Spells
+﻿namespace ClashRoyale.Server.Logic.Home.Spells
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using Math = ClashRoyale.Server.Logic.Math;
+    using Math = ClashRoyale.Server.Logic.Math.Math;
 
     [JsonConverter(typeof(SpellCollectionConverter))]
     internal class SpellCollection

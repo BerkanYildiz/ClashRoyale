@@ -4,6 +4,8 @@ namespace ClashRoyale.Server.Files.Csv.Logic
 
     using ClashRoyale.Server.Logic.Enums;
 
+    using Math = ClashRoyale.Server.Logic.Math.Math;
+
     internal class TreasureChestData : CsvData
     {
         internal ArenaData ArenaData;
@@ -241,7 +243,7 @@ namespace ClashRoyale.Server.Files.Csv.Logic
                 return 0;
             }
 
-            return Server.Logic.Math.Clamp((this.TotalTimeTakenSeconds + 600 * RemainingTime - 1) / this.TotalTimeTakenSeconds, 1, this.TotalTimeTakenSeconds / 600);
+            return Math.Clamp((this.TotalTimeTakenSeconds + 600 * RemainingTime - 1) / this.TotalTimeTakenSeconds, 1, this.TotalTimeTakenSeconds / 600);
         }
 
         internal string BaseChest

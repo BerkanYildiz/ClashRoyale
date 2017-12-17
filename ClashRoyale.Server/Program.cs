@@ -7,10 +7,10 @@
     using ClashRoyale.Server.Extensions.Game;
     using ClashRoyale.Server.Files;
     using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Battle.Manager;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Event.Manager;
-    using ClashRoyale.Server.Logic.Manager;
+    using ClashRoyale.Server.Logic.Inbox;
     using ClashRoyale.Server.Logic.RoyalTV;
     using ClashRoyale.Server.Logic.Scoring;
     using ClashRoyale.Server.Network;
@@ -62,6 +62,8 @@
 
             Factory.Initialize();
             TcpGateway.Initialize();
+
+            Tests.Initialize();
 
             Program.Initialized = true;
             Console.ReadKey(false);

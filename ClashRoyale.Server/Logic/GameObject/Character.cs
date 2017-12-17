@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.GameObject
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Files.Csv;

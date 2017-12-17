@@ -1,12 +1,13 @@
-﻿namespace ClashRoyale.Server.Logic.Slots
+﻿namespace ClashRoyale.Server.Logic.Alliance.Slots
 {
     using System;
     using System.Collections.Concurrent;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using ClashRoyale.Server.Logic.Entries;
-    using ClashRoyale.Server.Network.Packets.Server.Alliance;
+    using ClashRoyale.Server.Logic.Alliance.Entries;
+    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AllianceMemberEntries : ConcurrentDictionary<long, AllianceMemberEntry>
     {

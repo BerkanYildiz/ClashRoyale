@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Items
+﻿namespace ClashRoyale.Server.Logic.Shop.Items
 {
     internal static class ShopItemFactory
     {

@@ -1,6 +1,5 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Account
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
-    using System.Threading;
     using System.Threading.Tasks;
 
     using ClashRoyale.Server.Extensions;
@@ -9,9 +8,10 @@
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.Mode;
-    using ClashRoyale.Server.Network.Packets.Server.Account;
-    using ClashRoyale.Server.Network.Packets.Server.Home;
+    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class LoginMessage : Message
     {

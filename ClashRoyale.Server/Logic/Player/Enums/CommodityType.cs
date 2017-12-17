@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Enums
+﻿namespace ClashRoyale.Server.Logic.Player.Enums
 {
     internal enum CommodityType
     {

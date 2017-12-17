@@ -7,6 +7,7 @@
 
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
+    using ClashRoyale.Server.Logic.Battle;
 
     internal static class Battles
     {

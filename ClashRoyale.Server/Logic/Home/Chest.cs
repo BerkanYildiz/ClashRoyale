@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Home
 {
     using System;
 
@@ -7,6 +7,8 @@
     using ClashRoyale.Server.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Commands.Server;
     using ClashRoyale.Server.Logic.Mode;
+    using ClashRoyale.Server.Logic.Reward;
+    using ClashRoyale.Server.Logic.Time;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;

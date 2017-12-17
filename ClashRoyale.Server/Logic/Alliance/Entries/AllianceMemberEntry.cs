@@ -1,8 +1,9 @@
-﻿namespace ClashRoyale.Server.Logic.Entries
+﻿namespace ClashRoyale.Server.Logic.Alliance.Entries
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Player;
 
     using Newtonsoft.Json;
 

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Entries
+﻿namespace ClashRoyale.Server.Logic.Alliance.Entries
 {
     using System.Linq;
 

@@ -8,6 +8,7 @@
 
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
+    using ClashRoyale.Server.Logic.Alliance;
 
     internal static class Clans
     {

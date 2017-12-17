@@ -1,9 +1,9 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Alliance
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using System.Collections.Generic;
 
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Entries;
+    using ClashRoyale.Server.Logic.Alliance.Entries;
     using ClashRoyale.Server.Logic.Enums;
 
     internal class JoinableAllianceListMessage : Message

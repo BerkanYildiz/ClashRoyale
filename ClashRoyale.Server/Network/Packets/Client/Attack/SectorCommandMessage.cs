@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Attack
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;

@@ -5,11 +5,8 @@
 
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Network.Packets.Client.Account;
-    using ClashRoyale.Server.Network.Packets.Client.Attack;
-    using ClashRoyale.Server.Network.Packets.Client.Sector;
-    using ClashRoyale.Server.Network.Packets.Server.Account;
-    using ClashRoyale.Server.Network.Packets.Server.Home;
+    using ClashRoyale.Server.Network.Packets.Client;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal static class Factory
     {
@@ -40,6 +37,8 @@
 
             // Factory.Messages.Add(10107, typeof(ClientCapabilitiesMessage));
 
+            Factory.Messages.Add(18688, typeof(EndClientTurnMessage));
+
             Factory.Messages.Add(19911, typeof(KeepAliveMessage));
 
             /* Factory.Messages.Add(10113, typeof(SetDeviceTokenMessage));
@@ -57,7 +56,7 @@
             Factory.Messages.Add(12951, typeof(SendBattleEventMessage));
 
             Factory.Messages.Add(14101, typeof(GoHomeMessage));
-            Factory.Messages.Add(14102, typeof(EndClientTurnMessage));
+            
             Factory.Messages.Add(14107, typeof(CancelMatchmakeMessage));
             Factory.Messages.Add(14113, typeof(VisitHomeMessage));
             Factory.Messages.Add(14114, typeof(HomeBattleReplayMessage));

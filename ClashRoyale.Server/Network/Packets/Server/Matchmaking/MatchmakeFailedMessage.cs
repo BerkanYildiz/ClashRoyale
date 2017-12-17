@@ -1,4 +1,4 @@
-namespace ClashRoyale.Server.Network.Packets.Server.Matchmaking
+namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;

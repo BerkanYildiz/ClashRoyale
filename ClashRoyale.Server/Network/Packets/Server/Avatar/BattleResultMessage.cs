@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Avatar
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Logic;

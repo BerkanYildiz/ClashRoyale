@@ -1,5 +1,6 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
+    using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Mode;
 
     internal class ShopOpenedCommand : Command

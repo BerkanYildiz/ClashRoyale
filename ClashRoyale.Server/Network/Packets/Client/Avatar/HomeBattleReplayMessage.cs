@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Avatar
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using System.Text;
     using System.Threading;
@@ -7,11 +7,13 @@
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv.Logic;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Battle;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.RoyalTV;
     using ClashRoyale.Server.Logic.RoyalTV.Entry;
-    using ClashRoyale.Server.Network.Packets.Server.Avatar;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class HomeBattleReplayMessage : Message
     {

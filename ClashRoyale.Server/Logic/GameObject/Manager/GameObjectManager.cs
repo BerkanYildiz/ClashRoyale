@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Manager
+﻿namespace ClashRoyale.Server.Logic.GameObject.Manager
 {
     using System.Collections.Generic;
 

@@ -1,8 +1,8 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Alliance
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Alliance.Stream;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Stream;
 
     internal class AllianceStreamEntryMessage : Message
     {

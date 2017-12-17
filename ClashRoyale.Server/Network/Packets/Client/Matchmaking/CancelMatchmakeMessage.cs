@@ -1,10 +1,10 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Matchmaking
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Battle.Manager;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Manager;
-    using ClashRoyale.Server.Network.Packets.Server.Matchmaking;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class CancelMatchmakeMessage : Message
     {

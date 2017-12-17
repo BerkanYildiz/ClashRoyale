@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
     using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Mode;
 
     internal class PageOpenedCommand : Command

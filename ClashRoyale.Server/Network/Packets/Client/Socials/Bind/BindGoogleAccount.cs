@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Socials.Bind
+﻿namespace ClashRoyale.Server.Network.Packets.Client.Bind
 {
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
@@ -6,12 +6,8 @@
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Apis;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Account;
-    using ClashRoyale.Server.Network.Packets.Server.Socials;
 
     using MongoDB.Driver;
-
-    using Newtonsoft.Json;
 
     internal class BindGoogleAccount : Message
     {

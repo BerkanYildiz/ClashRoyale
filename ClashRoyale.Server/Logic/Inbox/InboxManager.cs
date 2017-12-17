@@ -1,9 +1,9 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Inbox
 {
     using System.Collections.Generic;
 
     using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Logic.Entry;
+    using ClashRoyale.Server.Logic.Inbox.Entry;
 
     internal static class InboxManager
     {

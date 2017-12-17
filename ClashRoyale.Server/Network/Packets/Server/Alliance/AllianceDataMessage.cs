@@ -1,6 +1,7 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Alliance
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Enums;
 
     internal class AllianceDataMessage : Message

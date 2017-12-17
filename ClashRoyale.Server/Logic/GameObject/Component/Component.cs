@@ -1,7 +1,8 @@
-﻿namespace ClashRoyale.Server.Logic.Component
+﻿namespace ClashRoyale.Server.Logic.GameObject.Component
 {
     using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Logic.Manager;
+    using ClashRoyale.Server.Logic.Battle;
+    using ClashRoyale.Server.Logic.GameObject.Manager;
 
     internal class Component
     {

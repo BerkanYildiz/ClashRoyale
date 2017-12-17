@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Battle;
 
     using MongoDB.Bson;
     using MongoDB.Bson.Serialization.Attributes;

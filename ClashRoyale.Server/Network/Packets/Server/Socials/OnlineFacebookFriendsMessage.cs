@@ -1,9 +1,10 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Server.Socials
+﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using System.Collections.Generic;
 
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Server.Logic.Player;
 
     internal class OnlineFacebookFriendsMessage : Message
     {

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Component
+﻿namespace ClashRoyale.Server.Logic.GameObject.Component
 {
     using ClashRoyale.Server.Extensions;
 

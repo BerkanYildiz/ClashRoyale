@@ -1,9 +1,9 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Replay
 {
     using ClashRoyale.Server.Extensions.Utils;
+    using ClashRoyale.Server.Logic.Battle.Event;
     using ClashRoyale.Server.Logic.Commands;
     using ClashRoyale.Server.Logic.Commands.Manager;
-    using ClashRoyale.Server.Logic.Event;
     using ClashRoyale.Server.Logic.Mode;
 
     using Newtonsoft.Json.Linq;

@@ -1,4 +1,4 @@
-namespace ClashRoyale.Server.Network.Packets.Server.RoyalTv
+namespace ClashRoyale.Server.Network.Packets.Server
 {
     using System.Collections.Generic;
 

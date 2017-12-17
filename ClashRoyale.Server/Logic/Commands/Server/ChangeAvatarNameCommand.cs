@@ -2,6 +2,7 @@
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic.Mode;
+    using ClashRoyale.Server.Logic.Player;
 
     internal class ChangeAvatarNameCommand : ServerCommand
     {

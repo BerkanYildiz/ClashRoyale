@@ -3,6 +3,7 @@
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Player;
 
     internal class AvatarRankingEntry : RankingEntry
     {

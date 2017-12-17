@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Alliance
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using System.Threading.Tasks;
 
@@ -6,8 +6,9 @@
     using ClashRoyale.Server.Extensions.Helper;
     using ClashRoyale.Server.Files.Csv.Logic;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Alliance;
+    using ClashRoyale.Server.Logic.Alliance.Entries;
     using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Entries;
     using ClashRoyale.Server.Logic.Enums;
 
     internal class EditAllianceMessage : Message

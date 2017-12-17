@@ -1,8 +1,7 @@
-﻿namespace ClashRoyale.Server.Logic.Manager
+﻿namespace ClashRoyale.Server.Logic.Battle.Manager
 {
     using System.Collections.Concurrent;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Timers;
 
     using ClashRoyale.Server.Files.Csv;
@@ -10,10 +9,15 @@
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Commands.Storage;
     using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.Mode;
+    using ClashRoyale.Server.Logic.Player;
     using ClashRoyale.Server.Logic.RoyalTV;
     using ClashRoyale.Server.Logic.RoyalTV.Entry;
-    using ClashRoyale.Server.Network.Packets.Server.Home;
+    using ClashRoyale.Server.Logic.Time;
+    using ClashRoyale.Server.Network.Packets.Server;
+
+    using Timer = System.Timers.Timer;
 
     internal static class BattleManager
     {

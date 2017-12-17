@@ -1,10 +1,11 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Home
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Home;
+    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class VisitHomeMessage : Message
     {

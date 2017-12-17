@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Slots
+﻿namespace ClashRoyale.Server.Logic.Player.Slots
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,8 @@
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Extensions.Game;
     using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Items;
+    using ClashRoyale.Server.Logic.Player.Enums;
+    using ClashRoyale.Server.Logic.Player.Items;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;

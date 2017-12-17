@@ -146,6 +146,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Files\Csv\CsvConverter.cs" />
     <Compile Include="Files\Csv\Tilemaps\LayoutRow.cs" />
     <Compile Include="Files\Csv\Tilemaps\MapRow.cs" />
     <Compile Include="Files\Csv\Tilemaps\Object.cs" />
@@ -476,6 +477,7 @@
     <Compile Include="Network\Packets\Server\Home\AvailableServerCommandMessage.cs" />
     <Compile Include="Network\Packets\Server\Home\ServerErrorMessage.cs" />
     <Compile Include="Network\Packets\Server\Account\ServerShutdownMessage.cs" />
+    <Compile Include="Tests.cs" />
     <None Include="Gamefiles\csv_client\animations.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

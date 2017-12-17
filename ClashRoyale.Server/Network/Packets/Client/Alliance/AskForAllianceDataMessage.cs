@@ -1,10 +1,11 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Alliance
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Alliance;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForAllianceDataMessage : Message
     {

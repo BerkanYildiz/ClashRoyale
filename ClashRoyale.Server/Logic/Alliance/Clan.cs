@@ -1,10 +1,10 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Alliance
 {
     using System.Linq;
 
     using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Logic.Entries;
-    using ClashRoyale.Server.Logic.Slots;
+    using ClashRoyale.Server.Logic.Alliance.Entries;
+    using ClashRoyale.Server.Logic.Alliance.Slots;
 
     using Newtonsoft.Json;
 

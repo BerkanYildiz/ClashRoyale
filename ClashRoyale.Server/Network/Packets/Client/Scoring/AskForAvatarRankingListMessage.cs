@@ -1,10 +1,11 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Scoring
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.Scoring;
-    using ClashRoyale.Server.Network.Packets.Server.Scoring;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForAvatarRankingListMessage : Message
     {

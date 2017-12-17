@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic.Spells
+﻿namespace ClashRoyale.Server.Logic.Home.Spells
 {
     using System.Collections.Generic;
 

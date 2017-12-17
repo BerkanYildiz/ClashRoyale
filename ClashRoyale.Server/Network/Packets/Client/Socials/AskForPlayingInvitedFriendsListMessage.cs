@@ -1,11 +1,12 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Socials
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using System.Collections.Generic;
 
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Socials;
+    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForPlayingInvitedFriendsListMessage : Message
     {

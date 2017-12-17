@@ -1,9 +1,10 @@
-﻿namespace ClashRoyale.Server.Logic.Stream
+﻿namespace ClashRoyale.Server.Logic.Alliance.Stream
 {
     using System;
 
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Extensions.Helper;
+    using ClashRoyale.Server.Logic.Player;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;

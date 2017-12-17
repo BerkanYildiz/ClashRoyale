@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Battle
 {
     using System;
 
@@ -9,10 +9,12 @@
     using ClashRoyale.Server.Files.Csv.Logic;
     using ClashRoyale.Server.Files.Csv.Tilemaps;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Factory;
-    using ClashRoyale.Server.Logic.Manager;
+    using ClashRoyale.Server.Logic.GameObject;
+    using ClashRoyale.Server.Logic.GameObject.Factory;
+    using ClashRoyale.Server.Logic.GameObject.Manager;
+    using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
-    using ClashRoyale.Server.Logic.Spells;
+    using ClashRoyale.Server.Logic.Player;
 
     using Newtonsoft.Json.Linq;
 

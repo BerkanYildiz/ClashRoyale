@@ -1,10 +1,10 @@
-﻿namespace ClashRoyale.Server.Logic
+﻿namespace ClashRoyale.Server.Logic.Reward
 {
     using System.Collections.Generic;
 
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Logic.Spells;
+    using ClashRoyale.Server.Logic.Home.Spells;
 
     using Newtonsoft.Json.Linq;
 

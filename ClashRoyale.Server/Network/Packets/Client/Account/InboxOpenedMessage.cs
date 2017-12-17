@@ -1,9 +1,9 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client.Account
+﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Network.Packets.Server.Account;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class InboxOpenedMessage : Message
     {
