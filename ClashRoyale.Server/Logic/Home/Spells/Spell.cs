@@ -301,11 +301,10 @@
             return Json;
         }
 
-        internal bool Equals(Spell Spell)
-        {
-            return Spell.Data == this.Data;
-        }
-
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="Obj">The <see cref="System.Object" /> to compare with this instance.</param>
         public override bool Equals(object Obj)
         {
             if (Obj is Spell Spell)
@@ -314,6 +313,19 @@
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            if (this.Data != null)
+            {
+                return this.Data.GlobalId;
+            }
+
+            return base.GetHashCode();
         }
     }
 }
