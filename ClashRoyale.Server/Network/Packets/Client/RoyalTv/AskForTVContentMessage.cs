@@ -2,11 +2,12 @@
 {
     using System.Linq;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
+
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.RoyalTV;
     using ClashRoyale.Server.Network.Packets.Server;
 

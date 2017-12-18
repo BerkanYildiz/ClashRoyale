@@ -1,8 +1,8 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
-    using ClashRoyale.Server.Files;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Files;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
 
     using Newtonsoft.Json;
 

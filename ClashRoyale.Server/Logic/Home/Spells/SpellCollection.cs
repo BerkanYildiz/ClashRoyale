@@ -3,13 +3,13 @@
     using System;
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Files.Csv.Logic;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using Math = ClashRoyale.Server.Logic.Math.Math;
+    using Math = ClashRoyale.Maths.Math;
 
     [JsonConverter(typeof(SpellCollectionConverter))]
     internal class SpellCollection

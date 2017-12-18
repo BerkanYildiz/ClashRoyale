@@ -2,12 +2,13 @@
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Crypto.Randomizers;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Alliance.Entries;
     using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForJoinableAlliancesListMessage : Message
@@ -63,7 +64,7 @@
                 {
                     if (Availables.Length - Skiped > 50 - I)
                     {
-                        if (!Program.Random.NextBool())
+                        if (!XorShift.NextBool())
                         {
                             ++Skiped;
                         }

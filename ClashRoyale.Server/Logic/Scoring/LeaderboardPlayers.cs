@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Player;
     using ClashRoyale.Server.Logic.Scoring.Entries;
 

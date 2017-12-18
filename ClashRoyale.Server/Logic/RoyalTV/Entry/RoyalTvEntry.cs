@@ -2,7 +2,7 @@
 {
     using System;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic.Battle;
 
     using Newtonsoft.Json;

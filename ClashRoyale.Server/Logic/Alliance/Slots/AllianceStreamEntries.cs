@@ -40,7 +40,7 @@
         /// </summary>
         internal void AddEntry(StreamEntry Entry)
         {
-            Entry.HighId 	= Constants.ServerId;
+            Entry.HighId 	= Config.ServerId;
             Entry.LowId 	= Interlocked.Increment(ref this.Seed);
 
             if (this.Slots.Count > 100)

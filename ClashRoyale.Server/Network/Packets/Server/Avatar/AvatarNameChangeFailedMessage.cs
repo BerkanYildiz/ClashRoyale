@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
+    using ClashRoyale.Enums;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class AvatarNameChangeFailedMessage : Message
     {

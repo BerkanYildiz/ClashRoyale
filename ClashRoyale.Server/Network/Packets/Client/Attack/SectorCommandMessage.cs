@@ -1,10 +1,10 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Commands;
     using ClashRoyale.Server.Logic.Commands.Manager;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class SectorCommandMessage : Message
     {

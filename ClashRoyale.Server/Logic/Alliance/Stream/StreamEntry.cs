@@ -2,8 +2,8 @@
 {
     using System;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Server.Logic.Player;
 
     using Newtonsoft.Json;

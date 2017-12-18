@@ -1,8 +1,8 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
-    using ClashRoyale.Server.Extensions.Helper;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class BattleResultMessage : Message
     {

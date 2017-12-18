@@ -46,7 +46,7 @@
             }
 
             Battles.Entities    = new ConcurrentDictionary<long, BattleLog>();
-            Battles.HighSeed    = Constants.ServerId;
+            Battles.HighSeed    = Config.ServerId;
             Battles.LowSeed     = GameDb.GetBattlesSeed();
 
             /* for (int i = 1; i <= this.LowSeed; i++)

@@ -1,0 +1,224 @@
+namespace ClashRoyale.Files.Csv.Logic
+{
+    public class CharacterBuffData : CsvData
+    {
+		/// <summary>
+        /// Initializes a new instance of the <see cref="CharacterBuffData"/> class.
+        /// </summary>
+        /// <param name="CsvRow">The row.</param>
+        /// <param name="CsvTable">The data table.</param>
+        public CharacterBuffData(CsvRow CsvRow, CsvTable CsvTable) : base(CsvRow, CsvTable)
+        {
+            // CharacterBuffData.
+        }
+
+        /// <summary>
+        /// Called when all instances has been loaded for initialized members in instance.
+        /// </summary>
+		public override void LoadingFinished()
+		{
+	    	// LoadingFinished.
+		}
+	
+        public string Rarity
+        {
+            get; set;
+        }
+
+        public string Tid
+        {
+            get; set;
+        }
+
+        public string IconFileName
+        {
+            get; set;
+        }
+
+        public string IconExportName
+        {
+            get; set;
+        }
+
+        public bool ChangeControl
+        {
+            get; set;
+        }
+
+        public bool NoEffectToCrownTowers
+        {
+            get; set;
+        }
+
+        public int CrownTowerDamagePercent
+        {
+            get; set;
+        }
+
+        public int DamagePerSecond
+        {
+            get; set;
+        }
+
+        public int HitFrequency
+        {
+            get; set;
+        }
+
+        public int DamageReduction
+        {
+            get; set;
+        }
+
+        public int HealPerSecond
+        {
+            get; set;
+        }
+
+        public int HitSpeedMultiplier
+        {
+            get; set;
+        }
+
+        public int SpeedMultiplier
+        {
+            get; set;
+        }
+
+        public int SpawnSpeedMultiplier
+        {
+            get; set;
+        }
+
+        public string NegatesBuffs
+        {
+            get; set;
+        }
+
+        public string ImmunityToBuffs
+        {
+            get; set;
+        }
+
+        public bool Invisible
+        {
+            get; set;
+        }
+
+        public bool ImmuneToSpells
+        {
+            get; set;
+        }
+
+        public bool RemoveOnAttack
+        {
+            get; set;
+        }
+
+        public bool RemoveOnHeal
+        {
+            get; set;
+        }
+
+        public int DamageMultiplier
+        {
+            get; set;
+        }
+
+        public bool Panic
+        {
+            get; set;
+        }
+
+        public string Effect
+        {
+            get; set;
+        }
+
+        public string FilterFile
+        {
+            get; set;
+        }
+
+        public string FilterExportName
+        {
+            get; set;
+        }
+
+        public bool FilterAffectsTransformation
+        {
+            get; set;
+        }
+
+        public bool FilterInheritLifeDuration
+        {
+            get; set;
+        }
+
+        public int SizeMultiplier
+        {
+            get; set;
+        }
+
+        public bool StaticTarget
+        {
+            get; set;
+        }
+
+        public bool IgnorePushBack
+        {
+            get; set;
+        }
+
+        public string MarkEffect
+        {
+            get; set;
+        }
+
+        public int AudioPitchModifier
+        {
+            get; set;
+        }
+
+        public string PortalSpell
+        {
+            get; set;
+        }
+
+        public int AttractPercentage
+        {
+            get; set;
+        }
+
+        public bool ControlledByParent
+        {
+            get; set;
+        }
+
+        public bool Clone
+        {
+            get; set;
+        }
+
+        public int Scale
+        {
+            get; set;
+        }
+
+        public bool EnableStacking
+        {
+            get; set;
+        }
+
+        public string ChainedBuff
+        {
+            get; set;
+        }
+
+        public string ContinuousEffect
+        {
+            get; set;
+        }
+
+    }
+}

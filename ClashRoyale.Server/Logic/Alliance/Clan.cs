@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic.Alliance.Entries;
     using ClashRoyale.Server.Logic.Alliance.Slots;
 

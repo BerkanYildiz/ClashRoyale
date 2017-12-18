@@ -1,7 +1,7 @@
 namespace ClashRoyale.Server.Network.Packets.Server
 {
+    using ClashRoyale.Enums;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Scoring;
     using ClashRoyale.Server.Logic.Scoring.Entries;
 

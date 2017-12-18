@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Net.Sockets;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
 
     internal class NetworkToken
@@ -55,7 +55,7 @@
         /// <param name="Socket">The socket.</param>
         internal NetworkToken(SocketAsyncEventArgs AsyncEvent, Socket Socket)
         {
-            this.Packet                 = new List<byte>(Constants.BufferSize);
+            this.Packet                 = new List<byte>(Config.BufferSize);
             this.Socket                 = Socket;
             this.AsyncEvent             = AsyncEvent;
             this.AsyncEvent.UserToken   = this;
@@ -88,7 +88,7 @@
         {
             byte[] Buffer = this.Packet.ToArray();
 
-            if (Buffer.Length >= 7 && Buffer.Length <= Constants.BufferSize)
+            if (Buffer.Length >= 7 && Buffer.Length <= Config.BufferSize)
             {
                 this.TcpProcess(Buffer);
             }

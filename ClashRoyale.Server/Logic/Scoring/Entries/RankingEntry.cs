@@ -1,8 +1,8 @@
 ﻿namespace ClashRoyale.Server.Logic.Scoring.Entries
 {
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Logic.Math;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Maths;
 
     internal class RankingEntry
     {

@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
-    using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Enums;
 
     internal class UdpConnectionInfoMessage : Message
     {

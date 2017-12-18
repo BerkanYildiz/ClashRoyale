@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyale.Server.Logic.Reward
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
 
     internal class DraftReward : Reward
     {

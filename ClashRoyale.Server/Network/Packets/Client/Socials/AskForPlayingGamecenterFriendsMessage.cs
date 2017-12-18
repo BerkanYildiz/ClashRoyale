@@ -2,11 +2,11 @@
 {
     using System.Collections.Generic;
 
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
-    using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Player;
     using ClashRoyale.Server.Network.Packets.Server;
 

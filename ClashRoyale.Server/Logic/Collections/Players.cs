@@ -5,6 +5,7 @@ namespace ClashRoyale.Server.Logic.Collections
     using System.Threading;
     using System.Threading.Tasks;
 
+    using ClashRoyale.Crypto.Randomizers;
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
     using ClashRoyale.Server.Logic.Alliance;
@@ -50,7 +51,7 @@ namespace ClashRoyale.Server.Logic.Collections
             }
 
             Players.Entities    = new ConcurrentDictionary<long, Player>();
-            Players.HighSeed    = Constants.ServerId;
+            Players.HighSeed    = Config.ServerId;
             Players.LowSeed     = GameDb.GetPlayersSeed();
 
             Players.Initialized = true;
@@ -145,7 +146,7 @@ namespace ClashRoyale.Server.Logic.Collections
             Entity.Home.HighId  = Entity.HighId;
             Entity.Home.LowId   = Entity.LowId;
 
-            Entity.Token    = Program.Random.NextToken();
+            Entity.Token        = XorShift.NextToken();
 
             await PlayerDb.Create(Entity);
 

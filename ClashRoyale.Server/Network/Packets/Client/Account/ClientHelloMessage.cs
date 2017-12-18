@@ -2,12 +2,12 @@
 {
     using System.Linq;
 
-    using ClashRoyale.Server.Crypto;
-    using ClashRoyale.Server.Crypto.Nacl;
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Files;
+    using ClashRoyale.Crypto;
+    using ClashRoyale.Crypto.Nacl;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Files;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class ClientHelloMessage : Message

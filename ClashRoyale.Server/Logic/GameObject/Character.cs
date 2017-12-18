@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Server.Logic.GameObject
 {
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Files.Csv;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Files.Csv;
 
     internal class Character : GameObject
     {

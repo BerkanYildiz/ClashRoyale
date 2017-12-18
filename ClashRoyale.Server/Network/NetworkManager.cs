@@ -3,13 +3,13 @@
     using System;
     using System.Net;
 
-    using ClashRoyale.Server.Crypto;
-    using ClashRoyale.Server.Crypto.Encrypters;
-    using ClashRoyale.Server.Crypto.Inits;
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Crypto;
+    using ClashRoyale.Crypto.Encrypters;
+    using ClashRoyale.Crypto.Inits;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Maths;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.Structures;
     using ClashRoyale.Server.Network.Packets;
 

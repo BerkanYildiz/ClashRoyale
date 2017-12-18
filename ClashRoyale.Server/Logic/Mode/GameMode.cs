@@ -1,12 +1,12 @@
 ﻿namespace ClashRoyale.Server.Logic.Mode
 {
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Extensions.Utils;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Extensions.Utils;
     using ClashRoyale.Server.Logic.Battle;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Commands.Manager;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Manager;
     using ClashRoyale.Server.Logic.Player;
@@ -14,7 +14,7 @@
     using ClashRoyale.Server.Logic.Sector.Manager;
     using ClashRoyale.Server.Logic.Time;
 
-    using Random = ClashRoyale.Server.Logic.Math.Random;
+    using Random = ClashRoyale.Maths.Random;
 
     internal class GameMode
     {

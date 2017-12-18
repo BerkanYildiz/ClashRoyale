@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Threading;
 
-    using ClashRoyale.Server.Extensions.Game;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions.Game;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.RoyalTV.Entry;
 
     internal static class RoyalTvManager

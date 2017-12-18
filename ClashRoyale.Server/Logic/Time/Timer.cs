@@ -2,14 +2,14 @@
 {
     using System;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Extensions.Utils;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Extensions.Utils;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using Math = ClashRoyale.Server.Logic.Math.Math;
+    using Math = ClashRoyale.Maths.Math;
 
     [JsonConverter(typeof(TimerConverter))]
     internal class Timer

@@ -3,14 +3,15 @@
     using System.Text;
     using System.Threading;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
+    using ClashRoyale.Maths;
+
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Battle;
     using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.RoyalTV;
     using ClashRoyale.Server.Logic.RoyalTV.Entry;
     using ClashRoyale.Server.Network.Packets.Server;

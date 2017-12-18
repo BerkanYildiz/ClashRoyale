@@ -1,14 +1,14 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands.Server
 {
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Player;
     using ClashRoyale.Server.Logic.Reward;
 
-    using Math = ClashRoyale.Server.Logic.Math.Math;
+    using Math = ClashRoyale.Maths.Math;
 
     internal class ClaimRewardCommand : ServerCommand
     {

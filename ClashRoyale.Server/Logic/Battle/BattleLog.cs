@@ -2,8 +2,8 @@
 {
     using System;
 
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Replay;
 
     using Newtonsoft.Json;

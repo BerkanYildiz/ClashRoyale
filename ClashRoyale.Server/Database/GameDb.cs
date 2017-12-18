@@ -105,7 +105,7 @@
         /// </summary>
         internal static int GetPlayersSeed()
         { 
-            return GameDb.Players.Find(T => T.HighId == Constants.ServerId)
+            return GameDb.Players.Find(T => T.HighId == Config.ServerId)
                 .Sort(Builders<PlayerDb>.Sort.Descending(T => T.LowId))
                 .Limit(1)
                 .SingleOrDefault()?.LowId ?? 0;
@@ -116,7 +116,7 @@
         /// </summary>
         internal static int GetClansSeed()
         {
-            return GameDb.Clans.Find(T => T.HighId == Constants.ServerId)
+            return GameDb.Clans.Find(T => T.HighId == Config.ServerId)
                 .Sort(Builders<ClanDb>.Sort.Descending(T => T.LowId))
                 .Limit(1)
                 .SingleOrDefault()?.LowId ?? 0;
@@ -127,7 +127,7 @@
         /// </summary>
         internal static int GetBattlesSeed()
         {
-            return GameDb.Battles.Find(T => T.HighId == Constants.ServerId)
+            return GameDb.Battles.Find(T => T.HighId == Config.ServerId)
                 .Sort(Builders<BattleDb>.Sort.Descending(T => T.LowId))
                 .Limit(1)
                 .SingleOrDefault()?.LowId ?? 0;

@@ -2,14 +2,14 @@ namespace ClashRoyale.Server.Logic.Player
 {
     using System;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Game;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Files.Csv.Client;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Game;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Csv.Client;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Apis;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Player.Enums;
@@ -18,7 +18,7 @@ namespace ClashRoyale.Server.Logic.Player
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using Math = ClashRoyale.Server.Logic.Math.Math;
+    using Math = ClashRoyale.Maths.Math;
 
     internal class Player : PlayerBase
     {

@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Game;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Game;
     using ClashRoyale.Server.Logic.Mode;
 
     internal class SelectDeckCommand : Command

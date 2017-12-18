@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyale.Server.Logic.Time
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
 
     internal struct Time
     {

@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Server.Logic.Battle
 {
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Player;
 

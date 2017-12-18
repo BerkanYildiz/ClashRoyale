@@ -87,10 +87,7 @@
                     {
                         if (File.Directory.Name == "Gamefiles")
                         {
-                            if (File.Name != "fingerprint.json")
-                            {
-                                this.Files.Add(new Gamefile(File));
-                            }
+                            this.Files.Add(new Gamefile(File));
                         }
                     }
                     else

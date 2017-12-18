@@ -1,15 +1,16 @@
 ﻿namespace ClashRoyale.Server.Logic.Manager
 {
-    using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Files.Csv.Logic;
-    using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Math;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Csv.Logic;
+    using ClashRoyale.Maths;
+    using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Player;
 
     internal class AchievementManager
     {
-        private GameMode GameMode;
+        private readonly GameMode GameMode;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AchievementManager"/> class.
@@ -91,8 +92,8 @@
         {
             if (this.GameMode.State != HomeState.Replay)
             {
-                var Home = this.GameMode.Home;
-                Player Player = this.GameMode.Player;
+                Home Home       = this.GameMode.Home;
+                Player Player   = this.GameMode.Player;
 
                 CsvFiles.Get(Gamefile.Achievement).Datas.ForEach(Achievement =>
                 {

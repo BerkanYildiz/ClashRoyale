@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
+    using ClashRoyale.Enums;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Alliance.Entries;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class SearchClansDataMessage : Message
     {

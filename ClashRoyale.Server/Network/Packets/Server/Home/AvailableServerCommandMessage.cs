@@ -1,9 +1,9 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
+    using ClashRoyale.Enums;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Commands;
     using ClashRoyale.Server.Logic.Commands.Manager;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class AvailableServerCommandMessage : Message
     {

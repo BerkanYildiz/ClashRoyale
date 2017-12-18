@@ -1,9 +1,9 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
 

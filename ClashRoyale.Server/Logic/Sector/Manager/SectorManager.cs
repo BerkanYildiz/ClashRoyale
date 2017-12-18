@@ -3,17 +3,18 @@
     using System;
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+
     using ClashRoyale.Server.Logic.Battle.Event;
     using ClashRoyale.Server.Logic.Commands;
     using ClashRoyale.Server.Logic.Commands.Storage;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Player;
     using ClashRoyale.Server.Logic.Time;
     using ClashRoyale.Server.Network.Packets.Server;
 
-    using Math = ClashRoyale.Server.Logic.Math.Math;
+    using Math = ClashRoyale.Maths.Math;
 
     internal class SectorManager
     {

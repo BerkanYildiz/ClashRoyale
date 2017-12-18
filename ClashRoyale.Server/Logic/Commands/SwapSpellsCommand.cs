@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;

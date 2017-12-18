@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic.Inbox.Entry;
 
     internal static class InboxManager

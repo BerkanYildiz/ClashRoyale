@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyale.Server.Logic.GameObject.Factory
 {
-    using ClashRoyale.Server.Files.Csv;
+    using ClashRoyale.Files.Csv;
 
     internal static class GameObjectFactory
     {

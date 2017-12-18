@@ -4,6 +4,7 @@
     using System.Net;
     using System.Net.Sockets;
 
+    using ClashRoyale.Enums;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Network.Packets;
 
@@ -49,6 +50,7 @@
             Listener            = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             Listener.NoDelay    = true;
             Listener.Blocking   = false;
+
             Initialized         = true;
 
             Listener.Bind(new IPEndPoint(IPAddress.Any, 9339));
@@ -310,7 +312,7 @@
 
             if (Token.Device != null)
             {
-                Token.Device.State = Logic.Enums.State.Disconnected;
+                Token.Device.State = State.Disconnected;
 
                 try
                 {

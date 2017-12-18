@@ -1,10 +1,10 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
+    using ClashRoyale.Maths;
     using ClashRoyale.Server.Logic.Home.Spells;
-    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.Mode;
 
     using Newtonsoft.Json.Linq;

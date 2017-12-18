@@ -2,9 +2,9 @@
 {
     using System;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class Message
     {

@@ -1,12 +1,12 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Alliance.Entries;
     using ClashRoyale.Server.Logic.Alliance.Stream;
     using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class ReplyJoinRequestMessage : Message
     {

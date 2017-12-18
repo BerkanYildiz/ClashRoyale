@@ -1,12 +1,10 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands.Manager
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic.Commands.Server;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Network.Packets.Server;
 

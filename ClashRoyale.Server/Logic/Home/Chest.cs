@@ -2,9 +2,9 @@
 {
     using System;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Commands.Server;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Reward;
@@ -242,7 +242,7 @@
             if (GameMode != null)
             {
                 GameMode.Home.SetClaimingReward(true);
-                GameMode.CommandManager.AddAvailableServerCommand(new ClaimRewardCommand(RewardRandomizer.RandomizeReward(this, Program.Random, GameMode.Home), ChestType, 14));
+                GameMode.CommandManager.AddAvailableServerCommand(new ClaimRewardCommand(RewardRandomizer.RandomizeReward(this, GameMode.Home), ChestType, 14));
             }
         }
 

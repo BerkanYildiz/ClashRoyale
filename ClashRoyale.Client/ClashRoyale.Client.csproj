@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2E4B7DBB-E124-4802-8304-8CDCC716CD86}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ClashRoyale.Client</RootNamespace>
+    <AssemblyName>ClashRoyale.Client</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Builds\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>1</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>default</LangVersion>
+    <FileAlignment>1024</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Builds\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>none</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>default</LangVersion>
+    <FileAlignment>1024</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GL.Clients.CR.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.5.0\lib\net45\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.5.0\lib\net45\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.5.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Core\Network\Gateway.cs" />
+    <Compile Include="Core\Network\Processor.cs" />
+    <Compile Include="Core\Network\Token.cs" />
+    <Compile Include="Core\Resources.cs" />
+    <Compile Include="Database\GameDb.cs" />
+    <Compile Include="Database\Models\BattleDb.cs" />
+    <Compile Include="Database\Models\ClanDb.cs" />
+    <Compile Include="Database\Models\PlayerDb.cs" />
+    <Compile Include="Files\Csv\Client\BackgroundDecoData.cs" />
+    <Compile Include="Files\Csv\Client\BillingPackageData.cs" />
+    <Compile Include="Files\Csv\Client\ClientGlobalData.cs" />
+    <Compile Include="Files\Csv\Client\EffectData.cs" />
+    <Compile Include="Files\Csv\Client\EventOutputData.cs" />
+    <Compile Include="Files\Csv\Client\HealthBarData.cs" />
+    <Compile Include="Files\Csv\Client\HelpshiftData.cs" />
+    <Compile Include="Files\Csv\Client\HintData.cs" />
+    <Compile Include="Files\Csv\Client\LocaleData.cs" />
+    <Compile Include="Files\Csv\Client\MusicData.cs" />
+    <Compile Include="Files\Csv\Client\NewsData.cs" />
+    <Compile Include="Files\Csv\Client\ParticleEmitterData.cs" />
+    <Compile Include="Files\Csv\Client\SoundData.cs" />
+    <Compile Include="Files\Csv\CsvColumn.cs" />
+    <Compile Include="Files\Csv\CsvConverter.cs" />
+    <Compile Include="Files\Csv\CsvData.cs" />
+    <Compile Include="Files\Csv\CsvFiles.cs" />
+    <Compile Include="Files\Csv\CsvReader.cs" />
+    <Compile Include="Files\Csv\CsvRow.cs" />
+    <Compile Include="Files\Csv\CsvTable.cs" />
+    <Compile Include="Files\Csv\Logic\AbilityData.cs" />
+    <Compile Include="Files\Csv\Logic\AchievementData.cs" />
+    <Compile Include="Files\Csv\Logic\AllianceBadgeData.cs" />
+    <Compile Include="Files\Csv\Logic\AllianceRoleData.cs" />
+    <Compile Include="Files\Csv\Logic\AreaEffectObjectData.cs" />
+    <Compile Include="Files\Csv\Logic\ArenaData.cs" />
+    <Compile Include="Files\Csv\Logic\BuildingData.cs" />
+    <Compile Include="Files\Csv\Logic\CharacterBuffData.cs" />
+    <Compile Include="Files\Csv\Logic\CharacterData.cs" />
+    <Compile Include="Files\Csv\Logic\ChestOrderData.cs" />
+    <Compile Include="Files\Csv\Logic\ConfigurationDefinitionData.cs" />
+    <Compile Include="Files\Csv\Logic\ContentTestData.cs" />
+    <Compile Include="Files\Csv\Logic\DecoData.cs" />
+    <Compile Include="Files\Csv\Logic\DraftDeckData.cs" />
+    <Compile Include="Files\Csv\Logic\EventCategoryData.cs" />
+    <Compile Include="Files\Csv\Logic\EventCategoryDefinitionData.cs" />
+    <Compile Include="Files\Csv\Logic\EventCategoryEnumData.cs" />
+    <Compile Include="Files\Csv\Logic\EventCategoryObjectDefinitionData.cs" />
+    <Compile Include="Files\Csv\Logic\EventTargetingDefinitionData.cs" />
+    <Compile Include="Files\Csv\Logic\ExpLevelData.cs" />
+    <Compile Include="Files\Csv\Logic\GambleChestData.cs" />
+    <Compile Include="Files\Csv\Logic\GameModeData.cs" />
+    <Compile Include="Files\Csv\Logic\GlobalData.cs" />
+    <Compile Include="Files\Csv\Logic\HeroData.cs" />
+    <Compile Include="Files\Csv\Logic\LocationData.cs" />
+    <Compile Include="Files\Csv\Logic\NpcData.cs" />
+    <Compile Include="Files\Csv\Logic\PredefinedDeckData.cs" />
+    <Compile Include="Files\Csv\Logic\ProjectileData.cs" />
+    <Compile Include="Files\Csv\Logic\PveGamemodeData.cs" />
+    <Compile Include="Files\Csv\Logic\QuestOrderData.cs" />
+    <Compile Include="Files\Csv\Logic\Quests\AttackData.cs" />
+    <Compile Include="Files\Csv\Logic\Quests\CastData.cs" />
+    <Compile Include="Files\Csv\Logic\Quests\CollectData.cs" />
+    <Compile Include="Files\Csv\Logic\Quests\DailyData.cs" />
+    <Compile Include="Files\Csv\Logic\Quests\DonateData.cs" />
+    <Compile Include="Files\Csv\Logic\Quests\PlayData.cs" />
+    <Compile Include="Files\Csv\Logic\Quests\PveData.cs" />
+    <Compile Include="Files\Csv\Logic\RarityData.cs" />
+    <Compile Include="Files\Csv\Logic\RegionData.cs" />
+    <Compile Include="Files\Csv\Logic\ResourceData.cs" />
+    <Compile Include="Files\Csv\Logic\ResourcePackData.cs" />
+    <Compile Include="Files\Csv\Logic\ShopCycleData.cs" />
+    <Compile Include="Files\Csv\Logic\ShopData.cs" />
+    <Compile Include="Files\Csv\Logic\SkinData.cs" />
+    <Compile Include="Files\Csv\Logic\SkinSetData.cs" />
+    <Compile Include="Files\Csv\Logic\SpellData.cs" />
+    <Compile Include="Files\Csv\Logic\SpellSetData.cs" />
+    <Compile Include="Files\Csv\Logic\SurvivalModeData.cs" />
+    <Compile Include="Files\Csv\Logic\TauntData.cs" />
+    <Compile Include="Files\Csv\Logic\TournamentTierData.cs" />
+    <Compile Include="Files\Csv\Logic\TreasureChestData.cs" />
+    <Compile Include="Files\Csv\Logic\TutorialChestOrderData.cs" />
+    <Compile Include="Files\Csv\Logic\TutorialData.cs" />
+    <Compile Include="Files\Csv\Logic\TveGamemodeData.cs" />
+    <Compile Include="Files\Csv\Tilemaps\LayoutRow.cs" />
+    <Compile Include="Files\Csv\Tilemaps\MapRow.cs" />
+    <Compile Include="Files\Csv\Tilemaps\Object.cs" />
+    <Compile Include="Files\Csv\Tilemaps\TilemapData.cs" />
+    <Compile Include="Files\Fingerprint.cs" />
+    <Compile Include="Files\Home.cs" />
+    <Compile Include="Logging.cs" />
+    <Compile Include="Logic\Client.cs" />
+    <Compile Include="Logic\Device.cs" />
+    <Compile Include="Logic\Enums\Action.cs" />
+    <Compile Include="Logic\Enums\Arena.cs" />
+    <Compile Include="Logic\Enums\CVersion.cs" />
+    <Compile Include="Logic\Enums\Database.cs" />
+    <Compile Include="Logic\Enums\DBMS.cs" />
+    <Compile Include="Logic\Enums\Defcon.cs" />
+    <Compile Include="Logic\Enums\Direction.cs" />
+    <Compile Include="Logic\Enums\Events.cs" />
+    <Compile Include="Logic\Enums\Exits.cs" />
+    <Compile Include="Logic\Enums\Game.cs" />
+    <Compile Include="Logic\Enums\Gamefile.cs" />
+    <Compile Include="Logic\Enums\Hiring.cs" />
+    <Compile Include="Logic\Enums\Mode.cs" />
+    <Compile Include="Logic\Enums\Rank.cs" />
+    <Compile Include="Logic\Enums\Rarity.cs" />
+    <Compile Include="Logic\Enums\Reason.cs" />
+    <Compile Include="Logic\Enums\Resource.cs" />
+    <Compile Include="Logic\Enums\Role.cs" />
+    <Compile Include="Logic\Enums\State.cs" />
+    <Compile Include="Logic\Enums\Status.cs" />
+    <Compile Include="Logic\Enums\Stream_Type.cs" />
+    <Compile Include="Logic\Slots\Bots.cs" />
+    <Compile Include="Packets\Command.cs" />
+    <Compile Include="Packets\CommandFactory.cs" />
+    <Compile Include="Packets\Crypto\Encrypter\IEncrypter.cs" />
+    <Compile Include="Packets\Crypto\Encrypter\PepperEncrypter.cs" />
+    <Compile Include="Packets\Crypto\Encrypter\RC4Encrypter.cs" />
+    <Compile Include="Packets\Crypto\Init\PepperInit.cs" />
+    <Compile Include="Packets\Crypto\Init\RC4Init.cs" />
+    <Compile Include="Packets\Crypto\PepperCrypto.cs" />
+    <Compile Include="Packets\Crypto\PepperFactory.cs" />
+    <Compile Include="Packets\Message.cs" />
+    <Compile Include="Packets\MessageFactory.cs" />
+    <Compile Include="Packets\Messages\Client\Authentification.cs" />
+    <Compile Include="Packets\Messages\Client\Client_Capabilities.cs" />
+    <Compile Include="Packets\Messages\Client\Execute_Commands.cs" />
+    <Compile Include="Packets\Messages\Client\Get_Device_Token.cs" />
+    <Compile Include="Packets\Messages\Client\Go_Home.cs" />
+    <Compile Include="Packets\Messages\Client\Ask_For_Joinable_Alliances.cs" />
+    <Compile Include="Packets\Messages\Client\Keep_Alive.cs" />
+    <Compile Include="Packets\Messages\Client\Pre_Authentification.cs" />
+    <Compile Include="Packets\Messages\Server\Authentification_Failed.cs" />
+    <Compile Include="Packets\Messages\Server\Authentification_OK.cs" />
+    <Compile Include="Packets\Messages\Server\Sector_State.cs" />
+    <Compile Include="Packets\Messages\Server\Disconnected.cs" />
+    <Compile Include="Packets\Messages\Server\Keep_Alive_OK.cs" />
+    <Compile Include="Packets\Messages\Server\Out_Of_Sync.cs" />
+    <Compile Include="Packets\Messages\Server\Own_Home_Data.cs" />
+    <Compile Include="Packets\Messages\Server\Pre_Authentification_OK.cs" />
+    <Compile Include="Packets\Messages\Server\Server_Capabilities.cs" />
+    <Compile Include="Packets\Messages\Server\Server_Error.cs" />
+    <Compile Include="Packets\Messages\Server\Server_Shutdown.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Packets\Commands\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>IF EXIST "$(TargetDir)Library\" RMDIR /S /Q "$(TargetDir)Library\"
+IF EXIST "$(TargetDir)Logs\" RMDIR /S /Q "$(TargetDir)Logs\"
+
+MKDIR "$(TargetDir)Library\"
+MKDIR "$(TargetDir)Logs\"</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>cd "$(TargetDir)"
+del /F /Q *.xml
+del /F /Q *.pdb
+move /Y *.dll "Library\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

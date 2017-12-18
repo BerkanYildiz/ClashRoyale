@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Files.Csv.Logic;
-    using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Csv.Logic;
 
     internal static class Leaderboards
     {

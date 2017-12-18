@@ -58,7 +58,7 @@
             }
 
             Clans.Entities      = new ConcurrentDictionary<long, Clan>();
-            Clans.HighSeed      = Constants.ServerId;
+            Clans.HighSeed      = Config.ServerId;
             Clans.LowSeed       = GameDb.GetClansSeed();
 
             Clans.Initialized   = true;

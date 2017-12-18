@@ -1,8 +1,8 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForBattleReplayStreamMessage : Message

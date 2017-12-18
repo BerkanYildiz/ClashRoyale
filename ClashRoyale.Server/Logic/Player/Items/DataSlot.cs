@@ -2,9 +2,9 @@
 {
     using System;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;

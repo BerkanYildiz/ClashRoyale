@@ -2,10 +2,10 @@
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Crypto.Randomizers;
-    using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Files.Csv.Logic;
-    using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Crypto.Randomizers;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Csv.Logic;
 
     internal class SpellSet
     {
@@ -74,13 +74,13 @@
         /// <summary>
         /// Gets a random spell.
         /// </summary>
-        internal SpellData GetRandomSpell(XorShift Random, RarityData Data)
+        internal SpellData GetRandomSpell(RarityData Data)
         {
             int Count = this.Spells[Data.Instance].Count;
 
             if (Count > 0)
             {
-                return this.Spells[Data.Instance][Random.Next(Count)];
+                return this.Spells[Data.Instance][XorShift.Next(Count)];
             }
 
             Logging.Warning(this.GetType(), "GetRandomSpell() - No spell found for rarity: " + Data.Name);

@@ -2,13 +2,15 @@
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Game;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Crypto.Randomizers;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Game;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Csv.Logic;
+    using ClashRoyale.Maths;
+
     using ClashRoyale.Server.Logic.Home.Spells;
-    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.Player;
 
     internal class Summoner : Character
@@ -276,7 +278,7 @@
 
                 while (N > 1)
                 {
-                    int K = Program.Random.Next(N + 1);
+                    int K = XorShift.Next(N + 1);
                     byte Value = Tmp[K];
                     Tmp[K] = Tmp[N];
                     Tmp[N] = Value;

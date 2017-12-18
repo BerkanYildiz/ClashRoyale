@@ -2,10 +2,10 @@ namespace ClashRoyale.Server.Network.Packets.Server
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.RoyalTV.Entry;
 
     internal class RoyalTvContentMessage : Message

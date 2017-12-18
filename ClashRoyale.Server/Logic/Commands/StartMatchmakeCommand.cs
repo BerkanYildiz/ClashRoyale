@@ -2,7 +2,6 @@
 {
     using ClashRoyale.Server.Logic.Battle.Manager;
     using ClashRoyale.Server.Logic.Home;
-    using ClashRoyale.Server.Logic.Manager;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Player;
     using ClashRoyale.Server.Network.Packets.Server;

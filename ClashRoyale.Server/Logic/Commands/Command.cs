@@ -1,9 +1,9 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Maths;
     using ClashRoyale.Server.Logic.Commands.Manager;
-    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.Mode;
 
     using Newtonsoft.Json.Linq;

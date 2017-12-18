@@ -2,14 +2,16 @@
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Crypto.Randomizers;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
+
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Alliance.Entries;
     using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class SearchAllianceMessage : Message
@@ -118,7 +120,7 @@
 
             foreach (var Alliance in Availables)
             {
-                if (Program.Random.NextBool())
+                if (XorShift.NextBool())
                 {
                     Alliances.Add(Alliance.HeaderEntry);
                 }

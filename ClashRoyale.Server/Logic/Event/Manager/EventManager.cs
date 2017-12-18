@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyale.Server.Logic.Event.Manager
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
 
     internal static class EventManager
     {

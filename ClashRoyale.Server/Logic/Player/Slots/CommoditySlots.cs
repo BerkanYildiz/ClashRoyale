@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Game;
-    using ClashRoyale.Server.Files.Csv;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Game;
+    using ClashRoyale.Files.Csv;
     using ClashRoyale.Server.Logic.Player.Enums;
     using ClashRoyale.Server.Logic.Player.Items;
 

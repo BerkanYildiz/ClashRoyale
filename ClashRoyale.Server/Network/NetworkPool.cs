@@ -10,11 +10,11 @@
         /// </summary>
         internal NetworkPool()
         {
-            for (int i = 0; i < Constants.MaxPlayers; i++)
+            for (int i = 0; i < Config.MaxPlayers; i++)
             {
                 var AsyncEvent = new SocketAsyncEventArgs();
 
-                AsyncEvent.SetBuffer(new byte[Constants.BufferSize], 0, Constants.BufferSize);
+                AsyncEvent.SetBuffer(new byte[Config.BufferSize], 0, Config.BufferSize);
                 AsyncEvent.DisconnectReuseSocket = true;
 
                 this.Enqueue(AsyncEvent);

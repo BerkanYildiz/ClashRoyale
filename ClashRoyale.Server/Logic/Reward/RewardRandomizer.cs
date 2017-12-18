@@ -2,12 +2,12 @@
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Crypto.Randomizers;
-    using ClashRoyale.Server.Extensions.Game;
-    using ClashRoyale.Server.Extensions.Utils;
-    using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Files.Csv.Logic;
-    using ClashRoyale.Server.Logic.Enums;
+    using ClashRoyale.Crypto.Randomizers;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions.Game;
+    using ClashRoyale.Extensions.Utils;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Home.Spells;
 
@@ -42,13 +42,13 @@
         /// <summary>
         /// Combines a list of spells.
         /// </summary>
-        internal static void CombineSpells(List<Spell> Spells, int Count, int[] CountByRarity, XorShift Random, Home Home)
+        internal static void CombineSpells(List<Spell> Spells, int Count, int[] CountByRarity, Home Home)
         {
             if (Count > 0)
             {
                 if (Spells.Count >= 2)
                 {
-                    int RndCatchupChance = Random.Next(100);
+                    int RndCatchupChance = XorShift.Next(100);
                     int CatchupChance = Globals.ChestCatchupChance;
 
                     int Multiplier1 = 500 * Spells.Count;
@@ -59,7 +59,7 @@
 
                     while (Spells.Count >= Count)
                     {
-                        int Rnd = Random.Next(Spells.Count);
+                        int Rnd = XorShift.Next(Spells.Count);
                         Spell Spell = Spells[Rnd];
                         SpellData SpellData = Spell.Data;
                         Spell Existing = Home.GetSpellByData(SpellData);
@@ -132,12 +132,12 @@
         /// <summary>
         /// Randomizes the reward.
         /// </summary>
-        internal static Reward RandomizeReward(Chest Chest, XorShift Random, Home Home)
+        internal static Reward RandomizeReward(Chest Chest, Home Home)
         {
             TreasureChestData ChestData = Chest.Data;
             Reward Reward = new Reward();
 
-            Reward.Spells = RewardRandomizer.RandomizeSpells(ChestData, Random, Home);
+            Reward.Spells = RewardRandomizer.RandomizeSpells(ChestData, Home);
 
             int MaxGold = ChestData.MaxGold;
             int MinGold = ChestData.MinGold;
@@ -150,7 +150,7 @@
                 }
                 else
                 {
-                    Reward.Gold = Random.Next(MinGold, MaxGold);
+                    Reward.Gold = XorShift.Next(MinGold, MaxGold);
                 }
             }
 
@@ -160,7 +160,7 @@
         /// <summary>
         /// Randomizes spells.
         /// </summary>
-        internal static List<Spell> RandomizeSpells(TreasureChestData Data, XorShift Random, Home Home)
+        internal static List<Spell> RandomizeSpells(TreasureChestData Data, Home Home)
         {
             List<Spell> Spells = new List<Spell>();
 
@@ -192,7 +192,7 @@
                         CountByRarity[I] = Cnt;
                         RandomSpellCount -= Cnt;
                         
-                        if (Random.Next(Chance) < Data.RandomSpellCount % Chance)
+                        if (XorShift.Next(Chance) < Data.RandomSpellCount % Chance)
                         {
                             ++CountByRarity[I];
                             --RandomSpellCount;
@@ -215,7 +215,7 @@
                         break;
                     }
 
-                    SpellData RandomSpellData = SpellSet.GetRandomSpell(Random, RaritiesTable.GetWithInstanceId<RarityData>(I));
+                    SpellData RandomSpellData = SpellSet.GetRandomSpell(RaritiesTable.GetWithInstanceId<RarityData>(I));
 
                     if (RandomSpellData != null)
                     {
@@ -252,7 +252,7 @@
                 }
             }
 
-            RewardRandomizer.CombineSpells(Spells, Data.DifferentSpellCount, CountByRarity, Random, Home);
+            RewardRandomizer.CombineSpells(Spells, Data.DifferentSpellCount, CountByRarity, Home);
 
             for (int I = 0; I < Spells.Count; I++)
             {

@@ -1,11 +1,11 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Client.Bind
 {
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Database;
     using ClashRoyale.Server.Database.Models;
-    using ClashRoyale.Server.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Apis;
-    using ClashRoyale.Server.Logic.Enums;
 
     using MongoDB.Driver;
 

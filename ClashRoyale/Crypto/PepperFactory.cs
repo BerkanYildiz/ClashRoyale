@@ -1,0 +1,39 @@
+﻿namespace ClashRoyale.Crypto
+{
+    using System.Collections.Generic;
+
+    using ClashRoyale.Crypto.Nacl;
+
+    public static class PepperFactory
+    {
+        public static readonly byte[] SupercellServerPublicKey =
+        {
+            0x99, 0xb6, 0x18, 0x76, 0xf3, 0xff, 0x18, 0xca, 0xec, 0xa0, 0xae, 0xc1, 0xf3, 0x26, 0xd9, 0x98,
+            0x1b, 0xbc, 0xaf, 0x64, 0xe7, 0xda, 0xa3, 0x17, 0xa7, 0xf1, 0x09, 0x66, 0x86, 0x7a, 0xf9, 0x68
+        };
+
+        public static byte[] ServerPublicKey
+        {
+            get
+            {
+                byte[] k = new byte[32];
+                Curve25519Xsalsa20Poly1305.CryptoBoxGetpublickey(k, PepperFactory.SupercellServerPublicKey);
+                return k;
+            }
+        }
+
+        public static readonly Dictionary<int, byte[]> ServerSecretKeys = new Dictionary<int, byte[]>
+        {
+            {
+                14,
+                new byte[]
+                {
+                    0x24, 0x95, 0xA0, 0x86, 0xF1, 0x08, 0x92, 0xD5,
+                    0x81, 0x58, 0x60, 0xEB, 0x2F, 0x66, 0x91, 0xF1,
+                    0x77, 0x18, 0x95, 0x1E, 0x18, 0x12, 0xBC, 0x94,
+                    0x25, 0xF5, 0x0A, 0x4B, 0x59, 0x14, 0xBA, 0xD9
+                }
+            }
+        };
+    }
+}

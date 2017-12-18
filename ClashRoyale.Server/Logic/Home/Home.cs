@@ -3,11 +3,11 @@ namespace ClashRoyale.Server.Logic.Home
     using System;
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Game;
-    using ClashRoyale.Server.Extensions.Helper;
-    using ClashRoyale.Server.Files.Csv;
-    using ClashRoyale.Server.Files.Csv.Logic;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Game;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Player;
@@ -17,7 +17,7 @@ namespace ClashRoyale.Server.Logic.Home
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using Math = ClashRoyale.Server.Logic.Math.Math;
+    using Math = ClashRoyale.Maths.Math;
 
     internal class Home
     {

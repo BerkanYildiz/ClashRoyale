@@ -78,7 +78,9 @@
 
             Program.Version.Write();
 
-            Console.ReadKey(false);
+            Console.WriteLine("[*] Done.");
+            System.Threading.Thread.Sleep(1000);
+            Environment.Exit(0);
         }
     }
 }

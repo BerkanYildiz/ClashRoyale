@@ -1,12 +1,12 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Alliance.Entries;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Commands.Server;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Player;
 
     internal class ChangeAllianceMemberRoleMessage : Message

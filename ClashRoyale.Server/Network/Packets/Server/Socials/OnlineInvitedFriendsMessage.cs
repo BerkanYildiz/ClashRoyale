@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
 
+    using ClashRoyale.Enums;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Player;
 
     internal class OnlineInvitedFriendsMessage : Message

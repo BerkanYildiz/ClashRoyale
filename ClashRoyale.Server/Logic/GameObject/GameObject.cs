@@ -2,11 +2,11 @@
 {
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Files.Csv;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Maths;
     using ClashRoyale.Server.Logic.GameObject.Component;
     using ClashRoyale.Server.Logic.GameObject.Manager;
-    using ClashRoyale.Server.Logic.Math;
 
     internal class GameObject
     {

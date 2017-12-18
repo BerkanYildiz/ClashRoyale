@@ -3,13 +3,13 @@
     using System;
     using System.Threading.Tasks;
 
-    using ClashRoyale.Server.Extensions;
-    using ClashRoyale.Server.Extensions.Game;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Game;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Alliance;
     using ClashRoyale.Server.Logic.Alliance.Stream;
     using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Enums;
     using ClashRoyale.Server.Logic.Player;
 
     internal class ChatToAllianceStreamMessage : Message

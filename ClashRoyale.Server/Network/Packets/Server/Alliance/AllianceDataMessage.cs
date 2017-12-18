@@ -1,8 +1,8 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
+    using ClashRoyale.Enums;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Alliance;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class AllianceDataMessage : Message
     {

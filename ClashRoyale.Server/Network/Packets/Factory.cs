@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Network.Packets.Client;
     using ClashRoyale.Server.Network.Packets.Server;
@@ -16,8 +16,6 @@
         internal const char Delimiter = '/';
 
         internal static readonly Dictionary<short, Type> Messages    = new Dictionary<short, Type>();
-        internal static readonly Dictionary<short, Type> UdpMessages = new Dictionary<short, Type>();
-        internal static readonly Dictionary<string, Type> Debugs     = new Dictionary<string, Type>();
 
         /// <summary>
         /// Initializes this instance.
@@ -92,12 +90,6 @@
             Factory.Messages.Add(24135, typeof(KeepAliveServerMessage));
             Factory.Messages.Add(25880, typeof(VisitedHomeDataMessage));
             Factory.Messages.Add(28502, typeof(OwnHomeDataMessage));
-
-            // -- UDP --
-
-            Factory.UdpMessages.Add(10108, typeof(UdpCheckConnectionMessage));
-            Factory.UdpMessages.Add(12903, typeof(RequestSectorStateMessage));
-            Factory.UdpMessages.Add(12904, typeof(SectorCommandMessage));
         }
 
         /// <summary>
@@ -105,12 +97,12 @@
         /// </summary>
         internal static Message CreateMessage(short Type, Device Device, ByteStream Stream)
         {
-            if (Factory.Messages.TryGetValue(Type, out Type TMessage))
+            if (Factory.Messages.TryGetValue(Type, out Type Message))
             {
-                return (Message) Activator.CreateInstance(TMessage, Device, Stream);
+                return (Message) Activator.CreateInstance(Message, Device, Stream);
             }
 
-            Logging.Warning(typeof(Factory), "Message type " + Type + " does not exist.");
+            Logging.Warning(typeof(Factory), "Messages.TryGetValue(" + Type + ", out Message) != true at CreateMessage(Type, Device, Stream).");
 
             return null;
         }

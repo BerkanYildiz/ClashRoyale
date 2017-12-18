@@ -1,9 +1,9 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
-    using ClashRoyale.Server.Extensions;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Maths;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
-    using ClashRoyale.Server.Logic.Math;
     using ClashRoyale.Server.Logic.Scoring;
     using ClashRoyale.Server.Network.Packets.Server;
 

@@ -2,8 +2,8 @@ namespace ClashRoyale.Server.Network.Packets.Server
 {
     using System.Text;
 
+    using ClashRoyale.Enums;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Enums;
 
     internal class ServerErrorMessage : Message
     {

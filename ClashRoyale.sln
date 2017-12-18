@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Server", "ClashRoyale.Server\ClashRoyale.Server.csproj", "{2195C41C-B2E2-4763-8F7F-F34D1F9B9C0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Server", "ClashRoyale.Server\ClashRoyale.Server.csproj", "{D37FC105-EF32-4B9E-B347-1436D72693EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Patcher", "ClashRoyale.Patcher\ClashRoyale.Patcher.csproj", "{15A935B7-D610-435E-9ADE-5EB8FCD004EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Client", "ClashRoyale.Client\ClashRoyale.Client.csproj", "{2E4B7DBB-E124-4802-8304-8CDCC716CD86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Proxy", "ClashRoyale.Proxy\ClashRoyale.Proxy.csproj", "{F3008EEB-87AC-4265-BC28-046B2D426F12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale", "ClashRoyale\ClashRoyale.csproj", "{BED31336-C114-4E3B-9251-590EA24B223F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2195C41C-B2E2-4763-8F7F-F34D1F9B9C0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2195C41C-B2E2-4763-8F7F-F34D1F9B9C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2195C41C-B2E2-4763-8F7F-F34D1F9B9C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2195C41C-B2E2-4763-8F7F-F34D1F9B9C0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D37FC105-EF32-4B9E-B347-1436D72693EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D37FC105-EF32-4B9E-B347-1436D72693EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D37FC105-EF32-4B9E-B347-1436D72693EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D37FC105-EF32-4B9E-B347-1436D72693EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15A935B7-D610-435E-9ADE-5EB8FCD004EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15A935B7-D610-435E-9ADE-5EB8FCD004EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15A935B7-D610-435E-9ADE-5EB8FCD004EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15A935B7-D610-435E-9ADE-5EB8FCD004EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E4B7DBB-E124-4802-8304-8CDCC716CD86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E4B7DBB-E124-4802-8304-8CDCC716CD86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E4B7DBB-E124-4802-8304-8CDCC716CD86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E4B7DBB-E124-4802-8304-8CDCC716CD86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3008EEB-87AC-4265-BC28-046B2D426F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3008EEB-87AC-4265-BC28-046B2D426F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3008EEB-87AC-4265-BC28-046B2D426F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3008EEB-87AC-4265-BC28-046B2D426F12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BED31336-C114-4E3B-9251-590EA24B223F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED31336-C114-4E3B-9251-590EA24B223F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED31336-C114-4E3B-9251-590EA24B223F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED31336-C114-4E3B-9251-590EA24B223F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

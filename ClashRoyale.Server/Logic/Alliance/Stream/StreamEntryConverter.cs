@@ -2,7 +2,7 @@
 {
     using System;
 
-    using ClashRoyale.Server.Extensions.Helper;
+    using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Server.Logic.Alliance.Stream.Factory;
     using ClashRoyale.Server.Logic.Home.Spells;
 
