@@ -51,7 +51,7 @@
         /// <param name="HexaString">The hexa string.</param>
         public static byte[] HexaToBytes(this string HexaString)
         {
-            string TrimmedHexa = HexaString.Replace("-", string.Empty).Replace(" ", string.Empty);
+            string TrimmedHexa = HexaString.Replace("-", string.Empty).Replace(" ", string.Empty).Replace("\t", string.Empty);
             return Enumerable.Range(0, TrimmedHexa.Length).Where(X => X % 2 == 0) .Select(X => Convert.ToByte(TrimmedHexa.Substring(X, 2), 16)).ToArray();
         }
     }
