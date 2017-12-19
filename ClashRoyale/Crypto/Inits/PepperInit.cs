@@ -9,6 +9,7 @@
         public byte[] SharedKey;
         public byte[] SessionKey;
         public byte[] ClientPublicKey;
+        public byte[] ClientSecretKey;
         public byte[] ServerPublicKey;
     }
 }

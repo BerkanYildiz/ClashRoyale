@@ -16,6 +16,18 @@
             return Packet;
         }
 
+        public static byte[] SendPepperAuthentification(ref PepperInit Init, byte[] Packet)
+        {
+            ++Init.State;
+            return Packet;
+        }
+
+        public static byte[] HandlePepperAuthentificationResponse(ref PepperInit Init, byte[] Packet)
+        {
+            ++Init.State;
+            return Packet;
+        }
+
         public static byte[] HandlePepperLogin(ref PepperInit Init, byte[] Packet)
         {
             if (Packet.Length >= 32)
@@ -59,6 +71,76 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Sends the pepper login.
+        /// </summary>
+        public static byte[] SendPepperLogin(ref PepperInit Init, byte[] Packet)
+        {
+            ++Init.State;
+
+            Init.Nonce           = new byte[24];
+            Init.ClientPublicKey = new byte[32];
+            Init.ClientSecretKey = new byte[32];
+
+            Array.Copy(Init.ServerPublicKey, Init.ClientPublicKey, 32);
+
+            Curve25519Xsalsa20Poly1305.CryptoBoxKeypair(Init.ClientPublicKey, Init.ClientSecretKey);
+
+            byte[] Encrypted = new byte[Packet.Length + 32 + 48];
+
+            Array.Copy(Init.SessionKey, 0, Encrypted, 32, 24);
+            Array.Copy(Init.Nonce, 0, Encrypted, 32 + 24, 24);
+            Array.Copy(Packet, 0, Encrypted, 32 + 48, Packet.Length);
+
+            Blake2BHasher Blake2B = new Blake2BHasher();
+
+            Blake2B.Update(Init.ClientPublicKey);
+            Blake2B.Update(Init.ServerPublicKey);
+
+            Curve25519Xsalsa20Poly1305.CryptoBox(Encrypted, Encrypted, Blake2B.Finish(), Init.ServerPublicKey, Init.ClientSecretKey);
+
+            Packet = new byte[Encrypted.Length + 16];
+
+            Array.Copy(Init.ClientPublicKey, Packet, 32);
+            Array.Copy(Encrypted, 16, Packet, 32, Packet.Length - 32);
+
+            return Packet;
+        }
+
+        /// <summary>
+        /// Handles the pepper login response.
+        /// </summary>
+        public static byte[] HandlePepperLoginResponse(ref PepperInit Init, byte[] Packet, out IEncrypter SendEncrypter, out IEncrypter ReceiveEncrypter)
+        {
+            ++Init.State;
+
+            byte[] Decrypted = new byte[Packet.Length + 16];
+
+            Array.Copy(Packet, 0, Decrypted, 16, Packet.Length);
+
+            Blake2BHasher Blake2B = new Blake2BHasher();
+
+            Blake2B.Update(Init.Nonce);
+            Blake2B.Update(Init.ClientPublicKey);
+            Blake2B.Update(Init.ServerPublicKey);
+
+            Curve25519Xsalsa20Poly1305.CryptoBoxOpen(Decrypted, Decrypted, Blake2B.Finish(), Init.ServerPublicKey, Init.ClientSecretKey);
+
+            byte[] SecretKey = new byte[32];
+            byte[] ReceiveNonce = new byte[24];
+
+            Packet = new byte[Decrypted.Length - 32 - 56];
+
+            Array.Copy(Decrypted, 32, ReceiveNonce, 0, 24);
+            Array.Copy(Decrypted, 32 + 24, SecretKey, 0, 32);
+            Array.Copy(Decrypted, 32 + 24 + 32, Packet, 0, Packet.Length);
+
+            SendEncrypter = new PepperEncrypter(Init.Nonce, SecretKey);
+            ReceiveEncrypter = new PepperEncrypter(ReceiveNonce, SecretKey);
+
+            return Packet;
         }
 
         /// <summary>

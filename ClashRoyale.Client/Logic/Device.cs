@@ -1,184 +1,86 @@
 ﻿namespace ClashRoyale.Client.Logic
 {
     using System;
-    using System.Diagnostics;
-    using System.Net.Sockets;
+    using System.Threading;
 
-    using ClashRoyale.Client.Core.Network;
-    using ClashRoyale.Client.Logic.Enums;
-    using ClashRoyale.Client.Packets;
-    using ClashRoyale.Client.Packets.Crypto;
-    using ClashRoyale.Client.Packets.Crypto.Encrypter;
-    using ClashRoyale.Client.Packets.Crypto.Init;
+    using ClashRoyale.Client.Network;
+    using ClashRoyale.Client.Network.Packets.Client;
+    using ClashRoyale.Crypto.Encrypters;
+    using ClashRoyale.Crypto.Inits;
+    using ClashRoyale.Enums;
+
+    using Timer = System.Timers.Timer;
 
     internal class Device
     {
-        internal Socket Socket;
-        internal Token Token;
-        internal Client Client;
+        internal int BotId;
+
+        internal NetworkManager NetworkManager;
+        internal NetworkToken   Network;
+
+        internal Timer Timer;
+        internal PepperInit PepperInit;
 
         internal IEncrypter SendEncrypter;
         internal IEncrypter ReceiveEncrypter;
-
-        internal RC4Init RC4Init;
-        internal PepperInit PepperInit;
-        
-        internal State State = State.DISCONNECTED;
+        internal State State;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Device"/> class.
         /// </summary>
-        internal Device()
+        internal Device(NetworkToken Network)
         {
-            this.Token      = new Token(new SocketAsyncEventArgs(), this);
+            this.PepperInit     = new PepperInit();
+            this.NetworkManager = new NetworkManager(this);
+            this.Network        = Network; 
+
+            this.Network.SetDevice(this);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Device"/> class.
+        /// Connects this instance to the official server.
         /// </summary>
-        /// <param name="Socket">The socket.</param>
-        internal Device(Socket Socket, Client Client) : this()
+        internal void Connect()
         {
-            this.Socket     = Socket;
-            this.Client     = Client;
-        }
+            this.NetworkManager.Connect("game.clashroyaleapp.com", 9339);
 
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="Device"/> is connected.
-        /// </summary>
-        /// <value>
-        ///   True if connected, false if disconnected.
-        /// </value>
-        internal bool Connected
-        {
-            get
+            if (this.Network.IsConnected)
             {
-                if (this.State == State.DISCONNECTED)
+                this.NetworkManager.SendMessage(new LoginMessage(this));
+                this.NetworkManager.Receive();
+
+                while (this.State != State.Logged)
                 {
-                    return false;
+                    Thread.Sleep(100);
                 }
 
-                if (this.Socket.Connected)
-                {
-                    return true;
-
-                    try
-                    {
-                        if (!this.Socket.Poll(1000, SelectMode.SelectRead) || this.Socket.Available != 0)
-                        {
-                            return true;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        return false;
-                    }
-                }
-
-                return false;
+                Logging.Info(this.GetType(), "[" + this.BotId + "] Success, the bot is logged.");
+            }
+            else
+            {
+                Logging.Info(this.GetType(), "[" + this.BotId + "] Warning, we are not connected to the game server.");
             }
         }
 
         /// <summary>
-        /// Processes the specified buffer.
+        /// Keeps the alive.
         /// </summary>
-        /// <param name="Buffer">The buffer.</param>
-        internal void Process(byte[] Buffer)
+        internal void KeepAlive()
         {
-            if (Buffer.Length >= 7)
+            this.Timer = new Timer();
+            this.Timer.AutoReset = true;
+            this.Timer.Interval = TimeSpan.FromSeconds(5).TotalMilliseconds;
+            this.Timer.Elapsed += (Gobelin, Land) =>
             {
-                using (Reader Reader = new Reader(Buffer))
+                if (this.Network.IsConnected)
                 {
-                    Debug.WriteLine("[*] Encrypted : " + BitConverter.ToString(Buffer) + ".");
-
-                    ushort Identifier   = Reader.ReadUInt16();
-                    int Length          = Reader.ReadInt24();
-                    ushort Version      = Reader.ReadUInt16();
-
-                    byte[] Encrypted    = Reader.ReadBytes(Length);
-                    byte[] Packet       = null;
-
-                    if (Buffer.Length - 7 >= Length)
+                    if (this.State >= State.Login)
                     {
-                        if (this.ReceiveEncrypter == null)
-                        {
-                            if (this.PepperInit.State == 1)
-                            {
-                                if (Identifier == 20100)
-                                {
-                                    Packet = PepperCrypto.HandlePepperAuthentificationResponse(ref this.PepperInit, Encrypted);
-                                }
-                                else
-                                {
-                                    Packet = Encrypted;
-                                }
-                            }
-                            else
-                            {
-                                if (this.PepperInit.State == 3)
-                                {
-                                    if (Identifier == 20103 || Identifier == 22280)
-                                    {
-                                        Packet = PepperCrypto.HandlePepperLoginResponse(ref this.PepperInit, Encrypted, out this.SendEncrypter, out this.ReceiveEncrypter);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Packet = this.ReceiveEncrypter.Decrypt(Encrypted);
-                        }
-
-                        if (Packet != null)
-                        {
-                            Debug.WriteLine("[*] " + Identifier + " : " + BitConverter.ToString(Packet));
-
-                            if (MessageFactory.Messages.ContainsKey(Identifier))
-                            {
-                                Message Message = (Message) Activator.CreateInstance(MessageFactory.Messages[Identifier], this, new Reader(Packet));
-
-                                Debug.WriteLine("[*] We received the following message : " + Message.GetType().Name + ", Version " + Version + ".");
-
-                                Message.Identifier  = Identifier;
-                                Message.Length      = (uint) Length;
-                                Message.Version     = Version;
-
-                                try
-                                {
-                                    Message.Decode();
-                                    Message.Process();
-                                }
-                                catch (Exception Exception)
-                                {
-                                    Debug.WriteLine("[*] " + Exception.GetType().Name + " when processing " + Message.GetType().Name + ".");
-                                }
-                            }
-                            else
-                            {
-                                Debug.WriteLine("[*] We can't handle the following message : ID " + Identifier + ", Length " + Length + ", Version " + Version + ".");
-
-                                byte[] AltBuffer = Reader.ReadBytes((int) Length);
-                                this.Crypto.Decrypt(ref AltBuffer);
-                                AltBuffer = null;
-                            }
-                        }
-                        else
-                        {
-                            Debug.WriteLine("[*] Unable to decrypt message type " + Identifier + ".");
-                        }
-
-                        if (!this.Token.Aborting)
-                        {
-                            this.Token.Packet.RemoveRange(0, (int)(Length + 7));
-
-                            if (Buffer.Length - 7 - Length >= 7)
-                            {
-                                this.Process(Reader.ReadBytes((int)(Buffer.Length - 7 - Length)));
-                            }
-                        }
+                        this.NetworkManager.SendMessage(new KeepAliveMessage(this));
                     }
                 }
-            }
+            };
+            this.Timer.Start();
         }
     }
 }

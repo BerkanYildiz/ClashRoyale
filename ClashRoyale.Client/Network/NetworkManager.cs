@@ -1,22 +1,20 @@
-﻿namespace ClashRoyale.Server.Network
+﻿namespace ClashRoyale.Client.Network
 {
     using System;
     using System.Net;
 
+    using ClashRoyale.Client.Logic;
+    using ClashRoyale.Client.Network.Packets;
     using ClashRoyale.Crypto;
     using ClashRoyale.Crypto.Encrypters;
     using ClashRoyale.Crypto.Inits;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Maths;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Structures;
-    using ClashRoyale.Server.Network.Packets;
 
     internal class NetworkManager
     {
         internal Device Device;
-        internal RequestTime RequestTime;
         internal LogicLong AccountId;
 
         internal int Ping;
@@ -62,60 +60,37 @@
         /// <summary>
         /// Receives the message.
         /// </summary>
-        internal void ReceiveMessage(short Type, short Version, byte[] Packet)
+        internal void ReceiveMessage(short Type, short Version, byte[] Encrypted)
         {
+            byte[] Packet = null;
+
             if (this.ReceiveEncrypter == null)
             {
-                if (this.PepperInit.State == 0)
+                if (this.PepperInit.State == 1)
                 {
-                    if (Type == 10101)
+                    if (Type == 20100)
                     {
-                        this.SendEncrypter      = new Rc4Encrypter("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
-                        this.ReceiveEncrypter   = new Rc4Encrypter("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
-
-                        Packet = this.ReceiveEncrypter.Decrypt(Packet);
-                    }
-                    else if (Type == 10100)
-                    {
-                        Packet = PepperCrypto.HandlePepperAuthentification(ref this.PepperInit, Packet);
-                    }
-                    else
-                    {
-                        Packet = null;
+                        Packet = PepperCrypto.HandlePepperAuthentificationResponse(ref this.PepperInit, Encrypted);
                     }
                 }
                 else
                 {
-                    if (this.PepperInit.State == 2)
+                    if (this.PepperInit.State == 3)
                     {
-                        Packet = Type == 10101 ? PepperCrypto.HandlePepperLogin(ref this.PepperInit, Packet) : null;
-                    }
-                    else
-                    {
-                        Packet = null;
+                        if (Type == 20103 || Type == 22280)
+                        {
+                            Packet = PepperCrypto.HandlePepperLoginResponse(ref this.PepperInit, Encrypted, out this.SendEncrypter, out this.ReceiveEncrypter);
+                        }
                     }
                 }
             }
             else
             {
-                Packet = this.ReceiveEncrypter.Decrypt(Packet);
+                Packet = this.ReceiveEncrypter.Decrypt(Encrypted);
             }
 
             if (Packet != null)
             {
-                if (this.Device.State != State.Logged)
-                {
-                    if (Type != 10100 && Type != 10101)
-                    {
-                        if (++this.InvalidMessageStateCnt >= 5)
-                        {
-                            TcpGateway.Disconnect(this.Device.Network.AsyncEvent);
-                        }
-
-                        return;
-                    }
-                }
-
                 using (ByteStream Stream = new ByteStream(Packet))
                 {
                     Message Message = Factory.CreateMessage(Type, this.Device, Stream);
@@ -160,31 +135,29 @@
                 {
                     Message.Encode();
 
-                    byte[] Bytes = Message.Stream.ToArray();
+                    byte[] Decrypted = Message.Stream.ToArray();
+                    byte[] Encrypted = null;
 
-                    if (this.SendEncrypter == null)
+                    if (Device.SendEncrypter != null)
                     {
-                        if (this.PepperInit.State > 0)
-                        {
-                            if (this.PepperInit.State == 1)
-                            {
-                                Bytes = PepperCrypto.SendPepperAuthentificationResponse(ref this.PepperInit, Bytes);
-                            }
-                            else
-                            {
-                                if (this.PepperInit.State == 3)
-                                {
-                                    Bytes = PepperCrypto.SendPepperLoginResponse(ref this.PepperInit, out this.SendEncrypter, out this.ReceiveEncrypter, Bytes);
-                                }
-                            }
-                        }
+                        Encrypted = Device.SendEncrypter.Encrypt(Decrypted);
                     }
                     else
                     {
-                        Bytes = this.SendEncrypter.Encrypt(Bytes);
+                        if (Device.PepperInit.State > 0)
+                        {
+                            if (Device.PepperInit.State == 2)
+                            {
+                                Encrypted = PepperCrypto.SendPepperLogin(ref Device.PepperInit, Decrypted);
+                            }
+                        }
+                        else
+                        {
+                            Encrypted = PepperCrypto.SendPepperAuthentification(ref Device.PepperInit, Decrypted);
+                        }
                     }
 
-                    Message.Stream.SetByteArray(Bytes);
+                    Message.Stream.SetByteArray(Encrypted);
 
                     TcpGateway.Send(Message);
 

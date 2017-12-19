@@ -3,6 +3,7 @@
     using System.Collections.Generic;
 
     using ClashRoyale.Crypto.Nacl;
+    using ClashRoyale.Extensions;
 
     public static class PepperFactory
     {
@@ -25,14 +26,10 @@
         public static readonly Dictionary<int, byte[]> ServerSecretKeys = new Dictionary<int, byte[]>
         {
             {
-                14,
-                new byte[]
-                {
-                    0x24, 0x95, 0xA0, 0x86, 0xF1, 0x08, 0x92, 0xD5,
-                    0x81, 0x58, 0x60, 0xEB, 0x2F, 0x66, 0x91, 0xF1,
-                    0x77, 0x18, 0x95, 0x1E, 0x18, 0x12, 0xBC, 0x94,
-                    0x25, 0xF5, 0x0A, 0x4B, 0x59, 0x14, 0xBA, 0xD9
-                }
+                14, "98 0C F7 BB 72 62 B3 86 FE A6 10 34 AB A7 37 06 13 62 79 19 66 6B 34 E6 EC F6 63 07 A3 81 DD 61".HexaToBytes()
+            },
+            {
+                15, "99 b6 18 76 f3 ff 18 ca ec a0 ae c1 f3 26 d9 98 1b bc af 64 e7 da a3 17 a7 f1 09 66 86 7a f9 68".HexaToBytes()
             }
         };
     }
