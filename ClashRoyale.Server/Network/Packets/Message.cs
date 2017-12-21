@@ -119,7 +119,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the packet data, in/from a byte array.
+        /// Gets the packet data, in/from a byte array.
         /// </summary>
         /// <returns>The packet data, in a byte array, header included.</returns>
         internal byte[] ToBytes
@@ -139,6 +139,17 @@
                 }
 
                 return Buffer;
+            }
+        }
+
+        /// <summary>
+        /// Gets the packet data, in/from an hexa string.
+        /// </summary>
+        internal string ToHexa
+        {
+            get
+            {
+                return BitConverter.ToString(this.Stream.ToArray(this.Stream.Offset, this.Stream.BytesLeft));
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
     using ClashRoyale.Extensions;
-    using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Mode;
@@ -9,8 +8,6 @@
 
     internal class BuyChestCommand : Command
     {
-        private TreasureChestData ChestData;
-
         /// <summary>
         /// Gets the type of this command.
         /// </summary>
@@ -18,9 +15,11 @@
         {
             get
             {
-                return 516;
+                return 539;
             }
         }
+
+        private int ChestIndex;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BuyChestCommand"/> class.
@@ -36,7 +35,7 @@
         internal override void Decode(ByteStream Stream)
         {
             base.Decode(Stream);
-            this.ChestData = Stream.DecodeData<TreasureChestData>();
+            this.ChestIndex = Stream.ReadVInt();
         }
 
         /// <summary>
@@ -45,7 +44,7 @@
         internal override void Encode(ChecksumEncoder Stream)
         {
             base.Encode(Stream);
-            Stream.EncodeData(this.ChestData);
+            Stream.WriteVInt(this.ChestIndex);
         }
 
         /// <summary>
@@ -53,29 +52,31 @@
         /// </summary>
         internal override byte Execute(GameMode GameMode)
         {
-            if (this.ChestData != null)
+            if (this.ChestIndex < 3)
             {
-                Home Home = GameMode.Home;
+                Home Home     = GameMode.Home;
                 Player Player = GameMode.Player;
 
                 if (Home != null && Player != null)
                 {
-                    if (this.ChestData.ArenaData != null)
+                    TreasureChestData ChestData = null; // TODO : Retrieve the chest at the specified index in the shop.
+
+                    if (ChestData.ArenaData != null)
                     {
-                        if (!this.ChestData.ArenaData.TrainingCamp)
+                        if (!ChestData.ArenaData.TrainingCamp)
                         {
-                            if (this.ChestData.ArenaData == Player.Arena.ChestArenaData)
+                            if (ChestData.ArenaData == Player.Arena.ChestArenaData)
                             {
-                                if (this.ChestData.InShop)
+                                if (ChestData.InShop)
                                 {
-                                    int Cost = this.ChestData.ShopPrice;
+                                    int Cost = ChestData.ShopPrice;
                                     
                                     if (Player.HasEnoughDiamonds(Cost))
                                     {
                                         if (Home.PurchasedChest == null)
                                         {
                                             Player.UseDiamonds(Cost);
-                                            Home.ChestPurchased(this.ChestData, 3);
+                                            Home.ChestPurchased(ChestData, 3);
 
                                             return 0;
                                         }

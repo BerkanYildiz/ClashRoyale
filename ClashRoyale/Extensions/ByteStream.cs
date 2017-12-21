@@ -7,12 +7,11 @@
     {
         protected byte[] Buffer;
 
-        protected int Offset;
         protected int BooleanOffset;
         protected int BooleanAdditionalValue;
 
         /// <summary>
-        /// Gets the offset of stream.
+        /// Gets the length of the stream.
         /// </summary>
         public int Length
         {
@@ -20,6 +19,15 @@
             {
                 return this.Buffer.Length;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the offset of the stream.
+        /// </summary>
+        public int Offset
+        {
+            get;
+            set;
         }
 
         /// <summary>

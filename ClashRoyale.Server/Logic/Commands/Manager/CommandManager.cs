@@ -130,12 +130,20 @@
         /// </summary>
         internal static Command CreateCommand(int Type)
         {
-            /* if (Type == 1000)
+            if (Type == 1000)
             {
-                Logging.Error(typeof(CommandManager), "CreateCommand() - Debug command is not allowed when debug is off.");
+                if (Config.IsDevelopment)
+                {
+                    // TODO : Handle DebugCommand().
+                }
+                else
+                {
+                    Logging.Error(typeof(CommandManager), "CreateCommand() - Debug command is not allowed when debug is off.");
+                }
             }
+
             
-            if (Type < 300)
+            /* if (Type < 300)
             {
                 if (Type >= 200)
                 {
@@ -165,31 +173,38 @@
                     case 1:
                         return new DoSpellCommand();
                 }
-            }
+            } */
 
             switch (Type)
             {
-                case 500:
+                
+                case 505:
                     return new SwapSpellsCommand();
-                case 501:
+                /* case 508:
+                    return new UpdateLastShownLevelUpCommand(); */
+                case 511:
+                    return new BuyResourcePackCommand();
+                case 512:
                     return new SelectDeckCommand();
-                case 504:
-                    return new FuseSpellsCommand();
-                case 508:
-                    return new UpdateLastShownLevelUpCommand();
-                case 513:
-                    return new SpellPageOpenedCommand();
-                case 516:
-                    return new BuyChestCommand();
-                case 523:
+                /* case 513:
+                    return new SpellPageOpenedCommand(); */
+                case 517:
+                    return new SpellSeenCommand();
+                /* case 523:
                     return new ClaimAchievementRewardCommand();
                 case 525:
                     return new StartMatchmakeCommand();
                 case 526:
                     return new RefreshAchievementsCommand();
                 case 527:
-                    return new PageOpenedCommand();
-            } */
+                    return new PageOpenedCommand(); */
+                case 539:
+                    return new BuyChestCommand();
+                case 544:
+                    return new BuySpellCommand();
+                case 592:
+                    return new FuseSpellsCommand();
+            }
 
             Logging.Info(typeof(CommandManager), "CreateCommand() - Command type " + Type + " does not exist.");
 
@@ -243,7 +258,7 @@
 
                         if (!this.IsCommandAllowedInCurrentState(Command))
                         {
-                            // Debugger.Error("Execute command failed! Command not allowed in current state. (type=" + Command.Type + " current_state=" + (int) this.GameMode.State + ")");
+                            Logging.Error(this.GetType(), "IsCommandAllowedInCurrentState(Command, " + this.GameMode.State +") != true at " + Command.GetType().Name + "().");
                             this.Queue.RemoveAt(I--);
                             continue;
                         }
@@ -252,7 +267,7 @@
 
                         if (FailCode != 0)
                         {
-                            // Debugger.Warning("Failed to execute command: " + Command.Type + " failCode: " + FailCode);
+                            Logging.Warning(Command.GetType(), "FailCode == " + FailCode + " at Execute(GameMode).");
                         }
                         else
                         {

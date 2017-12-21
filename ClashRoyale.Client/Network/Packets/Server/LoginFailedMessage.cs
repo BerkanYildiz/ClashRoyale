@@ -57,8 +57,6 @@
         /// </summary>
         internal override void Decode()
         {
-            Logging.Info(this.GetType(), "Buffer : " + BitConverter.ToString(this.Stream.ReadBytesWithoutLength(this.Stream.BytesLeft)));
-            return;
             this.Reason         = (Reason) this.Stream.ReadVInt();
 
             this.Fingerprint    = this.Stream.ReadString();

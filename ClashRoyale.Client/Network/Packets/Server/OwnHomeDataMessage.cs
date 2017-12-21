@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Client.Network.Packets.Server
 {
     using ClashRoyale.Client.Logic;
+    using ClashRoyale.Client.Network.Packets.Client;
     using ClashRoyale.Extensions;
 
     internal class OwnHomeDataMessage : Message
@@ -13,6 +14,14 @@
         public OwnHomeDataMessage(Bot Bot, ByteStream Stream) : base(Bot, Stream)
         {
             // OwnHomeDataMessage.
+        }
+
+        /// <summary>
+        /// Processes this instance.
+        /// </summary>
+        internal override void Process()
+        {
+            this.Bot.Network.SendMessage(new RequestApiKeyMessage(this.Bot));
         }
     }
 }

@@ -3,8 +3,9 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Network.Packets.Server;
 
-    internal class ClientCapabilitiesMessage : Message
+    internal class RequestApiMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
@@ -13,7 +14,7 @@
         {
             get
             {
-                return 11688;
+                return 15080;
             }
         }
 
@@ -28,26 +29,14 @@
             }
         }
 
-        private int Ping;
-        private string Interface;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientCapabilitiesMessage"/> class.
+        /// Initializes a new instance of the <see cref="RequestApiMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
         /// <param name="ByteStream">The byte stream.</param>
-        public ClientCapabilitiesMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public RequestApiMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
         {
-            // ClientCapabilitiesMessage.
-        }
-
-        /// <summary>
-        /// Decodes this instance.
-        /// </summary>
-        internal override void Decode()
-        {
-            this.Ping = this.Stream.ReadVInt();
-            this.Interface = this.Stream.ReadString();
+            // RequestApiMessage.
         }
 
         /// <summary>
@@ -55,8 +44,7 @@
         /// </summary>
         internal override void Process()
         {
-            this.Device.NetworkManager.Ping = this.Ping;
-            this.Device.NetworkManager.ConnectionInterface = this.Interface;
+            this.Device.NetworkManager.SendMessage(new RequestApiDataMessage(this.Device));
         }
     }
 }

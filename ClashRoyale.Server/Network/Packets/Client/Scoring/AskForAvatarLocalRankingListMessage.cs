@@ -74,6 +74,12 @@
         internal override void Process()
         {
             LeaderboardPlayers Leaderboard = Leaderboards.GetRegionalPlayers(this.Device.Defines.Region);
+
+            if (Leaderboard == null)
+            {
+                Leaderboard = new LeaderboardPlayers();
+            }
+
             this.Device.NetworkManager.SendMessage(new AvatarLocaleRankingListMessage(this.Device, Leaderboard));
         }
     }

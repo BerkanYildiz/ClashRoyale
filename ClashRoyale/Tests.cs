@@ -15,7 +15,7 @@
         }
 
         /// <summary>
-        /// .
+        /// Turns an integer to a VInt and dumps the result.
         /// </summary>
         /// <param name="Integer">The integer.</param>
         public static void IntToVInt(int Integer)
@@ -32,7 +32,7 @@
         }
 
         /// <summary>
-        /// Turns a VInt to an integer and dumps the result
+        /// Turns a VInt to an integer and dumps the result.
         /// </summary>
         /// <param name="VInt">The VInt in hexa.</param>
         public static void VIntToInt(string VInt)

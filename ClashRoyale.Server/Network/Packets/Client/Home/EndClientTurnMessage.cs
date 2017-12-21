@@ -10,6 +10,7 @@
     using ClashRoyale.Server.Logic.Commands;
     using ClashRoyale.Server.Logic.Commands.Manager;
     using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class EndClientTurnMessage : Message
     {
@@ -125,8 +126,7 @@
                 }
             }
 
-            /* 
-            if (this.Device.GameMode.State == HomeState.Home)
+            /* if (this.Device.GameMode.State == HomeState.Home)
             {
                 if (this.Checksum != this.Device.GameMode.Checksum)
                 {

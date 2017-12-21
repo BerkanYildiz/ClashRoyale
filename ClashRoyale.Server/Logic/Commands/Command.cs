@@ -1,5 +1,7 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
+    using System;
+
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Maths;
@@ -130,6 +132,14 @@
             Clone.Decode(Encoder.ByteStream);
 
             return Clone;
+        }
+
+        /// <summary>
+        /// Gets the packet data, in/from an hexa string.
+        /// </summary>
+        internal string ToHexa(ByteStream Stream)
+        {
+            return BitConverter.ToString(Stream.ToArray(Stream.Offset, Stream.BytesLeft));
         }
     }
 }

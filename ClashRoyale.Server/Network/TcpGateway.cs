@@ -53,7 +53,7 @@
 
             Initialized         = true;
 
-            Listener.Bind(new IPEndPoint(IPAddress.Any, 9339));
+            Listener.Bind(new IPEndPoint(IPAddress.Parse("192.168.0.50"), 9339));
             Listener.Listen(150);
 
             Logging.Info(typeof(TcpGateway), "Listener has been bound to " + TcpGateway.Listener.LocalEndPoint + ".");

@@ -177,7 +177,9 @@
     <Compile Include="Logic\Commands\RefreshAchievementsCommand.cs" />
     <Compile Include="Logic\Commands\ClaimAchievementRewardCommand.cs" />
     <Compile Include="Logic\Commands\SpellPageOpenedCommand.cs" />
+    <Compile Include="Logic\Commands\BuySpellCommand.cs" />
     <Compile Include="Logic\Commands\Storage\CommandStorage.cs" />
+    <Compile Include="Logic\Commands\SpellSeenCommand.cs" />
     <Compile Include="Logic\GameObject\Character.cs" />
     <Compile Include="Logic\GameObject\Factory\GameObjectFactory.cs" />
     <Compile Include="Logic\GameObject\Summoner.cs" />
@@ -256,6 +258,8 @@
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Network\NetworkPool.cs" />
     <Compile Include="Network\NetworkToken.cs" />
+    <Compile Include="Network\Packets\Client\Account\RequestApiMessage.cs" />
+    <Compile Include="Network\Packets\Server\Account\RequestApiDataMessage.cs" />
     <Compile Include="Network\TcpGateway.cs" />
     <Compile Include="Network\Packets\Factory.cs" />
     <Compile Include="Network\Packets\Client\Account\UdpCheckConnectionMessage.cs" />

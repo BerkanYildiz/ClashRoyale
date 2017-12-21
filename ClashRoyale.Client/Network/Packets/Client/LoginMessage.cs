@@ -32,7 +32,7 @@
         private int LowId               = 14318;
 
         private string Token            = "hw8r72xfkmnger9jrwntwkwha3ksas2ywrbcafwj";
-        private string MasterHash       = "67bbb9df2eabf5c5fa4a8fa480df2a46bc861d87";
+        private string MasterHash       = "74ecd0057e94aee0f6b485473ef3a047b4663e39";
 
         private string AdvertiseId      = "00000000-0000-0000-0000-000000000000";
         private string OpenUdid         = "00000000-0000-0000-0000-000000000000";

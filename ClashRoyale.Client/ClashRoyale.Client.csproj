@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Network\NetworkToken.cs" />
+    <Compile Include="Network\Packets\Client\RequestApiKeyMessage.cs" />
     <Compile Include="Network\Packets\Factory.cs" />
     <Compile Include="Logic\Bot.cs" />
     <Compile Include="Network\Packets\Message.cs" />

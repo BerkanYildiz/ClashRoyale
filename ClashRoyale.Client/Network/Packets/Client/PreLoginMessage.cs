@@ -34,7 +34,7 @@
         private int Minor           = 0;
         private int Revision        = 830;
 
-        private string Masterhash   = "67bbb9df2eabf5c5fa4a8fa480df2a46bc861d87"; // 67bbb9df2eabf5c5fa4a8fa480df2a46bc861d87
+        private string Masterhash   = "74ecd0057e94aee0f6b485473ef3a047b4663e39"; // 74ecd0057e94aee0f6b485473ef3a047b4663e39
 
         private int DeviceType      = 2;
         private int AppStore        = 2;

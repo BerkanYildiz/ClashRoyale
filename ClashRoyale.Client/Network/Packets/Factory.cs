@@ -33,6 +33,7 @@
         {
             Factory.Messages.Add(10100, typeof(PreLoginMessage));
             Factory.Messages.Add(10101, typeof(LoginMessage));
+            Factory.Messages.Add(15080, typeof(RequestApiKeyMessage));
 
             // Factory.Messages.Add(18688, typeof(EndClientTurnMessage));
             Factory.Messages.Add(19911, typeof(KeepAliveMessage));
@@ -40,6 +41,7 @@
             Factory.Messages.Add(20100, typeof(PreLoginOkMessage));
             Factory.Messages.Add(20103, typeof(LoginFailedMessage));
             Factory.Messages.Add(22280, typeof(LoginOkMessage));
+            // Factory.Messages.Add(22726, typeof(ApiKeyDataMessage));
             Factory.Messages.Add(24135, typeof(KeepAliveOkMessage));
             // Factory.Messages.Add(25880, typeof(VisitedHomeDataMessage));
             Factory.Messages.Add(28502, typeof(OwnHomeDataMessage));
