@@ -44,7 +44,7 @@
                 byte[] C = new byte[Packet.Length - 16];
                 Array.Copy(Packet, 32, C, 16, Packet.Length - 32);
 
-                Curve25519Xsalsa20Poly1305.CryptoBoxBeforenm(Init.SharedKey = new byte[32], Init.ClientPublicKey, PepperFactory.ServerSecretKeys[Init.KeyVersion]);
+                Curve25519Xsalsa20Poly1305.CryptoBoxBeforenm(Init.SharedKey = new byte[32], Init.ClientPublicKey, PepperFactory.PublicKeys[Init.KeyVersion]);
 
                 if (Curve25519Xsalsa20Poly1305.CryptoBoxAfternm(C, C, Blake2B.Finish(), Init.SharedKey) == 0)
                 {

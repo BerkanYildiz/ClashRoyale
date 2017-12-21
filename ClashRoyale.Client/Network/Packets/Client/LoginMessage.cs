@@ -4,8 +4,6 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
 
-    using State = ClashRoyale.Client.Logic.Enums.State;
-
     internal class LoginMessage : Message
     {
         /// <summary>
@@ -54,11 +52,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        public LoginMessage(Device Device) : base(Device)
+        /// <param name="Bot">The bot.</param>
+        public LoginMessage(Bot Bot) : base(Bot)
         {
-            this.Device.State   = State.LOGIN;
-            this.Version        = 3;
+            this.Bot.State  = State.Login;
+            this.Version    = 3;
         }
 
         /// <summary>

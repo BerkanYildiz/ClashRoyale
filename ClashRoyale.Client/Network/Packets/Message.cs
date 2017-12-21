@@ -12,9 +12,9 @@
         internal int Offset;
 
         /// <summary>
-        /// The device, technically called as 'client'.
+        /// The bot, technically called as 'client'.
         /// </summary>
-        internal Device Device;
+        internal Bot Bot;
         
         /// <summary>
         /// The message stream, used to.. read or write the message.
@@ -22,13 +22,13 @@
         internal ByteStream Stream;
 
         /// <summary>
-        /// Gets a value indicating whether this message is a server to client message.
+        /// Gets a value indicating whether this message is a client to server message.
         /// </summary>
-        internal bool IsServerToClientMessage
+        internal bool IsClientToServerMessage
         {
             get
             {
-                return this.Type >= 20000;
+                return this.Type < 20000;
             }
         }
 
@@ -76,21 +76,21 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Message"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        internal Message(Device Device) : this()
+        /// <param name="Bot">The bot.</param>
+        internal Message(Bot Bot) : this()
         {
-            this.Device = Device;
+            this.Bot    = Bot;
             this.Stream = new ByteStream();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Message"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Bot">The bot.</param>
         /// <param name="Stream">The stream.</param>
-        internal Message(Device Device, ByteStream Stream) : this()
+        internal Message(Bot Bot, ByteStream Stream) : this()
         {
-            this.Device = Device;
+            this.Bot    = Bot;
             this.Stream = Stream;
         }
 

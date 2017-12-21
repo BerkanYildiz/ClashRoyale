@@ -4,71 +4,47 @@
     using System.Collections.Generic;
     using System.Net.Sockets;
 
-    using ClashRoyale.Client.Logic;
     using ClashRoyale.Extensions;
 
     internal class NetworkToken
     {
-        private readonly List<byte> Packet;
-
-        internal Socket Socket;
-        internal Device Device;
-        internal SocketAsyncEventArgs AsyncEvent;
-
-        internal bool Aborting;
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="NetworkToken"/> is aborting.
+        /// </summary>
+        internal bool Aborting
+        {
+            get;
+            set;
+        }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is connected.
+        /// Gets or sets the arguments.
         /// </summary>
-        internal bool IsConnected
+        internal SocketAsyncEventArgs Args
         {
-            get
-            {
-                if (this.Aborting)
-                {
-                    return false;
-                }
+            get;
+            set;
+        }
 
-                if (this.Socket.Connected)
-                {
-                    try
-                    {
-                        if (!this.Socket.Poll(1000, SelectMode.SelectRead) || this.Socket.Available != 0)
-                        {
-                            return true;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        return false;
-                    }
-                }
+        private readonly NetworkGateway Gateway;
+        private readonly List<byte> Packet;
 
-                return false;
-            }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetworkToken"/> class.
+        /// </summary>
+        internal NetworkToken()
+        {
+            this.Packet = new List<byte>(Config.BufferSize);
+            this.Args   = new SocketAsyncEventArgs();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkToken"/> class.
         /// </summary>
-        /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
-        /// <param name="Socket">The socket.</param>
-        internal NetworkToken(SocketAsyncEventArgs AsyncEvent, Socket Socket)
+        /// <param name="Gateway">The gateway.</param>
+        internal NetworkToken(NetworkGateway Gateway) : this()
         {
-            this.Packet                 = new List<byte>(Config.BufferSize);
-            this.Socket                 = Socket;
-            this.AsyncEvent             = AsyncEvent;
-            this.AsyncEvent.UserToken   = this;
-        }
-
-        /// <summary>
-        /// Sets the device.
-        /// </summary>
-        /// <param name="Device">The device.</param>
-        internal void SetDevice(Device Device)
-        {
-            this.Device                 = Device;
-            this.Device.Network         = this;
+            this.Gateway = Gateway;
         }
 
         /// <summary>
@@ -76,9 +52,16 @@
         /// </summary>
         internal void AddData()
         {
-            byte[] TempBuffer = new byte[this.AsyncEvent.BytesTransferred];
-            Buffer.BlockCopy(this.AsyncEvent.Buffer, 0, TempBuffer, 0, this.AsyncEvent.BytesTransferred);
-            this.Packet.AddRange(TempBuffer);
+            if (Args.BytesTransferred > 0)
+            {
+                byte[] TempBuffer = new byte[Args.BytesTransferred];
+                Buffer.BlockCopy(Args.Buffer, 0, TempBuffer, 0, Args.BytesTransferred);
+                this.Packet.AddRange(TempBuffer);
+            }
+            else
+            {
+                this.Aborting = true;
+            }
         }
 
         /// <summary>
@@ -88,13 +71,9 @@
         {
             byte[] Buffer = this.Packet.ToArray();
 
-            if (Buffer.Length >= 7 && Buffer.Length <= Config.BufferSize)
+            if (Buffer.Length >= 7)
             {
                 this.TcpProcess(Buffer);
-            }
-            else
-            {
-                TcpGateway.Disconnect(this.AsyncEvent);
             }
         }
 
@@ -112,7 +91,7 @@
             {
                 if (Buffer.Get(7, Length, out byte[] Packet))
                 {
-                    this.Device.NetworkManager.ReceiveMessage(Type, Version, Packet);
+                    this.Gateway.Manager.ReceiveMessage(Type, Version, Packet);
                     this.Packet.RemoveRange(0, Length + 7);
                     
                     if (Buffer.Length - 7 - Length >= 7)
@@ -123,7 +102,7 @@
             }
             else
             {
-                TcpGateway.Disconnect(this.AsyncEvent);
+                this.Aborting = true;
             }
         }
     }

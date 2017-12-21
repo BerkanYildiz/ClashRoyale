@@ -3,8 +3,6 @@
     using ClashRoyale.Client.Logic;
     using ClashRoyale.Enums;
 
-    using State = ClashRoyale.Client.Logic.Enums.State;
-
     internal class PreLoginMessage : Message
     {
         /// <summary>
@@ -44,12 +42,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="PreLoginMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="KeyVersion">The key version.</param>
-        public PreLoginMessage(Device Device, int KeyVersion) : base(Device)
+        /// <param name="Bot">The bot.</param>
+        public PreLoginMessage(Bot Bot) : base(Bot)
         {
-            this.KeyVersion     = KeyVersion;
-            this.Device.State   = State.SESSION;
+            this.KeyVersion = 15;
+            this.Bot.State  = State.Session;
         }
 
         /// <summary>

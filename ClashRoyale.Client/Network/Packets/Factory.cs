@@ -37,6 +37,7 @@
             // Factory.Messages.Add(18688, typeof(EndClientTurnMessage));
             Factory.Messages.Add(19911, typeof(KeepAliveMessage));
 
+            Factory.Messages.Add(20100, typeof(PreLoginOkMessage));
             Factory.Messages.Add(20103, typeof(LoginFailedMessage));
             Factory.Messages.Add(22280, typeof(LoginOkMessage));
             Factory.Messages.Add(24135, typeof(KeepAliveOkMessage));
@@ -47,14 +48,14 @@
         /// <summary>
         /// Creates a message with the specified type.
         /// </summary>
-        internal static Message CreateMessage(short Type, Device Device, ByteStream Stream)
+        internal static Message CreateMessage(short Type, Bot Bot, ByteStream Stream)
         {
             if (Factory.Messages.TryGetValue(Type, out Type Message))
             {
-                return (Message) Activator.CreateInstance(Message, Device, Stream);
+                return (Message) Activator.CreateInstance(Message, Bot, Stream);
             }
 
-            Logging.Warning(typeof(Factory), "Messages.TryGetValue(" + Type + ", out Message) != true at CreateMessage(Type, Device, Stream).");
+            Logging.Warning(typeof(Factory), "Messages.TryGetValue(" + Type + ", out Message) != true at CreateMessage(Type, Bot, Stream).");
 
             return null;
         }

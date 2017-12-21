@@ -1,5 +1,7 @@
 ﻿namespace ClashRoyale.Client.Network.Packets.Server
 {
+    using System;
+
     using ClashRoyale.Client.Logic;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
@@ -43,9 +45,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginFailedMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Bot">The bot.</param>
         /// <param name="Stream">The stream.</param>
-        public LoginFailedMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public LoginFailedMessage(Bot Bot, ByteStream Stream) : base(Bot, Stream)
         {
             // LoginFailedMessage.
         }
@@ -55,6 +57,8 @@
         /// </summary>
         internal override void Decode()
         {
+            Logging.Info(this.GetType(), "Buffer : " + BitConverter.ToString(this.Stream.ReadBytesWithoutLength(this.Stream.BytesLeft)));
+            return;
             this.Reason         = (Reason) this.Stream.ReadVInt();
 
             this.Fingerprint    = this.Stream.ReadString();
@@ -69,23 +73,14 @@
         /// </summary>
         internal override void Process()
         {
-            int ErrorCode;
-
-            if (!int.TryParse(this.Reason.ToString(), out ErrorCode))
-            {
-                System.Diagnostics.Debug.WriteLine("[*] We've been disconnected because : " + this.Reason + ".");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("[*] We've been disconnected because of error code " + ErrorCode + ".");
-            }
+            Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] ErrorCode = " + this.Reason + ".");
 
             if (this.Reason == Reason.Patch)
             {
-                System.Diagnostics.Debug.WriteLine("[*] " + this.GetType().Name + " : " + JObject.Parse(this.Fingerprint)["sha"]);
+                Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] UpdatedMasterhash = " + JObject.Parse(this.Fingerprint)["sha"]);
             }
 
-            this.Device.State = State.Disconnected;
+            this.Bot.State = State.Disconnected;
         }
     }
 }

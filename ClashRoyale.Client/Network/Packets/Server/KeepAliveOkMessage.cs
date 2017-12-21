@@ -31,9 +31,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="KeepAliveOkMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Bot">The bot.</param>
         /// <param name="Stream">The stream.</param>
-        public KeepAliveOkMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public KeepAliveOkMessage(Bot Bot, ByteStream Stream) : base(Bot, Stream)
         {
             // KeepAliveOkMessage.
         }

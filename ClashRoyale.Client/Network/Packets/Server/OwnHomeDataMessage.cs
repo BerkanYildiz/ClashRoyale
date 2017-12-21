@@ -8,9 +8,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="OwnHomeDataMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Bot">The bot.</param>
         /// <param name="Stream">The stream.</param>
-        public OwnHomeDataMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public OwnHomeDataMessage(Bot Bot, ByteStream Stream) : base(Bot, Stream)
         {
             // OwnHomeDataMessage.
         }

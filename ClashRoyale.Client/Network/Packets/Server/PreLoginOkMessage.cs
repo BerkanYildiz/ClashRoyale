@@ -5,8 +5,6 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
 
-    using State = ClashRoyale.Client.Logic.Enums.State;
-
     internal class PreLoginOkMessage : Message
     {
         /// <summary>
@@ -36,11 +34,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="PreLoginOkMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Bot">The bot.</param>
         /// <param name="Stream">The stream.</param>
-        public PreLoginOkMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public PreLoginOkMessage(Bot Bot, ByteStream Stream) : base(Bot, Stream)
         {
-            this.Device.State   = State.SESSION_OK;
+            this.Bot.State = State.SessionOk;
         }
 
         /// <summary>
@@ -48,7 +46,7 @@
         /// </summary>
         internal override void Decode()
         {
-            this.Device.PepperInit.SessionKey = this.Stream.ReadBytes();
+            this.Bot.Network.PepperInit.SessionKey = this.Stream.ReadBytes();
         }
 
         /// <summary>
@@ -56,7 +54,7 @@
         /// </summary>
         internal override void Process()
         {
-            this.Device.Client.Gateway.Send(new LoginMessage(this.Device));
+            this.Bot.Network.SendMessage(new LoginMessage(this.Bot));
         }
     }
 }

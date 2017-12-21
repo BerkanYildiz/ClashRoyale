@@ -30,8 +30,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="KeepAliveMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        public KeepAliveMessage(Device Device) : base(Device)
+        /// <param name="Bot">The bot.</param>
+        public KeepAliveMessage(Bot Bot) : base(Bot)
         {
             // KeepAliveMessage.
         }

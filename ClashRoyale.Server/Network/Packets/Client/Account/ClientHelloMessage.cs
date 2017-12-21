@@ -84,7 +84,7 @@
                 {
                     if (string.Equals(this.MasterHash, Fingerprint.Masterhash))
                     {
-                        if (PepperFactory.ServerSecretKeys.TryGetValue(this.KeyVersion, out byte[] SecretKey))
+                        if (PepperFactory.SecretKeys.TryGetValue(this.KeyVersion, out byte[] SecretKey))
                         {
                             if (this.DeviceType == 3)
                             {
@@ -96,7 +96,7 @@
                                 }
                                 else
                                 {
-                                    if (this.KeyVersion != PepperFactory.ServerSecretKeys.Keys.Last())
+                                    if (this.KeyVersion != PepperFactory.SecretKeys.Keys.Last())
                                     {
                                         this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Update));
                                         return;

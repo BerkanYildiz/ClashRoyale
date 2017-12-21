@@ -39,7 +39,7 @@
     <FileAlignment>1024</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>GL.Clients.CR.Program</StartupObject>
+    <StartupObject>ClashRoyale.Client.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
@@ -65,10 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Network\NetworkManager.cs" />
-    <Compile Include="Network\NetworkPool.cs" />
     <Compile Include="Network\NetworkToken.cs" />
     <Compile Include="Network\Packets\Factory.cs" />
-    <Compile Include="Logic\Device.cs" />
+    <Compile Include="Logic\Bot.cs" />
     <Compile Include="Network\Packets\Message.cs" />
     <Compile Include="Network\Packets\Client\LoginMessage.cs" />
     <Compile Include="Network\Packets\Client\KeepAliveMessage.cs" />
@@ -78,7 +77,7 @@
     <Compile Include="Network\Packets\Server\KeepAliveOkMessage.cs" />
     <Compile Include="Network\Packets\Server\OwnHomeDataMessage.cs" />
     <Compile Include="Network\Packets\Server\PreLoginOkMessage.cs" />
-    <Compile Include="Network\TcpGateway.cs" />
+    <Compile Include="Network\NetworkGateway.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
