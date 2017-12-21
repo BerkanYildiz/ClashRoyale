@@ -13,6 +13,7 @@
         private static void Main()
         {
             Factory.Initialize();
+            Tests.Initialize();
 
             Bot Bot = new Bot();
 

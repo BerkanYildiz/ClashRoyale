@@ -115,19 +115,19 @@
 
             if (this.ReceiveEncrypter == null)
             {
-                Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] this.ReceiveEncrypter == null at ReceiveMessage(" + Type + ").");
+                // Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] this.ReceiveEncrypter == null at ReceiveMessage(" + Type + ").");
 
                 if (this.PepperInit.State == 1)
                 {
                     if (Type == 20100)
                     {
-                        Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Type == 20100 at ReceiveMessage(" + Type + ").");
+                        // Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Type == 20100 at ReceiveMessage(" + Type + ").");
 
                         Packet = PepperCrypto.HandlePepperAuthentificationResponse(ref this.PepperInit, Encrypted);
                     }
                     else
                     {
-                        Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Packet = Encrypted at ReceiveMessage(" + Type + ").");
+                        // Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Packet = Encrypted at ReceiveMessage(" + Type + ").");
 
                         Packet = Encrypted;
                     }

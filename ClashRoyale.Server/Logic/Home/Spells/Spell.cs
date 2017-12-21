@@ -249,8 +249,8 @@
             Stream.WriteVInt(this.Count);
             Stream.WriteVInt(this.NewCount);
             Stream.WriteVInt(this.RecentUseCount);
-            Stream.WriteBoolean(this.NewUpgrade);
-            Stream.WriteBoolean(this.NewFlag);
+            Stream.WriteBool(this.NewUpgrade);
+            Stream.WriteBool(this.NewFlag);
         }
 
         /// <summary>

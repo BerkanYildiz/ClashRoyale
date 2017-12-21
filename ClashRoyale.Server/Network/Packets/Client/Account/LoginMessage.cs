@@ -100,8 +100,6 @@
         {
             if (this.ValuesAreCorrect())
             {
-                Logging.Warning(this.GetType(), this.MajorVersion + "." + this.MinorVersion + "." + this.BuildVersion);
-
                 if (this.MajorVersion == Logic.Version.ClientMajorVersion && this.MinorVersion == 0 && this.BuildVersion == Logic.Version.ClientBuildVersion)
                 {
                     if (Program.Initialized)

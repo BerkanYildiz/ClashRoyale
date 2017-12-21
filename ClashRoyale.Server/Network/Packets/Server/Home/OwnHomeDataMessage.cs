@@ -3,7 +3,6 @@ namespace ClashRoyale.Server.Network.Packets.Server
     using System;
 
     using ClashRoyale.Enums;
-    using ClashRoyale.Extensions.Utils;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Player;
@@ -54,9 +53,9 @@ namespace ClashRoyale.Server.Network.Packets.Server
             this.Home.Encode(this.Stream);
             this.Player.Encode(this.Stream);
 
-            this.Stream.WriteVInt(TimeUtil.Timestamp);
-            this.Stream.WriteVInt(TimeUtil.Timestamp);
-            this.Stream.WriteVInt(TimeUtil.Timestamp);
+            this.Stream.WriteVInt(0);
+            this.Stream.WriteVInt(0);
+            this.Stream.WriteVInt(0);
         }
 
         /// <summary>

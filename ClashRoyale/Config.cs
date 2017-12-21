@@ -17,7 +17,7 @@
         public const int ServerBuildVersion = 830;
 
         public const int BufferSize         = 2048 * 1;
-        public const int ServerId           = 1;
+        public const int ServerId           = 0;
         public const int MaxPlayers         = 10;
     }
 }

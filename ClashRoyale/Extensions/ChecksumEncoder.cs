@@ -49,6 +49,15 @@
             this.Checksum = this.RotateRight(this.Checksum, 31) + (Value ? 13 : 7);
             this.ByteStream?.WriteBoolean(Value);
         }
+        
+        /// <summary>
+        /// Writes a single boolean value.
+        /// </summary>
+        public virtual void WriteBool(bool Value)
+        {
+            this.Checksum = this.RotateRight(this.Checksum, 31) + (Value ? 13 : 7);
+            this.ByteStream?.WriteBool(Value);
+        }
 
         /// <summary>
         /// Writes a short value.

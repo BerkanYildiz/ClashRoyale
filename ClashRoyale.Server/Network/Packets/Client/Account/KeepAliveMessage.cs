@@ -45,7 +45,7 @@
         internal override void Process()
         {
             this.Device.NetworkManager.KeepAliveMessageReceived();
-            // this.Device.NetworkManager.SendMessage(new KeepAliveServerMessage(this.Device));
+            this.Device.NetworkManager.SendMessage(new KeepAliveServerMessage(this.Device));
         }
     }
 }

@@ -106,6 +106,15 @@
 
             this.BooleanOffset = this.BooleanOffset + 1 & 7;
         }
+        
+        /// <summary>
+        /// Adds a boolean value.
+        /// </summary>
+        public override void WriteBool(bool Value)
+        {
+            this.EnsureCapacity(1);
+            this.Add((byte) (Value ? 0x01 : 0x00));
+        }
 
         /// <summary>
         /// Adds a short value.
