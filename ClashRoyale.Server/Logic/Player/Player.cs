@@ -695,11 +695,18 @@ namespace ClashRoyale.Server.Logic.Player
                 }
             }
 
-            Stream.AddRange("99-0E 9C-02 00 A9-06 BA-05 01 B6-01 03 00-00-00-01".HexaToBytes());
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
 
-            // Stream.WriteBoolean(false);
-            // Stream.WriteVInt(1);
-            // Stream.WriteBoolean(true);
+            Stream.WriteBool(true);
+
+            Stream.AddRange("B6-01  03  00  00".HexaToBytes());
+
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(1);
         }
 
         /// <summary>
