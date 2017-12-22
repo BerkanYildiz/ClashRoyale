@@ -33,6 +33,7 @@
         /// </summary>
         private static void Main()
         {
+            Sentry.Initialize();
             XorShift.Initialize();
 
             CsvFiles.Initialize();

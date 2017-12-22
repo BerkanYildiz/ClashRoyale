@@ -2,103 +2,89 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Threading.Tasks;
+
+    using SharpRaven.Data;
 
     public static class Logging
     {
         /// <summary>
-        /// Debuggings the specified message.
+        /// Logs the specified informative message.
         /// </summary>
         /// <param name="Type">The type.</param>
         /// <param name="Message">The message.</param>
-        [Conditional("DEBUG")]
-        public static void Debugging(Type Type, string Message)
-        {
-            // Resources.Logger.Info(Type.Name + " : " + Message);
-            Debug.WriteLine("[ DEBUG ] " + Logging.Padding(Type.Name, 16) + " : " + Message);
-        }
-
-        /// <summary>
-        /// Informations the specified message.
-        /// </summary>
-        /// <param name="Type">The type.</param>
-        /// <param name="Message">The message.</param>
-        [Conditional("DEBUG")]
         public static void Info(Type Type, string Message)
         {
-            // Resources.Logger.Info(Type.Name + " : " + Message);
-            Debug.WriteLine("[ INFO  ] " + Logging.Padding(Type.Name, 16) + " : " + Message);
+            Debug.WriteLine("[ INFO  ] " + Type.Name.Pad() + " : " + Message);
         }
 
         /// <summary>
-        /// Warnings the specified message.
+        /// Logs the specified warning message.
         /// </summary>
         /// <param name="Type">The type.</param>
         /// <param name="Message">The message.</param>
-        public static void Warning(Type Type, string Message)
+        public static async Task Warning(Type Type, string Message)
         {
-            // Resources.Logger.Warn(Type.Name + " : " + Message);
-            Debug.WriteLine("[WARNING] " + Logging.Padding(Type.Name, 16) + " : " + Message);
-        }
+            Debug.WriteLine("[WARNING] " + Type.Name.Pad() + " : " + Message);
 
-        /// <summary>
-        /// Errors the specified message.
-        /// </summary>
-        /// <param name="Type">The type.</param>
-        /// <param name="Message">The message.</param>
-        public static void Error(Type Type, string Message)
-        {
-            // Resources.Logger.Error(Type.Name + " : " + Message);
-            Debug.WriteLine("[ ERROR ] " + Logging.Padding(Type.Name, 16) + " : " + Message);
-        }
-
-        /// <summary>
-        /// Fatals the specified message.
-        /// </summary>
-        /// <param name="Type">The type.</param>
-        /// <param name="Message">The message.</param>
-        public static void Fatal(Type Type, string Message)
-        {
-            // Resources.Logger.Fatal(Type.Name + " : " + Message);
-            Debug.WriteLine("[ FATAL ] " + Logging.Padding(Type.Name, 16) + " : " + Message);
-        }
-
-        /// <summary>
-        /// Padds the specified message.
-        /// </summary>
-        /// <param name="Message">The message.</param>
-        /// <param name="Limit">The limit.</param>
-        /// <param name="ReplaceWith">The replace with.</param>
-        private static string Padding(string Message, int Limit = 25, string ReplaceWith = "..")
-        {
-            if (Message.Length > Limit)
+            if (Sentry.Initialized)
             {
-                Message = Message.Substring(0, Limit - ReplaceWith.Length);
-                Message = Message + ReplaceWith;
+                var SentryEvent = new SentryEvent(Message)
+                {
+                    Level = ErrorLevel.Warning
+                };
+
+                SentryEvent.Tags.Add("className", Type.Name);
+                SentryEvent.Tags.Add("projectName", Type.Assembly.GetName().Name);
+
+                await Sentry.Raven.CaptureAsync(SentryEvent);
             }
-            else if (Message.Length < Limit)
+        }
+
+        /// <summary>
+        /// Logs the specified error message.
+        /// </summary>
+        /// <param name="Type">The type.</param>
+        /// <param name="Message">The message.</param>
+        public static async Task Error(Type Type, string Message)
+        {
+            Debug.WriteLine("[ ERROR ] " + Type.Name.Pad() + " : " + Message);
+
+            if (Sentry.Initialized)
             {
-                int Length = Limit - Message.Length;
-
-                int LeftPad = (int) Math.Round((double) Length / 2, MidpointRounding.AwayFromZero);
-                int RightPad = (int) Math.Round((double) Length / 2, MidpointRounding.AwayFromZero);
-
-                if (Length % 2 != 0)
+                var SentryEvent = new SentryEvent(Message)
                 {
-                    RightPad = RightPad - 1;
-                }
+                    Level = ErrorLevel.Error
+                };
 
-                for (int i = 0; i < RightPad; i++)
-                {
-                    Message += " ";
-                }
+                SentryEvent.Tags.Add("className", Type.Name);
+                SentryEvent.Tags.Add("projectName", Type.Assembly.GetName().Name);
 
-                for (int i = 0; i < LeftPad; i++)
-                {
-                    Message = " " + Message;
-                }
+                await Sentry.Raven.CaptureAsync(SentryEvent);
             }
+        }
 
-            return Message;
+        /// <summary>
+        /// Logs the specified fatal error message.
+        /// </summary>
+        /// <param name="Type">The type.</param>
+        /// <param name="Message">The message.</param>
+        public static async Task Fatal(Type Type, string Message)
+        {
+            Debug.WriteLine("[ FATAL ] " + Type.Name.Pad() + " : " + Message);
+
+            if (Sentry.Initialized)
+            {
+                var SentryEvent = new SentryEvent(Message)
+                {
+                    Level = ErrorLevel.Fatal
+                };
+
+                SentryEvent.Tags.Add("className", Type.Name);
+                SentryEvent.Tags.Add("projectName", Type.Assembly.GetName().Name);
+
+                await Sentry.Raven.CaptureAsync(SentryEvent);
+            }
         }
     }
 }

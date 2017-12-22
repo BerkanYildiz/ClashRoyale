@@ -186,8 +186,6 @@
                     return new BuyResourcePackCommand();
                 case 512:
                     return new SelectDeckCommand();
-                /* case 513:
-                    return new SpellPageOpenedCommand(); */
                 case 517:
                     return new SpellSeenCommand();
                 /* case 523:
@@ -204,6 +202,8 @@
                     return new BuySpellCommand();
                 case 592:
                     return new FuseSpellsCommand();
+                case 599:
+                    return new SpellPageOpenedCommand();
             }
 
             Logging.Info(typeof(CommandManager), "CreateCommand() - Command type " + Type + " does not exist.");

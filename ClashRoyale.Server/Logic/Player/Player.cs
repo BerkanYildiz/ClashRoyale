@@ -701,9 +701,9 @@ namespace ClashRoyale.Server.Logic.Player
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
 
-            Stream.WriteBool(true);
+            Stream.WriteBool(false);
 
-            Stream.AddRange("B6-01  03  00  00".HexaToBytes());
+            // Stream.AddRange("B6-01  03  00  00".HexaToBytes());
 
             Stream.WriteVInt(0);
             Stream.WriteVInt(1);

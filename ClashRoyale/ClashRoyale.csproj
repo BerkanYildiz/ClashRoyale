@@ -39,6 +39,9 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SharpRaven, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpRaven.2.2.0\lib\net45\SharpRaven.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -201,7 +204,9 @@
     <Compile Include="Maths\Math.cs" />
     <Compile Include="Maths\Random.cs" />
     <Compile Include="Maths\Vector2.cs" />
+    <Compile Include="Padding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sentry.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>

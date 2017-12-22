@@ -166,8 +166,6 @@ namespace ClashRoyale.Server.Logic.Collections
         /// <param name="Store">Whether it has to be stored.</param>
         internal static async Task<Player> Get(int HighId, int LowId, bool Store = true)
         {
-            Logging.Warning(typeof(Players), "Get(" + HighId + ", " + LowId + ") has been called.");
-
             long PlayerId       = (long) HighId << 32 | (uint) LowId;
 
             PlayerDb PlayerDb   = await PlayerDb.Load(HighId, LowId);

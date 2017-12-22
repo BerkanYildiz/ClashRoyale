@@ -1,10 +1,7 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
-    using System.Collections.Generic;
-
     using ClashRoyale.Extensions;
-    using ClashRoyale.Extensions.Helper;
-    using ClashRoyale.Files.Csv.Logic;
+
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
@@ -12,8 +9,6 @@
 
     internal class SpellPageOpenedCommand : Command
     {
-        internal List<SpellData> Spells;
-
         /// <summary>
         /// Gets the type of this command.
         /// </summary>
@@ -21,9 +16,11 @@
         {
             get
             {
-                return 513;
+                return 599;
             }
         }
+
+        private bool Seen;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpellPageOpenedCommand"/> class.
@@ -36,9 +33,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="SpellPageOpenedCommand"/> class.
         /// </summary>
-        public SpellPageOpenedCommand(List<SpellData> Spells)
+        public SpellPageOpenedCommand(bool Seen)
         {
-            this.Spells = Spells;
+            this.Seen = Seen;
         }
 
         /// <summary>
@@ -47,8 +44,7 @@
         internal override void Decode(ByteStream Stream)
         {
             base.Decode(Stream);
-
-            Stream.DecodeSpellList(ref this.Spells);
+            this.Seen = Stream.ReadBoolean();
         }
 
         /// <summary>
@@ -57,8 +53,7 @@
         internal override void Encode(ChecksumEncoder Stream)
         {
             base.Encode(Stream);
-
-            Stream.EncodeSpellList(this.Spells);
+            Stream.WriteBool(this.Seen);
         }
 
         /// <summary>
@@ -74,23 +69,14 @@
 
                 if (Player != null)
                 {
-                    if (this.Spells.Count < 1)
+                    if (this.Seen)
                     {
+                        var Spells = Home.SpellCollection.GetSpells();
 
-                    }
-                    else
-                    {
-                        int I = 0;
-
-                        do
+                        foreach (var Spell in Spells)
                         {
-                            Spell Spell = Home.GetSpellByData(this.Spells[I++]);
-
-                            if (Spell != null)
-                            {
-                                this.UpdateSpellState(Spell);
-                            }
-                        } while (I > this.Spells.Count);
+                            this.UpdateSpellState(Spell);
+                        }
                     }
 
                     return 0;

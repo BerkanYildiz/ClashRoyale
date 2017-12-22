@@ -7,57 +7,57 @@
     using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Maths;
 
-    public static class ByteStreamHelper
+    public static class StreamHelper
     {
         /// <summary>
         /// Adds a data logic long.
         /// </summary>
-        public static void WriteLogicLong(this ChecksumEncoder ByteStream, int High, int Low)
+        public static void WriteLogicLong(this ChecksumEncoder Stream, int High, int Low)
         {
-            ByteStream.WriteVInt(High);
-            ByteStream.WriteVInt(Low);
+            Stream.WriteVInt(High);
+            Stream.WriteVInt(Low);
         }
 
         /// <summary>
         /// Adds a <see cref="List{T}"/> of int.
         /// </summary>
-        public static void EncodeIntList(this ChecksumEncoder ByteStream, List<int> List)
+        public static void EncodeIntList(this ChecksumEncoder Stream, List<int> List)
         {
-            ByteStream.WriteVInt(List.Count);
-            List.ForEach(ByteStream.WriteVInt);
+            Stream.WriteVInt(List.Count);
+            List.ForEach(Stream.WriteVInt);
         }
 
         /// <summary>
         /// Adds a data data reference.
         /// </summary>
-        public static void EncodeData(this ChecksumEncoder ByteStream, CsvData CsvData)
+        public static void EncodeData(this ChecksumEncoder Stream, CsvData CsvData)
         {
             if (CsvData != null)
             {
-                ByteStream.WriteVInt(CsvData.Type);
-                ByteStream.WriteVInt(CsvData.Instance);
+                Stream.WriteVInt(CsvData.Type);
+                Stream.WriteVInt(CsvData.Instance);
             }
             else
             {
-                ByteStream.WriteVInt(0);
+                Stream.WriteVInt(0);
             }
         }
 
         /// <summary>
         /// Adds a constant size int array.
         /// </summary>
-        public static void EncodeConstantSizeIntArray(this ChecksumEncoder ByteStream, int[] Array, int Size)
+        public static void EncodeConstantSizeIntArray(this ChecksumEncoder Stream, int[] Array, int Size)
         {
             for (int I = 0; I < Size; I++)
             {
-                ByteStream.WriteVInt(Array[I]);
+                Stream.WriteVInt(Array[I]);
             }
         }
 
         /// <summary>
         /// Adds a data data reference.
         /// </summary>
-        public static void EncodeLogicData(this ChecksumEncoder ByteStream, CsvData CsvData, int BaseDataType)
+        public static void EncodeLogicData(this ChecksumEncoder Stream, CsvData CsvData, int BaseDataType)
         {
             if (CsvData != null)
             {
@@ -68,42 +68,42 @@
                     Id += CsvFiles.Get(BaseDataType + I).Datas.Count;
                 }
 
-                ByteStream.WriteVInt(Id + CsvData.Instance);
+                Stream.WriteVInt(Id + CsvData.Instance);
             }
             else
             {
-                ByteStream.WriteVInt(0);
+                Stream.WriteVInt(0);
             }
         }
 
         /// <summary>
         /// Encodes a logic long.
         /// </summary>
-        public static void EncodeLogicLong(this ChecksumEncoder ByteStream, LogicLong Long)
+        public static void EncodeLogicLong(this ChecksumEncoder Stream, LogicLong Long)
         {
-            Long.Encode(ByteStream);
+            Long.Encode(Stream);
         }
 
         /// <summary>
         /// Encodes a collection of spells.
         /// </summary>
-        public static void EncodeSpellList(this ChecksumEncoder ByteStream, List<SpellData> Spells)
+        public static void EncodeSpellList(this ChecksumEncoder Stream, List<SpellData> Spells)
         {
             if (Spells.Count < 200)
             {
-                ByteStream.WriteVInt(Spells.Count);
-                Spells.ForEach(ByteStream.EncodeData);
+                Stream.WriteVInt(Spells.Count);
+                Spells.ForEach(Stream.EncodeData);
             }
             else
             {
-                ByteStream.WriteVInt(0);
+                Stream.WriteVInt(0);
             }
         }
 
         /// <summary>
         /// Decodes a <see cref="List{T}"/> of int.
         /// </summary>
-        public static CsvData DecodeIntList(this ByteStream ByteStream, ref List<int> List)
+        public static CsvData DecodeIntList(this ByteStream Stream, ref List<int> List)
         {
             // TODO !
 
@@ -112,11 +112,11 @@
                 List.Clear();
             }
 
-            int Count = ByteStream.ReadVInt();
+            int Count = Stream.ReadVInt();
 
             for (int I = 0; I < Count; I++)
             {
-                List.Add(ByteStream.ReadVInt());
+                List.Add(Stream.ReadVInt());
             }
 
             return null;
@@ -125,9 +125,9 @@
         /// <summary>
         /// Decodes a collection of spells.
         /// </summary>
-        public static void DecodeSpellList(this ByteStream ByteStream, ref List<SpellData> Spells)
+        public static void DecodeSpellList(this ByteStream Stream, ref List<SpellData> Spells)
         {
-            int Count = ByteStream.ReadVInt();
+            int Count = Stream.ReadVInt();
             
             if (Count > -1)
             {
@@ -140,7 +140,7 @@
 
                 for (int I = 0; I < Count; I++)
                 {
-                    Spells.Add(ByteStream.DecodeData<SpellData>());
+                    Spells.Add(Stream.DecodeData<SpellData>());
                 }
             }
         }
@@ -148,9 +148,9 @@
         /// <summary>
         /// Reads a data reference.
         /// </summary>
-        public static CsvData DecodeData(this ByteStream ByteStream)
+        public static CsvData DecodeData(this ByteStream Stream)
         {
-            int Type = ByteStream.ReadVInt();
+            int Type = Stream.ReadVInt();
 
             if (Type > 0)
             {
@@ -158,10 +158,10 @@
 
                 if (Table != null)
                 {
-                    return Table.GetWithInstanceId(ByteStream.ReadVInt());
+                    return Table.GetWithInstanceId(Stream.ReadVInt());
                 }
 
-                Logging.Error(typeof(ByteStreamHelper), "ReadData() - Table " + Type + " doesn't exists.");
+                Logging.Error(typeof(StreamHelper), "ReadData() - Table " + Type + " doesn't exists.");
             }
 
             return null;
@@ -170,9 +170,9 @@
         /// <summary>
         /// Reads a data reference.
         /// </summary>
-        public static T DecodeData<T>(this ByteStream ByteStream) where T : CsvData
+        public static T DecodeData<T>(this ByteStream Stream) where T : CsvData
         {
-            int Type = ByteStream.ReadVInt();
+            int Type = Stream.ReadVInt();
 
             if (Type > 0)
             {
@@ -180,10 +180,10 @@
 
                 if (Table != null)
                 {
-                    return Table.GetWithInstanceId(ByteStream.ReadVInt()) as T;
+                    return Table.GetWithInstanceId(Stream.ReadVInt()) as T;
                 }
 
-                Logging.Error(typeof(ByteStreamHelper), "ReadData() - Table " + Type + " doesn't exists.");
+                Logging.Error(typeof(StreamHelper), "ReadData() - Table " + Type + " doesn't exists.");
             }
 
             return null;
@@ -192,9 +192,9 @@
         /// <summary>
         /// Reads a data reference.
         /// </summary>
-        public static CsvData DecodeLogicData(this ByteStream ByteStream, int BaseType)
+        public static CsvData DecodeLogicData(this ByteStream Stream, int BaseType)
         {
-            int Id = ByteStream.ReadVInt();
+            int Id = Stream.ReadVInt();
 
             if (Id > 0)
             {
@@ -217,9 +217,9 @@
         /// <summary>
         /// Reads a data reference.
         /// </summary>
-        public static T DecodeLogicData<T>(this ByteStream ByteStream, int BaseType) where T : CsvData
+        public static T DecodeLogicData<T>(this ByteStream Stream, int BaseType) where T : CsvData
         {
-            int Id = ByteStream.ReadVInt();
+            int Id = Stream.ReadVInt();
 
             if (Id > 0)
             {
@@ -242,10 +242,10 @@
         /// <summary>
         /// Reads a data reference.
         /// </summary>
-        public static LogicLong DecodeLogicLong(this ByteStream ByteStream)
+        public static LogicLong DecodeLogicLong(this ByteStream Stream)
         {
             LogicLong LogicLong = new LogicLong();
-            LogicLong.Decode(ByteStream);
+            LogicLong.Decode(Stream);
             return LogicLong;
         }
     }

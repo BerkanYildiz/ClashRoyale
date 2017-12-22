@@ -25,8 +25,8 @@ namespace ClashRoyale.Extensions.Game
         public static int ChestCatchupChance;
         public static int TournamentMatchLengthSeconds;
         public static int TournamentOvertimeLengthSeconds;
-        public static int[] FreeChestDimaondLoop;
-        public static int[] CrownDimaondLoop;
+        public static int[] FreeChestDiamondLoop;
+        public static int[] CrownDiamondLoop;
 
         public static bool MultipleDecks;
         public static bool QuestsEnabled;
@@ -58,8 +58,8 @@ namespace ClashRoyale.Extensions.Game
             Globals.CrownChestCooldownHours = CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("CROWN_CHEST_COOLDOWN_HOURS").NumberValue;
             Globals.LeaveAllianceDonationCooldown = 60 * CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("LEAVE_ALLIANCE_DONATION_COOLDOWN_MINUTES").NumberValue;
             Globals.RefreshArenaInLoadingFinished = CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("REFRESH_ARENA_IN_LOADING_FINISHED").BooleanValue;
-            Globals.FreeChestDimaondLoop = CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("FREE_CHEST_DIAMONDS").NumberArray;
-            Globals.CrownDimaondLoop = CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("CROWN_CHEST_DIAMONDS").NumberArray;
+            Globals.FreeChestDiamondLoop = CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("FREE_CHEST_DIAMONDS").NumberArray;
+            Globals.CrownDiamondLoop = CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("CROWN_CHEST_DIAMONDS").NumberArray;
             Globals.StartingArena = CsvFiles.Get(Gamefile.Arena).GetData<ArenaData>(CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("STARTING_ARENA").TextValue);
             Globals.TournamentMatchLengthSeconds = CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("TOURNAMENT_MATCH_LENGTH_SECONDS").NumberValue;
             Globals.TournamentOvertimeLengthSeconds = CsvFiles.Get(Gamefile.Global).GetData<GlobalData>("TOURNAMENT_OVERTIME_LENGTH_SECONDS").NumberValue;

@@ -104,6 +104,14 @@
         }
 
         /// <summary>
+        /// Gets the spells.
+        /// </summary>
+        internal List<Spell> GetSpells()
+        {
+            return this.Collections;
+        }
+
+        /// <summary>
         /// Removes the specified spell.
         /// </summary>
         internal void RemoveSpell(Spell Spell)
