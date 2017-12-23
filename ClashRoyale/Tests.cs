@@ -28,7 +28,7 @@
                 Buffer = Stream.ToArray();
             }
 
-            Logging.Warning(typeof(Tests), "Int TO VInt : " + BitConverter.ToString(Buffer) + ".");
+            Logging.Info(typeof(Tests), "Int TO VInt : " + BitConverter.ToString(Buffer) + ".");
         }
 
         /// <summary>
@@ -44,7 +44,7 @@
                 Integer = Stream.ReadVInt();
             }
 
-            Logging.Warning(typeof(Tests), "VInt TO Int : " + Integer + ".");
+            Logging.Info(typeof(Tests), "VInt TO Int : " + Integer + ".");
         }
 
         /// <summary>

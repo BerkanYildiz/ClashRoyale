@@ -11,7 +11,7 @@
     [JsonConverter(typeof(SpellDeckConverter))]
     internal class SpellDeck
     {
-        private Spell[] Spells;
+        private readonly Spell[] Spells;
 
         /// <summary>
         /// Gets if this instance has a empty slot.
@@ -23,7 +23,9 @@
                 for (int I = 0; I < 8; I++)
                 {
                     if (this.Spells[I] == null)
+                    {
                         return true;
+                    }
                 }
 
                 return false;
@@ -40,7 +42,9 @@
                 for (int I = 0; I < 8; I++)
                 {
                     if (this.Spells[I] == null)
+                    {
                         return false;
+                    }
                 }
 
                 return true;
@@ -59,7 +63,9 @@
                 for (int I = 0; I < 8; I++)
                 {
                     if (this.Spells[I] != null)
+                    {
                         ++Count;
+                    }
                 }
 
                 return Count;
@@ -174,7 +180,9 @@
                     this.PutSpellInEmptySlot(DeckIndex, SpellCollection);
             }
             else
+            {
                 Logging.Error(this.GetType(), "CanBeInserted returns false, should check it before trying to move.");
+            }
         }
 
         /// <summary>
