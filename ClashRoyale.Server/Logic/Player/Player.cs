@@ -32,8 +32,8 @@ namespace ClashRoyale.Server.Logic.Player
         [JsonProperty("accountToken")]          internal string Token;
         [JsonProperty("accountLocation")]       internal LocaleData AccountLocation;
 
-        [JsonProperty("allianceHighId")]        internal int ClanHighId;
-        [JsonProperty("allianceLowId")]         internal int ClanLowId;
+        [JsonProperty("clanHighId")]            internal int ClanHighId;
+        [JsonProperty("clanLowId")]             internal int ClanLowId;
 
         [JsonProperty("isDemoAccount")]         internal bool IsDemoAccount;
 
@@ -60,14 +60,14 @@ namespace ClashRoyale.Server.Logic.Player
         [JsonProperty("expLevel")]              internal int ExpLevel;
         [JsonProperty("expPoints")]             internal int ExpPoints;
         [JsonProperty("nameChangeState")]       internal int NameChangeState;
-        [JsonProperty("allianceRole")]          internal int AllianceRole;
+        [JsonProperty("clanRole")]              internal int AllianceRole;
 
-        [JsonProperty("name")]                  internal string Name;
-        [JsonProperty("allianceName")]          internal string AllianceName;
+        [JsonProperty("username")]              internal string Name;
+        [JsonProperty("clanName")]              internal string AllianceName;
 
         [JsonProperty("arena")]                 internal ArenaData Arena;
         [JsonProperty("lastTourArena")]         internal ArenaData LastTournamentArena;
-        [JsonProperty("allianceBadge")]         internal AllianceBadgeData Badge;
+        [JsonProperty("clanBadge")]             internal AllianceBadgeData Badge;
 
         [JsonProperty("commodities")]           internal CommoditySlots CommoditySlots;
 
@@ -83,7 +83,7 @@ namespace ClashRoyale.Server.Logic.Player
 
         // Debug
         
-        [JsonProperty("debug_rank")]            internal Rank Rank = Rank.Administrator;
+        [JsonProperty("debugRank")]            internal Rank Rank = Rank.Administrator;
 
         // Apis
         

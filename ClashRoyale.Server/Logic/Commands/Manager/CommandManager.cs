@@ -177,11 +177,8 @@
 
             switch (Type)
             {
-                
                 case 505:
                     return new SwapSpellsCommand();
-                /* case 508:
-                    return new UpdateLastShownLevelUpCommand(); */
                 case 511:
                     return new BuyResourcePackCommand();
                 case 512:
@@ -200,6 +197,8 @@
                     return new BuyChestCommand();
                 case 544:
                     return new BuySpellCommand();
+                case 576:
+                    return new UpdateLastShownLevelUpCommand();
                 case 592:
                     return new FuseSpellsCommand();
                 case 599:

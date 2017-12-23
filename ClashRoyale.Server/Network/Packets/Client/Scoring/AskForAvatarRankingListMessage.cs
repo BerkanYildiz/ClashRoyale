@@ -74,7 +74,11 @@
         internal override void Process()
         {
             LeaderboardPlayers Leaderboard = Leaderboards.GlobalPlayers;
-            this.Device.NetworkManager.SendMessage(new AvatarRankingListMessage(this.Device, Leaderboard));
+
+            if (Leaderboard != null)
+            {
+                this.Device.NetworkManager.SendMessage(new AvatarRankingListMessage(this.Device, Leaderboard));
+            }
         }
     }
 }

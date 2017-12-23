@@ -960,7 +960,7 @@ namespace ClashRoyale.Server.Logic.Home
 
             this.RequestCooldownTimer.Encode(Stream);
 
-            Stream.WriteVInt(1); // TutorialStep
+            Stream.WriteVInt(this.Tutorial); // TutorialStep
 
             for (int J = 0; J < 7; J++)
             {
