@@ -100,5 +100,13 @@
 
             this.Stream.WriteString(null);
         }
+
+        /// <summary>
+        /// Processes this instance.
+        /// </summary>
+        internal override void Process()
+        {
+            this.Bot.Network.KeepAlive();
+        }
     }
 }

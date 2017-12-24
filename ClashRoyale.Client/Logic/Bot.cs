@@ -1,5 +1,8 @@
 ﻿namespace ClashRoyale.Client.Logic
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+
     using ClashRoyale.Client.Network;
     using ClashRoyale.Client.Network.Packets.Client;
 
@@ -49,6 +52,13 @@
             if (this.Network.TryConnect())
             {
                 this.Network.SendMessage(new PreLoginMessage(this));
+
+                Task.Run(() =>
+                {
+                    Thread.Sleep(3000);
+                    this.Network.SendMessage(new StartTrainingBattleMessage(this));
+                    Logging.Info(this.GetType(), "Message sent");
+                });
             }
             else
             {

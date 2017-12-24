@@ -28,11 +28,18 @@
                 return;
             }
 
+            string FileName = "starting_home.json";
+
+            if (Config.IsMaxedServer)
+            {
+                FileName = "starting_home_max.json";
+            }
+
             if (Directory.Exists("Gamefiles/level/"))
             {
-                if (File.Exists("Gamefiles/level/starting_home.json"))
+                if (File.Exists("Gamefiles/level/" + FileName))
                 {
-                    string RawFile = File.ReadAllText("Gamefiles/level/starting_home.json", Encoding.UTF8);
+                    string RawFile = File.ReadAllText("Gamefiles/level/" + FileName, Encoding.UTF8);
 
                     if (!string.IsNullOrEmpty(RawFile))
                     {

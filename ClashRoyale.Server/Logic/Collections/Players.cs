@@ -1,6 +1,8 @@
 namespace ClashRoyale.Server.Logic.Collections
 {
+    using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -230,6 +232,34 @@ namespace ClashRoyale.Server.Logic.Collections
             }
 
             await Task.WhenAll(RequestsTasks);
+        }
+
+        /// <summary>
+        /// Executes an action on every players in the collection.
+        /// </summary>
+        /// <param name="Action">The action to execute on the players.</param>
+        /// <param name="Connected">if set to true, only execute the action on connected players.</param>
+        internal static void ForEach(Action<Player> Action, bool Connected = true)
+        {
+            var Entities = Players.Entities.Values;
+
+            if (Connected)
+            {
+                foreach (var Entity in Entities)
+                {
+                    if (Entity.GameMode.IsConnected)
+                    {
+                        Action.Invoke(Entity);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var Entity in Entities)
+                {
+                    Action.Invoke(Entity);
+                }
+            }
         }
     }
 }

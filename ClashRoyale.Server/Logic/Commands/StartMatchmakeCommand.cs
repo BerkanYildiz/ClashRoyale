@@ -1,5 +1,6 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands
 {
+    using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic.Battle.Manager;
     using ClashRoyale.Server.Logic.Home;
     using ClashRoyale.Server.Logic.Mode;
@@ -15,9 +16,11 @@
         {
             get
             {
-                return 525;
+                return 594;
             }
         }
+
+        private bool Is2v2;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StartMatchmakeCommand"/> class.
@@ -25,6 +28,32 @@
         public StartMatchmakeCommand()
         {
             // StartMatchmakeCommand.
+        }
+
+        /// <summary>
+        /// Decodes the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        internal override void Decode(ByteStream Stream)
+        {
+            base.Decode(Stream);
+
+            this.Is2v2 = Stream.ReadBoolean();
+            Stream.ReadVInt();
+            Stream.ReadVInt();
+        }
+
+        /// <summary>
+        /// Encodes the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        internal override void Encode(ChecksumEncoder Stream)
+        {
+            base.Encode(Stream);
+
+            Stream.WriteBoolean(this.Is2v2);
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(-1);
         }
 
         /// <summary>

@@ -144,10 +144,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLine.cs" />
     <Compile Include="Database\GameDb.cs" />
     <Compile Include="Database\Models\BattleDb.cs" />
     <Compile Include="Database\Models\ClanDb.cs" />
     <Compile Include="Database\Models\PlayerDb.cs" />
+    <Compile Include="Handlers\ExitHandler.cs" />
     <Compile Include="Logic\Alliance\Clan.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceHeaderEntry.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceMemberEntry.cs" />
@@ -170,6 +172,7 @@
     <Compile Include="Logic\Battle\Manager\BattleManager.cs" />
     <Compile Include="Logic\Commands\BuyResourcePackCommand.cs" />
     <Compile Include="Logic\Commands\BuyChestCommand.cs" />
+    <Compile Include="Logic\Commands\UnknownCommand.cs" />
     <Compile Include="Logic\Commands\Server\ChangeAllianceRoleCommand.cs" />
     <Compile Include="Logic\Commands\Server\LeaveAllianceCommand.cs" />
     <Compile Include="Logic\Commands\Server\JoinAllianceCommand.cs" />
@@ -259,6 +262,7 @@
     <Compile Include="Network\NetworkPool.cs" />
     <Compile Include="Network\NetworkToken.cs" />
     <Compile Include="Network\Packets\Client\Account\RequestApiMessage.cs" />
+    <Compile Include="Network\Packets\Client\Attack\StartTrainingBattleMessage.cs" />
     <Compile Include="Network\Packets\Server\Account\RequestApiDataMessage.cs" />
     <Compile Include="Network\TcpGateway.cs" />
     <Compile Include="Network\Packets\Factory.cs" />

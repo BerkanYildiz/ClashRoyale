@@ -76,6 +76,8 @@
                             break;
                         }
 
+                        Logging.Info(this.GetType(), " - " + Command.GetType().Name + ".");
+
                         this.Commands.Add(Command);
                     }
                 }

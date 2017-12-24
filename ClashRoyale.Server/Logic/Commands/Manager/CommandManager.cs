@@ -177,6 +177,8 @@
 
             switch (Type)
             {
+                case 501:
+                    return new UnknownCommand();
                 case 505:
                     return new SwapSpellsCommand();
                 case 511:
@@ -187,8 +189,6 @@
                     return new SpellSeenCommand();
                 /* case 523:
                     return new ClaimAchievementRewardCommand();
-                case 525:
-                    return new StartMatchmakeCommand();
                 case 526:
                     return new RefreshAchievementsCommand();
                 case 527:
@@ -201,6 +201,8 @@
                     return new UpdateLastShownLevelUpCommand();
                 case 592:
                     return new FuseSpellsCommand();
+                case 594:
+                    return new StartMatchmakeCommand();
                 case 599:
                     return new SpellPageOpenedCommand();
             }

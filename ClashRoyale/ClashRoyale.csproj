@@ -480,9 +480,6 @@
     <None Include="Gamefiles\level\starting_home.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Gamefiles\level\starting_home_backup.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Gamefiles\level\starting_home_max.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

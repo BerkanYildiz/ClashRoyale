@@ -66,13 +66,18 @@
   <ItemGroup>
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Network\NetworkToken.cs" />
+    <Compile Include="Network\Packets\Client\AskForAvatarLocalRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Client\AskForAllianceRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Client\AskForAvatarRankingListMessage.cs" />
     <Compile Include="Network\Packets\Client\RequestApiKeyMessage.cs" />
+    <Compile Include="Network\Packets\Client\StartTrainingBattleMessage.cs" />
     <Compile Include="Network\Packets\Factory.cs" />
     <Compile Include="Logic\Bot.cs" />
     <Compile Include="Network\Packets\Message.cs" />
     <Compile Include="Network\Packets\Client\LoginMessage.cs" />
     <Compile Include="Network\Packets\Client\KeepAliveMessage.cs" />
     <Compile Include="Network\Packets\Client\PreLoginMessage.cs" />
+    <Compile Include="Network\Packets\Server\ApiKeyDataMessage.cs" />
     <Compile Include="Network\Packets\Server\LoginFailedMessage.cs" />
     <Compile Include="Network\Packets\Server\LoginOkMessage.cs" />
     <Compile Include="Network\Packets\Server\KeepAliveOkMessage.cs" />

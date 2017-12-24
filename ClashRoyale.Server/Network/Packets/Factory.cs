@@ -41,6 +41,8 @@
             Factory.Messages.Add(11149, typeof(AskForAvatarRankingListMessage));
             Factory.Messages.Add(11639, typeof(AskForAvatarLocalRankingListMessage));
             Factory.Messages.Add(11688, typeof(ClientCapabilitiesMessage));
+            Factory.Messages.Add(12269, typeof(CancelMatchmakeMessage));
+            Factory.Messages.Add(12393, typeof(StartTrainingBattleMessage));
             Factory.Messages.Add(14171, typeof(AskForAllianceRankingListMessage));
             Factory.Messages.Add(14560, typeof(GoHomeMessage));
 
@@ -55,14 +57,19 @@
             Factory.Messages.Add(20103, typeof(AuthentificationFailedMessage));
             Factory.Messages.Add(20817, typeof(CancelMatchmakeDoneMessage));
             Factory.Messages.Add(21443, typeof(SectorHearbeatMessage));
+            Factory.Messages.Add(21873, typeof(SectorStateMessage));
             Factory.Messages.Add(22280, typeof(AuthentificationOkMessage));
             Factory.Messages.Add(22726, typeof(RequestApiDataMessage));
             Factory.Messages.Add(24135, typeof(KeepAliveServerMessage));
             Factory.Messages.Add(24445, typeof(InboxListMessage));
+            Factory.Messages.Add(25105, typeof(AllianceRankingListMessage));
+            Factory.Messages.Add(25390, typeof(AvatarLocaleRankingListMessage));
             Factory.Messages.Add(25412, typeof(HomeBattleReplayDataMessage));
             Factory.Messages.Add(25880, typeof(VisitedHomeDataMessage));
             Factory.Messages.Add(26550, typeof(AllianceDataMessage));
+            Factory.Messages.Add(26973, typeof(AllianceLocaleRankingListMessage));
             Factory.Messages.Add(28502, typeof(OwnHomeDataMessage));
+            Factory.Messages.Add(29733, typeof(AvatarRankingListMessage));
 
             /* Factory.Messages.Add(10113, typeof(SetDeviceTokenMessage));
             Factory.Messages.Add(10119, typeof(ReportUserMessage));

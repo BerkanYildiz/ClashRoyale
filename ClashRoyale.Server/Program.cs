@@ -1,7 +1,5 @@
 ﻿namespace ClashRoyale.Server
 {
-    using System;
-
     using ClashRoyale.Crypto.Randomizers;
     using ClashRoyale.Extensions.Game;
     using ClashRoyale.Files;
@@ -64,7 +62,8 @@
             Tests.Initialize();
 
             Program.Initialized = true;
-            Console.ReadKey(false);
+
+            CommandLine.Initialize();
         }
     }
 }

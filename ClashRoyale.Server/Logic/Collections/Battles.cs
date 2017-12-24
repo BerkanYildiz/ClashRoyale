@@ -40,7 +40,7 @@
         /// </summary>
         internal static void Initialize()
         {
-            if (Clans.Initialized)
+            if (Battles.Initialized)
             {
                 return;
             }

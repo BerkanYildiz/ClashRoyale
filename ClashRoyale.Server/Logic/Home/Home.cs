@@ -73,7 +73,7 @@ namespace ClashRoyale.Server.Logic.Home
         
 
         [JsonProperty("decks")]                     internal SpellDeck SpellDeck;
-        [JsonProperty("collections")]               internal SpellCollection SpellCollection;
+        [JsonProperty("collection")]                internal SpellCollection SpellCollection;
 
         // OTHER TIMER
 

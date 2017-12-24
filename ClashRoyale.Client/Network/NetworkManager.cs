@@ -85,8 +85,6 @@
         /// </summary>
         internal bool TryConnect()
         {
-            Logging.Info(this.GetType(), "TryConnect().");
-
             if (this.Gateway.Interface == AddressFamily.InterNetwork)
             {
                 this.ConnectionInterface = "eth0";

@@ -15,7 +15,7 @@
         {
             get
             {
-                return 14107;
+                return 12269;
             }
         }
 
@@ -51,7 +51,7 @@
             }
             else
             {
-                Logging.Warning(this.GetType(), "Player is not allowed to cancel the matchmake.");
+                Logging.Info(this.GetType(), "Player is not allowed to cancel the matchmake.");
             }
         }
     }

@@ -2,21 +2,20 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Battle.Event;
 
-    internal class SendBattleEventMessage : Message
+    internal class StartTrainingBattleMessage : Message
     {
-        internal BattleEvent Event;
-
         /// <summary>
-        /// Gets the type of this message.
+        /// The type of this message.
         /// </summary>
         internal override short Type
         {
             get
             {
-                return 12951;
+                return 12393;
             }
         }
 
@@ -31,12 +30,14 @@
             }
         }
 
+        private NpcData NpcData;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="SendBattleEventMessage"/> class.
+        /// Initializes a new instance of the <see cref="StartTrainingBattleMessage"/> class.
         /// </summary>
-        public SendBattleEventMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public StartTrainingBattleMessage(Device Device, ByteStream Stream) : base(Device, Stream)
         {
-            // SendBattleEventMessage.
+            // StartTrainingBattleMessage   
         }
 
         /// <summary>
@@ -44,8 +45,7 @@
         /// </summary>
         internal override void Decode()
         {
-            this.Event = new BattleEvent();
-            this.Event.Decode(this.Stream);
+            this.NpcData = this.Stream.DecodeData<NpcData>();
         }
 
         /// <summary>
@@ -53,13 +53,13 @@
         /// </summary>
         internal override void Process()
         {
-            if (this.Device.GameMode.State == HomeState.Attack)
+            if (this.Device.GameMode.State == HomeState.Home)
             {
-                this.Device.GameMode.SectorManager.ReceiveBattleEvent(this.Event);
+                this.Device.GameMode.SectorManager.SendSectorState();
             }
             else
             {
-                Logging.Error(this.GetType(), "State != HomeState.Attack at Process().");
+                Logging.Info(this.GetType(), "State != HomeState.Home at Process().");
             }
         }
     }

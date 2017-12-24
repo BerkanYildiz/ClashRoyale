@@ -71,7 +71,7 @@
             }
             else
             {
-                Logging.Info(this.GetType(), "SectorCommandMessage sendend in invalid state. (current state: " + this.Device.GameMode.State + ")");
+                Logging.Error(this.GetType(), "State != HomeState.Attack at Process().");
             }
         }
     }

@@ -1,16 +1,13 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client
+﻿namespace ClashRoyale.Client.Network.Packets.Client
 {
+    using ClashRoyale.Client.Logic;
     using ClashRoyale.Enums;
-    using ClashRoyale.Extensions;
     using ClashRoyale.Maths;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Scoring;
-    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForAllianceRankingListMessage : Message
     {
         /// <summary>
-        /// Gets the type of this message.
+        /// The type of this message.
         /// </summary>
         internal override short Type
         {
@@ -21,7 +18,7 @@
         }
 
         /// <summary>
-        /// Gets the service node of this message.
+        /// The service node of this message.
         /// </summary>
         internal override Node ServiceNode
         {
@@ -37,9 +34,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForAllianceRankingListMessage"/> class.
         /// </summary>
-        public AskForAllianceRankingListMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        /// <param name="Bot">The bot.</param>
+        public AskForAllianceRankingListMessage(Bot Bot, bool Local) : base(Bot)
         {
-            // AskForAllianceRankingListMessage.
+            this.IsLocal = Local;
         }
 
         /// <summary>
@@ -66,23 +64,6 @@
             if (!this.AllianceId.IsZero)
             {
                 this.Stream.WriteLong(this.AllianceId);
-            }
-        }
-
-        /// <summary>
-        /// Processes this instance.
-        /// </summary>
-        internal override void Process()
-        {
-            LeaderboardClans Leaderboard = Leaderboards.GlobalClans;
-
-            if (!this.IsLocal)
-            {
-                this.Device.NetworkManager.SendMessage(new AllianceRankingListMessage(this.Device, Leaderboard));
-            }
-            else
-            {
-                this.Device.NetworkManager.SendMessage(new AllianceLocaleRankingListMessage(this.Device, Leaderboard));
             }
         }
     }

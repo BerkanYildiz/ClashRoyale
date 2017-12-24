@@ -14,15 +14,15 @@
     [JsonConverter(typeof(SpellCollectionConverter))]
     internal class SpellCollection
     {
-        private List<Spell> Collections;
+        private readonly List<Spell> Spells;
 
         internal Spell this[int Index]
         {
             get
             {
-                if (this.Collections.Count > Index)
+                if (this.Spells.Count > Index)
                 {
-                    return this.Collections[Index];
+                    return this.Spells[Index];
                 }
 
                 return null;
@@ -36,7 +36,7 @@
         {
             get
             {
-                return this.Collections.Count;
+                return this.Spells.Count;
             }
         }
 
@@ -49,7 +49,7 @@
             {
                 int Max = 0;
 
-                this.Collections.ForEach(Spell =>
+                this.Spells.ForEach(Spell =>
                 {
                     Max = Math.Max(Spell.CreateTime, Max);
                 });
@@ -63,7 +63,7 @@
         /// </summary>
         internal SpellCollection()
         {
-            this.Collections = new List<Spell>(40);
+            this.Spells = new List<Spell>(40);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@
                 Logging.Error(this.GetType(), "AddSpell() - Trying to add spell that already exists in collection, data:" + Spell.Data + ".");
             }
 
-            this.Collections.Add(Spell);
+            this.Spells.Add(Spell);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@
         /// </summary>
         internal bool CanAddSpell(Spell Spell)
         {
-            return !this.Collections.Contains(Spell);
+            return !this.Spells.Contains(Spell);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@
         /// </summary>
         internal Spell GetSpellByData(SpellData Data)
         {
-            return this.Collections.Find(Spell => Spell.Data == Data);
+            return this.Spells.Find(Spell => Spell.Data == Data);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@
         /// </summary>
         internal int GetSpellIdxByData(SpellData Data)
         {
-            return this.Collections.FindIndex(Spell => Spell.Data == Data);
+            return this.Spells.FindIndex(Spell => Spell.Data == Data);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@
         /// </summary>
         internal List<Spell> GetSpells()
         {
-            return this.Collections;
+            return this.Spells;
         }
 
         /// <summary>
@@ -116,7 +116,7 @@
         /// </summary>
         internal void RemoveSpell(Spell Spell)
         {
-            this.Collections.Remove(Spell);
+            this.Spells.Remove(Spell);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@
         /// </summary>
         internal void RemoveSpell(int Idx)
         {
-            this.Collections.RemoveAt(Idx);
+            this.Spells.RemoveAt(Idx);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@
         /// </summary>
         internal void SetSpell(int Index, Spell Spell)
         {
-            this.Collections[Index] = Spell;
+            this.Spells[Index] = Spell;
         }
 
         /// <summary>
@@ -140,8 +140,8 @@
         /// </summary>
         internal Spell SwapSpells(Spell Spell, int Index)
         {
-            Spell Swap = this.Collections[Index];
-            this.Collections[Index] = Spell;
+            Spell Swap = this.Spells[Index];
+            this.Spells[Index] = Spell;
             return Swap;
         }
 
@@ -154,7 +154,7 @@
             {
                 Spell Spell = new Spell(null);
                 Spell.Decode(Reader);
-                this.Collections.Add(Spell);
+                this.Spells.Add(Spell);
             }
         }
 
@@ -163,9 +163,9 @@
         /// </summary>
         internal void Encode(ByteStream Stream)
         {
-            Stream.WriteVInt(this.Collections.Count);
+            Stream.WriteVInt(this.Spells.Count);
 
-            this.Collections.ForEach(Spell =>
+            this.Spells.ForEach(Spell =>
             {
                 Spell.Encode(Stream);
             });
@@ -180,7 +180,7 @@
             {
                 Spell Spell = new Spell(null);
                 Spell.Load(Array[I]);
-                this.Collections.Add(Spell);
+                this.Spells.Add(Spell);
             }
         }
 
@@ -191,7 +191,7 @@
         {
             JArray Spells = new JArray();
 
-            this.Collections.ForEach(Spell =>
+            this.Spells.ForEach(Spell =>
             {
                 Spells.Add(Spell.Save());
             });
@@ -211,7 +211,9 @@
                 Collection.Save().WriteTo(Writer);
             }
             else
+            {
                 Writer.WriteNull();
+            }
         }
 
         public override object ReadJson(JsonReader Reader, Type ObjectType, object ExistingValue, JsonSerializer Serializer)
