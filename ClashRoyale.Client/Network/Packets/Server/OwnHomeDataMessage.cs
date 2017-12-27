@@ -22,6 +22,7 @@
         internal override void Process()
         {
             this.Bot.Network.SendMessage(new RequestApiKeyMessage(this.Bot));
+            this.Bot.Network.SendMessage(new ChangeAvatarNameMessage(this.Bot));
         }
     }
 }

@@ -51,7 +51,7 @@
 
             if (this.Network.TryConnect())
             {
-                this.Network.SendMessage(new PreLoginMessage(this));
+                this.Network.SendMessage(new ClientHelloMessage(this));
 
                 Task.Run(() =>
                 {

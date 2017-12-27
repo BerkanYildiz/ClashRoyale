@@ -107,7 +107,7 @@
         {
             Logging.Info(typeof(TcpGateway), "Connection from " + ((IPEndPoint) AsyncEvent.AcceptSocket.RemoteEndPoint).Address + ".");
 
-            if (AsyncEvent.AcceptSocket.Connected && AsyncEvent.AcceptSocket.RemoteEndPoint.ToString().StartsWith("192.168.0."))
+            if (AsyncEvent.AcceptSocket.Connected && (AsyncEvent.AcceptSocket.RemoteEndPoint.ToString().StartsWith("192.168.0.") || AsyncEvent.AcceptSocket.RemoteEndPoint.ToString().StartsWith("192.168.1.")))
             {
                 SocketAsyncEventArgs ReadEvent = ReadPool.Dequeue();
 

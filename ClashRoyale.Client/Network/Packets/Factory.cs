@@ -31,7 +31,7 @@
         /// </summary>
         private static void LoadMessages()
         {
-            Factory.Messages.Add(10100, typeof(PreLoginMessage));
+            Factory.Messages.Add(10100, typeof(ClientHelloMessage));
             Factory.Messages.Add(10101, typeof(LoginMessage));
 
             Factory.Messages.Add(11149, typeof(AskForAvatarRankingListMessage));
@@ -46,7 +46,7 @@
 
             /* --------------------------------------------------- */
 
-            Factory.Messages.Add(20100, typeof(PreLoginOkMessage));
+            Factory.Messages.Add(20100, typeof(ServerHelloMessage));
             Factory.Messages.Add(20103, typeof(LoginFailedMessage));
 
             Factory.Messages.Add(22280, typeof(LoginOkMessage));

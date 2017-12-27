@@ -970,7 +970,10 @@ namespace ClashRoyale.Server.Logic.Home
 
             this.RequestCooldownTimer.Encode(Stream);
 
-            Stream.WriteVInt(1); // this.Tutorial  - 2817
+            Stream.WriteVInt(2819); // this.Tutorial  - 2817
+
+            // 2817 -> Name Pop Up -> 0000101100000001
+            // 2819 -> Name Pop Up -> 0000101100000011
 
             for (int J = 0; J < 7; J++)
             {

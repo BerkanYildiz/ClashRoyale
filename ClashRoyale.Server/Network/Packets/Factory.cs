@@ -50,6 +50,7 @@
 
             Factory.Messages.Add(18688, typeof(EndClientTurnMessage));
             Factory.Messages.Add(19860, typeof(VisitHomeMessage));
+            Factory.Messages.Add(19863, typeof(ChangeAvatarNameMessage));
             Factory.Messages.Add(19911, typeof(KeepAliveMessage));
 
             /* --------------------------------------------------- */

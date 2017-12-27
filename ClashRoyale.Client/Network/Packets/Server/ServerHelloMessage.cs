@@ -5,7 +5,7 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
 
-    internal class PreLoginOkMessage : Message
+    internal class ServerHelloMessage : Message
     {
         /// <summary>
         /// The type of this message.
@@ -32,11 +32,11 @@
         private byte[] SessionKey;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PreLoginOkMessage"/> class.
+        /// Initializes a new instance of the <see cref="ServerHelloMessage"/> class.
         /// </summary>
         /// <param name="Bot">The bot.</param>
         /// <param name="Stream">The stream.</param>
-        public PreLoginOkMessage(Bot Bot, ByteStream Stream) : base(Bot, Stream)
+        public ServerHelloMessage(Bot Bot, ByteStream Stream) : base(Bot, Stream)
         {
             this.Bot.State = State.SessionOk;
         }

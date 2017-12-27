@@ -3,7 +3,7 @@
     using ClashRoyale.Client.Logic;
     using ClashRoyale.Enums;
 
-    internal class PreLoginMessage : Message
+    internal class ClientHelloMessage : Message
     {
         /// <summary>
         /// The type of this message.
@@ -40,10 +40,10 @@
         private int AppStore        = 2;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PreLoginMessage"/> class.
+        /// Initializes a new instance of the <see cref="ClientHelloMessage"/> class.
         /// </summary>
         /// <param name="Bot">The bot.</param>
-        public PreLoginMessage(Bot Bot) : base(Bot)
+        public ClientHelloMessage(Bot Bot) : base(Bot)
         {
             this.KeyVersion = 15;
             this.Bot.State  = State.Session;
