@@ -54,10 +54,10 @@
                 
                 this.Stream.WriteLong(this.Player.PlayerId);
 
-                this.Stream.WriteBoolean(false);
+                this.Stream.WriteBoolean(true);
                 {
-                    // this.Stream.WriteVInt(0);
-                    // this.Stream.WriteVInt(0);
+                    this.Stream.WriteVInt(this.Device.GameMode.Home.HighId);
+                    this.Stream.WriteVInt(this.Device.GameMode.Home.LowId);
                 }
 
                 this.Stream.WriteVInt(0);
@@ -68,9 +68,9 @@
                 this.Player.Encode(this.Stream);
             }
 
-            this.Stream.WriteBoolean(true);
+            this.Stream.WriteBoolean(false);
             {
-                this.Player.Encode(this.Stream);
+                // this.Player.Encode(this.Stream);
             }
         }
     }

@@ -59,7 +59,7 @@ namespace ClashRoyale.Server.Logic.Player
 
         [JsonProperty("expLevel")]              internal int ExpLevel;
         [JsonProperty("expPoints")]             internal int ExpPoints;
-        [JsonProperty("nameChangeState")]       internal int NameChangeState;
+        [JsonProperty("nameChangeState")]       internal int NameChangeState = -1;
         [JsonProperty("clanRole")]              internal int AllianceRole;
 
         [JsonProperty("username")]              internal string Name;
@@ -83,7 +83,7 @@ namespace ClashRoyale.Server.Logic.Player
 
         // Debug
         
-        [JsonProperty("debugRank")]            internal Rank Rank = Rank.Administrator;
+        [JsonProperty("debugRank")]             internal Rank Rank = Rank.Administrator;
 
         // Apis
         
@@ -258,7 +258,6 @@ namespace ClashRoyale.Server.Logic.Player
             this.ExpLevel       = 1;
             this.Diamonds       = Globals.StartingDiamonds;
             this.FreeDiamonds   = Globals.StartingDiamonds;
-
             this.Arena          = CsvFiles.Get(Gamefile.Arena).GetWithInstanceId<ArenaData>(1);
         }
 
@@ -641,7 +640,7 @@ namespace ClashRoyale.Server.Logic.Player
             Stream.EncodeLogicData(this.Arena, 54);
             Stream.WriteVInt(this.Score);
             Stream.WriteVInt(0);
-            Stream.WriteVInt(0);
+            Stream.WriteVInt(this.MaxScore);
 
             if (!BattleEncode)
             {
@@ -652,15 +651,15 @@ namespace ClashRoyale.Server.Logic.Player
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
 
-            Stream.EncodeLogicData(null, 54); // 0x00
             Stream.WriteVInt(0); // 0x26
 
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
-            Stream.EncodeLogicData(null, 54);
+            Stream.WriteVInt(0);
 
             this.CommoditySlots.Encode(Stream);
 
@@ -703,10 +702,8 @@ namespace ClashRoyale.Server.Logic.Player
 
             Stream.WriteBool(false);
 
-            // Stream.AddRange("B6-01  03  00  00".HexaToBytes());
-
             Stream.WriteVInt(0);
-            Stream.WriteVInt(1);
+            Stream.WriteVInt(1); // 0x00 = Training
         }
 
         /// <summary>

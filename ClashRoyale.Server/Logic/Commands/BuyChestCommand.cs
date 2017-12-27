@@ -35,7 +35,8 @@
         internal override void Decode(ByteStream Stream)
         {
             base.Decode(Stream);
-            this.ChestIndex = Stream.ReadVInt();
+            Logging.Info(this.GetType(), this.ToHexa(Stream));
+            // this.ChestIndex = Stream.ReadVInt();
         }
 
         /// <summary>

@@ -1,11 +1,11 @@
 ﻿namespace ClashRoyale.Server.Logic.Player.Slots
 {
-    using System;
     using System.Collections.Generic;
 
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Game;
     using ClashRoyale.Files.Csv;
+    using ClashRoyale.Server.Logic.Converters;
     using ClashRoyale.Server.Logic.Player.Enums;
     using ClashRoyale.Server.Logic.Player.Items;
 
@@ -260,40 +260,6 @@
                 this.AddCommodityCount(CommodityType.ProfileResource, CsvFiles.GetWithGlobalId(5000011), 0);
                 this.AddCommodityCount(CommodityType.ProfileResource, CsvFiles.GetWithGlobalId(5000027), 0);
             }
-        }
-    }
-
-    internal class CommoditySlotsConverter : JsonConverter
-    {
-        public override void WriteJson(JsonWriter Writer, object Value, JsonSerializer Serializer)
-        {
-            CommoditySlots Slots = (CommoditySlots) Value;
-
-            if (Slots != null)
-            {
-                Slots.Save().WriteTo(Writer);
-            }
-            else
-                Writer.WriteNull();
-        }
-
-        public override object ReadJson(JsonReader Reader, Type ObjectType, object ExistingValue, JsonSerializer Serializer)
-        {
-            CommoditySlots Slots = (CommoditySlots) ExistingValue;
-
-            if (Slots == null)
-            {
-                Slots = new CommoditySlots();
-            }
-
-            Slots.Load(JArray.Load(Reader));
-
-            return Slots;
-        }
-
-        public override bool CanConvert(Type ObjectType)
-        {
-            return ObjectType == typeof(CommoditySlots);
         }
     }
 }

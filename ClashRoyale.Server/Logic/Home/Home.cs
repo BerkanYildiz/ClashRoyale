@@ -8,6 +8,7 @@ namespace ClashRoyale.Server.Logic.Home
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv;
     using ClashRoyale.Files.Csv.Logic;
+    using ClashRoyale.Server.Logic.Converters;
     using ClashRoyale.Server.Logic.Home.Spells;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Player;
@@ -15,7 +16,6 @@ namespace ClashRoyale.Server.Logic.Home
     using ClashRoyale.Server.Logic.Time;
 
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     using Math = ClashRoyale.Maths.Math;
 
@@ -23,53 +23,61 @@ namespace ClashRoyale.Server.Logic.Home
     {
         internal GameMode GameMode;
 
-        [JsonProperty("home_hi")]                   internal int HighId;
-        [JsonProperty("home_lo")]                   internal int LowId;
+        [JsonProperty("highId")]                    internal int HighId;
+        [JsonProperty("lowId")]                     internal int LowId;
        
         // SHOP
 
-        [JsonProperty("shop_seed")]                 internal int ShopSeed;
-        [JsonProperty("shop_day")]                  internal int ShopDay;
-        [JsonProperty("shop_day_seen")]             internal int ShopDaySeen;
-        [JsonProperty("day_of_year")]               internal int DayOfYear;
-        [JsonProperty("shop_items")]                internal List<ShopItem> ShopItems;
-        [JsonProperty("shop_timer")]                internal Timer ShopTimer;
+        [JsonProperty("shopSeed")]                  internal int ShopSeed;
+        [JsonProperty("shopDay")]                   internal int ShopDay;
+        [JsonProperty("shopDaySeen")]               internal int ShopDaySeen;
+        [JsonProperty("dayOfYear")]                 internal int DayOfYear;
+        [JsonProperty("shopItems")]                 internal List<ShopItem> ShopItems;
+        [JsonProperty("shopTimer")]                 internal Timer ShopTimer;
 
         // CHEST
 
-        [JsonProperty("running_chest_id")]          internal int RunningChestId;
+        [JsonProperty("runningChestId")]            internal int RunningChestId;
 
-        [JsonProperty("free_chest")]                internal Chest FreeChest;
-        [JsonProperty("star_chest")]                internal Chest StarChest;
-        [JsonProperty("shop_chest")]                internal Chest ShopChest;
-        [JsonProperty("clan_crown_chest")]          internal Chest ClanCrownChest;
-        [JsonProperty("purchased_chest")]           internal Chest PurchasedChest;
+        [JsonProperty("freeChest")]                 internal Chest FreeChest;
+        [JsonProperty("starChest")]                 internal Chest StarChest;
+        [JsonProperty("shopChest")]                 internal Chest ShopChest;
+        [JsonProperty("clanCrownChest")]            internal Chest ClanCrownChest;
+        [JsonProperty("purchasedChest")]            internal Chest PurchasedChest;
 
         [JsonProperty("chests")]                    internal List<Chest> Chests;
 
-        [JsonProperty("star_chest_cooldown")]       internal bool StarChestCooldown;
+        [JsonProperty("starChestCooldown")]         internal bool StarChestCooldown;
 
-        [JsonProperty("chest_slot_cnt")]            internal int ChestSlotCount;
-        [JsonProperty("free_chest_cnt")]            internal int FreeChestCount;
-        [JsonProperty("star_chest_counter")]        internal int StarChestCounter;
-        [JsonProperty("crown_chest_idx")]           internal int CrownChestIdx;
-        [JsonProperty("free_chest_idx")]            internal int FreeChestIdx;
+        [JsonProperty("chestSlotCnt")]              internal int ChestSlotCount;
+        [JsonProperty("freeChestCnt")]              internal int FreeChestCount;
+        [JsonProperty("starChestCounter")]          internal int StarChestCounter;
+        [JsonProperty("crownChestIdx")]             internal int CrownChestIdx;
+        [JsonProperty("freeChestIdx")]              internal int FreeChestIdx;
 
-        [JsonProperty("free_chest_t")]              internal Timer FreeChestTimer;
-        [JsonProperty("star_chest_t")]              internal Timer StarChestTimer;
+        [JsonProperty("freeChestTimer")]            internal Timer FreeChestTimer;
+        [JsonProperty("starChestTimer")]            internal Timer StarChestTimer;
 
         // SEEN
 
-        [JsonProperty("page_opened_bits")]          internal int PageOpened;
-        [JsonProperty("last_level_up_popup")]       internal int LastLevelUpPopup;
+        [JsonProperty("pageOpenedBits")]            internal int PageOpened;
+        [JsonProperty("lastLevelUpPopup")]          internal int LastLevelUpPopup;
 
-        [JsonProperty("last_arena")]                internal CsvData LastArena;
+        [JsonProperty("lastArena")]                 internal CsvData LastArena;
+
+        [JsonProperty("newArenasSeen")]             internal List<CsvData> NewArenasSeen;
+        [JsonProperty("replaysSeen")]               internal List<int> ReplaysSeen;
+
+        // PACKS
+
+        [JsonProperty("boughtPacks")]               internal List<CsvData> BoughtPacks;
 
         // SPELL
-        [JsonProperty("saved_decks")]
-        [JsonConverter(typeof(SavedDecksConverter))] internal int[][] SavedDecks;
 
-        [JsonProperty("selected_deck")]             internal int SelectedDeck;
+        [JsonConverter(typeof(SavedDecksConverter))]
+        [JsonProperty("savedDecks")]                internal int[][] SavedDecks;
+
+        [JsonProperty("selectedDeck")]              internal int SelectedDeck;
         
 
         [JsonProperty("decks")]                     internal SpellDeck SpellDeck;
@@ -77,11 +85,11 @@ namespace ClashRoyale.Server.Logic.Home
 
         // OTHER TIMER
 
-        [JsonProperty("donation_capacity_cooldown_timer")]  internal Timer DonationCapacityCooldownTimer;
-        [JsonProperty("request_cooldown_timer")]    internal Timer RequestCooldownTimer;
-        [JsonProperty("share_timer")]               internal Timer ShareTimer;
-        [JsonProperty("send_mail")]                 internal Timer SendMailTimer;
-        [JsonProperty("elder_kick")]                internal Timer ElderKickTimer;
+        [JsonProperty("donationCooldownTimer")]     internal Timer DonationCapacityCooldownTimer;
+        [JsonProperty("requestCooldownTimer")]      internal Timer RequestCooldownTimer;
+        [JsonProperty("shareTimer")]                internal Timer ShareTimer;
+        [JsonProperty("sendMail")]                  internal Timer SendMailTimer;
+        [JsonProperty("elderKick")]                 internal Timer ElderKickTimer;
 
         // TV
 
@@ -223,32 +231,38 @@ namespace ClashRoyale.Server.Logic.Home
         {
             // SHOP
 
-            this.ShopItems = new List<ShopItem>(8);
+            this.ShopItems                      = new List<ShopItem>(8);
 
-            this.ShopTimer = new Timer();
+            this.ShopTimer                      = new Timer();
             this.ShopTimer.StartTimer(86400);
 
             // CHEST
 
-            this.FreeChestTimer = new Timer();
-            this.StarChestTimer = new Timer();
+            this.FreeChestTimer                 = new Timer();
+            this.StarChestTimer                 = new Timer();
 
-            this.Chests = new List<Chest>(8);
+            this.Chests                         = new List<Chest>(8);
             
             // SEEN
 
-            this.LastLevelUpPopup = 1;
+            this.LastLevelUpPopup               = 1;
+            this.ReplaysSeen                    = new List<int>(15);
+            this.NewArenasSeen                  = new List<CsvData>(1); // 54000010
+
+            // PACKS
+
+            this.BoughtPacks                    = new List<CsvData>(0);
 
             // SPELL
 
-            this.SpellDeck = new SpellDeck();
-            this.SpellCollection = new SpellCollection();
+            this.SpellDeck                      = new SpellDeck();
+            this.SpellCollection                = new SpellCollection();
 
-            this.SavedDecks = new int[5][];
+            this.SavedDecks                     = new int[5][];
 
             for (int i = 0; i < 5; i++)
             {
-                this.SavedDecks[i] = new int[8];
+                this.SavedDecks[i]              = new int[8];
             }
 
             // OTHER TIMER
@@ -266,13 +280,13 @@ namespace ClashRoyale.Server.Logic.Home
             // TOURNAMENT
 
             // TUTORIAL
-
-
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Home"/> class.
         /// </summary>
+        /// <param name="HighId">The high identifier.</param>
+        /// <param name="LowId">The low identifier.</param>
         internal Home(int HighId, int LowId) : this()
         {
             this.HighId = HighId;
@@ -847,7 +861,7 @@ namespace ClashRoyale.Server.Logic.Home
             if (this.StarChestCounter >= Globals.CrownChestCrownCount)
             {
                 this.StarChest = null;
-                this.StarChest = new Chest(this.GameMode.Player.Arena.CrownChestData);
+                this.StarChest = new Chest(this.GameMode.Player.Arena.StarChestData);
             }
 
             this.UpdateStarsFromAvatar();
@@ -910,10 +924,6 @@ namespace ClashRoyale.Server.Logic.Home
             this.FreeChestTimer.Encode(Stream);
             this.DonationCapacityCooldownTimer.Encode(Stream);
 
-            /* ----- */
-
-            // Stream.AddRange("01 	13  88-01  02  92-15  00  7F  00  00  00 	 00-00-00-00-00-00-00-00-00-00-00-00-00-7F-B0-E1-02-80-F8-D2-01-BC-E9-81-A3-0B-00".HexaToBytes());
-
             Stream.WriteBoolean(this.FreeChest != null);
 
             if (this.FreeChest != null)
@@ -960,7 +970,7 @@ namespace ClashRoyale.Server.Logic.Home
 
             this.RequestCooldownTimer.Encode(Stream);
 
-            Stream.WriteVInt(this.Tutorial); // TutorialStep
+            Stream.WriteVInt(1); // this.Tutorial  - 2817
 
             for (int J = 0; J < 7; J++)
             {
@@ -989,48 +999,64 @@ namespace ClashRoyale.Server.Logic.Home
 
             Stream.WriteVInt(this.FreeChestIdx);
             Stream.WriteVInt(this.CrownChestIdx);
-
-            Stream.WriteVInt(0);
+            Stream.WriteVInt(0); // 0x01
             Stream.WriteVInt(0); // tvMajor
             Stream.WriteVInt(0); // tvBuild
             Stream.WriteVInt(0); // tvContent
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
 
-            Stream.WriteVInt(0); // Array Count (Replay Seen)
+            Stream.WriteVInt(this.ReplaysSeen.Count);
 
-            for (int I = 0; I < 0; I++)
+            foreach (int ReplayId in this.ReplaysSeen)
             {
-                Stream.WriteVInt(0);
+                Stream.WriteVInt(ReplayId);
             }
 
             Stream.EncodeSpellList(new List<SpellData>(0)); // Spell Request
 
-            Stream.WriteBoolean(true);
+            Stream.WriteBoolean(false);
 
             Stream.WriteVInt(10);
+
             Stream.WriteVInt(0); // Array Count
-
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
 
             Stream.WriteBoolean(false);
             Stream.WriteBoolean(false);
             Stream.WriteBoolean(false);
 
-            Stream.AddRange("FA-07".HexaToBytes());
+            this.SpellDeck.Encode(Stream);
+
+            /* ------------------------ */
+
+            Stream.WriteBoolean(false);
+
+            if (false)
             {
-                Stream.AddRange("20     06  A4-85-9F-17  81-0C  0D     00  00  00".HexaToBytes());
-                Stream.AddRange("2E     01  7F           03     00     00  00  00".HexaToBytes());
-                Stream.AddRange("16     05  AC-E8-92-17  01     04     00  00  00".HexaToBytes());
-                Stream.AddRange("1A     01  7F           00     00     00  00  00".HexaToBytes());
-                Stream.AddRange("96-01  08  9B-EF-94-17  A1-04  B6-02  00  00  00".HexaToBytes());
-                Stream.AddRange("9A-01  02  7F           00     00     00  00  00".HexaToBytes());
-                Stream.AddRange("21     00  92-F2-A9-17  01     00     00  00  00".HexaToBytes());
-                Stream.AddRange("15     01  7F           03     00     00  00  00".HexaToBytes());
+                Stream.WriteBoolean(true);
+
+                // sub_2CB81A()
+                {
+                    // ?
+                }
             }
 
-            Stream.WriteVInt(0);
+            Stream.WriteBoolean(false);
+
+            if (false)
+            {
+                Stream.WriteBoolean(true);
+
+                // sub_2CBB8E()
+                {
+                    // ?
+                }
+            }
+
+            /* ------------------------ */
 
             Stream.WriteVInt(0); // Spell Array
 
@@ -1051,38 +1077,39 @@ namespace ClashRoyale.Server.Logic.Home
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
 
-            Stream.WriteVInt(0); // Pack Bought in Shop
+            Stream.WriteVInt(this.BoughtPacks.Count);
 
-            for (int i = 0; i < 0; i++)
+            foreach (CsvData Pack in this.BoughtPacks)
             {
-                Stream.WriteVInt(0); // Shop.csv - Global Id
+                Stream.WriteVInt(Pack.GlobalId);
             }
 
-            Stream.AddRange("01-00-01-90-81-A1-FE-0B-00-15-01".HexaToBytes());
+            // Stream.AddRange("01-00-01-90-81-A1-FE-0B-00-15-01".HexaToBytes());
+            
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
 
-            Stream.WriteVInt(0); // Arena Seen Array
+            Stream.WriteVInt(0); // 0x01
 
-            for (int i = 0; i < 0; i++)
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+
+            Stream.WriteVInt(this.NewArenasSeen.Count);
+
+            foreach (ArenaData Arena in this.NewArenasSeen)
             {
-                Stream.WriteVInt(54000010); // Arena Seen Global Id
+                Stream.WriteVInt(Arena.GlobalId);
             }
 
             Stream.AddRange("02-00-9E-8B-26-00-5A-21-00-57-5A-24-F4-D7-B4-B8-9B-0C-00-00-00-00-00-00-00-00-00-01-04-04-01-00-00-00-00-19-54-49-44-5F-43-41-53-54-5F-51-55-45-53-54-5F-4D-49-4E-5F-45-4C-49-58-49-52-00-00-00-00-1E-00-00-00-00-00-13-43-61-73-74-5F-51-75-65-73-74-5F-48-69-67-68-43-6F-73-74-00-00-00-1E-54-49-44-5F-43-41-53-54-5F-51-55-45-53-54-5F-4D-49-4E-5F-45-4C-49-58-49-52-5F-49-4E-46-4F-00-00-00-08-73-63-2F-75-69-2E-73-63-00-00-00-0E-71-75-65-73-74-5F-69-74-65-6D-5F-70-76-70-14-01-0E-01-09-00-00-00-06-00-01-01-00-06-02-00-00-00-00-15-54-49-44-5F-52-45-51-55-45-53-54-5F-51-55-45-53-54-5F-41-4E-59-00-00-00-00-03-02-00-00-00-00-0B-52-65-71-75-65-73-74-5F-41-6E-79-00-00-00-1A-54-49-44-5F-52-45-51-55-45-53-54-5F-51-55-45-53-54-5F-41-4E-59-5F-49-4E-46-4F-00-00-00-08-73-63-2F-75-69-2E-73-63-00-00-00-0E-71-75-65-73-74-5F-69-74-65-6D-5F-70-76-70-14-01-0E-00-26-01-00-00-00-00-01-03-00-00-00-00-14-54-49-44-5F-46-52-45-45-5F-43-48-45-53-54-5F-51-55-45-53-54-00-00-00-00-03-02-00-00-00-00-10-51-75-65-73-74-5F-46-72-65-65-43-68-65-73-74-73-00-00-00-14-54-49-44-5F-46-52-45-45-5F-43-48-45-53-54-5F-51-55-45-53-54-00-00-00-08-73-63-2F-75-69-2E-73-63-00-00-00-15-71-75-65-73-74-5F-69-74-65-6D-5F-66-72-65-65-5F-63-68-65-73-74-05-03-13-07-01-13-07-01-13-07-01-03-01-01-00-03-00-04-04-01-00-00-7F-00-04-04-00-00-00-00-19-54-49-44-5F-43-41-53-54-5F-51-55-45-53-54-5F-4D-41-58-5F-45-4C-49-58-49-52-00-00-00-00-32-00-00-00-00-00-12-43-61-73-74-5F-51-75-65-73-74-5F-4C-6F-77-43-6F-73-74-00-00-00-1E-54-49-44-5F-43-41-53-54-5F-51-55-45-53-54-5F-4D-41-58-5F-45-4C-49-58-49-52-5F-49-4E-46-4F-00-00-00-08-73-63-2F-75-69-2E-73-63-00-00-00-0E-71-75-65-73-74-5F-69-74-65-6D-5F-70-76-70-14-01-05-01-8A-05-00-00-00-00-02-01-01-00-01-02-A9-13-01-00-00-00-26-51-75-C3-AA-74-65-20-C3-A9-6C-65-63-74-72-6F-63-75-74-65-75-72-73-20-63-6F-6E-74-72-65-20-63-68-61-73-73-65-75-72-00-00-00-1C-69-63-6F-6E-5F-71-75-65-73-74-5F-74-79-70-65-5F-73-70-65-63-69-61-6C-65-76-65-6E-74-06-00-00-00-00-00-00-00-00-00-41-47-61-67-6E-65-7A-20-36-C2-A0-63-6F-75-72-6F-6E-6E-65-73-20-64-61-6E-73-20-6C-65-20-64-C3-A9-66-69-20-C3-A9-6C-65-63-74-72-6F-63-75-74-65-75-72-73-20-63-6F-6E-74-72-65-20-63-68-61-73-73-65-75-72-00-00-00-08-73-63-2F-75-69-2E-73-63-00-00-00-16-71-75-65-73-74-5F-69-74-65-6D-5F-73-70-65-63-69-61-6C-5F-70-76-70-14-01-05-01-A8-0F-02-00-00-00-01-A8-13-19-32-01-00-00-9A-05-05-01-00-07-01-00-00-00-00-01-00-00-00-00-00-00-00-00-00-00-0C-04-00-02-01-04-02-02-01-04-04-04-00-04-00-02-03-05-04-05".HexaToBytes());
             
-            /* ---- */
-
-            Stream.WriteVInt(0);
-
-            /* Stream.WriteVInt(this.ShopItems.Count);
-
-            this.ShopItems.ForEach(Item =>
-            {
-                Item.Encode(Stream);
-            }); */
-
-            /* ---- */
-
-            Stream.AddRange("04-03-02-02".HexaToBytes());
+            Stream.AddRange("00-04-03-02-02".HexaToBytes());
 
             Stream.AddRange("00     7F-7F-00-00  B6-01  06     01           00-00  9A-05  96-02  05-01".HexaToBytes());
             Stream.AddRange("1A-13  0F-00-00     B8-2E  00-00  01           00-01  9A-05  AC-04  05-01".HexaToBytes());
@@ -1139,62 +1166,6 @@ namespace ClashRoyale.Server.Logic.Home
             }
 
             Stream.AddRange("00-01-02-00-00-00-00-00-7F-95-11-00-00".HexaToBytes());
-        }
-
-        internal class SavedDecksConverter : JsonConverter
-        {
-            public override void WriteJson(JsonWriter Writer, object Value, JsonSerializer Serializer)
-            {
-                int[][] Decks = (int[][]) Value;
-
-                Writer.WriteStartArray();
-
-                if (Decks != null)
-                {
-                    for (int I = 0; I < Decks.Length; I++)
-                    {
-                        Writer.WriteStartArray();
-
-                        for (int J = 0; J < Decks[I].Length; J++)
-                        {
-                            Writer.WriteValue(Decks[I][J]);
-                        }
-
-                        Writer.WriteEndArray();
-                    }
-                }
-
-                Writer.WriteEndArray();
-            }
-
-            public override object ReadJson(JsonReader Reader, Type ObjectType, object ExistingValue, JsonSerializer Serializer)
-            {
-                int[][] Decks = (int[][]) ExistingValue;
-
-                if (Decks == null)
-                {
-                    throw new Exception("SavedDecks is NULL");
-                }
-
-                JArray Array = JArray.Load(Reader);
-
-                for (int I = 0; I < Array.Count; I++)
-                {
-                    JArray Array2 = (JArray) Array[I];
-
-                    for (int J = 0; J < Array2.Count; J++)
-                    {
-                        Decks[I][J] = (int) Array2[J];
-                    }
-                }
-
-                return Decks;
-            }
-
-            public override bool CanConvert(Type ObjectType)
-            {
-                return ObjectType == typeof(int[][]);
-            }
         }
     }
 }

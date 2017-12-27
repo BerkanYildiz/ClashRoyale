@@ -141,6 +141,9 @@
                 return;
             }
 
+            Logging.Info(this.GetType(), "Account Id    : " + this.HighId + "-" + this.LowId + ".");
+            Logging.Info(this.GetType(), "Account Token : " + this.Token + ".");
+
             if (this.HighId == 0 && this.LowId == 0 && this.Token == null)
             {
                 Player Player = await Players.Create();

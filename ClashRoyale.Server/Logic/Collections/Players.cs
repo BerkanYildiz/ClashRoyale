@@ -2,7 +2,6 @@ namespace ClashRoyale.Server.Logic.Collections
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -140,15 +139,25 @@ namespace ClashRoyale.Server.Logic.Collections
                 Entity.Initialize();
             }
 
-            Entity.HighId       = Players.HighSeed;
-            Entity.LowId        = Interlocked.Increment(ref Players.LowSeed);
+            if (Entity.HighId == 0)
+            {
+                Entity.HighId   = Players.HighSeed;
+            }
+
+            if (Entity.LowId == 0)
+            {
+                Entity.LowId    = Interlocked.Increment(ref Players.LowSeed);
+            }
 
             JsonConvert.PopulateObject(Files.Home.Json.ToString(), Entity.Home);
 
             Entity.Home.HighId  = Entity.HighId;
             Entity.Home.LowId   = Entity.LowId;
 
-            Entity.Token        = XorShift.NextToken();
+            if (string.IsNullOrEmpty(Entity.Token))
+            {
+                Entity.Token    = XorShift.NextToken();
+            }
 
             await PlayerDb.Create(Entity);
 

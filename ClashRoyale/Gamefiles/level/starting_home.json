@@ -65,11 +65,8 @@
          "n": 0
       }
    ],
-   "collection": {
-      "spells": [
-      ],
-      "next_serial": 1
-   },
+   "collection":[
+   ],
    "selected_deck": 0,
    "locations": [
    ],

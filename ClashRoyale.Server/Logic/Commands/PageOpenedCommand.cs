@@ -15,7 +15,7 @@
         {
             get
             {
-                return 527;
+                return 599;
             }
         }
 

@@ -6,7 +6,7 @@
     {
         public const string Environment     = "stage";
 
-        public const bool IsMaxedServer     = true;
+        public const bool IsMaxedServer     = false;
         public const bool IsDevelopment     = true;
         public const bool IsKunlunServer    = false;
 

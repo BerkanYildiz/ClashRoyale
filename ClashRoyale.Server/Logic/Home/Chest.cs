@@ -1,11 +1,10 @@
 ﻿namespace ClashRoyale.Server.Logic.Home
 {
-    using System;
-
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Server.Logic.Commands.Server;
+    using ClashRoyale.Server.Logic.Converters;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Reward;
     using ClashRoyale.Server.Logic.Time;
@@ -292,7 +291,6 @@
         /// <summary>
         /// Saves this instance to json.
         /// </summary>
-        /// <returns></returns>
         internal JObject Save()
         {
             JObject Json = new JObject();
@@ -314,40 +312,6 @@
             }
 
             return Json;
-        }
-    }
-
-    internal class ChestConverter : JsonConverter
-    {
-        public override void WriteJson(JsonWriter Writer, object Value, JsonSerializer Serializer)
-        {
-            Chest Chest = (Chest) Value;
-
-            if (Chest != null)
-            {
-                Chest.Save().WriteTo(Writer);
-            }
-            else
-                Writer.WriteNull();
-        }
-
-        public override object ReadJson(JsonReader Reader, Type ObjectType, object ExistingValue, JsonSerializer Serializer)
-        {
-            Chest Chest = (Chest) ExistingValue;
-
-            if (Chest == null)
-            {
-                Chest = new Chest();
-            }
-
-            Chest.Load(JObject.Load(Reader));
-
-            return Chest;
-        }
-
-        public override bool CanConvert(Type ObjectType)
-        {
-            return ObjectType == typeof(Chest);
         }
     }
 }

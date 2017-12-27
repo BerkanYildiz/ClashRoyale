@@ -10,7 +10,6 @@
     using ClashRoyale.Server.Logic.Commands;
     using ClashRoyale.Server.Logic.Commands.Manager;
     using ClashRoyale.Server.Logic.Player;
-    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class EndClientTurnMessage : Message
     {

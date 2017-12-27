@@ -191,8 +191,8 @@
                     return new ClaimAchievementRewardCommand();
                 case 526:
                     return new RefreshAchievementsCommand();
-                case 527:
-                    return new PageOpenedCommand(); */
+                case 538:
+                    return new SpellPageOpenedCommand(); */
                 case 539:
                     return new BuyChestCommand();
                 case 544:
@@ -204,7 +204,7 @@
                 case 594:
                     return new StartMatchmakeCommand();
                 case 599:
-                    return new SpellPageOpenedCommand();
+                    return new PageOpenedCommand();
             }
 
             Logging.Info(typeof(CommandManager), "CreateCommand() - Command type " + Type + " does not exist.");

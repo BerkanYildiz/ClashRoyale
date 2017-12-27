@@ -28,10 +28,15 @@
             }
         }
 
-        private int HighId              = 2;
-        private int LowId               = 14318;
+        // private int HighId              = 2;
+        // private int LowId               = 14318;
 
-        private string Token            = "hw8r72xfkmnger9jrwntwkwha3ksas2ywrbcafwj";
+        private int HighId              = 35;
+        private int LowId               = 20867578;
+
+        // private string Token            = "hw8r72xfkmnger9jrwntwkwha3ksas2ywrbcafwj";
+        private string Token            = "m64e7k4c3eep3zttdgw8pfr4f2chj22889gaj68m";
+
         private string MasterHash       = "74ecd0057e94aee0f6b485473ef3a047b4663e39";
 
         private string AdvertiseId      = "00000000-0000-0000-0000-000000000000";

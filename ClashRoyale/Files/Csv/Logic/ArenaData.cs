@@ -12,9 +12,24 @@ namespace ClashRoyale.Files.Csv.Logic
         public List<SpellData>[] UnlockedSpellsData;
 
         public TreasureChestData FreeChestData;
-        public TreasureChestData CrownChestData;
         public TreasureChestData MagicChestData;
         public TreasureChestData SuperMagicalChestData;
+        public TreasureChestData SilverChestData;
+        public TreasureChestData GoldChestData;
+        public TreasureChestData GiantChestData;
+        public TreasureChestData EpicChestData;
+        public TreasureChestData StarChestData;
+        public TreasureChestData StarBoostedChestData;
+
+        public TreasureChestData SurvivalBronzeChestData;
+        public TreasureChestData SurvivalGoldChestData;
+
+        public TreasureChestData ClanCrownChestData;
+
+        public TreasureChestData Tournament1st;
+        public TreasureChestData Tournament2nd;
+        public TreasureChestData Tournament3rd;
+        public TreasureChestData TournamentOther;
 
         public ArenaData ChestArenaData;
 
@@ -124,24 +139,103 @@ namespace ClashRoyale.Files.Csv.Logic
                 {
                     if (Data.Arena == this.Name)
                     {
-                        if (Data.BaseChest == "Free")
+                        switch (Data.BaseChest)
                         {
-                            this.FreeChestData = Data;
-                        }
+                            case "Free":
+                            {
+                                this.FreeChestData = Data;
+                                break;
+                            }
 
-                        if (Data.BaseChest == "Start")
-                        {
-                            this.CrownChestData = Data;
-                        }
+                            case "Star":
+                            {
+                                this.StarChestData = Data;
+                                break;
+                            }
 
-                        if (Data.BaseChest == "Magic")
-                        {
-                            this.MagicChestData = Data;
-                        }
+                            case "StarBoosted":
+                            {
+                                this.StarBoostedChestData = Data;
+                                break;
+                            }
 
-                        if (Data.BaseChest == "Super")
-                        {
-                            this.SuperMagicalChestData = Data;
+                            case "Magic":
+                            {
+                                this.MagicChestData = Data;
+                                break;
+                            }
+
+                            case "Super":
+                            {
+                                this.SuperMagicalChestData = Data;
+                                break;
+                            }
+
+                            case "Silver":
+                            {
+                                this.SilverChestData = Data;
+                                break;
+                            }
+
+                            case "Gold":
+                            {
+                                this.GoldChestData = Data;
+                                break;
+                            }
+
+                            case "Giant":
+                            {
+                                this.GiantChestData = Data;
+                                break;
+                            }
+
+                            case "Epic":
+                            {
+                                this.EpicChestData = Data;
+                                break;
+                            }
+
+                            case "Survival_Bronze":
+                            {
+                                this.SurvivalBronzeChestData = Data;
+                                break;
+                            }
+
+                            case "Survival_Gold":
+                            {
+                                this.SurvivalGoldChestData = Data;
+                                break;
+                            }
+
+                            case "ClanCrownChest":
+                            {
+                                this.ClanCrownChestData = Data;
+                                break;
+                            }
+
+                            case "Tournament1st":
+                            {
+                                this.Tournament1st = Data;
+                                break;
+                            }
+
+                            case "Tournament2nd":
+                            {
+                                this.Tournament2nd = Data;
+                                break;
+                            }
+
+                            case "Tournament3rd":
+                            {
+                                this.Tournament3rd = Data;
+                                break;
+                            }
+
+                            case "TournamentOther":
+                            {
+                                this.TournamentOther = Data;
+                                break;
+                            }
                         }
                     }
                 }

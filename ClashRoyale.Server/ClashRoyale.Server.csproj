@@ -183,6 +183,11 @@
     <Compile Include="Logic\Commands\BuySpellCommand.cs" />
     <Compile Include="Logic\Commands\Storage\CommandStorage.cs" />
     <Compile Include="Logic\Commands\SpellSeenCommand.cs" />
+    <Compile Include="Logic\Converters\SpellDeckConverter.cs" />
+    <Compile Include="Logic\Converters\SpellCollectionConverter.cs" />
+    <Compile Include="Logic\Converters\DataSlotConverter.cs" />
+    <Compile Include="Logic\Converters\CommoditySlotsConverter.cs" />
+    <Compile Include="Logic\Converters\ChestConverter.cs" />
     <Compile Include="Logic\GameObject\Character.cs" />
     <Compile Include="Logic\GameObject\Factory\GameObjectFactory.cs" />
     <Compile Include="Logic\GameObject\Summoner.cs" />
@@ -400,6 +405,9 @@
       <Project>{bed31336-c114-4e3b-9251-590ea24b223f}</Project>
       <Name>ClashRoyale</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Logic\Converters\SavedDecksConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

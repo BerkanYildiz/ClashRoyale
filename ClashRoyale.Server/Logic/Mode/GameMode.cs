@@ -2,8 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Extensions.Helper;
-    using ClashRoyale.Extensions.Utils;
     using ClashRoyale.Server.Logic.Battle;
     using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Commands.Manager;

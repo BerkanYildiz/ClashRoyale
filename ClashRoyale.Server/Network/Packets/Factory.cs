@@ -42,7 +42,7 @@
             Factory.Messages.Add(11639, typeof(AskForAvatarLocalRankingListMessage));
             Factory.Messages.Add(11688, typeof(ClientCapabilitiesMessage));
             Factory.Messages.Add(12269, typeof(CancelMatchmakeMessage));
-            Factory.Messages.Add(12393, typeof(StartTrainingBattleMessage));
+            // Factory.Messages.Add(12393, typeof(StartTrainingBattleMessage));
             Factory.Messages.Add(14171, typeof(AskForAllianceRankingListMessage));
             Factory.Messages.Add(14560, typeof(GoHomeMessage));
 
