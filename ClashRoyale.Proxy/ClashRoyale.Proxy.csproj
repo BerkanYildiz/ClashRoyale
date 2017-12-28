@@ -37,7 +37,7 @@
     <FileAlignment>1024</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>GL.Proxy.CR.Program</StartupObject>
+    <StartupObject>ClashRoyale.Proxy.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

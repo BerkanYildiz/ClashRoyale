@@ -143,17 +143,13 @@
             }
 
             
-            /* if (Type < 300)
+            if (Type < 300)
             {
                 if (Type >= 200)
                 {
                     switch (Type)
                     {
-                        case 201:
-                            return new ChangeAvatarNameCommand();
-                        case 202:
-                            return new DiamondsAddedCommand();
-                        case 205:
+                        /* case 205:
                             return new LeaveAllianceCommand();
                         case 206:
                             return new JoinAllianceCommand();
@@ -164,16 +160,20 @@
                         case 211:
                             return new AddChestCommand();
                         case 215:
-                            return new TransactionsRevokedCommand();
+                            return new TransactionsRevokedCommand(); */
+                        case 275:
+                            return new DiamondsAddedCommand();
+                        case 278:
+                            return new ChangeAvatarNameCommand();
                     }
                 }
 
                 switch (Type)
                 {
-                    case 1:
-                        return new DoSpellCommand();
+                    /* case 1:
+                        return new DoSpellCommand(); */
                 }
-            } */
+            }
 
             switch (Type)
             {

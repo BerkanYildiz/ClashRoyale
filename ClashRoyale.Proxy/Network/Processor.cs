@@ -56,7 +56,7 @@
 
                 State.Offset   += Received;
 
-                // Logging.Info(this.GetType(), "Received " + Received + " bytes from " + AsyncResult.AsyncState.GetType().Name + ", for a total of " + State.Offset + " bytes !");
+                Logging.Info(this.GetType(), "Received " + Received + " bytes from " + AsyncResult.AsyncState.GetType().Name + ", for a total of " + State.Offset + " bytes !");
 
                 if (Received > 0)
                 {

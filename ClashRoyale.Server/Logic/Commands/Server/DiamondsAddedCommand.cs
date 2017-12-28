@@ -15,7 +15,7 @@
         {
             get
             {
-                return 202;
+                return 275;
             }
         }
 
@@ -40,11 +40,8 @@
         /// </summary>
         internal override void Decode(ByteStream Stream)
         {
-            Stream.ReadBoolean();
-            this.Diamonds = Stream.ReadVInt();
-            Stream.ReadString();
-
             base.Decode(Stream);
+            this.Diamonds = Stream.ReadInt();
         }
 
         /// <summary>
@@ -52,11 +49,8 @@
         /// </summary>
         internal override void Encode(ChecksumEncoder Stream)
         {
-            Stream.WriteBoolean(false);
-            Stream.WriteVInt(this.Diamonds);
-            Stream.WriteString(null);
-
             base.Encode(Stream);
+            Stream.WriteInt(int.MaxValue);
         }
 
         /// <summary>

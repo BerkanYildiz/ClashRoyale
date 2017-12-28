@@ -27,7 +27,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ShopItem"/> class.
         /// </summary>
-        public ShopItem()
+        internal ShopItem()
         {
             // ShopItem.
         }
@@ -35,11 +35,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ShopItem"/> class.
         /// </summary>
-        public ShopItem(int ShopIndex, int Cost, ResourceData BuyResourceData) : this()
+        /// <param name="ShopIndex">Index of the shop.</param>
+        /// <param name="Cost">The cost.</param>
+        /// <param name="BuyResourceData">The buy resource data.</param>
+        internal ShopItem(int ShopIndex, int Cost, ResourceData BuyResourceData) : this()
         {
-            this.Cost = Cost;
-            this.ShopIndex = ShopIndex;
-            this.BuyResourceData = BuyResourceData;
+            this.Cost               = Cost;
+            this.ShopIndex          = ShopIndex;
+            this.BuyResourceData    = BuyResourceData;
         }
 
         /// <summary>
@@ -48,10 +51,10 @@
         internal virtual void Decode(ByteStream Stream)
         {
             Stream.ReadVInt();
-            this.ShopIndex = Stream.ReadVInt();
+            this.ShopIndex          = Stream.ReadVInt();
             Stream.ReadVInt();
-            this.Cost = Stream.ReadVInt();
-            this.BuyResourceData = Stream.DecodeData<ResourceData>();
+            this.Cost               = Stream.ReadVInt();
+            this.BuyResourceData    = Stream.DecodeData<ResourceData>();
         }
 
         /// <summary>
@@ -59,6 +62,15 @@
         /// </summary>
         internal virtual void Encode(ByteStream Stream)
         {
+            /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * *
+             *  01  00  00  9A-05  96-02  05-01  1A-13  0F  00  00  B8-2E  00-00 *
+             *  01  00  01  9A-05  AC-04  05-01  1A-0D  1E  00  00  B8-2E  00-00 *
+             *  01  00  02  9A-05  B4-07  05-01  1A-31  32  00  00  B8-2E  00-00 *
+             *  01  00  03  9A-05  A0-0C  05-01  1B-0A  08  01  00  B8-2E  00-01 *
+             *  01  00  04  9A-05  B0-12  05-01  1C-03  0C  01  00  B8-2E  00-00 *
+             *  01  00  05  9A-05  80-19  05-01  1A-03  10  01  00  B8-2E  00-00 *
+             *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * */
+
             Stream.WriteVInt(0);
             Stream.WriteVInt(this.ShopIndex);
             Stream.WriteVInt(0);

@@ -55,12 +55,11 @@
 
             Logging.Info(this.GetType(), "Processing packet (" + this.Name + " | " + this.Identifier + ") " + Destination.ToString().Replace("_", " ").ToLower() + ", with version " + this.Version + ".");
 
-            this.DecryptedData      = this.Payload;
-            this.EncryptedData      = this.Payload;
-
-            // this.DecryptedData      = this.Device.EnDecrypt.Decrypt(this);
+            this.DecryptedData      = this.Device.EnDecrypt.Decrypt(this);
             // this.Device.Receive(this.Identifier, ref this.DecryptedData);
-            // this.EncryptedData      = this.Device.EnDecrypt.Encrypt(this);
+            this.EncryptedData      = this.Device.EnDecrypt.Encrypt(this);
+
+            // Logging.Info(this.GetType(), BitConverter.ToString(this.RebuiltEncrypted));
 
             File.AppendAllText("Logs\\" + ((IPEndPoint) this.Client.RemoteEndPoint).Address + "\\TCP\\" + this.Name + "_" + this.Identifier + ".bin", BitConverter.ToString(this.RebuiltDecrypted) + Environment.NewLine);
         }
@@ -73,14 +72,19 @@
         {
             get
             {
-                List<byte> Packet = new List<byte>();
+                byte[] Buffer;
 
-                Packet.AddRange(BitConverter.GetBytes(this.Identifier).Reverse().Skip(2));
-                Packet.AddRange(BitConverter.GetBytes(this.Payload.Length).Reverse().Skip(1));
-                Packet.AddRange(BitConverter.GetBytes(this.Version).Reverse().Skip(2));
-                Packet.AddRange(this.Payload);
+                using (ByteStream Packet = new ByteStream(7 + this.Length))
+                {
+                    Packet.WriteShort(this.Identifier);
+                    Packet.WriteInt24(this.Length);
+                    Packet.WriteShort(this.Version);
+                    Packet.AddRange(this.Payload);
 
-                return Packet.ToArray();
+                    Buffer = Packet.ToArray();
+                }
+
+                return Buffer;
             }
         }
 
@@ -92,14 +96,19 @@
         {
             get
             {
-                List<byte> Packet = new List<byte>();
+                byte[] Buffer;
 
-                Packet.AddRange(BitConverter.GetBytes(this.Identifier).Reverse().Skip(2));
-                Packet.AddRange(BitConverter.GetBytes(this.EncryptedData.Length).Reverse().Skip(1));
-                Packet.AddRange(BitConverter.GetBytes(this.Version).Reverse().Skip(2));
-                Packet.AddRange(this.EncryptedData);
+                using (ByteStream Packet = new ByteStream(7 + this.Length))
+                {
+                    Packet.WriteShort(this.Identifier);
+                    Packet.WriteInt24(this.Length);
+                    Packet.WriteShort(this.Version);
+                    Packet.AddRange(this.EncryptedData);
 
-                return Packet.ToArray();
+                    Buffer = Packet.ToArray();
+                }
+
+                return Buffer;
             }
         }
 
@@ -111,14 +120,19 @@
         {
             get
             {
-                List<byte> Packet = new List<byte>();
+                byte[] Buffer;
 
-                Packet.AddRange(BitConverter.GetBytes(this.Identifier).Reverse().Skip(2));
-                Packet.AddRange(BitConverter.GetBytes(this.DecryptedData.Length).Reverse().Skip(1));
-                Packet.AddRange(BitConverter.GetBytes(this.Version).Reverse().Skip(2));
-                Packet.AddRange(this.DecryptedData);
+                using (ByteStream Packet = new ByteStream(7 + this.Length))
+                {
+                    Packet.WriteShort(this.Identifier);
+                    Packet.WriteInt24(this.Length);
+                    Packet.WriteShort(this.Version);
+                    Packet.AddRange(this.DecryptedData);
 
-                return Packet.ToArray();
+                    Buffer = Packet.ToArray();
+                }
+
+                return Buffer;
             }
         }
     }

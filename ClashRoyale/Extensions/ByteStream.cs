@@ -529,7 +529,7 @@
                 throw new ArgumentException("Byte array length is negative", "Length");
             }
 
-            return this.ReadRange(this.Length);
+            return this.ReadRange(Length);
         }
 
         /// <summary>

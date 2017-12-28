@@ -3,6 +3,8 @@
     using System;
 
     using ClashRoyale.Server.Handlers;
+    using ClashRoyale.Server.Logic.Collections;
+    using ClashRoyale.Server.Logic.Commands.Server;
 
     internal static class CommandLine
     {
@@ -27,10 +29,17 @@
                 if (!string.IsNullOrEmpty(Input))
                 {
                     string[] Args = Input.Trim().Split(' ');
-
+                    
                     if (Args[0] == "exit")
                     {
                         ExitHandler.Run(Args);
+                    }
+                    else if (Args[0] == "gems")
+                    {
+                        Players.ForEach(Player =>
+                        {
+                            Player.GameMode.CommandManager.AddAvailableServerCommand(new DiamondsAddedCommand(1));
+                        });
                     }
                 }
             }

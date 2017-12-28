@@ -1,7 +1,10 @@
 ﻿namespace ClashRoyale.Proxy
 {
+    using System;
+
     using ClashRoyale.Proxy.Logic;
     using ClashRoyale.Proxy.Logic.Collections;
+    using ClashRoyale.Proxy.Network;
 
     internal class Program
     {
@@ -13,6 +16,8 @@
             Launcher.Initialize();
             PacketType.Initialize();
             Devices.Initialize();
+            new Gateway();
+            Console.ReadKey(false);
         }
     }
 }
