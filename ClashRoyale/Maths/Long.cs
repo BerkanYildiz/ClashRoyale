@@ -56,17 +56,20 @@
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="LogicLong"/> structures.
+        /// Initializes a new instance of the <see cref="LogicLong"/> struct.
         /// </summary>
+        /// <param name="Long">The long.</param>
         public LogicLong(long Long)
         {
-            this._HighInteger = (int)(Long >> 32);
-            this._LowInteger = (int)Long;
+            this._HighInteger   = (int) (Long >> 32);
+            this._LowInteger    = (int) Long;
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="LogicLong"/> structures.
+        /// Initializes a new instance of the <see cref="LogicLong"/> struct.
         /// </summary>
+        /// <param name="HighInteger">The high integer.</param>
+        /// <param name="LowInteger">The low integer.</param>
         public LogicLong(int HighInteger, int LowInteger)
         {
             this._HighInteger   = HighInteger;
@@ -132,6 +135,17 @@
         public override string ToString()
         {
             return this._HighInteger + "-" + this._LowInteger;
+        }
+
+        /// <summary>
+        /// Gets an empty instance of <see cref="LogicLong"/>.
+        /// </summary>
+        public static LogicLong Empty
+        {
+            get
+            {
+                return new LogicLong();
+            }
         }
     }
 }

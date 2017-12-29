@@ -2,7 +2,6 @@
 {
     using System;
     using System.Diagnostics;
-    using System.Threading.Tasks;
 
     using SharpRaven.Data;
 
@@ -23,7 +22,7 @@
         /// </summary>
         /// <param name="Type">The type.</param>
         /// <param name="Message">The message.</param>
-        public static async Task Warning(Type Type, string Message)
+        public static void Warning(Type Type, string Message)
         {
             Debug.WriteLine("[WARNING] " + Type.Name.Pad() + " : " + Message);
 
@@ -37,7 +36,7 @@
                 SentryEvent.Tags.Add("className", Type.Name);
                 SentryEvent.Tags.Add("projectName", Type.Assembly.GetName().Name);
 
-                await Sentry.Raven.CaptureAsync(SentryEvent);
+                Sentry.Raven.CaptureAsync(SentryEvent);
             }
         }
 
@@ -46,7 +45,7 @@
         /// </summary>
         /// <param name="Type">The type.</param>
         /// <param name="Message">The message.</param>
-        public static async Task Error(Type Type, string Message)
+        public static void Error(Type Type, string Message)
         {
             Debug.WriteLine("[ ERROR ] " + Type.Name.Pad() + " : " + Message);
 
@@ -60,7 +59,7 @@
                 SentryEvent.Tags.Add("className", Type.Name);
                 SentryEvent.Tags.Add("projectName", Type.Assembly.GetName().Name);
 
-                await Sentry.Raven.CaptureAsync(SentryEvent);
+                Sentry.Raven.CaptureAsync(SentryEvent);
             }
         }
 
@@ -69,7 +68,7 @@
         /// </summary>
         /// <param name="Type">The type.</param>
         /// <param name="Message">The message.</param>
-        public static async Task Fatal(Type Type, string Message)
+        public static void Fatal(Type Type, string Message)
         {
             Debug.WriteLine("[ FATAL ] " + Type.Name.Pad() + " : " + Message);
 
@@ -83,7 +82,7 @@
                 SentryEvent.Tags.Add("className", Type.Name);
                 SentryEvent.Tags.Add("projectName", Type.Assembly.GetName().Name);
 
-                await Sentry.Raven.CaptureAsync(SentryEvent);
+                Sentry.Raven.CaptureAsync(SentryEvent);
             }
         }
     }

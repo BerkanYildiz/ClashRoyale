@@ -17,7 +17,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         {
             get
             {
-                return 24405;
+                return 20073;
             }
         }
 

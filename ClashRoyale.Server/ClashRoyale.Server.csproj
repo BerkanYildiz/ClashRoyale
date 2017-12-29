@@ -149,6 +149,7 @@
     <Compile Include="Database\Models\BattleDb.cs" />
     <Compile Include="Database\Models\ClanDb.cs" />
     <Compile Include="Database\Models\PlayerDb.cs" />
+    <Compile Include="Handlers\SelectHandler.cs" />
     <Compile Include="Handlers\ExitHandler.cs" />
     <Compile Include="Logic\Alliance\Clan.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceHeaderEntry.cs" />
@@ -202,7 +203,7 @@
     <Compile Include="Logic\Commands\Server\AllianceUnitReceivedCommand.cs" />
     <Compile Include="Logic\Commands\Server\AddChestCommand.cs" />
     <Compile Include="Logic\Commands\Server\TransactionsRevokedCommand.cs" />
-    <Compile Include="Logic\Commands\Server\DiamondsAddedCommand.cs" />
+    <Compile Include="Logic\Commands\Server\DiamondsRemovedCommand.cs" />
     <Compile Include="Logic\Commands\Server\ClaimRewardCommand.cs" />
     <Compile Include="Logic\Commands\Server\ChangeAvatarNameCommand.cs" />
     <Compile Include="Logic\Commands\Server\ServerCommand.cs" />
@@ -226,7 +227,7 @@
     <Compile Include="Logic\Scoring\Entries\RankingEntry.cs" />
     <Compile Include="Logic\Scoring\LeaderboardClans.cs" />
     <Compile Include="Logic\Scoring\LeaderboardPlayers.cs" />
-    <Compile Include="Logic\Scoring\Leaderboards.cs" />
+    <Compile Include="Logic\Collections\Leaderboards.cs" />
     <Compile Include="Logic\Home\Home.cs" />
     <Compile Include="Logic\Commands\Manager\CommandManager.cs" />
     <Compile Include="Logic\Manager\AchievementManager.cs" />

@@ -4,6 +4,7 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Maths;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Scoring;
     using ClashRoyale.Server.Network.Packets.Server;
 
@@ -75,12 +76,14 @@
         {
             LeaderboardPlayers Leaderboard = Leaderboards.GetRegionalPlayers(this.Device.Defines.Region);
 
-            if (Leaderboard == null)
+            if (Leaderboard != null)
             {
-                Leaderboard = new LeaderboardPlayers();
+                this.Device.NetworkManager.SendMessage(new AvatarLocaleRankingListMessage(this.Device, Leaderboard));
             }
-
-            this.Device.NetworkManager.SendMessage(new AvatarLocaleRankingListMessage(this.Device, Leaderboard));
+            else
+            {
+                Logging.Error(this.GetType(), "Leaderboard == null at Process() with Region == '" + this.Device.Defines.Region + "'.");
+            }
         }
     }
 }

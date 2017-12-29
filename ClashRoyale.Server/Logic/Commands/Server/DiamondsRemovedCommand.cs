@@ -1,13 +1,13 @@
 ﻿namespace ClashRoyale.Server.Logic.Commands.Server
 {
+    using ClashRoyale.Exceptions;
     using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic.Mode;
     using ClashRoyale.Server.Logic.Player;
 
-    internal class DiamondsAddedCommand : ServerCommand
+    internal class DiamondsRemovedCommand : ServerCommand
     {
-        internal int Diamonds;
-
+        
         /// <summary>
         /// Gets the type of this command.
         /// </summary>
@@ -19,19 +19,26 @@
             }
         }
 
+        private int Diamonds;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="DiamondsAddedCommand"/> class.
+        /// Initializes a new instance of the <see cref="DiamondsRemovedCommand"/> class.
         /// </summary>
-        public DiamondsAddedCommand()
+        public DiamondsRemovedCommand()
         {
-            // DiamondsAddedCommand.
+            // DiamondsRemovedCommand.
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DiamondsAddedCommand"/> class.
+        /// Initializes a new instance of the <see cref="DiamondsRemovedCommand"/> class.
         /// </summary>
-        public DiamondsAddedCommand(int Diamonds)
+        public DiamondsRemovedCommand(int Diamonds)
         {
+            if (Diamonds < 0)
+            {
+                throw new LogicException(this.GetType(), "Diamonds < 0 at DiamondsRemovedCommand(Diamonds: "+ Diamonds + ").");
+            }
+
             this.Diamonds = Diamonds;
         }
 
@@ -50,7 +57,7 @@
         internal override void Encode(ChecksumEncoder Stream)
         {
             base.Encode(Stream);
-            Stream.WriteInt(int.MaxValue);
+            Stream.WriteInt(this.Diamonds);
         }
 
         /// <summary>
@@ -64,7 +71,11 @@
             {
                 if (this.Diamonds > 0)
                 {
-                    GameMode.Player.AddFreeDiamonds(this.Diamonds);
+                    GameMode.Player.AddFreeDiamonds(-this.Diamonds);
+                }
+                else
+                {
+                    return 2;
                 }
 
                 return 0;

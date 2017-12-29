@@ -108,6 +108,7 @@
     <Compile Include="Enums\Rank.cs" />
     <Compile Include="Enums\Reason.cs" />
     <Compile Include="Enums\State.cs" />
+    <Compile Include="Exceptions\LogicException.cs" />
     <Compile Include="Extensions\ByteHelper.cs" />
     <Compile Include="Extensions\ByteStream.cs" />
     <Compile Include="Extensions\ChecksumEncoder.cs" />

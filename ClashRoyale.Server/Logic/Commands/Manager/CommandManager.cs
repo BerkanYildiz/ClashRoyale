@@ -162,7 +162,7 @@
                         case 215:
                             return new TransactionsRevokedCommand(); */
                         case 275:
-                            return new DiamondsAddedCommand();
+                            return new DiamondsRemovedCommand();
                         case 278:
                             return new ChangeAvatarNameCommand();
                     }

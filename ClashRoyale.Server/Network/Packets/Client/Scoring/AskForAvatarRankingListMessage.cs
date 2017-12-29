@@ -4,6 +4,7 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Maths;
     using ClashRoyale.Server.Logic;
+    using ClashRoyale.Server.Logic.Collections;
     using ClashRoyale.Server.Logic.Scoring;
     using ClashRoyale.Server.Network.Packets.Server;
 
@@ -78,6 +79,10 @@
             if (Leaderboard != null)
             {
                 this.Device.NetworkManager.SendMessage(new AvatarRankingListMessage(this.Device, Leaderboard));
+            }
+            else
+            {
+                Logging.Error(this.GetType(), "Leaderboard == null at Process().");
             }
         }
     }

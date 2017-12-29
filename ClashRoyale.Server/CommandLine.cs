@@ -29,7 +29,7 @@
                 if (!string.IsNullOrEmpty(Input))
                 {
                     string[] Args = Input.Trim().Split(' ');
-                    
+
                     if (Args[0] == "exit")
                     {
                         ExitHandler.Run(Args);
@@ -38,8 +38,12 @@
                     {
                         Players.ForEach(Player =>
                         {
-                            Player.GameMode.CommandManager.AddAvailableServerCommand(new DiamondsAddedCommand(1));
+                            Player.GameMode.CommandManager.AddAvailableServerCommand(new DiamondsRemovedCommand(1));
                         });
+                    }
+                    else if (Args[0] == "use")
+                    {
+                        SelectHandler.Use(Args);
                     }
                 }
             }
