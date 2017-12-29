@@ -40,6 +40,9 @@
             Factory.Messages.Add(14171, typeof(AskForAllianceRankingListMessage));
 
             Factory.Messages.Add(15080, typeof(RequestApiKeyMessage));
+            Factory.Messages.Add(15827, typeof(AskForBattleReplayStreamMessage));
+
+            Factory.Messages.Add(17101, typeof(AskForAvatarStreamMessage));
 
             // Factory.Messages.Add(18688, typeof(EndClientTurnMessage));
             Factory.Messages.Add(19911, typeof(KeepAliveMessage));

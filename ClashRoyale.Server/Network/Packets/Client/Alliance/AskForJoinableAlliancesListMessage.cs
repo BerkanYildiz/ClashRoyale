@@ -56,8 +56,6 @@
             {
                 Clan[] Availables = Clans.GetAll().FindAll(T => T.HeaderEntry.Type == 0 /* && _T.HeaderEntry.NumberOfMembers < 50 */ && T.HeaderEntry.NumberOfMembers > 0).ToArray();
 
-                Logging.Info(this.GetType(), "Generated a list of joinables clans, then shuffle them.");
-                
                 int Skiped  = 0;
 
                 for (int I = 0; I < 50; I++)
@@ -84,8 +82,6 @@
             else
             {
                 Clan[] Availables = Clans.GetAll().FindAll(T => T.HeaderEntry.NumberOfMembers < 50 && T.HeaderEntry.NumberOfMembers > 0).ToArray();
-
-                Logging.Info(this.GetType(), "Generated a list of joinables clans without shuffling them.");
 
                 for (int I = 0; I < Availables.Length; I++)
                 {

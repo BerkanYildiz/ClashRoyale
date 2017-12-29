@@ -47,19 +47,17 @@
         /// </summary>
         public RoyalTvEntry()
         {
-            // RoyalTvEntry.
+            this.Creation       = DateTime.UtcNow;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RoyalTvEntry"/> class.
         /// </summary>
-        public RoyalTvEntry(BattleLog BattleLog)
+        public RoyalTvEntry(BattleLog BattleLog) : this()
         {
             this.BattleLogJson  = BattleLog.SaveJson().ToString(Formatting.None);
             this.ReplayHighId   = BattleLog.HighId;
             this.ReplayLowId    = BattleLog.LowId;
-
-            this.Creation       = DateTime.UtcNow;
         }
         
         /// <summary>

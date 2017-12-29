@@ -2,8 +2,6 @@
 {
     using ClashRoyale.Client.Logic;
     using ClashRoyale.Enums;
-    using ClashRoyale.Extensions.Helper;
-    using ClashRoyale.Files.Csv.Logic;
 
     internal class ChangeAvatarNameMessage : Message
     {

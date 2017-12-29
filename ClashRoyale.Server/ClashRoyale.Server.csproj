@@ -149,7 +149,8 @@
     <Compile Include="Database\Models\BattleDb.cs" />
     <Compile Include="Database\Models\ClanDb.cs" />
     <Compile Include="Database\Models\PlayerDb.cs" />
-    <Compile Include="Handlers\SelectHandler.cs" />
+    <Compile Include="Handlers\ClanHandler.cs" />
+    <Compile Include="Handlers\PlayerHandler.cs" />
     <Compile Include="Handlers\ExitHandler.cs" />
     <Compile Include="Logic\Alliance\Clan.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceHeaderEntry.cs" />
@@ -303,7 +304,7 @@
     <Compile Include="Network\Packets\Client\Home\VisitHomeMessage.cs" />
     <Compile Include="Network\Packets\Client\Account\LoginMessage.cs" />
     <Compile Include="Network\Packets\Client\Socials\Bind\BindGamecenterAccount.cs" />
-    <Compile Include="Network\Packets\Client\Socials\Bind\BindGoogleAccount.cs" />
+    <Compile Include="Network\Packets\Client\Socials\Bind\BindGoogleAccountMessage.cs" />
     <Compile Include="Network\Packets\Client\Avatar\ChangeAvatarNameMessage.cs" />
     <Compile Include="Network\Packets\Client\Account\ClientCapabilitiesMessage.cs" />
     <Compile Include="Network\Packets\Client\Home\EndClientTurnMessage.cs" />

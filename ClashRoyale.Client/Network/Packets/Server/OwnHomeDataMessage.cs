@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Client.Network.Packets.Server
 {
     using ClashRoyale.Client.Logic;
-    using ClashRoyale.Client.Network.Packets.Client;
     using ClashRoyale.Extensions;
 
     internal class OwnHomeDataMessage : Message

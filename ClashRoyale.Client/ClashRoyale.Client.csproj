@@ -69,6 +69,8 @@
     <Compile Include="Network\Packets\Client\AskForAvatarLocalRankingListMessage.cs" />
     <Compile Include="Network\Packets\Client\AskForAllianceRankingListMessage.cs" />
     <Compile Include="Network\Packets\Client\AskForAvatarRankingListMessage.cs" />
+    <Compile Include="Network\Packets\Client\AskForAvatarStreamMessage.cs" />
+    <Compile Include="Network\Packets\Client\AskForBattleReplayStreamMessage.cs" />
     <Compile Include="Network\Packets\Client\RequestApiKeyMessage.cs" />
     <Compile Include="Network\Packets\Client\ChangeAvatarNameMessage.cs" />
     <Compile Include="Network\Packets\Client\StartTrainingBattleMessage.cs" />

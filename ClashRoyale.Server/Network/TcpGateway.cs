@@ -303,7 +303,7 @@
         {
             NetworkToken Token = AsyncEvent.UserToken as NetworkToken;
 
-            if (!Token.Aborting)
+            if (Token.Aborting)
             {
                 return;
             }

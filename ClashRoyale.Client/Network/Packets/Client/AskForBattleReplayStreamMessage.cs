@@ -1,11 +1,9 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client
+﻿namespace ClashRoyale.Client.Network.Packets.Client
 {
+    using ClashRoyale.Client.Logic;
     using ClashRoyale.Enums;
-    using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Maths;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForBattleReplayStreamMessage : Message
     {
@@ -36,9 +34,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForBattleReplayStreamMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForBattleReplayStreamMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        /// <param name="Bot">The bot.</param>
+        public AskForBattleReplayStreamMessage(Bot Bot) : base(Bot)
         {
             // AskForBattleReplayStreamMessage.
         }
@@ -52,11 +49,11 @@
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        internal override void Process()
+        internal override void Encode()
         {
-            this.Device.NetworkManager.SendMessage(new BattleReportStreamMessage(this.Device));
+            this.Stream.WriteLong(this.PlayerId);
         }
     }
 }

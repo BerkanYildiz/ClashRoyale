@@ -3,8 +3,6 @@
     using System;
 
     using ClashRoyale.Server.Handlers;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Commands.Server;
 
     internal static class CommandLine
     {
@@ -40,24 +38,13 @@
                     {
                         ExitHandler.Run(Args);
                     }
-                    else if (Args[0] == "gems")
+                    else if (Args[0] == "player")
                     {
-                        Players.ForEach(Player =>
-                        {
-                            Player.GameMode.CommandManager.AddAvailableServerCommand(new DiamondsRemovedCommand(1));
-                        });
+                        PlayerHandler.Handle(Args);
                     }
-                    else if (Args[0] == "use")
+                    else if (Args[0] == "clan")
                     {
-                        SelectHandler.Use(Args);
-                    }
-                    else if (Args[0] == "deuse")
-                    {
-                        SelectHandler.Deselect(Args);
-                    }
-                    else if (Args[0] == "profile")
-                    {
-                        SelectHandler.Profile(Args);
+                        ClanHandler.Handle(Args);
                     }
                 }
             }

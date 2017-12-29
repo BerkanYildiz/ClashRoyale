@@ -1,9 +1,7 @@
-﻿namespace ClashRoyale.Server.Network.Packets.Client
+﻿namespace ClashRoyale.Client.Network.Packets.Client
 {
+    using ClashRoyale.Client.Logic;
     using ClashRoyale.Enums;
-    using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForAvatarStreamMessage : Message
     {
@@ -32,19 +30,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForAvatarStreamMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForAvatarStreamMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        /// <param name="Bot">The bot.</param>
+        public AskForAvatarStreamMessage(Bot Bot) : base(Bot)
         {
             // AskForAvatarStreamMessage.
-        }
-
-        /// <summary>
-        /// Processes this message.
-        /// </summary>
-        internal override void Process()
-        {
-            this.Device.NetworkManager.SendMessage(new AvatarStreamMessage(this.Device));
         }
     }
 }

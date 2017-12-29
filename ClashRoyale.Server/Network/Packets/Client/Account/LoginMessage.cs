@@ -224,6 +224,7 @@
 
             this.Device.NetworkManager.SendMessage(new AuthentificationOkMessage(this.Device, Player));
             this.Device.NetworkManager.SendMessage(new OwnHomeDataMessage(this.Device, Player));
+            this.Device.NetworkManager.SendMessage(new InboxCountMessage(this.Device));
 
             /* if (Player.IsInAlliance)
             {

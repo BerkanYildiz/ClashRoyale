@@ -55,8 +55,12 @@
 
                 Task.Run(() =>
                 {
-                    Thread.Sleep(3000);
-                    // this.Network.SendMessage(new StartTrainingBattleMessage(this));
+                    while (true)
+                    {
+                        Thread.Sleep(5000);
+                        // this.Network.SendMessage(new AskForAvatarStreamMessage(this));
+                        Logging.Info(this.GetType(), "Test message has been sent.");
+                    }
                 });
             }
             else

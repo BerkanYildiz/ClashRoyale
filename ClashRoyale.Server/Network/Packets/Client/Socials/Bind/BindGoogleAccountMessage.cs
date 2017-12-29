@@ -9,7 +9,7 @@
 
     using MongoDB.Driver;
 
-    internal class BindGoogleAccount : Message
+    internal class BindGoogleAccountMessage : Message
     {
         /// <summary>
         /// The type of this message.
@@ -18,7 +18,7 @@
         {
             get
             {
-                return 14262;
+                return 14997;
             }
         }
 
@@ -37,13 +37,13 @@
         private string GoogleToken;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BindGoogleAccount"/> class.
+        /// Initializes a new instance of the <see cref="BindGoogleAccountMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
         /// <param name="ByteStream">The byte stream.</param>
-        public BindGoogleAccount(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public BindGoogleAccountMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
         {
-            // BindGoogleAccount.
+            // BindGoogleAccountMessage.
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Server.Logic;
     using ClashRoyale.Server.Network.Packets.Client;
+    using ClashRoyale.Server.Network.Packets.Client.Bind;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal static class Factory
@@ -47,9 +48,13 @@
 
             Factory.Messages.Add(14171, typeof(AskForAllianceRankingListMessage));
             Factory.Messages.Add(14560, typeof(GoHomeMessage));
+            Factory.Messages.Add(14997, typeof(BindGoogleAccountMessage));
 
             Factory.Messages.Add(15080, typeof(RequestApiMessage));
             Factory.Messages.Add(15793, typeof(AskForFriendsInviteMessage));
+            Factory.Messages.Add(15827, typeof(AskForBattleReplayStreamMessage));
+
+            Factory.Messages.Add(17101, typeof(AskForAvatarStreamMessage));
 
             Factory.Messages.Add(18688, typeof(EndClientTurnMessage));
 
@@ -59,6 +64,7 @@
 
             /* --------------------------------------------------- */
 
+            Factory.Messages.Add(20032, typeof(BattleReportStreamMessage));
             Factory.Messages.Add(20073, typeof(RoyalTvContentMessage));
             Factory.Messages.Add(20103, typeof(AuthentificationFailedMessage));
             Factory.Messages.Add(20817, typeof(CancelMatchmakeDoneMessage));
@@ -83,6 +89,7 @@
             Factory.Messages.Add(26973, typeof(AllianceLocaleRankingListMessage));
 
             Factory.Messages.Add(28502, typeof(OwnHomeDataMessage));
+            Factory.Messages.Add(29567, typeof(AvatarStreamMessage));
             Factory.Messages.Add(29733, typeof(AvatarRankingListMessage));
 
             /* Factory.Messages.Add(10113, typeof(SetDeviceTokenMessage));
@@ -105,7 +112,7 @@
 
             Factory.Messages.Add(14201, typeof(BindFacebookAccount));
             Factory.Messages.Add(14212, typeof(BindGamecenterAccount));
-            Factory.Messages.Add(14262, typeof(BindGoogleAccount));
+            
 
             Factory.Messages.Add(14301, typeof(CreateAllianceMessage));
             
@@ -116,9 +123,6 @@
             Factory.Messages.Add(14315, typeof(ChatToAllianceStreamMessage));
             Factory.Messages.Add(14316, typeof(EditAllianceMessage));
             Factory.Messages.Add(14321, typeof(ReplyJoinRequestMessage));
-
-            Factory.Messages.Add(14405, typeof(AskForAvatarStreamMessage));
-            Factory.Messages.Add(14406, typeof(AskForBattleReplayStreamMessage));
 
             Factory.Messages.Add(14600, typeof(AvatarNameCheckRequestMessage));
 

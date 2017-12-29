@@ -1,7 +1,5 @@
 ﻿namespace ClashRoyale.Client.Network.Packets.Server
 {
-    using System;
-
     using ClashRoyale.Client.Logic;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;

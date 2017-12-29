@@ -2,7 +2,6 @@
 {
     using System;
 
-    using ClashRoyale.Proxy.Logic;
     using ClashRoyale.Proxy.Logic.Collections;
     using ClashRoyale.Proxy.Network;
 

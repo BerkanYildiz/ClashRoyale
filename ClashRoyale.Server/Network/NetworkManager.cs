@@ -137,6 +137,10 @@
                             }
                         }
                     }
+                    else
+                    {
+                        Logging.Info(this.GetType(), BitConverter.ToString(Stream.ReadBytesWithoutLength(Stream.BytesLeft)));
+                    }
                 }
             }
             else
