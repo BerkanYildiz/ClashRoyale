@@ -451,12 +451,12 @@
                 
                 Stream.WriteVInt(6); // Count
 
-                Stream.EncodeData(CsvFiles.Get(Gamefile.Building).GetWithInstanceId(1)); // PrincessTower
-                Stream.EncodeData(CsvFiles.Get(Gamefile.Building).GetWithInstanceId(1)); // PrincessTower
-                Stream.EncodeData(CsvFiles.Get(Gamefile.Building).GetWithInstanceId(1)); // PrincessTower
-                Stream.EncodeData(CsvFiles.Get(Gamefile.Building).GetWithInstanceId(1)); // PrincessTower
-                Stream.EncodeData(CsvFiles.Get(Gamefile.Building).GetWithInstanceId(0)); // KingTower
-                Stream.EncodeData(CsvFiles.Get(Gamefile.Building).GetWithInstanceId(0)); // KingTower
+                Stream.EncodeData(CsvFiles.Get(Gamefile.Buildings).GetWithInstanceId(1)); // PrincessTower
+                Stream.EncodeData(CsvFiles.Get(Gamefile.Buildings).GetWithInstanceId(1)); // PrincessTower
+                Stream.EncodeData(CsvFiles.Get(Gamefile.Buildings).GetWithInstanceId(1)); // PrincessTower
+                Stream.EncodeData(CsvFiles.Get(Gamefile.Buildings).GetWithInstanceId(1)); // PrincessTower
+                Stream.EncodeData(CsvFiles.Get(Gamefile.Buildings).GetWithInstanceId(0)); // KingTower
+                Stream.EncodeData(CsvFiles.Get(Gamefile.Buildings).GetWithInstanceId(0)); // KingTower
 
                 // Type (Enemy, etc...)
                 Stream.WriteVInt(1);

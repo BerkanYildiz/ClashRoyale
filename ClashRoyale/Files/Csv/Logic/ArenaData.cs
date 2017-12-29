@@ -79,53 +79,53 @@ namespace ClashRoyale.Files.Csv.Logic
         /// </summary>
 		public void ConfigureSpells()
         {
-            this.PvPLocationData = CsvFiles.Get(Gamefile.Location).GetData<LocationData>(this.PvpLocation);
-            this.TeamVsTeamLocationData = CsvFiles.Get(Gamefile.Location).GetData<LocationData>(this.TeamVsTeamLocation);
+            this.PvPLocationData = CsvFiles.Get(Gamefile.Locations).GetData<LocationData>(this.PvpLocation);
+            this.TeamVsTeamLocationData = CsvFiles.Get(Gamefile.Locations).GetData<LocationData>(this.TeamVsTeamLocation);
 
-            this.UnlockedSpellsData = new List<SpellData>[CsvFiles.Get(Gamefile.Rarity).Datas.Count];
+            this.UnlockedSpellsData = new List<SpellData>[CsvFiles.Get(Gamefile.Rarities).Datas.Count];
 
 		    for (int I = 0; I < this.UnlockedSpellsData.Length; I++)
 		    {
 		        this.UnlockedSpellsData[I] = new List<SpellData>();
 
-		        foreach (SpellData Data in CsvFiles.Get(Gamefile.SpellCharacter).Datas)
+		        foreach (SpellData Data in CsvFiles.Get(Gamefile.SpellsCharacters).Datas)
 		        {
 		            if (Data.IsUnlockedInArena(this))
 		            {
-		                if (Data.RarityData == CsvFiles.Get(Gamefile.Rarity).Datas[I])
+		                if (Data.RarityData == CsvFiles.Get(Gamefile.Rarities).Datas[I])
 		                {
 		                    this.UnlockedSpellsData[I].Add(Data);
                         }
 		            }
 		        }
 
-		        foreach (SpellData Data in CsvFiles.Get(Gamefile.SpellBuilding).Datas)
+		        foreach (SpellData Data in CsvFiles.Get(Gamefile.SpellsBuildings).Datas)
 		        {
 		            if (Data.IsUnlockedInArena(this))
 		            {
-		                if (Data.RarityData == CsvFiles.Get(Gamefile.Rarity).Datas[I])
+		                if (Data.RarityData == CsvFiles.Get(Gamefile.Rarities).Datas[I])
 		                {
 		                    this.UnlockedSpellsData[I].Add(Data);
 		                }
 		            }
 		        }
 
-		        foreach (SpellData Data in CsvFiles.Get(Gamefile.SpellOther).Datas)
+		        foreach (SpellData Data in CsvFiles.Get(Gamefile.SpellsOther).Datas)
 		        {
 		            if (Data.IsUnlockedInArena(this))
 		            {
-		                if (Data.RarityData == CsvFiles.Get(Gamefile.Rarity).Datas[I])
+		                if (Data.RarityData == CsvFiles.Get(Gamefile.Rarities).Datas[I])
 		                {
 		                    this.UnlockedSpellsData[I].Add(Data);
 		                }
 		            }
 		        }
 
-		        foreach (SpellData Data in CsvFiles.Get(Gamefile.SpellOther).Datas)
+		        foreach (SpellData Data in CsvFiles.Get(Gamefile.SpellsOther).Datas)
 		        {
 		            if (Data.IsUnlockedInArena(this))
 		            {
-		                if (Data.RarityData == CsvFiles.Get(Gamefile.Rarity).Datas[I])
+		                if (Data.RarityData == CsvFiles.Get(Gamefile.Rarities).Datas[I])
 		                {
 		                    this.UnlockedSpellsData[I].Add(Data);
 		                }
@@ -135,7 +135,7 @@ namespace ClashRoyale.Files.Csv.Logic
             
             if (!this.TrainingCamp)
             {
-                foreach (TreasureChestData Data in CsvFiles.Get(Gamefile.TreasureChest).Datas)
+                foreach (TreasureChestData Data in CsvFiles.Get(Gamefile.TreasureChests).Datas)
                 {
                     if (Data.Arena == this.Name)
                     {
@@ -243,7 +243,7 @@ namespace ClashRoyale.Files.Csv.Logic
 
             if (!string.IsNullOrEmpty(this.ChestArena))
             {
-                this.ChestArenaData = CsvFiles.Get(Gamefile.Arena).GetData<ArenaData>(this.ChestArena);
+                this.ChestArenaData = CsvFiles.Get(Gamefile.Arenas).GetData<ArenaData>(this.ChestArena);
             }
             else
             {

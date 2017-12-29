@@ -176,7 +176,7 @@
 
             int RandomSpellCount = Data.RandomSpellCount;
             SpellSet SpellSet = new SpellSet(Data.ArenaData, null);
-            CsvTable RaritiesTable = CsvFiles.Get(Gamefile.Rarity);
+            CsvTable RaritiesTable = CsvFiles.Get(Gamefile.Rarities);
             int[] CountByRarity = new int[RaritiesTable.Datas.Count];
 
             for (int I = 1; I < CountByRarity.Length; I++)

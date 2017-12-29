@@ -70,12 +70,15 @@
 
             Factory.Messages.Add(24135, typeof(KeepAliveServerMessage));
             Factory.Messages.Add(24445, typeof(InboxListMessage));
+            Factory.Messages.Add(24457, typeof(AllianceOnlineStatusUpdatedMessage));
+            Factory.Messages.Add(24719, typeof(AllianceStreamMessage));
 
             Factory.Messages.Add(25105, typeof(AllianceRankingListMessage));
             Factory.Messages.Add(25390, typeof(AvatarLocaleRankingListMessage));
             Factory.Messages.Add(25412, typeof(HomeBattleReplayDataMessage));
             Factory.Messages.Add(25880, typeof(VisitedHomeDataMessage));
 
+            Factory.Messages.Add(26068, typeof(InboxCountMessage));
             Factory.Messages.Add(26550, typeof(AllianceDataMessage));
             Factory.Messages.Add(26973, typeof(AllianceLocaleRankingListMessage));
 

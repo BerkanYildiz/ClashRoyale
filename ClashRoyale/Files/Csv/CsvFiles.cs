@@ -61,6 +61,7 @@
             CsvFiles.Paths.Add(5,  @"Gamefiles/csv_logic/resources.csv");
 
             CsvFiles.Paths.Add(9,  @"Gamefiles/csv_logic/character_buffs.csv");
+
             CsvFiles.Paths.Add(10, @"Gamefiles/csv_logic/projectiles.csv");
             CsvFiles.Paths.Add(11, @"Gamefiles/csv_client/effects.csv");
             CsvFiles.Paths.Add(12, @"Gamefiles/csv_logic/predefined_decks.csv");
@@ -70,6 +71,7 @@
 
             CsvFiles.Paths.Add(18, @"Gamefiles/csv_logic/npcs.csv");
             CsvFiles.Paths.Add(19, @"Gamefiles/csv_logic/treasure_chests.csv");
+
             CsvFiles.Paths.Add(20, @"Gamefiles/csv_client/client_globals.csv");
             CsvFiles.Paths.Add(21, @"Gamefiles/csv_client/particle_emitters.csv");
             CsvFiles.Paths.Add(22, @"Gamefiles/csv_logic/area_effect_objects.csv");
@@ -102,6 +104,7 @@
             CsvFiles.Paths.Add(57, @"Gamefiles/csv_logic/regions.csv");
             CsvFiles.Paths.Add(58, @"Gamefiles/csv_client/news.csv");
             CsvFiles.Paths.Add(59, @"Gamefiles/csv_logic/alliance_roles.csv");
+
             CsvFiles.Paths.Add(60, @"Gamefiles/csv_logic/achievements.csv");
             CsvFiles.Paths.Add(61, @"Gamefiles/csv_client/hints.csv");
             CsvFiles.Paths.Add(62, @"Gamefiles/csv_client/helpshift.csv");
@@ -151,17 +154,17 @@
                 }
             }
 
-            CsvFiles.MaxExpLevel        = CsvFiles.Get(Gamefile.ExpLevel).Datas.Count;
+            CsvFiles.MaxExpLevel        = CsvFiles.Get(Gamefile.ExpLevels).Datas.Count;
 
-            CsvFiles.GoldData           = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("Gold");
-            CsvFiles.FreeGoldData       = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("FreeGold");
-            CsvFiles.StarCountData      = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("StarCount");
-            CsvFiles.CardCountData      = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("CardCount");
-            CsvFiles.ChestCountData     = CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("ChestCount");
-            CsvFiles.SummonerData       = CsvFiles.Get(Gamefile.Building).GetData<CharacterData>("KingTower");
-            CsvFiles.GameModeLadderData = CsvFiles.Get(Gamefile.GameMode).GetData<GameModeData>("Ladder");
+            CsvFiles.GoldData           = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("Gold");
+            CsvFiles.FreeGoldData       = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("FreeGold");
+            CsvFiles.StarCountData      = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("StarCount");
+            CsvFiles.CardCountData      = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("CardCount");
+            CsvFiles.ChestCountData     = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("ChestCount");
+            CsvFiles.SummonerData       = CsvFiles.Get(Gamefile.Buildings).GetData<CharacterData>("KingTower");
+            CsvFiles.GameModeLadderData = CsvFiles.Get(Gamefile.GameModes).GetData<GameModeData>("Ladder");
 
-            foreach (ArenaData ArenaData in CsvFiles.Get(Gamefile.Arena).Datas)
+            foreach (ArenaData ArenaData in CsvFiles.Get(Gamefile.Arenas).Datas)
             {
                 ArenaData.ConfigureSpells();
             }

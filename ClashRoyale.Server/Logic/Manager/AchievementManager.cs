@@ -47,7 +47,7 @@
                 var Home = this.GameMode.Home;
                 Player Player = this.GameMode.Player;
 
-                CsvFiles.Get(Gamefile.Achievement).Datas.ForEach(Achievement =>
+                CsvFiles.Get(Gamefile.Achievements).Datas.ForEach(Achievement =>
                 {
                     AchievementData Data = (AchievementData) Achievement;
                     int Value = 0;
@@ -95,7 +95,7 @@
                 Home Home       = this.GameMode.Home;
                 Player Player   = this.GameMode.Player;
 
-                CsvFiles.Get(Gamefile.Achievement).Datas.ForEach(Achievement =>
+                CsvFiles.Get(Gamefile.Achievements).Datas.ForEach(Achievement =>
                 {
                     AchievementData Data = (AchievementData) Achievement;
 

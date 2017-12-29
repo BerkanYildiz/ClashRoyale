@@ -37,14 +37,14 @@ namespace ClashRoyale.Files.Csv.Logic
         /// </summary>
         public override void LoadingFinished()
         {
-            this.RarityData = CsvFiles.Get(Gamefile.Rarity).GetData<RarityData>(this.Rarity);
+            this.RarityData = CsvFiles.Get(Gamefile.Rarities).GetData<RarityData>(this.Rarity);
 
             if (this.RarityData == null)
             {
                 throw new Exception("Spell " + this.GlobalId + " rarity is NULL.");
             }
 
-            this.UnlockArenaData = CsvFiles.Get(Gamefile.Arena).GetData<ArenaData>(this.UnlockArena);
+            this.UnlockArenaData = CsvFiles.Get(Gamefile.Arenas).GetData<ArenaData>(this.UnlockArena);
 
             if (this.UnlockArenaData == null)
             {

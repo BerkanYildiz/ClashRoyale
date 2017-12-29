@@ -146,7 +146,7 @@ namespace ClashRoyale.Files.Csv.Logic
 		{
 		    if (!string.IsNullOrEmpty(this.Arena))
 		    {
-		        this.ArenaData = CsvFiles.Get(Gamefile.Arena).GetData<ArenaData>(this.Arena);
+		        this.ArenaData = CsvFiles.Get(Gamefile.Arenas).GetData<ArenaData>(this.Arena);
 
 		        if (this.ArenaData == null)
 		        {

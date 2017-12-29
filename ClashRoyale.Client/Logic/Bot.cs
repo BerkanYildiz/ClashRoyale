@@ -55,9 +55,8 @@
 
                 Task.Run(() =>
                 {
-                    // Thread.Sleep(3000);
+                    Thread.Sleep(3000);
                     // this.Network.SendMessage(new StartTrainingBattleMessage(this));
-                    // Logging.Info(this.GetType(), "Message sent");
                 });
             }
             else

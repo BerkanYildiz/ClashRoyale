@@ -12,7 +12,7 @@
         /// </summary>
         public Character(CsvData CsvData) : base(CsvData)
         {
-            // Character.
+            // Characters.
         }
 
         /// <summary>

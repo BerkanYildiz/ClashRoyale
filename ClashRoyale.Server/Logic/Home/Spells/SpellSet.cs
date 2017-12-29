@@ -34,9 +34,9 @@
         /// </summary>
         public SpellSet(ArenaData ArenaData, SpellSetData SetData)
         {
-            this.Spells = new List<SpellData>[CsvFiles.Get(Gamefile.Rarity).Datas.Count];
+            this.Spells = new List<SpellData>[CsvFiles.Get(Gamefile.Rarities).Datas.Count];
 
-            for (int I = 0; I < CsvFiles.Get(Gamefile.Rarity).Datas.Count; I++)
+            for (int I = 0; I < CsvFiles.Get(Gamefile.Rarities).Datas.Count; I++)
             {
                 this.Spells[I] = new List<SpellData>(32);
             }

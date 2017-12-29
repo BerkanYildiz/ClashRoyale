@@ -11,7 +11,6 @@
     using ClashRoyale.Server.Logic.Event.Manager;
     using ClashRoyale.Server.Logic.Inbox;
     using ClashRoyale.Server.Logic.RoyalTV;
-    using ClashRoyale.Server.Logic.Scoring;
     using ClashRoyale.Server.Network;
     using ClashRoyale.Server.Network.Packets;
 
@@ -51,10 +50,6 @@
             EventManager.Initialize();
             BattleManager.Initialize();
             RoyalTvManager.Initialize();
-
-            Battles.Initialize();
-            Players.Initialize();
-            Clans.Initialize();
 
             Factory.Initialize();
             TcpGateway.Initialize();

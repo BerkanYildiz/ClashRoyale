@@ -200,7 +200,7 @@ namespace ClashRoyale.Server.Logic.Player
         {
             get
             {
-                return this.CommoditySlots.GetCommodityCount(CommodityType.Resource, CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("MaxScore"));
+                return this.CommoditySlots.GetCommodityCount(CommodityType.Resource, CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("MaxScore"));
             }
         }
 
@@ -222,7 +222,7 @@ namespace ClashRoyale.Server.Logic.Player
         {
             get
             {
-                return CsvFiles.Get(Gamefile.ExpLevel).GetWithInstanceId(this.ExpLevel - 1);
+                return CsvFiles.Get(Gamefile.ExpLevels).GetWithInstanceId(this.ExpLevel - 1);
             }
         }
         /// <summary>
@@ -258,7 +258,7 @@ namespace ClashRoyale.Server.Logic.Player
             this.ExpLevel       = 1;
             this.Diamonds       = Globals.StartingDiamonds;
             this.FreeDiamonds   = Globals.StartingDiamonds;
-            this.Arena          = CsvFiles.Get(Gamefile.Arena).GetWithInstanceId<ArenaData>(1);
+            this.Arena          = CsvFiles.Get(Gamefile.Arenas).GetWithInstanceId<ArenaData>(1);
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace ClashRoyale.Server.Logic.Player
         /// </summary>
         internal void IncreaseThreeCrownWins()
         {
-            this.CommoditySlots.AddCommodityCount(CommodityType.Resource, CsvFiles.Get(Gamefile.Resource).GetData<ResourceData>("ThreeCrownWins"), 1);
+            this.CommoditySlots.AddCommodityCount(CommodityType.Resource, CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("ThreeCrownWins"), 1);
         }
 
         /// <summary>
@@ -338,7 +338,7 @@ namespace ClashRoyale.Server.Logic.Player
         /// </summary>
         private void LevelUp(int ExpLevel)
         {
-            ExpLevelData Data = CsvFiles.Get(Gamefile.ExpLevel).GetWithInstanceId<ExpLevelData>(ExpLevel - 1);
+            ExpLevelData Data = CsvFiles.Get(Gamefile.ExpLevels).GetWithInstanceId<ExpLevelData>(ExpLevel - 1);
 
             this.AddFreeDiamonds(Data.DiamondReward);
         }
@@ -348,7 +348,7 @@ namespace ClashRoyale.Server.Logic.Player
         /// </summary>
         internal void RefreshArena()
         {
-            CsvTable ArenaTable = CsvFiles.Get(Gamefile.Arena);
+            CsvTable ArenaTable = CsvFiles.Get(Gamefile.Arenas);
 
             if (ArenaTable.Datas.Count > 0)
             {
@@ -536,7 +536,7 @@ namespace ClashRoyale.Server.Logic.Player
         {
             if (Spell != null)
             {
-                CsvData CsvData = CsvFiles.Get(Gamefile.Resource).GetData("FavouriteSpell");
+                CsvData CsvData = CsvFiles.Get(Gamefile.Resources).GetData("FavouriteSpell");
                 this.CommoditySlots.SetCommodityCount(CommodityType.ProfileResource, CsvData, CsvData.GlobalId);
             }
         }
@@ -546,7 +546,7 @@ namespace ClashRoyale.Server.Logic.Player
         /// </summary>
         internal void SetMaxScore(int Count)
         {
-            CsvData CsvData = CsvFiles.Get(Gamefile.Resource).GetData("MaxScore");
+            CsvData CsvData = CsvFiles.Get(Gamefile.Resources).GetData("MaxScore");
             this.CommoditySlots.SetCommodityCount(CommodityType.ProfileResource, CsvData, CsvData.GlobalId);
         }
 
@@ -599,7 +599,7 @@ namespace ClashRoyale.Server.Logic.Player
 
                 for (int I = this.ExpLevel; I < MaxExpLevel; I++)
                 {
-                    Data = CsvFiles.Get(Gamefile.ExpLevel).GetWithInstanceId<ExpLevelData>(this.ExpLevel - 1);
+                    Data = CsvFiles.Get(Gamefile.ExpLevels).GetWithInstanceId<ExpLevelData>(this.ExpLevel - 1);
 
                     if (this.ExpPoints >= Data.ExpToNextLevel)
                     {
@@ -610,7 +610,7 @@ namespace ClashRoyale.Server.Logic.Player
                     }
                 }
 
-                Data = CsvFiles.Get(Gamefile.ExpLevel).GetWithInstanceId<ExpLevelData>(this.ExpLevel - 1);
+                Data = CsvFiles.Get(Gamefile.ExpLevels).GetWithInstanceId<ExpLevelData>(this.ExpLevel - 1);
 
                 if (this.ExpPoints > Data.ExpToNextLevel)
                 {
@@ -727,7 +727,7 @@ namespace ClashRoyale.Server.Logic.Player
 
                 JsonHelper.SetLogicData(Json, "arena", this.Arena);
                 JsonHelper.SetLogicData(Json, "badge", this.Badge);
-                JsonHelper.SetLogicData(Json, "kingSkin", CsvFiles.Get(Gamefile.Skin).GetWithInstanceId<SkinData>(0));
+                JsonHelper.SetLogicData(Json, "kingSkin", CsvFiles.Get(Gamefile.Skins).GetWithInstanceId<SkinData>(0));
             }
 
             return Json;

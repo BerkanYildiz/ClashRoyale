@@ -13,13 +13,13 @@ namespace ClashRoyale.Extensions.Game
         /// </summary>
         public static void Initialize()
         {
-            string[] TvArenas = CsvFiles.Get(Gamefile.ClientGlobal).GetData<GlobalData>("TV_ARENAS").StringArray;
+            string[] TvArenas = CsvFiles.Get(Gamefile.ClientGlobals).GetData<GlobalData>("TV_ARENAS").StringArray;
 
             ClientGlobals.TvArenas = new ArenaData[TvArenas.Length];
 
             for (int I = 0; I < TvArenas.Length; I++)
             {
-                ClientGlobals.TvArenas[I] = CsvFiles.Get(Gamefile.Arena).GetData<ArenaData>(TvArenas[I]);
+                ClientGlobals.TvArenas[I] = CsvFiles.Get(Gamefile.Arenas).GetData<ArenaData>(TvArenas[I]);
             }
         }
     }

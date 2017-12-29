@@ -24,13 +24,19 @@
         {
             while (true)
             {
+                Console.Write("[*] > ");
+
                 string Input = Console.ReadLine();
 
                 if (!string.IsNullOrEmpty(Input))
                 {
                     string[] Args = Input.Trim().Split(' ');
 
-                    if (Args[0] == "exit")
+                    if (Args[0] == "clear")
+                    {
+                        Console.Clear();
+                    }
+                    else if (Args[0] == "exit")
                     {
                         ExitHandler.Run(Args);
                     }
@@ -44,6 +50,14 @@
                     else if (Args[0] == "use")
                     {
                         SelectHandler.Use(Args);
+                    }
+                    else if (Args[0] == "deuse")
+                    {
+                        SelectHandler.Deselect(Args);
+                    }
+                    else if (Args[0] == "profile")
+                    {
+                        SelectHandler.Profile(Args);
                     }
                 }
             }
