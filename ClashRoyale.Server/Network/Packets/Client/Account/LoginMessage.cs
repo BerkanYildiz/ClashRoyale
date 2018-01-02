@@ -12,6 +12,7 @@
     using ClashRoyale.Logic.Player;
     using ClashRoyale.Maths;
     using ClashRoyale.Messages;
+    using ClashRoyale.Network;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class LoginMessage : Message
@@ -126,7 +127,7 @@
             }
             else
             {
-                TcpGateway.Disconnect(this.Device.Network.AsyncEvent);
+                NetworkTcp.Disconnect(this.Device.Network.AsyncEvent);
             }
 
             return false;

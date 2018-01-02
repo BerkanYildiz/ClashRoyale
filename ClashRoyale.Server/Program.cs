@@ -10,7 +10,7 @@
     using ClashRoyale.Logic.Event.Manager;
     using ClashRoyale.Logic.Inbox;
     using ClashRoyale.Logic.RoyalTV;
-    using ClashRoyale.Server.Network;
+    using ClashRoyale.Network;
     using ClashRoyale.Server.Network.Packets;
 
     internal class Program
@@ -51,7 +51,7 @@
             RoyalTvManager.Initialize();
 
             Factory.Initialize();
-            TcpGateway.Initialize();
+            NetworkTcp.Initialize();
 
             Tests.Initialize();
 

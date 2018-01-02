@@ -4,10 +4,8 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Network;
-    using ClashRoyale.Server.Network;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal static class ExitHandler

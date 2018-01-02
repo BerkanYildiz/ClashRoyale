@@ -6,7 +6,7 @@
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Logic.Player;
     using ClashRoyale.Maths;
-    using ClashRoyale.Server.Network;
+    using ClashRoyale.Network;
 
     internal static class PlayerHandler
     {
@@ -185,7 +185,7 @@
             {
                 if (Player.IsConnected)
                 {
-                    TcpGateway.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
+                    NetworkTcp.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
 
                     if (Player.IsConnected == false)
                     {
