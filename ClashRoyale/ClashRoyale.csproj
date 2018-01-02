@@ -341,10 +341,17 @@
     <Compile Include="Maths\Math.cs" />
     <Compile Include="Maths\Random.cs" />
     <Compile Include="Maths\Vector2.cs" />
+    <Compile Include="Messages\Client\ClientCapabilitiesMessage.cs" />
+    <Compile Include="Messages\Client\ClientHelloMessage.cs" />
+    <Compile Include="Messages\Client\InboxOpenedMessage.cs" />
+    <Compile Include="Messages\Client\KeepAliveMessage.cs" />
+    <Compile Include="Messages\Client\LoginMessage.cs" />
+    <Compile Include="Messages\Client\RequestApiMessage.cs" />
     <Compile Include="Messages\Message.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Network\NetworkPool.cs" />
     <Compile Include="Network\NetworkToken.cs" />
+    <Compile Include="Network\NetworkTcp.cs" />
     <Compile Include="Padding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sentry.cs" />
@@ -4506,7 +4513,6 @@
     <Folder Include="Logic\Commands\Debug\" />
     <Folder Include="Logic\Home\Manager\" />
     <Folder Include="Logic\Home\Slot\" />
-    <Folder Include="Messages\Client\" />
     <Folder Include="Messages\Server\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Network
+﻿namespace ClashRoyale.Network
 {
     using System;
     using System.Net;
@@ -7,9 +7,8 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Logic;
     using ClashRoyale.Messages;
-    using ClashRoyale.Network;
 
-    internal static class TcpGateway
+    public static class NetworkTcp
     {
         private static NetworkPool ReadPool;
         private static NetworkPool WritePool;
@@ -17,7 +16,7 @@
         private static Socket Listener;
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="TcpGateway"/> has been already initialized.
+        /// Gets or sets a value indicating whether this <see cref="NetworkTcp"/> has been already initialized.
         /// </summary>
         private static bool Initialized
         {
@@ -28,42 +27,42 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkGateway"/> class.
         /// </summary>
-        internal static void Initialize()
+        public static void Initialize()
         {
-            if (TcpGateway.Initialized)
+            if (NetworkTcp.Initialized)
             {
                 return;
             }
 
-            ReadPool   = new NetworkPool();
-            WritePool  = new NetworkPool();
+            NetworkTcp.ReadPool             = new NetworkPool();
+            NetworkTcp.WritePool            = new NetworkPool();
 
-            foreach (var AsyncEvent in TcpGateway.ReadPool)
+            foreach (var AsyncEvent in NetworkTcp.ReadPool)
             {
-                AsyncEvent.Completed += TcpGateway.OnReceiveCompleted;
+                AsyncEvent.Completed += NetworkTcp.OnReceiveCompleted;
             }
 
-            foreach (var AsyncEvent in TcpGateway.WritePool)
+            foreach (var AsyncEvent in NetworkTcp.WritePool)
             {
-                AsyncEvent.Completed += TcpGateway.OnSendCompleted;
+                AsyncEvent.Completed += NetworkTcp.OnSendCompleted;
             }
 
-            Listener            = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            Listener.NoDelay    = true;
-            Listener.Blocking   = false;
+            NetworkTcp.Listener             = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            NetworkTcp.Listener.NoDelay     = true;
+            NetworkTcp.Listener.Blocking    = false;
 
-            Initialized         = true;
+            NetworkTcp.Initialized          = true;
 
-            Listener.Bind(new IPEndPoint(IPAddress.Any, 9339));
-            Listener.Listen(150);
+            NetworkTcp.Listener.Bind(new IPEndPoint(IPAddress.Any, 9339));
+            NetworkTcp.Listener.Listen(150);
 
-            Logging.Info(typeof(TcpGateway), "Listener has been bound to " + TcpGateway.Listener.LocalEndPoint + ".");
+            Logging.Info(typeof(NetworkTcp), "Listener has been bound to " + NetworkTcp.Listener.LocalEndPoint + ".");
 
             SocketAsyncEventArgs AcceptEvent = new SocketAsyncEventArgs();
-            AcceptEvent.Completed += OnAcceptCompleted;
+            AcceptEvent.Completed += NetworkTcp.OnAcceptCompleted;
             AcceptEvent.DisconnectReuseSocket = true;
 
-            StartAccept(AcceptEvent);
+            NetworkTcp.StartAccept(AcceptEvent);
         }
 
         /// <summary>
@@ -75,9 +74,9 @@
             AcceptEvent.AcceptSocket = null;
             AcceptEvent.RemoteEndPoint = null;
 
-            if (!Listener.AcceptAsync(AcceptEvent))
+            if (!NetworkTcp.Listener.AcceptAsync(AcceptEvent))
             {
-                OnAcceptCompleted(null, AcceptEvent);
+                NetworkTcp.OnAcceptCompleted(null, AcceptEvent);
             }
         }
 
@@ -90,13 +89,11 @@
         {
             if (AsyncEvent.SocketError == SocketError.Success)
             {
-                ProcessAccept(AsyncEvent);
+                NetworkTcp.ProcessAccept(AsyncEvent);
             }
             else
             {
-                Logging.Warning(typeof(TcpGateway), AsyncEvent.SocketError + ", SocketError != Success at OnAcceptCompleted(Sender, AsyncEvent).");
-
-                StartAccept(AsyncEvent);
+                NetworkTcp.StartAccept(AsyncEvent);
             }
         }
 
@@ -106,11 +103,11 @@
         /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
         private static void ProcessAccept(SocketAsyncEventArgs AsyncEvent)
         {
-            Logging.Info(typeof(TcpGateway), "Connection from " + ((IPEndPoint) AsyncEvent.AcceptSocket.RemoteEndPoint).Address + ".");
+            Logging.Info(typeof(NetworkTcp), "Connection from " + ((IPEndPoint) AsyncEvent.AcceptSocket.RemoteEndPoint).Address + ".");
 
             if (AsyncEvent.AcceptSocket.Connected && (AsyncEvent.AcceptSocket.RemoteEndPoint.ToString().StartsWith("192.168.0.") || AsyncEvent.AcceptSocket.RemoteEndPoint.ToString().StartsWith("192.168.1.")))
             {
-                SocketAsyncEventArgs ReadEvent = ReadPool.Dequeue();
+                SocketAsyncEventArgs ReadEvent = NetworkTcp.ReadPool.Dequeue();
 
                 if (ReadEvent != null)
                 {
@@ -119,16 +116,16 @@
 
                     if (!Token.Socket.ReceiveAsync(ReadEvent))
                     {
-                        TcpGateway.ProcessReceive(ReadEvent);
+                        NetworkTcp.ProcessReceive(ReadEvent);
                     }
                 }
                 else
                 {
-                    Logging.Warning(typeof(TcpGateway), "Server is full, new connections cannot be accepted.");
+                    Logging.Warning(typeof(NetworkTcp), "Server is full, new connections cannot be accepted.");
                 }
             }
 
-            StartAccept(AsyncEvent);
+            NetworkTcp.StartAccept(AsyncEvent);
         }
 
         /// <summary>
@@ -139,12 +136,12 @@
         {
             if (AsyncEvent.BytesTransferred == 0)
             {
-                Disconnect(AsyncEvent);
+                NetworkTcp.Disconnect(AsyncEvent);
             }
 
             if (AsyncEvent.SocketError != SocketError.Success)
             {
-                Disconnect(AsyncEvent);
+                NetworkTcp.Disconnect(AsyncEvent);
             }
 
             NetworkToken Token = (NetworkToken) AsyncEvent.UserToken;
@@ -164,22 +161,18 @@
                     {
                         if (!Token.Socket.ReceiveAsync(AsyncEvent))
                         {
-                            TcpGateway.ProcessReceive(AsyncEvent);
+                            NetworkTcp.ProcessReceive(AsyncEvent);
                         }
-                    }
-                    else
-                    {
-                        // Logging.Warning(typeof(TcpGateway), "Token.Aborting == true at ProcessReceive(" + AsyncEvent.RemoteEndPoint + ").");
                     }
                 }
                 catch (Exception)
                 {
-                    Disconnect(AsyncEvent);
+                    NetworkTcp.Disconnect(AsyncEvent);
                 }
             }
             else
             {
-                // Logging.Warning(typeof(TcpGateway), "Token.IsConnected != true at ProcessReceive(AsyncEvent).");
+                // TODO : Disconnect.
             }
         }
 
@@ -192,11 +185,11 @@
         {
             if (AsyncEvent.SocketError == SocketError.Success)
             {
-                TcpGateway.ProcessReceive(AsyncEvent);
+                NetworkTcp.ProcessReceive(AsyncEvent);
             }
             else
             {
-                Disconnect(AsyncEvent);
+                NetworkTcp.Disconnect(AsyncEvent);
             }
         }
 
@@ -204,7 +197,7 @@
         /// Sends the specified message.
         /// </summary>
         /// <param name="Message">The message.</param>
-        internal static void Send(Message Message)
+        public static void Send(Message Message)
         {
             if (Message == null)
             {
@@ -215,7 +208,7 @@
 
             if (Token.IsConnected)
             {
-                SocketAsyncEventArgs WriteEvent = WritePool.Dequeue();
+                SocketAsyncEventArgs WriteEvent = NetworkTcp.WritePool.Dequeue();
 
                 if (WriteEvent == null)
                 {
@@ -231,16 +224,16 @@
                 WriteEvent.RemoteEndPoint   = Token.Socket.RemoteEndPoint;
                 WriteEvent.UserToken        = Token;
 
-                Logging.Info(typeof(TcpGateway), "Sending " + Message.GetType().Name + ".");
+                Logging.Info(typeof(NetworkTcp), "Sending " + Message.GetType().Name + ".");
 
                 if (!Token.Socket.SendAsync(WriteEvent))
                 {
-                    ProcessSend(Message, WriteEvent);
+                    NetworkTcp.ProcessSend(Message, WriteEvent);
                 }
             }
             else
             {
-                Disconnect(Message.Device.Network.AsyncEvent);
+                NetworkTcp.Disconnect(Message.Device.Network.AsyncEvent);
             }
         }
 
@@ -265,25 +258,21 @@
 
                         if (!Token.Socket.SendAsync(AsyncEvent))
                         {
-                            ProcessSend(Message, AsyncEvent);
+                            NetworkTcp.ProcessSend(Message, AsyncEvent);
                         }
 
                         return;
                     }
 
-                    Disconnect(Token.AsyncEvent);
-                }
-                else
-                {
-                    Logging.Warning(typeof(TcpGateway), "Shouldn't be called."); // TODO : Verifiy if it's correct.
+                    NetworkTcp.Disconnect(Token.AsyncEvent);
                 }
             }
             else
             {
-                Disconnect(Token.AsyncEvent);
+                NetworkTcp.Disconnect(Token.AsyncEvent);
             }
 
-            OnSendCompleted(null, AsyncEvent);
+            NetworkTcp.OnSendCompleted(null, AsyncEvent);
         }
 
         /// <summary>
@@ -293,14 +282,14 @@
         /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
         private static void OnSendCompleted(object Sender, SocketAsyncEventArgs AsyncEvent)
         {
-            WritePool.Enqueue(AsyncEvent);
+            NetworkTcp.WritePool.Enqueue(AsyncEvent);
         }
 
         /// <summary>
         /// Closes the specified client's socket.
         /// </summary>
         /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
-        internal static void Disconnect(SocketAsyncEventArgs AsyncEvent)
+        public static void Disconnect(SocketAsyncEventArgs AsyncEvent)
         {
             NetworkToken Token = AsyncEvent.UserToken as NetworkToken;
 
@@ -327,7 +316,7 @@
                 Token.Socket.Close();
             }
 
-            ReadPool.Enqueue(AsyncEvent);
+            NetworkTcp.ReadPool.Enqueue(AsyncEvent);
         }
     }
 }

@@ -12,6 +12,7 @@
     using ClashRoyale.Logic.Structures;
     using ClashRoyale.Maths;
     using ClashRoyale.Messages;
+    using ClashRoyale.Network;
 
     public class NetworkManager
     {
@@ -109,7 +110,7 @@
                     {
                         if (++this.InvalidMessageStateCnt >= 5)
                         {
-                            TcpGateway.Disconnect(this.Device.Network.AsyncEvent);
+                            NetworkTcp.Disconnect(this.Device.Network.AsyncEvent);
                         }
 
                         return;
@@ -190,7 +191,7 @@
 
                     Message.Stream.SetByteArray(Bytes);
 
-                    TcpGateway.Send(Message);
+                    NetworkTcp.Send(Message);
 
                     Message.Process();
                 }

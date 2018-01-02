@@ -94,7 +94,7 @@
             }
             else
             {
-                // TcpGateway.Disconnect(this.AsyncEvent);
+                // NetworkTcp.Disconnect(this.AsyncEvent);
             }
         }
 
@@ -123,7 +123,7 @@
             }
             else
             {
-                // TcpGateway.Disconnect(this.AsyncEvent);
+                // NetworkTcp.Disconnect(this.AsyncEvent);
             }
         }
     }

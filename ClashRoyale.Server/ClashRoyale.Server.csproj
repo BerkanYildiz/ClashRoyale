@@ -151,7 +151,6 @@
     <Compile Include="Network\Packets\Client\Account\RequestApiMessage.cs" />
     <Compile Include="Network\Packets\Client\Attack\StartTrainingBattleMessage.cs" />
     <Compile Include="Network\Packets\Server\Account\RequestApiDataMessage.cs" />
-    <Compile Include="Network\TcpGateway.cs" />
     <Compile Include="Network\Packets\Factory.cs" />
     <Compile Include="Network\Packets\Client\Account\UdpCheckConnectionMessage.cs" />
     <Compile Include="Network\Packets\Client\Alliance\ReplyJoinRequestMessage.cs" />

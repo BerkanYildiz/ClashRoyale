@@ -6,6 +6,7 @@
 
     using ClashRoyale.Logic;
     using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Network;
     using ClashRoyale.Server.Network;
     using ClashRoyale.Server.Network.Packets.Server;
 
@@ -84,7 +85,7 @@
             {
                 Players.ForEach(Player =>
                 {
-                    TcpGateway.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
+                    NetworkTcp.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
                 });
 
                 Logging.Info(typeof(ExitHandler), "Disconnected every player for the maintenance.");
