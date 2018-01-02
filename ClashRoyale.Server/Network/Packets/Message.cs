@@ -8,43 +8,8 @@
 
     internal class Message
     {
-        internal short Version;
-        internal int Offset;
-
         /// <summary>
-        /// The device, technically called as 'client'.
-        /// </summary>
-        internal Device Device;
-        
-        /// <summary>
-        /// The message stream, used to.. read or write the message.
-        /// </summary>
-        internal ByteStream Stream;
-
-        /// <summary>
-        /// Gets a value indicating whether this message is a server to client message.
-        /// </summary>
-        internal bool IsServerToClientMessage
-        {
-            get
-            {
-                return this.Type >= 20000;
-            }
-        }
-
-        /// <summary>
-        /// Gets the encoding length.
-        /// </summary>
-        internal int Length
-        {
-            get
-            {
-                return this.Stream.Length;
-            }
-        }
-
-        /// <summary>
-        /// The type of this message.
+        /// The type of this <see cref="Message"/>.
         /// </summary>
         internal virtual short Type
         {
@@ -55,7 +20,7 @@
         }
 
         /// <summary>
-        /// The service node of this message.
+        /// The service node of this <see cref="Message"/>.
         /// </summary>
         internal virtual Node ServiceNode
         {
@@ -63,6 +28,64 @@
             {
                 throw new Exception(this.GetType() + ", service node type must be overridden.");
             }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="Message"/> is from the server to the client.
+        /// </summary>
+        internal bool IsServerToClientMessage
+        {
+            get
+            {
+                return this.Type >= 20000;
+            }
+        }
+
+        /// <summary>
+        /// Gets the length of this <see cref="Message"/>
+        /// </summary>
+        internal int Length
+        {
+            get
+            {
+                return this.Stream.Length;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the offset of this <see cref="Message"/>.
+        /// </summary>
+        internal int Offset
+        {
+            get;
+            set;
+        }
+        
+        /// <summary>
+        /// Gets the version of this <see cref="Message"/>.
+        /// </summary>
+        internal short Version
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// The device, technically called as 'client'.
+        /// </summary>
+        internal Device Device
+        {
+            get;
+            set;
+        }
+        
+        /// <summary>
+        /// The message stream, used to.. read or write the message.
+        /// </summary>
+        internal ByteStream Stream
+        {
+            get;
+            set;
         }
 
         /// <summary>

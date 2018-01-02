@@ -1,15 +1,14 @@
-﻿namespace ClashRoyale.Patcher.Logic
+﻿namespace ClashRoyale.Patcher
 {
     using System;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
 
-    using ClashRoyale.Patcher.LZMA;
+    using ClashRoyale.Compression.LZMA;
+    using ClashRoyale.Compression.LZMA.Compress.LZMA;
 
     using Newtonsoft.Json.Linq;
-
-    using Encoder = ClashRoyale.Patcher.LZMA.Compress.LZMA.Encoder;
 
     internal class Gamefile
     {
@@ -151,10 +150,10 @@
                 {
                     using (FileStream OStream = this.Output.Create())
                     {
-                        CoderPropID[] CoderPropIDs = new CoderPropID[8]
+                        CoderPropId[] CoderPropIDs = new CoderPropId[8]
                         {
-                            CoderPropID.DictionarySize, CoderPropID.PosStateBits,   CoderPropID.LitContextBits,     CoderPropID.LitPosBits,
-                            CoderPropID.Algorithm,      CoderPropID.NumFastBytes,   CoderPropID.MatchFinder,        CoderPropID.EndMarker
+                            CoderPropId.DictionarySize, CoderPropId.PosStateBits,   CoderPropId.LitContextBits,     CoderPropId.LitPosBits,
+                            CoderPropId.Algorithm,      CoderPropId.NumFastBytes,   CoderPropId.MatchFinder,        CoderPropId.EndMarker
                         };
 
                         object[] Properties = new object[8]

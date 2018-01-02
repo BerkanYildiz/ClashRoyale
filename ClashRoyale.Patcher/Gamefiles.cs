@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Patcher.Logic
+﻿namespace ClashRoyale.Patcher
 {
     using System.Collections.Generic;
     using System.IO;

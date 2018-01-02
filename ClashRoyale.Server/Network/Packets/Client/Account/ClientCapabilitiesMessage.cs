@@ -46,8 +46,17 @@
         /// </summary>
         internal override void Decode()
         {
-            this.Ping = this.Stream.ReadVInt();
-            this.Interface = this.Stream.ReadString();
+            this.Ping       = this.Stream.ReadVInt();
+            this.Interface  = this.Stream.ReadString();
+        }
+        
+        /// <summary>
+        /// Encodes this instance.
+        /// </summary>
+        internal override void Encode()
+        {
+            this.Stream.WriteVInt(this.Ping);
+            this.Stream.WriteString(this.Interface);
         }
 
         /// <summary>

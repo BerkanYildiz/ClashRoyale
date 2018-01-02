@@ -5,12 +5,8 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    using ClashRoyale.Patcher.Logic;
-
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-
-    using Version = ClashRoyale.Patcher.Logic.Version;
 
     internal class Program
     {
@@ -61,7 +57,7 @@
             Console.WriteLine("[*] The output path is \"" + Program.Gamefiles.Output.FullName + "\".");
             Console.WriteLine("[*] The SHA is " + Program.SHA + ".");
 
-            Console.Title = "GL - Patcher | " + Program.SHA + " | " + Program.Gamefiles.Files.Count + " files | 2017 C";
+            Console.Title       = "GL - Patcher | " + Program.SHA + " | " + Program.Gamefiles.Files.Count + " files | 2017 C";
 
             foreach (Gamefile Gamefile in Program.Gamefiles.Files)
             {
