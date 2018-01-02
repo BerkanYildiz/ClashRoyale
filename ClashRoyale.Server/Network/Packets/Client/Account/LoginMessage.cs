@@ -6,11 +6,12 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Files;
     using ClashRoyale.Files.Csv.Client;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Mode;
+    using ClashRoyale.Logic.Player;
     using ClashRoyale.Maths;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Mode;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class LoginMessage : Message
@@ -31,7 +32,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -42,7 +43,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -63,7 +64,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.HighId             = this.Stream.ReadInt();
             this.LowId              = this.Stream.ReadInt();
@@ -100,7 +101,7 @@
         {
             if (this.ValuesAreCorrect())
             {
-                if (this.MajorVersion == Logic.Version.ClientMajorVersion && this.MinorVersion == 0 && this.BuildVersion == Logic.Version.ClientBuildVersion)
+                if (this.MajorVersion == Config.ClientMajorVersion && this.MinorVersion == 0 && this.BuildVersion == Config.ClientBuildVersion)
                 {
                     if (Program.Initialized)
                     {
@@ -134,7 +135,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             if (!this.Trusted())
             {
@@ -169,7 +170,7 @@
                         {
                             if (Player.IsConnected)
                             {
-                                this.Device.NetworkManager.SendMessage(new DisconnectedMessage(Player.GameMode.Device));
+                                Player.GameMode.Device.NetworkManager.SendMessage(new DisconnectedMessage(Player.GameMode.Device));
                             }
 
                             await this.Login(Player);

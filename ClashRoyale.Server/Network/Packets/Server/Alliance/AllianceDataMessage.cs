@@ -1,8 +1,9 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Alliance;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Messages;
 
     internal class AllianceDataMessage : Message
     {
@@ -11,7 +12,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -22,7 +23,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -43,7 +44,7 @@
         /// <summary>
         /// Encodes this instance;
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Clan.Encode(this.Stream);
         }

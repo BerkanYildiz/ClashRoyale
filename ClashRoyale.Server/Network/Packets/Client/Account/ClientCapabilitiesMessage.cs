@@ -2,14 +2,15 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
 
     internal class ClientCapabilitiesMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -20,7 +21,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -44,7 +45,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.Ping       = this.Stream.ReadVInt();
             this.Interface  = this.Stream.ReadString();
@@ -53,7 +54,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteVInt(this.Ping);
             this.Stream.WriteString(this.Interface);
@@ -62,7 +63,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             this.Device.NetworkManager.Ping = this.Ping;
             this.Device.NetworkManager.ConnectionInterface = this.Interface;

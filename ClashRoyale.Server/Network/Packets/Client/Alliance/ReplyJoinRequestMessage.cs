@@ -2,18 +2,19 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Alliance;
-    using ClashRoyale.Server.Logic.Alliance.Entries;
-    using ClashRoyale.Server.Logic.Alliance.Stream;
-    using ClashRoyale.Server.Logic.Collections;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Alliance.Entries;
+    using ClashRoyale.Logic.Alliance.Stream;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Messages;
 
     internal class ReplyJoinRequestMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -24,7 +25,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -61,7 +62,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.HighId     = this.Stream.ReadInt();
             this.LowId      = this.Stream.ReadInt();
@@ -71,7 +72,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             if (this.Device.GameMode.Player.IsInAlliance)
             {

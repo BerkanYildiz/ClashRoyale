@@ -4,14 +4,15 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
 
     internal class StartTrainingBattleMessage : Message
     {
         /// <summary>
         /// The type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -22,7 +23,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -43,7 +44,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.NpcData = this.Stream.DecodeData<NpcData>();
         }
@@ -51,7 +52,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             if (this.Device.GameMode.State == HomeState.Home)
             {

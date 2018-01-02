@@ -3,15 +3,16 @@
     using System.Collections.Generic;
 
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Alliance.Entries;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Alliance.Entries;
+    using ClashRoyale.Messages;
 
     internal class SearchClansDataMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -22,7 +23,7 @@
         /// <summary> 
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -48,7 +49,7 @@
         /// <summary>
         /// Encodes this instance;
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteString(this.Filter);
             this.Stream.WriteVInt(this.Alliances.Count);

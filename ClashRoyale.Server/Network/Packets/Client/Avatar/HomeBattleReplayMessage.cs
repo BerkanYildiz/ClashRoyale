@@ -7,13 +7,13 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Battle;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.RoyalTV;
+    using ClashRoyale.Logic.RoyalTV.Entry;
     using ClashRoyale.Maths;
-
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Battle;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.RoyalTV;
-    using ClashRoyale.Server.Logic.RoyalTV.Entry;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class HomeBattleReplayMessage : Message
@@ -26,7 +26,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -37,7 +37,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -58,7 +58,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.ReplayId = this.Stream.ReadLong();
 
@@ -85,7 +85,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             if (!this.ReplayId.IsZero)
             {

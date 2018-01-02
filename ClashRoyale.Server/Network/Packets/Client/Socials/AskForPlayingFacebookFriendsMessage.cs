@@ -2,13 +2,14 @@
 {
     using System.Collections.Generic;
 
+    using ClashRoyale.Database;
+    using ClashRoyale.Database.Models;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Database;
-    using ClashRoyale.Server.Database.Models;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     using MongoDB.Driver;
@@ -18,7 +19,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -29,7 +30,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -52,7 +53,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             int Count       = this.Stream.ReadVInt();
 
@@ -67,7 +68,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             int OnlineFriends = 0;
 

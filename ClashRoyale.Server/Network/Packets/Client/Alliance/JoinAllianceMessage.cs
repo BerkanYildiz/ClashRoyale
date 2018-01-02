@@ -2,11 +2,12 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Alliance;
-    using ClashRoyale.Server.Logic.Alliance.Stream;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Commands.Server;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Alliance.Stream;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Commands.Server;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class JoinAllianceMessage : Message
@@ -17,7 +18,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -28,7 +29,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -49,7 +50,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.HighId = this.Stream.ReadInt();
             this.LowId  = this.Stream.ReadInt();
@@ -60,7 +61,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             Logging.Info(this.GetType(), "Player is joining a clan.");
 

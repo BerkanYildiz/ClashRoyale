@@ -1,15 +1,16 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Inbox;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Inbox;
+    using ClashRoyale.Messages;
 
     internal class InboxListMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -20,7 +21,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -41,7 +42,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             InboxManager.Encode(this.Stream);
         }

@@ -7,7 +7,8 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Files;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class ClientHelloMessage : Message
@@ -15,7 +16,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -26,7 +27,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -61,7 +62,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.Protocol       = this.Stream.ReadInt();
             this.KeyVersion     = this.Stream.ReadInt();
@@ -76,11 +77,11 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             if (this.Protocol == 1)
             {
-                if (this.MajorVersion == Logic.Version.ClientMajorVersion && this.MinorVersion == 0 && this.BuildVersion == Logic.Version.ClientBuildVersion)
+                if (this.MajorVersion == Config.ClientMajorVersion && this.MinorVersion == 0 && this.BuildVersion == Config.ClientBuildVersion)
                 {
                     if (string.Equals(this.MasterHash, Fingerprint.Masterhash))
                     {
@@ -88,7 +89,7 @@
                         {
                             if (this.DeviceType == 3)
                             {
-                                if (!Logic.Version.IsDev)
+                                if (!Config.IsDevelopment)
                                 {
                                     this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)); // Dev Host
 
@@ -105,7 +106,7 @@
                             }
                             else
                             {
-                                if (Logic.Version.IsDev)
+                                if (Config.IsDevelopment)
                                 {
                                     this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)); // Prod Host
 
@@ -115,7 +116,7 @@
 
                             if (this.DeviceType == 30)
                             {
-                                if (!Logic.Version.IsKunlunServer)
+                                if (!Config.IsKunlunServer)
                                 {
                                     this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)); // Kunlun Host
 
@@ -124,7 +125,7 @@
                             }
                             else
                             {
-                                if (Logic.Version.IsKunlunServer)
+                                if (Config.IsKunlunServer)
                                 {
                                     this.Device.NetworkManager.SendMessage(new AuthentificationFailedMessage(this.Device, Reason.Redirection)); // Prod Host
                                     return;

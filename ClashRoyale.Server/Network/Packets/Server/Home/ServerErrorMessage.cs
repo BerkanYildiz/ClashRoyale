@@ -3,14 +3,15 @@ namespace ClashRoyale.Server.Network.Packets.Server
     using System.Text;
 
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
 
     internal class ServerErrorMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -21,7 +22,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -67,7 +68,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteString(this.Reason.ToString());
         }

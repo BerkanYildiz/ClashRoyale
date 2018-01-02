@@ -4,9 +4,10 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Commands;
-    using ClashRoyale.Server.Logic.Commands.Manager;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Commands;
+    using ClashRoyale.Logic.Commands.Manager;
+    using ClashRoyale.Messages;
 
     internal class SectorHearbeatMessage : Message
     {
@@ -18,7 +19,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -29,7 +30,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -54,7 +55,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteVInt(this.ServerTurn);
             this.Stream.WriteVInt(this.Checksum);

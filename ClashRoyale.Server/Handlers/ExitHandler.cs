@@ -4,7 +4,8 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using ClashRoyale.Server.Logic.Collections;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Collections;
     using ClashRoyale.Server.Network;
     using ClashRoyale.Server.Network.Packets.Server;
 

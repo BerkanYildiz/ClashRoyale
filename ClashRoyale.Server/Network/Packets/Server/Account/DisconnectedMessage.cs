@@ -1,14 +1,15 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
 
     internal class DisconnectedMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -19,7 +20,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -39,7 +40,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteBoolean(true);
         }
@@ -47,7 +48,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.Stream.ReadBoolean();
         }
@@ -55,7 +56,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             this.Device.State = State.Disconnected;
         }

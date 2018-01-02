@@ -4,15 +4,16 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions.Helper;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages;
 
     internal class FriendsListMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -23,7 +24,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -46,7 +47,7 @@
         /// <summary>
         /// Encodes this message.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteInt(1); // 0 = Invited | 1 = Facebook (?) | 2 = Gamecenter (?)
             this.Stream.WriteInt(this.Friends.Count);

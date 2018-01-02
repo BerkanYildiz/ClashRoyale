@@ -2,15 +2,16 @@ namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages;
 
     internal class AuthentificationOkMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -21,7 +22,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -45,7 +46,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteLong(this.Player.PlayerId);
             this.Stream.WriteLong(this.Player.PlayerId);
@@ -103,7 +104,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             this.Device.State = State.Logged;
         }

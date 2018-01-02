@@ -2,8 +2,9 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Battle.Manager;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Battle.Manager;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class CancelMatchmakeMessage : Message
@@ -11,7 +12,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -22,7 +23,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -41,7 +42,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             Logging.Info(this.GetType(), "Player is canceling a matchmake.");
 

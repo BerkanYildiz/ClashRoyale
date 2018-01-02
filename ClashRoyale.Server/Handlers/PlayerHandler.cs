@@ -3,9 +3,9 @@
     using System;
     using System.Reflection;
 
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Player;
     using ClashRoyale.Maths;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Player;
     using ClashRoyale.Server.Network;
 
     internal static class PlayerHandler

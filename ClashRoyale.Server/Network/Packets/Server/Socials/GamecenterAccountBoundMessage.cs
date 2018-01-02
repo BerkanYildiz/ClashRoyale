@@ -1,14 +1,15 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
 
     internal class GamecenterAccountBoundMessage : Message
     {
         /// <summary>
         /// The type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -19,7 +20,7 @@
         /// <summary>
         /// The service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -41,7 +42,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.ResultCode = this.Stream.ReadInt();
         }
@@ -49,7 +50,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteInt(this.ResultCode);
         }

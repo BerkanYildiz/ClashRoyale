@@ -5,8 +5,9 @@
     using System.Net.Sockets;
 
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Network.Packets;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
+    using ClashRoyale.Network;
 
     internal static class TcpGateway
     {

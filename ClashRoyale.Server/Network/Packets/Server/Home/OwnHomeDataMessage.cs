@@ -3,16 +3,17 @@ namespace ClashRoyale.Server.Network.Packets.Server
     using System;
 
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Home;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Home;
+    using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages;
 
     internal class OwnHomeDataMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -23,7 +24,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -48,7 +49,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Home.Encode(this.Stream);
             this.Player.Encode(this.Stream);
@@ -61,7 +62,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             this.Device.GameMode.LoadHomeState(this.Player, this.Home.SecondsSinceLastSave, 113);
             this.Device.GameMode.Home.LastTick = DateTime.UtcNow;

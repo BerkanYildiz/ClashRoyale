@@ -2,9 +2,10 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class VisitHomeMessage : Message
@@ -12,7 +13,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -23,7 +24,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -47,7 +48,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.HighId = this.Stream.ReadInt();
             this.LowId  = this.Stream.ReadInt();
@@ -56,7 +57,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             Player Player = await Players.Get(this.HighId, this.LowId, false);
 

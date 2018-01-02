@@ -145,129 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine.cs" />
-    <Compile Include="Database\GameDb.cs" />
-    <Compile Include="Database\Models\BattleDb.cs" />
-    <Compile Include="Database\Models\ClanDb.cs" />
-    <Compile Include="Database\Models\PlayerDb.cs" />
     <Compile Include="Handlers\ClanHandler.cs" />
     <Compile Include="Handlers\PlayerHandler.cs" />
     <Compile Include="Handlers\ExitHandler.cs" />
-    <Compile Include="Logic\Alliance\Clan.cs" />
-    <Compile Include="Logic\Alliance\Entries\AllianceHeaderEntry.cs" />
-    <Compile Include="Logic\Alliance\Entries\AllianceMemberEntry.cs" />
-    <Compile Include="Logic\Alliance\Slots\AllianceMemberEntries.cs" />
-    <Compile Include="Logic\Alliance\Slots\AllianceStreamEntries.cs" />
-    <Compile Include="Logic\Alliance\Stream\JoinRequestAllianceStreamEntry.cs" />
-    <Compile Include="Logic\Alliance\Stream\ChallengeStreamEntry.cs" />
-    <Compile Include="Logic\Alliance\Stream\AllianceEventStreamEntry.cs" />
-    <Compile Include="Logic\Alliance\Stream\DonateStreamEntry.cs" />
-    <Compile Include="Logic\Alliance\Stream\ChatStreamEntry.cs" />
-    <Compile Include="Logic\Alliance\Stream\Factory\StreamEntryFactory.cs" />
-    <Compile Include="Logic\Alliance\Stream\StreamEntry.cs" />
-    <Compile Include="Logic\Alliance\Stream\StreamEntryConverter.cs" />
-    <Compile Include="Logic\Apis\ApiManager.cs" />
-    <Compile Include="Logic\Battle\Battle.cs" />
-    <Compile Include="Logic\Battle\BattleLog.cs" />
-    <Compile Include="Logic\Battle\BattleLogConfig.cs" />
-    <Compile Include="Logic\Battle\BattleLogPlayer.cs" />
-    <Compile Include="Logic\Battle\Event\BattleEvent.cs" />
-    <Compile Include="Logic\Battle\Manager\BattleManager.cs" />
-    <Compile Include="Logic\Commands\BuyResourcePackCommand.cs" />
-    <Compile Include="Logic\Commands\BuyChestCommand.cs" />
-    <Compile Include="Logic\Commands\UnknownCommand.cs" />
-    <Compile Include="Logic\Commands\Server\ChangeAllianceRoleCommand.cs" />
-    <Compile Include="Logic\Commands\Server\LeaveAllianceCommand.cs" />
-    <Compile Include="Logic\Commands\Server\JoinAllianceCommand.cs" />
-    <Compile Include="Logic\Commands\ShopOpenedCommand.cs" />
-    <Compile Include="Logic\Commands\RefreshAchievementsCommand.cs" />
-    <Compile Include="Logic\Commands\ClaimAchievementRewardCommand.cs" />
-    <Compile Include="Logic\Commands\SpellPageOpenedCommand.cs" />
-    <Compile Include="Logic\Commands\BuySpellCommand.cs" />
-    <Compile Include="Logic\Commands\Storage\CommandStorage.cs" />
-    <Compile Include="Logic\Commands\SpellSeenCommand.cs" />
-    <Compile Include="Logic\Converters\SpellDeckConverter.cs" />
-    <Compile Include="Logic\Converters\SpellCollectionConverter.cs" />
-    <Compile Include="Logic\Converters\DataSlotConverter.cs" />
-    <Compile Include="Logic\Converters\CommoditySlotsConverter.cs" />
-    <Compile Include="Logic\Converters\ChestConverter.cs" />
-    <Compile Include="Logic\GameObject\Character.cs" />
-    <Compile Include="Logic\GameObject\Factory\GameObjectFactory.cs" />
-    <Compile Include="Logic\GameObject\Summoner.cs" />
-    <Compile Include="Logic\Commands\DoSpellCommand.cs" />
-    <Compile Include="Logic\Commands\PageOpenedCommand.cs" />
-    <Compile Include="Logic\Commands\StartMatchmakeCommand.cs" />
-    <Compile Include="Logic\Commands\SelectDeckCommand.cs" />
-    <Compile Include="Logic\Commands\UpdateLastShownLevelUpCommand.cs" />
-    <Compile Include="Logic\Commands\SwapSpellsCommand.cs" />
-    <Compile Include="Logic\Commands\FuseSpellsCommand.cs" />
-    <Compile Include="Logic\Commands\Command.cs" />
-    <Compile Include="Logic\Commands\Server\AllianceUnitReceivedCommand.cs" />
-    <Compile Include="Logic\Commands\Server\AddChestCommand.cs" />
-    <Compile Include="Logic\Commands\Server\TransactionsRevokedCommand.cs" />
-    <Compile Include="Logic\Commands\Server\DiamondsRemovedCommand.cs" />
-    <Compile Include="Logic\Commands\Server\ClaimRewardCommand.cs" />
-    <Compile Include="Logic\Commands\Server\ChangeAvatarNameCommand.cs" />
-    <Compile Include="Logic\Commands\Server\ServerCommand.cs" />
-    <Compile Include="Logic\Event\Manager\EventManager.cs" />
-    <Compile Include="Logic\GameObject\Component\CombatComponent.cs" />
-    <Compile Include="Logic\GameObject\Component\Component.cs" />
-    <Compile Include="Logic\GameObject\Component\CharacterBuffComponent.cs" />
-    <Compile Include="Logic\GameObject\Component\MovementComponent.cs" />
-    <Compile Include="Logic\GameObject\Component\HitpointComponent.cs" />
-    <Compile Include="Logic\GameObject\GameObject.cs" />
-    <Compile Include="Logic\GameObject\Manager\GameObjectManager.cs" />
-    <Compile Include="Logic\Home\Chest.cs" />
-    <Compile Include="Logic\Home\Spells\Spell.cs" />
-    <Compile Include="Logic\Home\Spells\SpellCollection.cs" />
-    <Compile Include="Logic\Home\Spells\SpellDeck.cs" />
-    <Compile Include="Logic\Home\Spells\SpellSet.cs" />
-    <Compile Include="Logic\Inbox\InboxManager.cs" />
-    <Compile Include="Logic\Inbox\Entry\InboxEntry.cs" />
-    <Compile Include="Logic\RoyalTV\Entry\RoyalTvEntry.cs" />
-    <Compile Include="Logic\RoyalTV\RoyalTvManager.cs" />
-    <Compile Include="Logic\Scoring\Entries\RankingEntry.cs" />
-    <Compile Include="Logic\Scoring\LeaderboardClans.cs" />
-    <Compile Include="Logic\Scoring\LeaderboardPlayers.cs" />
-    <Compile Include="Logic\Collections\Leaderboards.cs" />
-    <Compile Include="Logic\Home\Home.cs" />
-    <Compile Include="Logic\Commands\Manager\CommandManager.cs" />
-    <Compile Include="Logic\Manager\AchievementManager.cs" />
-    <Compile Include="Logic\Mode\GameMode.cs" />
-    <Compile Include="Logic\Player\Enums\CommodityType.cs" />
-    <Compile Include="Logic\Player\Items\DataSlot.cs" />
-    <Compile Include="Logic\Player\PlayerBase.cs" />
-    <Compile Include="Logic\Player\Slots\CommoditySlots.cs" />
-    <Compile Include="Logic\Replay\Replay.cs" />
-    <Compile Include="Logic\Reward\DraftReward.cs" />
-    <Compile Include="Logic\Reward\Reward.cs" />
-    <Compile Include="Logic\Reward\RewardRandomizer.cs" />
-    <Compile Include="Logic\Scoring\Entries\AllianceRankingEntry.cs" />
-    <Compile Include="Logic\Scoring\Entries\AvatarRankingEntry.cs" />
-    <Compile Include="Logic\Sector\Manager\SectorManager.cs" />
-    <Compile Include="Logic\Shop\Items\DiamondShopItem.cs" />
-    <Compile Include="Logic\Shop\Items\SpecialChestShopItem.cs" />
-    <Compile Include="Logic\Shop\Items\ShopItem.cs" />
-    <Compile Include="Logic\Shop\Items\ShopItemFactory.cs" />
-    <Compile Include="Logic\Shop\Items\ResourceShopItem.cs" />
-    <Compile Include="Logic\Shop\Items\ChestShopItem.cs" />
-    <Compile Include="Logic\Shop\Items\SpellShopItem.cs" />
-    <Compile Include="Logic\Collections\Battles.cs" />
-    <Compile Include="Logic\Collections\Clans.cs" />
-    <Compile Include="Logic\Apis\Facebook.cs" />
-    <Compile Include="Logic\Apis\Gamecenter.cs" />
-    <Compile Include="Logic\Apis\Google.cs" />
-    <Compile Include="Logic\Collections\Players.cs" />
-    <Compile Include="Logic\Structures\Defines.cs" />
-    <Compile Include="Logic\Structures\RequestTime.cs" />
-    <Compile Include="Logic\Structures\Stats.cs" />
-    <Compile Include="Logic\Time\Time.cs" />
-    <Compile Include="Logic\Time\Timer.cs" />
-    <Compile Include="Logic\Version.cs" />
-    <Compile Include="Logic\Device.cs" />
-    <Compile Include="Logic\Player\Player.cs" />
-    <Compile Include="Network\NetworkManager.cs" />
-    <Compile Include="Network\NetworkPool.cs" />
-    <Compile Include="Network\NetworkToken.cs" />
     <Compile Include="Network\Packets\Client\Account\RequestApiMessage.cs" />
     <Compile Include="Network\Packets\Client\Attack\StartTrainingBattleMessage.cs" />
     <Compile Include="Network\Packets\Server\Account\RequestApiDataMessage.cs" />
@@ -290,7 +170,6 @@
     <Compile Include="Network\Packets\Client\Scoring\AskForAllianceRankingListMessage.cs" />
     <Compile Include="Network\Packets\Client\Scoring\AskForAvatarLocalRankingListMessage.cs" />
     <Compile Include="Network\Packets\Client\Scoring\AskForAvatarRankingListMessage.cs" />
-    <Compile Include="Network\Packets\Message.cs" />
     <Compile Include="Network\Packets\Client\Account\ReportUserMessage.cs" />
     <Compile Include="Network\Packets\Client\Attack\SendBattleEventMessage.cs" />
     <Compile Include="Network\Packets\Client\Avatar\AskForAvatarStreamMessage.cs" />
@@ -393,11 +272,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logic\Commands\Debug\" />
-    <Folder Include="Logic\Home\Manager\" />
-    <Folder Include="Logic\Home\Slot\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ClashRoyale.Patcher\ClashRoyale.Patcher.csproj">
       <Project>{15a935b7-d610-435e-9ade-5eb8fcd004ea}</Project>
@@ -407,9 +282,6 @@
       <Project>{bed31336-c114-4e3b-9251-590ea24b223f}</Project>
       <Name>ClashRoyale</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Logic\Converters\SavedDecksConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

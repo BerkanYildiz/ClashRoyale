@@ -1,11 +1,12 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Client.Bind
 {
+    using ClashRoyale.Database;
+    using ClashRoyale.Database.Models;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Database;
-    using ClashRoyale.Server.Database.Models;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Apis;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Apis;
+    using ClashRoyale.Messages;
 
     using MongoDB.Driver;
 
@@ -14,7 +15,7 @@
         /// <summary>
         /// The type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -25,7 +26,7 @@
         /// <summary>
         /// The service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -50,7 +51,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.Stream.ReadVInt();
 
@@ -62,7 +63,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             if (string.IsNullOrEmpty(this.GamecenterId) || string.IsNullOrEmpty(this.Certificate))
             {

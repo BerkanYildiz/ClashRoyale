@@ -6,17 +6,18 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Alliance;
-    using ClashRoyale.Server.Logic.Alliance.Entries;
-    using ClashRoyale.Server.Logic.Collections;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Alliance.Entries;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Messages;
 
     internal class EditAllianceMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -27,7 +28,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -56,7 +57,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.Description    = this.Stream.ReadString();
             this.Badge          = this.Stream.DecodeData<AllianceBadgeData>();
@@ -68,7 +69,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             Logging.Info(this.GetType(), "Player is editing an alliance.");
 

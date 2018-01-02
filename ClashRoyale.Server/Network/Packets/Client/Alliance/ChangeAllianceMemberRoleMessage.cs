@@ -2,19 +2,20 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Alliance;
-    using ClashRoyale.Server.Logic.Alliance.Entries;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Commands.Server;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Alliance.Entries;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Commands.Server;
+    using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages;
 
     internal class ChangeAllianceMemberRoleMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -25,7 +26,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -49,7 +50,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.MemberId   = this.Stream.ReadLong();
             this.NewRole    = this.Stream.ReadVInt();
@@ -58,7 +59,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             Player Player = this.Device.GameMode.Player;
 

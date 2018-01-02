@@ -2,10 +2,11 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Scoring;
     using ClashRoyale.Maths;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Scoring;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForAvatarRankingListMessage : Message
@@ -15,7 +16,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -26,7 +27,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -45,7 +46,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.Stream.ReadBoolean();
 
@@ -58,7 +59,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteBoolean(false);
             this.Stream.WriteBoolean(!this.AccountId.IsZero);
@@ -72,7 +73,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             LeaderboardPlayers Leaderboard = Leaderboards.GlobalPlayers;
 

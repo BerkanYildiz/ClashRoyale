@@ -3,9 +3,9 @@
     using System;
     using System.Reflection;
 
+    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Collections;
     using ClashRoyale.Maths;
-    using ClashRoyale.Server.Logic.Alliance;
-    using ClashRoyale.Server.Logic.Collections;
 
     internal static class ClanHandler
     {

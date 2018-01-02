@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Messages;
 
     internal class UdpConnectionInfoMessage : Message
     {
@@ -12,7 +13,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -23,7 +24,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -42,7 +43,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.ServerPort = this.Stream.ReadVInt();
             this.ServerHost = this.Stream.ReadString();
@@ -53,7 +54,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteVInt(this.ServerPort);
             this.Stream.WriteString(this.ServerHost);

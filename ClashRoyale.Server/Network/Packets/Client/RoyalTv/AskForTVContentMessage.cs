@@ -6,9 +6,9 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.RoyalTV;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.RoyalTV;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForTvContentMessage : Message
@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -48,7 +48,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.ArenaData = this.Stream.DecodeData<ArenaData>();
         }
@@ -56,7 +56,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.EncodeData(this.ArenaData);
         }
@@ -64,7 +64,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             if (this.ArenaData != null)
             {

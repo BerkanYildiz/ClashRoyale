@@ -1,14 +1,15 @@
 namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
 
     internal class MatchmakeFailedMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -19,7 +20,7 @@ namespace ClashRoyale.Server.Network.Packets.Server
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {

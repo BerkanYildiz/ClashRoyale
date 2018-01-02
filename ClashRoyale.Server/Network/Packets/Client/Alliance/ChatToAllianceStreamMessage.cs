@@ -6,18 +6,19 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Game;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Alliance;
-    using ClashRoyale.Server.Logic.Alliance.Stream;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Alliance.Stream;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages;
 
     internal class ChatToAllianceStreamMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -28,7 +29,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -51,7 +52,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.Message = this.Stream.ReadString();
         }
@@ -59,7 +60,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             Player Player = this.Device.GameMode.Player;
 

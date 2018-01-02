@@ -5,10 +5,11 @@
     using ClashRoyale.Extensions.Game;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Alliance;
-    using ClashRoyale.Server.Logic.Collections;
-    using ClashRoyale.Server.Logic.Commands.Server;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Commands.Server;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class CreateAllianceMessage : Message
@@ -25,7 +26,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -36,7 +37,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -57,7 +58,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.AllianceName       = this.Stream.ReadString();
             this.AllianceDescription= this.Stream.ReadString();
@@ -70,7 +71,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override async void Process()
+        public override async void Process()
         {
             Logging.Info(this.GetType(), "Player is creating a clan.");
 

@@ -1,15 +1,16 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Server
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Player;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages;
 
     internal class DeviceAlreadyBoundMessage : Message
     {
         /// <summary>
         /// The type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -20,7 +21,7 @@
         /// <summary>
         /// The service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -43,7 +44,7 @@
         /// <summary>
         /// Encodes the <see cref="Message" />, using the <see cref="Writer" /> instance.
         /// </summary>
-        internal override void Encode()
+        public override void Encode()
         {
             this.Stream.WriteString(null);
             this.Stream.WriteBoolean(true);

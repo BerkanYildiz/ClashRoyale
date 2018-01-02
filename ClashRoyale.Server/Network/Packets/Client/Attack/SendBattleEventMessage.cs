@@ -2,8 +2,9 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
-    using ClashRoyale.Server.Logic.Battle.Event;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Battle.Event;
+    using ClashRoyale.Messages;
 
     internal class SendBattleEventMessage : Message
     {
@@ -12,7 +13,7 @@
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -23,7 +24,7 @@
         /// <summary>
         /// Gets the service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -42,7 +43,7 @@
         /// <summary>
         /// Decodes this instance.
         /// </summary>
-        internal override void Decode()
+        public override void Decode()
         {
             this.Event = new BattleEvent();
             this.Event.Decode(this.Stream);
@@ -51,7 +52,7 @@
         /// <summary>
         /// Processes this instance.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             if (this.Device.GameMode.State == HomeState.Attack)
             {

@@ -4,7 +4,8 @@
     using System.Collections.Generic;
 
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Client;
     using ClashRoyale.Server.Network.Packets.Client.Bind;
     using ClashRoyale.Server.Network.Packets.Server;

@@ -2,7 +2,8 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AskForFriendsInviteMessage : Message
@@ -10,7 +11,7 @@
         /// <summary>
         /// The type of this message.
         /// </summary>
-        internal override short Type
+        public override short Type
         {
             get
             {
@@ -21,7 +22,7 @@
         /// <summary>
         /// The service node of this message.
         /// </summary>
-        internal override Node ServiceNode
+        public override Node ServiceNode
         {
             get
             {
@@ -42,7 +43,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             this.Device.NetworkManager.SendMessage(new FriendsInviteDataMessage(this.Device, this.Device.GameMode.Player.ToString()));
         }

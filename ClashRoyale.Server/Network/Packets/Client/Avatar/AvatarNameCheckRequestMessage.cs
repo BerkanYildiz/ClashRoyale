@@ -1,7 +1,8 @@
 ﻿namespace ClashRoyale.Server.Network.Packets.Client
 {
     using ClashRoyale.Extensions;
-    using ClashRoyale.Server.Logic;
+    using ClashRoyale.Logic;
+    using ClashRoyale.Messages;
     using ClashRoyale.Server.Network.Packets.Server;
 
     internal class AvatarNameCheckRequestMessage : Message
@@ -19,7 +20,7 @@
         /// <summary>
         /// Processes this message.
         /// </summary>
-        internal override void Process()
+        public override void Process()
         {
             this.Device.NetworkManager.SendMessage(new AvatarNameCheckResponseMessage(this.Device));
         }
