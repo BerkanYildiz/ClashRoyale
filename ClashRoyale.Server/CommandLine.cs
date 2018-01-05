@@ -2,7 +2,7 @@
 {
     using System;
 
-    using ClashRoyale.Server.Handlers;
+    using ClashRoyale.Server.CmdHandlers;
 
     internal static class CommandLine
     {

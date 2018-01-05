@@ -11,7 +11,7 @@
     using ClashRoyale.Logic.Inbox;
     using ClashRoyale.Logic.RoyalTV;
     using ClashRoyale.Network;
-    using ClashRoyale.Server.Network.Packets;
+    using ClashRoyale.Server.Handlers;
 
     internal class Program
     {

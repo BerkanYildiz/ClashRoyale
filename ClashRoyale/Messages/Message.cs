@@ -42,6 +42,17 @@
         }
 
         /// <summary>
+        /// Gets a value indicating whether this instance has an handler.
+        /// </summary>
+        public bool HasHandler
+        {
+            get
+            {
+                return Factory.Handlers.ContainsKey(this.Type);
+            }
+        }
+
+        /// <summary>
         /// Gets the length of this <see cref="Message"/>
         /// </summary>
         public int Length

@@ -7,6 +7,7 @@
 
     using ClashRoyale.Logic.Alliance.Entries;
     using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages.Server.Alliance;
 
     public class AllianceMemberEntries : ConcurrentDictionary<long, AllianceMemberEntry>
     {

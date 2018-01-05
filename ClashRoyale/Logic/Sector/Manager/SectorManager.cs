@@ -11,6 +11,9 @@
     using ClashRoyale.Logic.Mode;
     using ClashRoyale.Logic.Player;
     using ClashRoyale.Logic.Time;
+    using ClashRoyale.Messages.Server.Attack;
+    using ClashRoyale.Messages.Server.Avatar;
+    using ClashRoyale.Messages.Server.Sector;
 
     using Math = ClashRoyale.Maths.Math;
 

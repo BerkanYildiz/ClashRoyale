@@ -5,6 +5,7 @@
     using ClashRoyale.Logic.Home;
     using ClashRoyale.Logic.Mode;
     using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages.Server.Matchmaking;
 
     public class StartMatchmakeCommand : Command
     {

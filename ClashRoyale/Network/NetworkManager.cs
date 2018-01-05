@@ -12,7 +12,7 @@
     using ClashRoyale.Logic.Structures;
     using ClashRoyale.Maths;
     using ClashRoyale.Messages;
-    using ClashRoyale.Network;
+    using ClashRoyale.Messages.Client;
 
     public class NetworkManager
     {
@@ -23,7 +23,7 @@
         public int Ping;
         public int InvalidMessageStateCnt;
 
-        public string ConnectionInterface;
+        public string Interface;
 
         public DateTime LastChatMessage;
         public DateTime LastKeepAlive;
@@ -125,17 +125,18 @@
                     {
                         Logging.Info(this.GetType(), "Receiving " + Message.GetType().Name + ".");
 
-                        if (true) // this.RequestTime.CanHandleMessage(Message))
+                        if (this.RequestTime.CanHandleMessage(Message))
                         {
                             try
                             {
                                 Message.Decode();
-                                Message.Process();
                             }
                             catch (Exception Exception)
                             {
                                 Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + Message.Type + " has been processed. " + Exception);
                             }
+
+                            Factory.MessageHandle(this.Device, Message).ConfigureAwait(false);
                         }
                     }
                     else
@@ -192,8 +193,7 @@
                     Message.Stream.SetByteArray(Bytes);
 
                     NetworkTcp.Send(Message);
-
-                    Message.Process();
+                    Factory.MessageHandle(this.Device, Message).ConfigureAwait(false);
                 }
                 else
                 {
@@ -208,6 +208,8 @@
         public void KeepAliveMessageReceived()
         {
             this.LastKeepAlive = DateTime.UtcNow;
+
+            Logging.Info(typeof(KeepAliveMessage), "Handling KeepAliveMessage.");
         }
     }
 }

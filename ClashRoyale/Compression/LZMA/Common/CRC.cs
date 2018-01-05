@@ -1,6 +1,6 @@
 namespace ClashRoyale.Compression.LZMA.Common
 {
-    internal class Crc
+    public class Crc
     {
         public static readonly uint[] Table;
 

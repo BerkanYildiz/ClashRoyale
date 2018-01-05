@@ -340,7 +340,7 @@ namespace ClashRoyale.Compression.LZMA.Common
         }
     }
 
-    internal class CommandSubCharsSet
+    public class CommandSubCharsSet
     {
         public string Chars = string.Empty;
 

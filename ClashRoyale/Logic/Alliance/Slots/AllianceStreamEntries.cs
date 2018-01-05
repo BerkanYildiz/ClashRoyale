@@ -7,6 +7,7 @@
 
     using ClashRoyale.Logic.Alliance.Stream;
     using ClashRoyale.Logic.Player;
+    using ClashRoyale.Messages.Server.Alliance;
 
     using Newtonsoft.Json;
 

@@ -2,7 +2,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.RangeCoder
 {
     using System.IO;
 
-    internal class Encoder
+    public class Encoder
     {
         public const uint kTopValue = 1 << 24;
 
@@ -131,7 +131,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.RangeCoder
         }
     }
 
-    internal class Decoder
+    public class Decoder
     {
         public const uint kTopValue = 1 << 24;
 

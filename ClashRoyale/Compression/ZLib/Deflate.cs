@@ -24,7 +24,7 @@ namespace ClashRoyale.Compression.ZLib
 
         internal delegate BlockState CompressFunc(FlushType flush);
 
-        internal class Config
+        public class Config
         {
             private static readonly Config[] Table;
 

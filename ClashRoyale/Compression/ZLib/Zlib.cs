@@ -194,7 +194,7 @@ namespace ClashRoyale.Compression.ZLib
         }
     }
 
-    internal class SharedUtils
+    public class SharedUtils
     {
         /// <summary>
         /// Performs an unsigned bitwise right shift with the specified number

@@ -6,7 +6,7 @@ namespace ClashRoyale.Compression.ZLib
     using System.IO;
     using System.Threading;
 
-    internal class WorkItem
+    public class WorkItem
     {
         public byte[] buffer;
         public byte[] compressed;

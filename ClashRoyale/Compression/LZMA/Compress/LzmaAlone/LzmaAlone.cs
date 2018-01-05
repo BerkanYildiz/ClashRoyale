@@ -84,7 +84,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
         }
     }
 
-    internal class LzmaAlone
+    public class LzmaAlone
     {
         private enum Key
         {

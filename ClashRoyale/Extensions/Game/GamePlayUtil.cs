@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyale.Extensions.Game
 {
-    internal class GamePlayUtil
+    public class GamePlayUtil
     {
         
     }

@@ -6,6 +6,7 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Commands.Server;
     using ClashRoyale.Logic.Mode;
+    using ClashRoyale.Messages.Server.Home;
 
     using Newtonsoft.Json.Linq;
 
