@@ -2,7 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions.Helper;
-    using ClashRoyale.Logic;
 
     public class SectorStateMessage : Message
     {
@@ -33,9 +32,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="SectorStateMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Update">The update.</param>
-        public SectorStateMessage(Device Device, byte[] Update) : base(Device)
+        public SectorStateMessage(byte[] Update)
         {
             this.FullUpdate = Update;
         }

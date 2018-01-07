@@ -4,6 +4,7 @@
 
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Logic.Converters;
     using ClashRoyale.Logic.Player;
 
     using Newtonsoft.Json;
@@ -81,9 +82,32 @@
         }
 
         /// <summary>
-        /// Encodes this instance.
+        /// Decodes from the specified stream.
         /// </summary>
-        public virtual void Encode(ByteStream Stream)
+        /// <param name="Stream">The stream.</param>
+        public virtual void Decode(ByteStream Stream)
+        {
+            this.HighId         = Stream.ReadVInt();
+            this.LowId          = Stream.ReadVInt();
+            this.SenderHighId   = Stream.ReadVInt();
+            this.SenderLowId    = Stream.ReadVInt();
+            this.SenderHighId   = Stream.ReadVInt();
+            this.SenderLowId    = Stream.ReadVInt();
+
+            this.SenderName     = Stream.ReadString();
+
+            this.SenderExpLevel = Stream.ReadVInt();
+            this.SenderRole     = Stream.ReadVInt();
+            Stream.ReadVInt();
+
+            this.Removed        = Stream.ReadBoolean();
+        }
+
+        /// <summary>
+        /// Encodes in the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public virtual void Encode(ChecksumEncoder Stream)
         {
             Stream.WriteLogicLong(this.HighId, this.LowId);
             Stream.WriteLogicLong(this.SenderHighId, this.SenderLowId);

@@ -4,7 +4,6 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions.Helper;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Player;
 
     public class FriendsListMessage : Message
@@ -36,9 +35,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="FriendsListMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Friends">The friends identifiers.</param>
-        public FriendsListMessage(Device Device, List<Player> Friends) : base(Device)
+        public FriendsListMessage(List<Player> Friends)
         {
             this.Friends = Friends;
         }

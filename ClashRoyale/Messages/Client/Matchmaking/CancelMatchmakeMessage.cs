@@ -2,9 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Battle.Manager;
-    using ClashRoyale.Messages.Server.Matchmaking;
 
     public class CancelMatchmakeMessage : Message
     {
@@ -33,26 +30,18 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="CancelMatchmakeMessage"/> class.
         /// </summary>
-        public CancelMatchmakeMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public CancelMatchmakeMessage()
         {
             // CancelMatchmakeMessage.
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Initializes a new instance of the <see cref="CancelMatchmakeMessage"/> class.
         /// </summary>
-        public override void Process()
+        /// <param name="Stream">The stream.</param>
+        public CancelMatchmakeMessage(ByteStream Stream) : base(Stream)
         {
-            Logging.Info(this.GetType(), "Player is canceling a matchmake.");
-
-            if (BattleManager.Waitings.TryRemove(this.Device.GameMode.Player.PlayerId, out _))
-            {
-                this.Device.NetworkManager.SendMessage(new CancelMatchmakeDoneMessage(this.Device));
-            }
-            else
-            {
-                Logging.Info(this.GetType(), "Player is not allowed to cancel the matchmake.");
-            }
+            // CancelMatchmakeMessage.
         }
     }
 }

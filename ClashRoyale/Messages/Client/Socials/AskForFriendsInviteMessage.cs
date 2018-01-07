@@ -2,8 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Messages.Server.Socials;
 
     public class AskForFriendsInviteMessage : Message
     {
@@ -32,19 +30,18 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForFriendsInviteMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForFriendsInviteMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForFriendsInviteMessage()
         {
             // AskForFriendsInviteMessage.
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Initializes a new instance of the <see cref="AskForFriendsInviteMessage"/> class.
         /// </summary>
-        public override void Process()
+        /// <param name="Stream">The stream.</param>
+        public AskForFriendsInviteMessage(ByteStream Stream) : base(Stream)
         {
-            this.Device.NetworkManager.SendMessage(new FriendsInviteDataMessage(this.Device, this.Device.GameMode.Player.ToString()));
+            // AskForFriendsInviteMessage.
         }
     }
 }

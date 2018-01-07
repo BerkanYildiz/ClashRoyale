@@ -1,9 +1,8 @@
 namespace ClashRoyale.Messages.Server.Scoring
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Scoring;
-    using ClashRoyale.Logic.Scoring.Entries;
 
     public class AvatarRankingListMessage : Message
     {
@@ -28,21 +27,54 @@ namespace ClashRoyale.Messages.Server.Scoring
                 return Node.Scoring;
             }
         }
+        
+        public AvatarRankingEntry[] AvatarRankingList;
+        public AvatarRankingEntry[] PreviousSeasonTopPlayers;
 
-        private readonly LeaderboardPlayers Leaderboard;
-        private readonly AvatarRankingEntry[] AvatarRankingList;
-        private readonly AvatarRankingEntry[] PreviousSeasonTopPlayers;
+        public int TimeLeft;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AvatarRankingListMessage"/> class.
+        /// </summary>
+        public AvatarRankingListMessage()
+        {
+            // AvatarRankingListMessage.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AvatarRankingListMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
         /// <param name="Leaderboard">The leaderboard.</param>
-        public AvatarRankingListMessage(Device Device, LeaderboardPlayers Leaderboard) : base(Device)
+        public AvatarRankingListMessage(ByteStream Stream) : base(Stream)
         {
-            this.Leaderboard                = Leaderboard;
-            this.AvatarRankingList          = Leaderboard.Players.ToArray();
-            this.PreviousSeasonTopPlayers   = Leaderboard.LastSeason.ToArray();
+            // AvatarRankingListMessage.
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.AvatarRankingList = new AvatarRankingEntry[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.AvatarRankingList.Length; i++)
+            {
+                AvatarRankingEntry Entry = new AvatarRankingEntry();
+                Entry.Decode(this.Stream);
+                this.AvatarRankingList[i] = Entry;
+            }
+
+            this.PreviousSeasonTopPlayers = new AvatarRankingEntry[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.PreviousSeasonTopPlayers.Length; i++)
+            {
+                AvatarRankingEntry Entry = new AvatarRankingEntry();
+                Entry.Decode(this.Stream);
+                this.PreviousSeasonTopPlayers[i] = Entry;
+            }
+
+            this.TimeLeft = this.Stream.ReadInt();
         }
 
         /// <summary>
@@ -50,35 +82,21 @@ namespace ClashRoyale.Messages.Server.Scoring
         /// </summary>
         public override void Encode()
         {
-            if (this.AvatarRankingList != null)
-            {
-                this.Stream.WriteVInt(this.AvatarRankingList.Length);
+            this.Stream.WriteVInt(this.AvatarRankingList.Length);
 
-                for (int I = 0; I < this.AvatarRankingList.Length; I++)
-                {
-                    this.AvatarRankingList[I].Encode(this.Stream);
-                }
-            }
-            else
+            foreach (AvatarRankingEntry Entry in this.AvatarRankingList)
             {
-                this.Stream.WriteVInt(-1);
+                Entry.Encode(this.Stream);
             }
 
-            if (this.PreviousSeasonTopPlayers != null)
-            {
-                this.Stream.WriteInt(this.PreviousSeasonTopPlayers.Length);
+            this.Stream.WriteInt(this.PreviousSeasonTopPlayers.Length);
 
-                for (int I = 0; I < this.PreviousSeasonTopPlayers.Length; I++)
-                {
-                    this.PreviousSeasonTopPlayers[I].Encode(this.Stream);
-                }
-            }
-            else
+            foreach (AvatarRankingEntry Entry in this.PreviousSeasonTopPlayers)
             {
-                this.Stream.WriteVInt(-1);
+                Entry.Encode(this.Stream);
             }
 
-            this.Stream.WriteInt((int) this.Leaderboard.TimeLeft.TotalSeconds);
+            this.Stream.WriteInt(this.TimeLeft);
         }
     }
 }

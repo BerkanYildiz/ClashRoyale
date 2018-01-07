@@ -5,9 +5,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using ClashRoyale.Database;
-    using ClashRoyale.Database.Models;
     using ClashRoyale.Logic.Battle;
+
+    using BattleDb = ClashRoyale.Database.Models.BattleDb;
+    using GameDb = ClashRoyale.Database.GameDb;
 
     public static class Battles
     {
@@ -68,7 +69,6 @@
                     }
                 }
             } */
-
             Battles.Initialized   = true;
         }
 
@@ -118,7 +118,7 @@
             Entity.HighId = Battles.HighSeed;
             Entity.LowId  = Interlocked.Increment(ref Battles.LowSeed);
 
-            await Database.Models.BattleDb.Create(Entity);
+            await BattleDb.Create(Entity);
             
             if (Store)
             {
@@ -180,7 +180,7 @@
         /// <param name="Entity">The entity.</param>
         public static async Task Save(BattleLog Entity)
         {
-            var Result = await Database.Models.BattleDb.Save(Entity);
+            var Result = await BattleDb.Save(Entity);
 
             if (Result == null)
             {

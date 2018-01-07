@@ -2,7 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
     using ClashRoyale.Messages;
 
     public class RequestApiMessage : Message
@@ -32,9 +31,17 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestApiMessage"/> class.
         /// </summary>
+        public RequestApiMessage()
+        {
+            // RequestApiMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequestApiMessage"/> class.
+        /// </summary>
         /// <param name="Device">The device.</param>
         /// <param name="ByteStream">The byte stream.</param>
-        public RequestApiMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public RequestApiMessage(ByteStream Stream) : base(Stream)
         {
             // RequestApiMessage.
         }

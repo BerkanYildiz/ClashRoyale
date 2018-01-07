@@ -3,7 +3,6 @@
     using System.Collections.Generic;
 
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Alliance.Entries;
 
     public class SearchClansDataMessage : Message
@@ -30,16 +29,15 @@
             }
         }
 
-        private readonly List<AllianceHeaderEntry> Alliances;
-        private readonly string Filter;
+        public List<AllianceHeaderEntry> Alliances;
+        public string Filter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchClansDataMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Filter">The filter.</param>
         /// <param name="Alliances">The alliances.</param>
-        public SearchClansDataMessage(Device Device, string Filter, List<AllianceHeaderEntry> Alliances) : base(Device)
+        public SearchClansDataMessage(string Filter, List<AllianceHeaderEntry> Alliances)
         {
             this.Filter     = Filter;
             this.Alliances  = Alliances;

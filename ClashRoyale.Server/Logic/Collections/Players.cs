@@ -7,13 +7,14 @@ namespace ClashRoyale.Logic.Collections
     using System.Threading.Tasks;
 
     using ClashRoyale.Crypto.Randomizers;
-    using ClashRoyale.Database;
-    using ClashRoyale.Database.Models;
     using ClashRoyale.Logic.Alliance;
     using ClashRoyale.Logic.Commands;
     using ClashRoyale.Logic.Player;
 
     using Newtonsoft.Json;
+
+    using GameDb = ClashRoyale.Database.GameDb;
+    using PlayerDb = ClashRoyale.Database.Models.PlayerDb;
 
     public static class Players
     {
@@ -159,7 +160,7 @@ namespace ClashRoyale.Logic.Collections
                 Entity.Token    = XorShift.NextToken();
             }
 
-            await Database.Models.PlayerDb.Create(Entity);
+            await PlayerDb.Create(Entity);
 
             if (Store)
             {
@@ -219,7 +220,7 @@ namespace ClashRoyale.Logic.Collections
         /// <param name="Entity">The entity.</param>
         public static async Task Save(Player Entity)
         {
-            var Result = await Database.Models.PlayerDb.Save(Entity);
+            var Result = await PlayerDb.Save(Entity);
 
             if (Result == null)
             {

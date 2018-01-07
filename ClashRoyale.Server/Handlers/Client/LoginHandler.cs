@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Handlers.Client
+﻿namespace ClashRoyale.Handlers.Client
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -26,19 +26,16 @@
         /// <param name="Cancellation">The cancellation.</param>
         public static async Task Handle(Device Device, Message Message, CancellationToken Cancellation)
         {
-            Logging.Info(typeof(LoginHandler), "Currently handling LoginMessage.");
-
             var LoginMessage = (LoginMessage) Message;
 
             if (LoginMessage == null)
             {
-                throw new LogicException(typeof(LoginHandler), "LoginMessage == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(LoginHandler), nameof(LoginMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
 
-            Logging.Info(typeof(LoginHandler), "Account Id    : " + LoginMessage.HighId + "-" + LoginMessage.LowId + ".");
-            Logging.Info(typeof(LoginHandler), "Account Token : " + LoginMessage.Token + ".");
+            Device.State = State.Login;
 
-            if (Trusted(Device, LoginMessage) == false)
+            if (LoginHandler.Trusted(Device, LoginMessage) == false)
             {
                 return;
             }
@@ -49,11 +46,11 @@
 
                 if (Player != null)
                 {
-                    await Login(Device, LoginMessage, Player);
+                    await LoginHandler.Login(Device, LoginMessage, Player);
                 }
                 else
                 {
-                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Maintenance));
+                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Maintenance));
                 }
             }
             else
@@ -68,24 +65,24 @@
                         {
                             if (Player.IsConnected)
                             {
-                                Player.GameMode.Device.NetworkManager.SendMessage(new DisconnectedMessage(Player.GameMode.Device));
+                                Player.GameMode.Device.NetworkManager.SendMessage(new DisconnectedMessage());
                             }
 
-                            await Login(Device, LoginMessage, Player);
+                            await LoginHandler.Login(Device, LoginMessage, Player);
                         }
                         else
                         {
-                            Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Banned));
+                            Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Banned));
                         }
                     }
                     else
                     {
-                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Reset));
+                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Reset));
                     }
                 }
                 else
                 {
-                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Reset));
+                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Reset));
                 }
             }
         }
@@ -110,16 +107,16 @@
                             return true;
                         }
 
-                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Patch));
+                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Patch));
                     }
                     else
                     {
-                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Maintenance));
+                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Maintenance));
                     }
                 }
                 else
                 {
-                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Update));
+                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Update));
                 }
             }
 
@@ -140,9 +137,9 @@
             Device.GameMode.SetPlayer(Player);
             Device.NetworkManager.AccountId = new LogicLong(Player.HighId, Player.LowId);
 
-            Device.NetworkManager.SendMessage(new LoginOkMessage(Device, Player));
-            Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Device, Player));
-            Device.NetworkManager.SendMessage(new InboxCountMessage(Device));
+            Device.NetworkManager.SendMessage(new LoginOkMessage(Player));
+            Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player));
+            Device.NetworkManager.SendMessage(new InboxCountMessage());
         }
     }
 }

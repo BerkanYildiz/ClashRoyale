@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Handlers.Server
+﻿namespace ClashRoyale.Handlers.Server
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -23,10 +23,12 @@
 
             if (LoginFailedMessage == null)
             {
-                throw new LogicException(typeof(LoginFailedHandler), "LoginFailedMessage == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(LoginFailedHandler), nameof(LoginFailedMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
 
             Device.State = State.Disconnected;
+
+            // TODO : DONT DISCONNECT THE PLAYER !
         }
     }
 }

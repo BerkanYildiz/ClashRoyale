@@ -2,8 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Messages.Server.Avatar;
 
     public class AskForAvatarStreamMessage : Message
     {
@@ -32,19 +30,18 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForAvatarStreamMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForAvatarStreamMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForAvatarStreamMessage()
         {
             // AskForAvatarStreamMessage.
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Initializes a new instance of the <see cref="AskForAvatarStreamMessage"/> class.
         /// </summary>
-        public override void Process()
+        /// <param name="Stream">The stream.</param>
+        public AskForAvatarStreamMessage(ByteStream Stream) : base(Stream)
         {
-            this.Device.NetworkManager.SendMessage(new AvatarStreamMessage(this.Device));
+            // AskForAvatarStreamMessage.
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Avatar
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class AvatarQuestsDataMessage : Message
     {
@@ -30,7 +30,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AvatarQuestsDataMessage"/> class.
         /// </summary>
-        public AvatarQuestsDataMessage(Device Device) : base(Device)
+        public AvatarQuestsDataMessage(ByteStream Stream) : base(Stream)
         {
             // AvatarQuestsDataMessage.
         }

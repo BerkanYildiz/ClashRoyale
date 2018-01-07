@@ -197,14 +197,17 @@
         /// Sends the specified message.
         /// </summary>
         /// <param name="Message">The message.</param>
-        public static void Send(Message Message)
+        public static void Send(Message Message, NetworkToken Token)
         {
             if (Message == null)
             {
-                throw new ArgumentNullException(nameof(Message), "Message == null at Send(Message).");
+                throw new ArgumentNullException(nameof(Message), "Message == null at Send(Message, Token).");
             }
 
-            NetworkToken Token = Message.Device.Network;
+            if (Token == null)
+            {
+                throw new ArgumentNullException(nameof(Token), "Token == null at Send(Message, Token).");
+            }
 
             if (Token.IsConnected)
             {
@@ -233,7 +236,7 @@
             }
             else
             {
-                NetworkTcp.Disconnect(Message.Device.Network.AsyncEvent);
+                NetworkTcp.Disconnect(Token.AsyncEvent);
             }
         }
 
@@ -252,7 +255,7 @@
 
                 if (Message.Length + 7 > Message.Offset)
                 {
-                    if (Message.Device.Network.IsConnected)
+                    if (Token.IsConnected)
                     {
                         AsyncEvent.SetBuffer(Message.Offset, Message.Length + 7 - Message.Offset);
 

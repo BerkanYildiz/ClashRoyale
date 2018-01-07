@@ -1,8 +1,8 @@
 ﻿namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Files;
-    using ClashRoyale.Logic;
 
     using Newtonsoft.Json;
 
@@ -161,7 +161,7 @@
             }
         }
 
-        public readonly Reason Reason;
+        public Reason Reason;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginFailedMessage"/> class.
@@ -174,12 +174,43 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginFailedMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Stream">The stream.</param>
+        public LoginFailedMessage(ByteStream Stream) : base(Stream)
+        {
+            // LoginFailedMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginFailedMessage"/> class.
+        /// </summary>
         /// <param name="Reason">The reason.</param>
-        public LoginFailedMessage(Device Device, Reason Reason = Reason.Default) : base(Device)
+        public LoginFailedMessage(Reason Reason = Reason.Default)
         {
             this.Version = 4;
             this.Reason  = Reason;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.Reason  = (Reason) this.Stream.ReadVInt();
+
+            this.Stream.ReadString();
+            this.Stream.ReadString();
+            this.Stream.ReadString();
+            this.Stream.ReadString();
+
+            this.Stream.ReadVInt();
+            this.Stream.ReadBoolean();
+
+            this.Stream.ReadString();
+
+            for (int i = 0; i < this.Stream.ReadVInt(); i++)
+            {
+                this.Stream.ReadString();
+            }
         }
 
         /// <summary>

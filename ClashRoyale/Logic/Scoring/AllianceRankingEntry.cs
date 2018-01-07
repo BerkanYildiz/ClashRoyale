@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Logic.Scoring.Entries
+﻿namespace ClashRoyale.Logic.Scoring
 {
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
@@ -7,10 +7,18 @@
 
     public class AllianceRankingEntry : RankingEntry
     {
-        private AllianceBadgeData AllianceBadgeData;
-        private RegionData AllianceRegionData;
+        public AllianceBadgeData AllianceBadgeData;
+        public RegionData AllianceRegionData;
 
-        private int NumberOfMembers;
+        public int NumberOfMembers;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceRankingEntry"/> class.
+        /// </summary>
+        public AllianceRankingEntry()
+        {
+            // AllianceRankingEntry.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceRankingEntry"/> class.
@@ -35,6 +43,32 @@
         }
 
         /// <summary>
+        /// Decodes from the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public void Decode(ByteStream Stream)
+        {
+            base.Decode(Stream);
+
+            this.AllianceBadgeData  = Stream.DecodeData<AllianceBadgeData>();
+            this.AllianceRegionData = Stream.DecodeData<RegionData>();
+            this.NumberOfMembers    = Stream.ReadVInt();
+        }
+
+        /// <summary>
+        /// Encodes in the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public void Encode(ChecksumEncoder Stream)
+        {
+            base.Encode(Stream);
+
+            Stream.EncodeData(this.AllianceBadgeData);
+            Stream.EncodeData(this.AllianceRegionData);
+            Stream.WriteVInt(this.NumberOfMembers);
+        }
+        
+        /// <summary>
         /// Determines whether the specified scored clan is better.
         /// </summary>
         /// <param name="ScoredClan">The scored clan.</param>
@@ -44,20 +78,6 @@
         public bool IsBetter(AllianceRankingEntry ScoredClan)
         {
             return this.Score > ScoredClan.Score;
-        }
-
-        /// <summary>
-        /// Encodes in the specified stream.
-        /// </summary>
-        /// <param name="Stream">The stream.</param>
-        public void Encode(ByteStream Stream)
-        {
-            base.Encode(Stream);
-
-            Stream.EncodeData(this.AllianceBadgeData);
-            Stream.EncodeData(this.AllianceRegionData);
-
-            Stream.WriteVInt(this.NumberOfMembers);
         }
     }
 }

@@ -160,7 +160,7 @@
         /// <param name="Message">The message.</param>
         public void SendMessage(Message Message)
         {
-            if (Message.Device.Network.IsConnected)
+            if (this.Device.Network.IsConnected)
             {
                 if (Message.IsServerToClientMessage)
                 {
@@ -192,7 +192,7 @@
 
                     Message.Stream.SetByteArray(Bytes);
 
-                    NetworkTcp.Send(Message);
+                    NetworkTcp.Send(Message, this.Device.Network);
                     Factory.MessageHandle(this.Device, Message).ConfigureAwait(false);
                 }
                 else
@@ -208,8 +208,6 @@
         public void KeepAliveMessageReceived()
         {
             this.LastKeepAlive = DateTime.UtcNow;
-
-            Logging.Info(typeof(KeepAliveMessage), "Handling KeepAliveMessage.");
         }
     }
 }

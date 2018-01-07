@@ -2,7 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
     using ClashRoyale.Messages;
 
     public class InboxOpenedMessage : Message
@@ -32,9 +31,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="InboxOpenedMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public InboxOpenedMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public InboxOpenedMessage()
+        {
+            // InboxOpenedMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InboxOpenedMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public InboxOpenedMessage(ByteStream Stream) : base(Stream)
         {
             // InboxOpenedMessage.
         }

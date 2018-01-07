@@ -6,7 +6,6 @@
 
     using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Logic.Alliance;
-    using ClashRoyale.Logic.Scoring.Entries;
 
     public class LeaderboardClans
     {
@@ -34,6 +33,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="LeaderboardClans"/> class.
         /// </summary>
+        /// <param name="Region">The region.</param>
         public LeaderboardClans(RegionData Region = null)
         {
             this.Clans      = new List<AllianceRankingEntry>(LeaderboardClans.SeasonMaxClans);

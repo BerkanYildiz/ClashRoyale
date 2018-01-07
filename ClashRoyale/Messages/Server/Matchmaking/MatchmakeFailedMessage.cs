@@ -1,7 +1,7 @@
 namespace ClashRoyale.Messages.Server.Matchmaking
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class MatchmakeFailedMessage : Message
     {
@@ -30,8 +30,16 @@ namespace ClashRoyale.Messages.Server.Matchmaking
         /// <summary>
         /// Initializes a new instance of the <see cref="MatchmakeFailedMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        public MatchmakeFailedMessage(Device Device) : base(Device)
+        public MatchmakeFailedMessage()
+        {
+            // MatchmakeFailedMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MatchmakeFailedMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public MatchmakeFailedMessage(ByteStream Stream) : base(Stream)
         {
             // MatchmakeFailedMessage.
         }

@@ -2,10 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Collections;
-    using ClashRoyale.Logic.Player;
-    using ClashRoyale.Messages.Server.Home;
 
     public class VisitHomeMessage : Message
     {
@@ -31,15 +27,22 @@
             }
         }
 
-        private int HighId;
-        private int LowId;
+        public int HighId;
+        public int LowId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VisitHomeMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public VisitHomeMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public VisitHomeMessage()
+        {
+            // VisitHomeMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VisitHomeMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public VisitHomeMessage(ByteStream Stream) : base(Stream)
         {
             // VisitHomeMessage.
         }
@@ -52,24 +55,14 @@
             this.HighId = this.Stream.ReadInt();
             this.LowId  = this.Stream.ReadInt();
         }
-
+        
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        public override async void Process()
+        public override void Encode()
         {
-            Player Player = await Players.Get(this.HighId, this.LowId, false);
-
-            Logging.Info(this.GetType(), "Player is requesting a profile.");
-
-            if (Player != null)
-            {
-                this.Device.NetworkManager.SendMessage(new VisitedHomeDataMessage(this.Device, Player));
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "Player(" + this.HighId + "-" + this.LowId + ") == null at Process().");
-            }
+            this.Stream.WriteInt(this.HighId);
+            this.Stream.WriteInt(this.LowId);
         }
     }
 }

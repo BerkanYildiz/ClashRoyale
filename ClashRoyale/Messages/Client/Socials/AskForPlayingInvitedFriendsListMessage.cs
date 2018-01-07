@@ -1,12 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Client.Socials
 {
-    using System.Collections.Generic;
-
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Player;
-    using ClashRoyale.Messages.Server.Socials;
 
     public class AskForPlayingInvitedFriendsListMessage : Message
     {
@@ -35,19 +30,18 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForPlayingInvitedFriendsListMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForPlayingInvitedFriendsListMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForPlayingInvitedFriendsListMessage()
         {
             // AskForPlayingInvitedFriendsListMessage.
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Initializes a new instance of the <see cref="AskForPlayingInvitedFriendsListMessage"/> class.
         /// </summary>
-        public override void Process()
+        /// <param name="Stream">The stream.</param>
+        public AskForPlayingInvitedFriendsListMessage(ByteStream Stream) : base(Stream)
         {
-            this.Device.NetworkManager.SendMessage(new FriendsListMessage(this.Device, new List<Player>(0)));
+            // AskForPlayingInvitedFriendsListMessage.
         }
     }
 }

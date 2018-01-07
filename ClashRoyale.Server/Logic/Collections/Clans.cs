@@ -6,9 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using ClashRoyale.Database;
-    using ClashRoyale.Database.Models;
     using ClashRoyale.Logic.Alliance;
+
+    using ClanDb = ClashRoyale.Database.Models.ClanDb;
+    using GameDb = ClashRoyale.Database.GameDb;
 
     public static class Clans
     {

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Logic.Battle.Manager
+﻿namespace ClashRoyale.Logic.Battle
 {
     using System.Collections.Concurrent;
     using System.Linq;
@@ -11,8 +11,7 @@
     using ClashRoyale.Logic.Commands.Storage;
     using ClashRoyale.Logic.Mode;
     using ClashRoyale.Logic.Player;
-    using ClashRoyale.Logic.RoyalTV;
-    using ClashRoyale.Logic.RoyalTV.Entry;
+    using ClashRoyale.Logic.RoyalTv;
     using ClashRoyale.Logic.Time;
     using ClashRoyale.Maths;
     using ClashRoyale.Messages.Server.Home;
@@ -137,7 +136,7 @@
             {
                 if (BattleManager.Waitings.TryAdd(GameMode.Player.PlayerId, GameMode))
                 {
-                    int Estimed;
+                    int EstimatedTime;
                     int Count = BattleManager.Waitings.Count;
 
                     if (Count > 0)
@@ -148,21 +147,24 @@
                             {
                                 if (Count > 100)
                                 {
-                                    Estimed = 5;
+                                    EstimatedTime = 5;
                                 }
                                 else
-                                    Estimed = 15;
+                                    EstimatedTime = 15;
                             }
                             else
-                                Estimed = 60;
+                                EstimatedTime = 60;
                         }
                         else
-                            Estimed = 600;
+                            EstimatedTime = 600;
                     }
                     else
-                        Estimed = 900;
+                        EstimatedTime = 900;
 
-                    GameMode.Device.NetworkManager.SendMessage(new MatchmakeInfoMessage(GameMode.Device, Estimed));
+                    GameMode.Device.NetworkManager.SendMessage(new MatchmakeInfoMessage()
+                    {
+                        EstimatedTime = EstimatedTime
+                    });
                 }
             }
         }
@@ -249,7 +251,6 @@
                         {
                             BattleLog BattleLog = new BattleLog(Players[0].GameMode.Battle, Players[0].GameMode.Replay);
                             Battles.Create(BattleLog).Wait();
-
                             BattleManager.AddReplayToRoyalTv(BattleLog);
                         }
 

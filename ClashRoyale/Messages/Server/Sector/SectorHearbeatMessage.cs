@@ -4,17 +4,11 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Commands;
     using ClashRoyale.Logic.Commands.Manager;
 
     public class SectorHearbeatMessage : Message
     {
-        internal int ServerTurn;
-        internal int Checksum;
-
-        internal List<Command> Commands;
-
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
@@ -37,14 +31,18 @@
             }
         }
 
+        public int ServerTurn;
+        public int Checksum;
+
+        public List<Command> Commands;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SectorHearbeatMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="ServerTurn">The server turn.</param>
         /// <param name="Checksum">The checksum.</param>
         /// <param name="Commands">The commands.</param>
-        public SectorHearbeatMessage(Device Device, int ServerTurn, int Checksum, List<Command> Commands) : base(Device)
+        public SectorHearbeatMessage(int ServerTurn, int Checksum, List<Command> Commands)
         {
             this.ServerTurn = ServerTurn;
             this.Checksum = Checksum;

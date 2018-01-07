@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Logic.Scoring.Entries
+﻿namespace ClashRoyale.Logic.Scoring
 {
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
@@ -7,16 +7,24 @@
 
     public class AvatarRankingEntry : RankingEntry
     {
-        private long HomeId;
-        private long AllianceId;
+        public long HomeId;
+        public long AllianceId;
 
-        private int ExpLevel;
+        public int ExpLevel;
 
-        private string Region;
-        private string AllianceName;
+        public string Region;
+        public string AllianceName;
 
-        private ArenaData Arena;
-        private AllianceBadgeData Badge;
+        public ArenaData Arena;
+        public AllianceBadgeData Badge;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AvatarRankingEntry"/> class.
+        /// </summary>
+        public AvatarRankingEntry()
+        {
+            // AvatarRankingEntry.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AvatarRankingEntry"/> class.
@@ -62,22 +70,45 @@
         }
 
         /// <summary>
-        /// Determines whether the specified scored player is better.
+        /// Decodes from the specified stream.
         /// </summary>
-        /// <param name="ScoredPlayer">The scored player.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified scored player is better; otherwise, <c>false</c>.
-        /// </returns>
-        public bool IsBetter(AvatarRankingEntry ScoredPlayer)
+        /// <param name="Stream">The stream.</param>
+        public void Decode(ByteStream Stream)
         {
-            return this.Score > ScoredPlayer.Score;
+            base.Decode(Stream);
+
+            this.ExpLevel = Stream.ReadInt();
+
+            Stream.ReadInt();
+            Stream.ReadInt();
+            Stream.ReadInt();
+            Stream.ReadInt();
+            Stream.ReadInt();
+
+            this.Region = Stream.ReadString();
+            this.HomeId = Stream.ReadLong();
+
+            Stream.ReadInt();
+            Stream.ReadInt();
+
+            if (Stream.ReadBoolean())
+            {
+                this.AllianceId     = Stream.ReadLong();
+                this.AllianceName   = Stream.ReadString();
+                this.Badge          = Stream.DecodeData<AllianceBadgeData>();
+            }
+
+            if (Stream.ReadBoolean())
+            {
+                this.Arena          = Stream.DecodeData<ArenaData>();
+            }
         }
 
         /// <summary>
         /// Encodes in the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
-        public void Encode(ByteStream Stream)
+        public void Encode(ChecksumEncoder Stream)
         {
             base.Encode(Stream);
 
@@ -111,6 +142,18 @@
             {
                 Stream.EncodeData(this.Arena);
             }
+        }
+
+        /// <summary>
+        /// Determines whether the specified scored player is better.
+        /// </summary>
+        /// <param name="ScoredPlayer">The scored player.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified scored player is better; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBetter(AvatarRankingEntry ScoredPlayer)
+        {
+            return this.Score > ScoredPlayer.Score;
         }
     }
 }

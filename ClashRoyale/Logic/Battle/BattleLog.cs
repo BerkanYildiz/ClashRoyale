@@ -1,9 +1,8 @@
 ﻿namespace ClashRoyale.Logic.Battle
 {
-    using System;
-
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
+    using ClashRoyale.Logic.Converters;
     using ClashRoyale.Logic.Replay;
 
     using Newtonsoft.Json;
@@ -131,42 +130,6 @@
             }
 
             return Json;
-        }
-    }
-
-    public class BattleLogConverter : JsonConverter
-    {
-        public override void WriteJson(JsonWriter Writer, object Value, JsonSerializer Serializer)
-        {
-            BattleLog Log = (BattleLog) Value;
-
-            if (Value != null)
-            {
-                Log.SaveJson(true).WriteTo(Writer);
-            }
-            else
-            {
-                Writer.WriteNull();
-            }
-        }
-
-        public override object ReadJson(JsonReader Reader, Type ObjectType, object ExistingValue, JsonSerializer Serializer)
-        {
-            BattleLog Log = (BattleLog) ExistingValue;
-
-            if (Log == null)
-            {
-                Log = new BattleLog();
-            }
-
-            Log.LoadJson(JToken.Load(Reader));
-
-            return Log;
-        }
-
-        public override bool CanConvert(Type ObjectType)
-        {
-            return ObjectType == typeof(BattleLog);
         }
     }
 }

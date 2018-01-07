@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Inbox;
 
     public class InboxListMessage : Message
@@ -31,11 +31,27 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="InboxListMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="InboxEntries">The inbox entries.</param>
-        public InboxListMessage(Device Device) : base(Device)
+        public InboxListMessage()
         {
             // InboxListMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InboxListMessage"/> class.
+        /// </summary>
+        /// <param name="Device">The device.</param>
+        /// <param name="InboxEntries">The inbox entries.</param>
+        public InboxListMessage(ByteStream Stream) : base(Stream)
+        {
+            // InboxListMessage.
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            InboxManager.Decode(this.Stream);
         }
 
         /// <summary>

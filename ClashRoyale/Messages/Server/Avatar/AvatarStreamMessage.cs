@@ -2,7 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
 
     public class AvatarStreamMessage : Message
     {
@@ -31,8 +30,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AvatarStreamMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        public AvatarStreamMessage(Device Device) : base(Device)
+        public AvatarStreamMessage()
+        {
+            // AvatarStreamMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AvatarStreamMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AvatarStreamMessage(ByteStream Stream) : base(Stream)
         {
             // AvatarStreamMessage.
         }

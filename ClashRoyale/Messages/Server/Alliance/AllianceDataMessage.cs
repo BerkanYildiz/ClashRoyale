@@ -6,8 +6,6 @@
 
     public class AllianceDataMessage : Message
     {
-        internal Clan Clan;
-
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
@@ -30,12 +28,13 @@
             }
         }
 
+        public Clan Clan;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceDataMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="Clan">The alliance.</param>
-        public AllianceDataMessage(Device Device, Clan Clan) : base(Device)
+        /// <param name="Clan">The clan.</param>
+        public AllianceDataMessage(Clan Clan)
         {
             this.Clan = Clan;
         }

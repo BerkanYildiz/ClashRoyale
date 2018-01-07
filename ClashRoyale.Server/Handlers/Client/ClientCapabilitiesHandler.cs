@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Handlers.Client
+﻿namespace ClashRoyale.Handlers.Client
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -18,25 +18,25 @@
         /// <param name="Cancellation">The cancellation.</param>
         public static async Task Handle(Device Device, Message Message, CancellationToken Cancellation)
         {
-            var ClientCapabilities = (ClientCapabilitiesMessage) Message;
+            var ClientCapabilitiesMessage = (ClientCapabilitiesMessage) Message;
 
-            if (ClientCapabilities == null)
+            if (ClientCapabilitiesMessage == null)
             {
-                throw new LogicException(typeof(ClientCapabilitiesHandler), "ClientCapabilities == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(ClientCapabilitiesHandler), nameof(ClientCapabilitiesMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
 
-            if (ClientCapabilities.Ping <= 0)
+            if (ClientCapabilitiesMessage.Ping <= 0)
             {
                 Logging.Info(typeof(ClientCapabilitiesHandler), "Ping <= 0 at Handle(Device, Message, CancellationToken).");
             }
 
-            if (string.IsNullOrEmpty(ClientCapabilities.Interface))
+            if (string.IsNullOrEmpty(ClientCapabilitiesMessage.Interface))
             {
                 Logging.Info(typeof(ClientCapabilitiesHandler), "Interface == null or empty at Handle(Device, Message, CancellationToken).");
             }
 
-            Device.NetworkManager.Ping      = ClientCapabilities.Ping;
-            Device.NetworkManager.Interface = ClientCapabilities.Interface;
+            Device.NetworkManager.Ping      = ClientCapabilitiesMessage.Ping;
+            Device.NetworkManager.Interface = ClientCapabilitiesMessage.Interface;
         }
     }
 }

@@ -1,7 +1,7 @@
 namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class RequestApiDataMessage : Message
     {
@@ -33,7 +33,7 @@ namespace ClashRoyale.Messages.Server.Account
         /// Initializes a new instance of the <see cref="RequestApiDataMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public RequestApiDataMessage(Device Device) : base(Device)
+        public RequestApiDataMessage(ByteStream Stream) : base(Stream)
         {
             // RequestApiDataMessage.
         }

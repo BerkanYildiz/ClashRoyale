@@ -2,11 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Alliance;
-    using ClashRoyale.Logic.Alliance.Entries;
-    using ClashRoyale.Logic.Alliance.Stream;
-    using ClashRoyale.Logic.Collections;
 
     public class ReplyJoinRequestMessage : Message
     {
@@ -43,17 +38,24 @@
             }
         }
 
-        private int HighId;
-        private int LowId;
+        public int HighId;
+        public int LowId;
 
-        private bool IsAccepted;
+        public bool IsAccepted;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReplyJoinRequestMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public ReplyJoinRequestMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public ReplyJoinRequestMessage()
+        {
+            // ReplyJoinRequestMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReplyJoinRequestMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public ReplyJoinRequestMessage(ByteStream Stream) : base(Stream)
         {
             // ReplyJoinRequestMessage.
         }
@@ -69,65 +71,13 @@
         }
 
         /// <summary>
-        /// Processes this instance.
+        /// Encodes this instance.
         /// </summary>
-        public override async void Process()
+        public override void Encode()
         {
-            if (this.Device.GameMode.Player.IsInAlliance)
-            {
-                Clan Clan = await Clans.Get(this.Device.GameMode.Player.ClanHighId, this.Device.GameMode.Player.ClanLowId);
-
-                if (Clan != null)
-                {
-                    AllianceMemberEntry Member;
-
-                    if (Clan.Members.TryGetValue(this.Device.GameMode.Player.PlayerId, out Member))
-                    {
-                        if (Member.Role == 2 || Member.Role == 4)
-                        {
-                            JoinRequestAllianceStreamEntry Entry = (JoinRequestAllianceStreamEntry) Clan.Messages.GetEntry(this.StreamId);
-
-                            if (Entry != null)
-                            {
-                                if (this.IsAccepted)
-                                {
-                                    Entry.AcceptRequest(this.Device.GameMode.Player.Name);
-
-                                    // TODO : Inform the player about the AcceptRequest(Name).
-                                }
-                                else
-                                {
-                                    Entry.RefuseRequest(this.Device.GameMode.Player.Name);
-
-                                    // TODO : Inform the player about the RefuseRequest(Name).
-                                }
-
-                                Clan.Messages.UpdateEntry(Entry);
-                            }
-                            else
-                            {
-                                Logging.Error(this.GetType(), "Player tried to answer the join request but the entry was null.");
-                            }
-                        }
-                        else
-                        {
-                            Logging.Warning(this.GetType(), "Player tried to answer the join request but had insufficient permissions.");
-                        }
-                    }
-                    else
-                    {
-                        Logging.Error(this.GetType(), "Player tried to answer the join request but the AllianceMemberEntry was null.");
-                    }
-                }
-                else
-                {
-                    Logging.Error(this.GetType(), "Player tried to answer the join request but database returned a null value.");
-                }
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "Player tried to answer the join request but is not in a clan.");
-            }
+            this.Stream.WriteInt(this.HighId);
+            this.Stream.WriteInt(this.LowId);
+            this.Stream.WriteBoolean(this.IsAccepted);
         }
     }
 }

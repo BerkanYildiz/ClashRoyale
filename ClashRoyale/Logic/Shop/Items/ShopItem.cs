@@ -60,7 +60,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        public virtual void Encode(ByteStream Stream)
+        public virtual void Encode(ChecksumEncoder Stream)
         {
             /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * *
              *  01  00  00  9A-05  96-02  05-01  1A-13  0F  00  00  B8-2E  00-00 *

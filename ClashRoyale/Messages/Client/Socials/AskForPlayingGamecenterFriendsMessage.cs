@@ -1,16 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Client.Socials
 {
-    using System.Collections.Generic;
-
-    using ClashRoyale.Database;
-    using ClashRoyale.Database.Models;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Player;
-    using ClashRoyale.Messages.Server.Socials;
-
-    using MongoDB.Driver;
 
     public class AskForPlayingGamecenterFriendsMessage : Message
     {
@@ -36,14 +27,21 @@
             }
         }
 
-        private string[] FriendsIds;
+        public string[] FriendsIds;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForPlayingGamecenterFriendsMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForPlayingGamecenterFriendsMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForPlayingGamecenterFriendsMessage()
+        {
+            // AskForPlayingGamecenterFriendsMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AskForPlayingGamecenterFriendsMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AskForPlayingGamecenterFriendsMessage(ByteStream Stream) : base(Stream)
         {
             // AskForPlayingGamecenterFriendsMessage.
         }
@@ -64,33 +62,16 @@
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        public override async void Process()
+        public override void Encode()
         {
-            List<Player> Friends = new List<Player>(this.FriendsIds.Length);
+            this.Stream.WriteVInt(this.FriendsIds.Length);
 
-            foreach (string GamecenterId in this.FriendsIds)
+            foreach (string FriendId in this.FriendsIds)
             {
-                Logging.Info(this.GetType(), "GamcenterFriend/" + GamecenterId + "/");
-
-                var DbRequest = await GameDb.Players.FindAsync(new JsonFilterDefinition<PlayerDb>("{'Data.api.gamecenter.gcId' : \"" + GamecenterId + "\"}"));
-                var PlayerDb  = DbRequest.SingleOrDefault();
-
-                if (PlayerDb != null)
-                {
-                    /* Player Player = await Players.Get(PlayerDb.HighId, PlayerDb.LowId, false);
-
-                    if (Player == null)
-                    {
-                        Player = JsonConvert.DeserializeObject<Player>(PlayerDb.Profile.ToString(), Resources.Players.Settings);
-                    }
-
-                    Friends.Add(Player); */
-                }
+                this.Stream.WriteString(FriendId);
             }
-
-            this.Device.NetworkManager.SendMessage(new FriendsListMessage(this.Device, Friends));
         }
     }
 }

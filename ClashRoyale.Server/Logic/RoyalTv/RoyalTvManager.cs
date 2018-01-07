@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Logic.RoyalTV
+﻿namespace ClashRoyale.Logic.RoyalTv
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,6 @@
 
     using ClashRoyale.Extensions.Game;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Logic.RoyalTV.Entry;
 
     public static class RoyalTvManager
     {

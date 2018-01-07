@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Home
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class BattleReportStreamMessage : Message
     {
@@ -27,13 +27,37 @@
             }
         }
 
+        public long PlayerId;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BattleReportStreamMessage"/> class.
+        /// </summary>
+        public BattleReportStreamMessage()
+        {
+            // BattleReportStreamMessage.
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BattleReportStreamMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public BattleReportStreamMessage(Device Device) : base(Device)
+        public BattleReportStreamMessage(ByteStream Stream) : base(Stream)
         {
             // BattleReportStreamMessage.
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.PlayerId   = this.Stream.ReadLong();
+            int EntryCount  = this.Stream.ReadVInt();
+
+            for (int i = 0; i < EntryCount; i++)
+            {
+                // TODO : Read the entries.
+            }
         }
 
         /// <summary>
@@ -41,7 +65,7 @@
         /// </summary>
         public override void Encode()
         {
-            this.Stream.WriteLong(this.Device.GameMode.Player.PlayerId);
+            this.Stream.WriteLong(this.PlayerId);
             this.Stream.WriteVInt(0); // Count
         }
     }

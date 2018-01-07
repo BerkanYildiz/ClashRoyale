@@ -73,10 +73,28 @@
         }
 
         /// <summary>
+        /// Decodes the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public void Decode(ByteStream Stream)
+        {
+            this.Image      = Stream.ReadString();
+            this.Title      = Stream.ReadString();
+            this.Text       = Stream.ReadString();
+            this.ButtonText = Stream.ReadString();
+            this.Url        = Stream.ReadString();
+
+            Stream.ReadString();
+            Stream.ReadString();
+
+            this.AssetPath  = Stream.ReadString();
+        }
+
+        /// <summary>
         /// Encodes in the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
-        public void Encode(ByteStream Stream)
+        public void Encode(ChecksumEncoder Stream)
         {
             Stream.WriteString(this.Image);
             Stream.WriteString(this.Title);

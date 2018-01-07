@@ -1,9 +1,8 @@
 namespace ClashRoyale.Messages.Server.Scoring
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Scoring;
-    using ClashRoyale.Logic.Scoring.Entries;
 
     public class AllianceRankingListMessage : Message
     {
@@ -29,20 +28,39 @@ namespace ClashRoyale.Messages.Server.Scoring
             }
         }
 
-        private readonly LeaderboardClans Leaderboard;
-        private readonly AllianceRankingEntry[] AllianceRankingList;
-        private readonly AllianceRankingEntry[] PreviousSeasonTopAlliances;
+        public AllianceRankingEntry[] AllianceRankingList;
+        public AllianceRankingEntry[] PreviousSeasonTopAlliances;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceRankingListMessage"/> class.
+        /// </summary>
+        public AllianceRankingListMessage()
+        {
+            // AllianceRankingListMessage.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceRankingListMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        /// <param name="Leaderboard">The leaderboard.</param>
-        public AllianceRankingListMessage(Device Device, LeaderboardClans Leaderboard) : base(Device)
+        public AllianceRankingListMessage(ByteStream Stream) : base(Stream)
         {
-            this.Leaderboard                = Leaderboard;
-            this.AllianceRankingList        = Leaderboard.Clans.ToArray();
-            this.PreviousSeasonTopAlliances = Leaderboard.LastSeason.ToArray();
+            // AllianceRankingListMessage.
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.AllianceRankingList = new AllianceRankingEntry[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.AllianceRankingList.Length; i++)
+            {
+                AllianceRankingEntry Entry = new AllianceRankingEntry();
+                Entry.Decode(this.Stream);
+                this.AllianceRankingList[i] = Entry;
+            }
         }
 
         /// <summary>
@@ -52,9 +70,9 @@ namespace ClashRoyale.Messages.Server.Scoring
         {
             this.Stream.WriteVInt(this.AllianceRankingList.Length);
 
-            for (int I = 0; I < this.AllianceRankingList.Length; I++)
+            foreach (AllianceRankingEntry Entry in this.AllianceRankingList)
             {
-                this.AllianceRankingList[I].Encode(this.Stream);
+                Entry.Encode(this.Stream);
             }
         }
     }

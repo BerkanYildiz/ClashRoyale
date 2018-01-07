@@ -1,17 +1,18 @@
-﻿namespace ClashRoyale.Server
+﻿namespace ClashRoyale
 {
     using ClashRoyale.Crypto.Randomizers;
-    using ClashRoyale.Database;
     using ClashRoyale.Extensions.Game;
     using ClashRoyale.Files;
     using ClashRoyale.Files.Csv;
-    using ClashRoyale.Logic.Battle.Manager;
+    using ClashRoyale.Handlers;
+    using ClashRoyale.Logic.Battle;
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Logic.Event.Manager;
     using ClashRoyale.Logic.Inbox;
-    using ClashRoyale.Logic.RoyalTV;
+    using ClashRoyale.Logic.RoyalTv;
     using ClashRoyale.Network;
-    using ClashRoyale.Server.Handlers;
+
+    using GameDb = ClashRoyale.Database.GameDb;
 
     internal class Program
     {

@@ -4,7 +4,6 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Logic;
 
     public class StartTrainingBattleMessage : Message
     {
@@ -30,12 +29,21 @@
             }
         }
 
-        private NpcData NpcData;
+        public NpcData NpcData;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StartTrainingBattleMessage"/> class.
         /// </summary>
-        public StartTrainingBattleMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public StartTrainingBattleMessage()
+        {
+            // StartTrainingBattleMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StartTrainingBattleMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public StartTrainingBattleMessage(ByteStream Stream) : base(Stream)
         {
             // StartTrainingBattleMessage   
         }
@@ -47,20 +55,13 @@
         {
             this.NpcData = this.Stream.DecodeData<NpcData>();
         }
-
+        
         /// <summary>
-        /// Processes this instance.
+        /// Encodes this instance.
         /// </summary>
-        public override void Process()
+        public override void Encode()
         {
-            if (this.Device.GameMode.State == HomeState.Home)
-            {
-                this.Device.GameMode.SectorManager.SendSectorState();
-            }
-            else
-            {
-                Logging.Info(this.GetType(), "State != HomeState.Home at Process().");
-            }
+            this.Stream.EncodeData(this.NpcData);
         }
     }
 }

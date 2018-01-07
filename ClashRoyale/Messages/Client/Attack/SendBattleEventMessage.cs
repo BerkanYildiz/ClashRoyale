@@ -2,13 +2,10 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Battle.Event;
 
     public class SendBattleEventMessage : Message
     {
-        internal BattleEvent Event;
-
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
@@ -31,10 +28,21 @@
             }
         }
 
+        public BattleEvent BattleEvent;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SendBattleEventMessage"/> class.
         /// </summary>
-        public SendBattleEventMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public SendBattleEventMessage()
+        {
+            // SendBattleEventMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SendBattleEventMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public SendBattleEventMessage(ByteStream Stream) : base(Stream)
         {
             // SendBattleEventMessage.
         }
@@ -44,23 +52,16 @@
         /// </summary>
         public override void Decode()
         {
-            this.Event = new BattleEvent();
-            this.Event.Decode(this.Stream);
+            this.BattleEvent = new BattleEvent();
+            this.BattleEvent.Decode(this.Stream);
         }
 
         /// <summary>
-        /// Processes this instance.
+        /// Encodes this instance.
         /// </summary>
-        public override void Process()
+        public override void Encode()
         {
-            if (this.Device.GameMode.State == HomeState.Attack)
-            {
-                this.Device.GameMode.SectorManager.ReceiveBattleEvent(this.Event);
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "State != HomeState.Attack at Process().");
-            }
+            this.BattleEvent.Encode(this.Stream);
         }
     }
 }

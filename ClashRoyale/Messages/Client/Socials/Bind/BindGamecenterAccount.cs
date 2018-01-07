@@ -1,13 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Client.Socials.Bind
 {
-    using ClashRoyale.Database;
-    using ClashRoyale.Database.Models;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Apis;
-
-    using MongoDB.Driver;
 
     public class BindGamecenterAccount : Message
     {
@@ -33,16 +27,25 @@
             }
         }
 
-        private string GamecenterId;
-        private string Certificate;
-        private string AppBundle;
+        public bool Force;
+
+        public string GamecenterId;
+        public string Certificate;
+        public string AppBundle;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BindGamecenterAccount"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public BindGamecenterAccount(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public BindGamecenterAccount()
+        {
+            // BindGamecenterAccount.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindGamecenterAccount"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public BindGamecenterAccount(ByteStream Stream) : base(Stream)
         {
             // BindGamecenterAccount.
         }
@@ -52,7 +55,7 @@
         /// </summary>
         public override void Decode()
         {
-            this.Stream.ReadVInt();
+            this.Force          = this.Stream.ReadBoolean();
 
             this.GamecenterId   = this.Stream.ReadString();
             this.Certificate    = this.Stream.ReadString();
@@ -60,53 +63,15 @@
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        public override void Process()
+        public override void Encode()
         {
-            if (string.IsNullOrEmpty(this.GamecenterId) || string.IsNullOrEmpty(this.Certificate))
-            {
-                Logging.Warning(this.GetType(), "Either GamecenterId or Certificate is null or empty.");
-            }
-            else
-            {
-                ApiManager ApiManager   = this.Device.GameMode.Player.ApiManager;
+            this.Stream.WriteBoolean(this.Force);
 
-                if (ApiManager.Gamecenter.Filled)
-                {
-                    if (this.GamecenterId == ApiManager.Gamecenter.Identifier)
-                    {
-                        return;
-                    }
-                }
-
-                var Matches         = GameDb.Players.Find(new JsonFilterDefinition<PlayerDb>("{'Data.api.gamecenter.gcId': '" + this.GamecenterId + "'}"));
-                var MatchesCount    = Matches.Count();
-
-                if (MatchesCount == 1)
-                {
-                    /* Player Player   = JsonConvert.DeserializeObject<Player>(Matches.First().Data.ToString(), Resources.Players.Settings);
-
-                    if (Player.ApiManager.Gamecenter.Certificate == this.Certificate)
-                    {
-                        new DeviceAlreadyBoundMessage(this.Device, Player));
-                    }
-                    else
-                    {
-                        new DisconnectedMessage(this.Device)); // TODO : Implement anti-hack / ban system.
-                    } */
-                }
-                else if (MatchesCount == 0)
-                {
-                    ApiManager.Gamecenter.Identifier    = this.GamecenterId;
-                    ApiManager.Gamecenter.Certificate   = this.Certificate;
-                    ApiManager.Gamecenter.AppBundle     = this.AppBundle;
-                }
-                else
-                {
-                    Logging.Error(this.GetType(), "More than 1 matches, aborting.");
-                }
-            }
+            this.Stream.WriteString(this.GamecenterId);
+            this.Stream.WriteString(this.Certificate);
+            this.Stream.WriteString(this.AppBundle);
         }
     }
 }

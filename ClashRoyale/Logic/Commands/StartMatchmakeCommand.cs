@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Logic.Commands
 {
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic.Battle.Manager;
     using ClashRoyale.Logic.Home;
     using ClashRoyale.Logic.Mode;
     using ClashRoyale.Logic.Player;
@@ -75,10 +74,11 @@
 
                     if (GameMode.Device.Defines.Android == false)
                     {
-                        GameMode.Device.NetworkManager.SendMessage(new MatchmakeFailedMessage(GameMode.Device));
+                        GameMode.Device.NetworkManager.SendMessage(new MatchmakeFailedMessage());
                     }
 
-                    BattleManager.AddPlayer(GameMode);
+                    // BattleManager.AddPlayer(GameMode);
+                    // TODO : Add player to BattleManager.
 
                     return 0;
                 }

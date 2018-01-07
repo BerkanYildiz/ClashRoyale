@@ -2,7 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
     using ClashRoyale.Messages;
 
     public class ClientHelloMessage : Message
@@ -50,11 +49,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientHelloMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public ClientHelloMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        /// <param name="Stream">The stream.</param>
+        public ClientHelloMessage(ByteStream Stream) : base(Stream)
         {
-            this.Device.State   = State.Session;
+            // ClientHelloMessage.
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.CmdHandlers
+﻿namespace ClashRoyale.CmdHandlers
 {
     using System;
     using System.Reflection;

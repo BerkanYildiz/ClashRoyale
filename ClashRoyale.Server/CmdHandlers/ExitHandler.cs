@@ -1,12 +1,12 @@
-﻿namespace ClashRoyale.Server.CmdHandlers
+﻿namespace ClashRoyale.CmdHandlers
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
     using ClashRoyale.Logic.Collections;
-    using ClashRoyale.Network;
     using ClashRoyale.Messages.Server.Account;
+    using ClashRoyale.Network;
 
     internal static class ExitHandler
     {
@@ -67,7 +67,7 @@
             {
                 Players.ForEach(Player =>
                 {
-                    Player.GameMode.Device.NetworkManager.SendMessage(new ServerShutdownMessage(Player.GameMode.Device));
+                    Player.GameMode.Device.NetworkManager.SendMessage(new ServerShutdownMessage());
                 });
 
                 Logging.Info(typeof(ExitHandler), "Warned every player about the maintenance.");

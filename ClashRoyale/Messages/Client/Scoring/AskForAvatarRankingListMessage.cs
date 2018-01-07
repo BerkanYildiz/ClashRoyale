@@ -2,16 +2,10 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Collections;
-    using ClashRoyale.Logic.Scoring;
     using ClashRoyale.Maths;
-    using ClashRoyale.Messages.Server.Scoring;
 
     public class AskForAvatarRankingListMessage : Message
     {
-        internal LogicLong AccountId;
-
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
@@ -34,10 +28,21 @@
             }
         }
 
+        public LogicLong PlayerId;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForAvatarRankingListMessage"/> class.
         /// </summary>
-        public AskForAvatarRankingListMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForAvatarRankingListMessage()
+        {
+            // AskForAvatarRankingListMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AskForAvatarRankingListMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AskForAvatarRankingListMessage(ByteStream Stream) : base(Stream)
         {
             // AskForAvatarRankingListMessage.
         }
@@ -51,7 +56,7 @@
 
             if (this.Stream.ReadBoolean())
             {
-                this.AccountId = this.Stream.ReadLong();
+                this.PlayerId = this.Stream.ReadLong();
             }
         }
 
@@ -61,28 +66,11 @@
         public override void Encode()
         {
             this.Stream.WriteBoolean(false);
-            this.Stream.WriteBoolean(!this.AccountId.IsZero);
+            this.Stream.WriteBoolean(!this.PlayerId.IsZero);
 
-            if (!this.AccountId.IsZero)
+            if (!this.PlayerId.IsZero)
             {
-                this.Stream.WriteLong(this.AccountId);
-            }
-        }
-
-        /// <summary>
-        /// Processes this message.
-        /// </summary>
-        public override void Process()
-        {
-            LeaderboardPlayers Leaderboard = Leaderboards.GlobalPlayers;
-
-            if (Leaderboard != null)
-            {
-                this.Device.NetworkManager.SendMessage(new AvatarRankingListMessage(this.Device, Leaderboard));
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "Leaderboard == null at Process().");
+                this.Stream.WriteLong(this.PlayerId);
             }
         }
     }

@@ -2,9 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Collections;
-    using ClashRoyale.Messages.Server.Home;
 
     public class GoHomeMessage : Message
     {
@@ -30,14 +27,24 @@
             }
         }
 
+        public int Unknown1;
+        public int Unknown2;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GoHomeMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public GoHomeMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public GoHomeMessage()
         {
-            // Go_Home_Message.
+            // GoHomeMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GoHomeMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public GoHomeMessage(ByteStream Stream) : base(Stream)
+        {
+            // GoHomeMessage.
         }
 
         /// <summary>
@@ -45,32 +52,17 @@
         /// </summary>
         public override void Decode()
         {
-            this.Stream.ReadInt();
-            this.Stream.ReadVInt();
+            this.Unknown1 = this.Stream.ReadInt();
+            this.Unknown2 = this.Stream.ReadVInt();
         }
-
+        
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        public override async void Process()
+        public override void Encode()
         {
-            if (this.Device.GameMode.State <= HomeState.Home)
-            {
-                var Player = await Players.Get(this.Device.NetworkManager.AccountId.HigherInt, this.Device.NetworkManager.AccountId.LowerInt);
-
-                if (Player != null)
-                {
-                    Player.GameMode.Device.NetworkManager.SendMessage(new OwnHomeDataMessage(this.Device, Player));
-                }
-                else
-                {
-                    Logging.Error(this.GetType(), "Player was null at Process().");
-                }
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "State was not correct at Process().");
-            }
+            this.Stream.WriteInt(this.Unknown1);
+            this.Stream.WriteVInt(this.Unknown2);
         }
     }
 }

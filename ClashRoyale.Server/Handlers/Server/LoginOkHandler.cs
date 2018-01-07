@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Handlers.Server
+﻿namespace ClashRoyale.Handlers.Server
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -23,7 +23,7 @@
 
             if (LoginOkMessage == null)
             {
-                throw new LogicException(typeof(LoginOkHandler), "LoginOkMessage == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(LoginOkHandler), nameof(LoginOkMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
 
             Device.State = State.Logged;

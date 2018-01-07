@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Socials
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class FacebookAccountBoundMessage : Message
     {
@@ -33,7 +33,7 @@
         /// Initializes a new instance of the <see cref="FacebookAccountBoundMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public FacebookAccountBoundMessage(Device Device) : base(Device)
+        public FacebookAccountBoundMessage(ByteStream Stream) : base(Stream)
         {
             // FacebookAccountBoundMessage.
         }

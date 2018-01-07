@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Socials
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class FacebookAccountAlreadyBoundMessage : Message
     {
@@ -33,7 +33,7 @@
         /// Initializes a new instance of the <see cref="FacebookAccountAlreadyBoundMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public FacebookAccountAlreadyBoundMessage(Device Device) : base(Device)
+        public FacebookAccountAlreadyBoundMessage(ByteStream Stream) : base(Stream)
         {
             // FacebookAccountAlreadyBoundMessage.
         }

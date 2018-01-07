@@ -42,7 +42,7 @@
             if (this.GameMode.IsConnected)
             {
                 this.AvailableServerCommands.Add(Command.Id = ++this.Seed, Command);
-                this.GameMode.Device.NetworkManager.SendMessage(new AvailableServerCommandMessage(this.GameMode.Device, Command));
+                this.GameMode.Device.NetworkManager.SendMessage(new AvailableServerCommandMessage(Command));
             }
             else
             {

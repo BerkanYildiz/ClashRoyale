@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class ServerHelloMessage : Message
     {
@@ -41,9 +41,9 @@
         /// Initializes a new instance of the <see cref="ServerHelloMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public ServerHelloMessage(Device Device) : base(Device)
+        public ServerHelloMessage(ByteStream Stream) : base(Stream)
         {
-            this.Device.State = State.SessionOk;
+            // ServerHelloMessage.
         }
 
         /// <summary>
@@ -59,7 +59,7 @@
         /// </summary>
         public override void Encode()
         {
-            this.Stream.WriteBytes(this.Device.NetworkManager.PepperInit.SessionKey);
+            this.Stream.WriteBytes(this.SessionKey);
         }
     }
 }

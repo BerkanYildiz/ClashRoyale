@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Messages.Server.Socials
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
 
     public class FriendsInviteDataMessage : Message
     {
@@ -27,16 +26,15 @@
             }
         }
 
-        private readonly string Token;
+        public string Token;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FriendsInviteDataMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Token">The token.</param>
-        public FriendsInviteDataMessage(Device Device, string Token) : base(Device)
+        public FriendsInviteDataMessage(string Token)
         {
-            this.Token      = Token;
+            this.Token = Token;
         }
 
         /// <summary>

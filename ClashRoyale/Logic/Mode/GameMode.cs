@@ -3,7 +3,6 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Battle;
-    using ClashRoyale.Logic.Collections;
     using ClashRoyale.Logic.Commands.Manager;
     using ClashRoyale.Logic.Home;
     using ClashRoyale.Logic.Manager;
@@ -245,11 +244,6 @@
         /// </summary>
         public void SetPlayer(Player Player)
         {
-            if (this.Player != null)
-            {
-                Players.Save(this.Player);
-            }
-
             this.Player                = Player;
             this.Player.GameMode       = this;
             this.Player.Home.GameMode  = this;

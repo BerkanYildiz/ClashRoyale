@@ -46,10 +46,26 @@
         }
 
         /// <summary>
+        /// Decodes the entries from the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public static void Decode(ByteStream Stream)
+        {
+            int EntryCount = Stream.ReadVInt();
+
+            for (int i = 0; i < EntryCount; i++)
+            {
+                InboxEntry Entry = new InboxEntry();
+                Entry.Decode(Stream);
+                InboxManager.Entries.Add(Entry);
+            }
+        }
+
+        /// <summary>
         /// Encodes the entries into the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
-        public static void Encode(ByteStream Stream)
+        public static void Encode(ChecksumEncoder Stream)
         {
             Stream.WriteInt(InboxManager.Entries.Count);
 

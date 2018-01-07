@@ -2,12 +2,9 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
 
     public class RequestSectorStateMessage : Message
     {
-        internal int ClientTick;
-
         /// <summary>
         /// The type of this message.
         /// </summary>
@@ -30,12 +27,23 @@
             }
         }
 
+        public int ClientTick;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestSectorStateMessage"/> class.
         /// </summary>
-        public RequestSectorStateMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public RequestSectorStateMessage()
         {
-            // RequestSectorStateMessage   
+            // RequestSectorStateMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequestSectorStateMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public RequestSectorStateMessage(ByteStream Stream) : base(Stream)
+        {
+            // RequestSectorStateMessage.
         }
 
         /// <summary>
@@ -52,17 +60,6 @@
         public override void Encode()
         {
             this.Stream.WriteVInt(this.ClientTick);
-        }
-
-        /// <summary>
-        /// Processes this instance.
-        /// </summary>
-        public override void Process()
-        {
-            if (this.Device.GameMode.State == HomeState.Attack)
-            {
-                Logging.Info(this.GetType(), "Client ask SectorStateMessage. Avatar id: " + this.Device.NetworkManager.AccountId);
-            }
         }
     }
 }

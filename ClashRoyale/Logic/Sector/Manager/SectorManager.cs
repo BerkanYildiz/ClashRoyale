@@ -157,7 +157,7 @@
         /// </summary>
         public void SendBattleEvent(BattleEvent Event)
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new BattleEventMessage(this.GameMode.Device, Event));
+            this.GameMode.Device.NetworkManager.SendMessage(new BattleEventMessage(Event));
         }
 
         /// <summary>
@@ -165,7 +165,7 @@
         /// </summary>
         public void SendBattleResult()
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new BattleResultMessage(this.GameMode.Device, this.Update));
+            this.GameMode.Device.NetworkManager.SendMessage(new BattleResultMessage(this.Update));
         }
 
         /// <summary>
@@ -173,7 +173,7 @@
         /// </summary>
         public void SendSectorState()
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new SectorStateMessage(this.GameMode.Device, this.Update));
+            this.GameMode.Device.NetworkManager.SendMessage(new SectorStateMessage(this.Update));
         }
 
         /// <summary>
@@ -181,7 +181,7 @@
         /// </summary>
         public void SendSectorHeartbeat(int Time, int Checksum, List<Command> Commands)
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new SectorHearbeatMessage(this.GameMode.Device, Time, Checksum, Commands));
+            this.GameMode.Device.NetworkManager.SendMessage(new SectorHearbeatMessage(Time, Checksum, Commands));
         }
 
         /// <summary>
@@ -189,7 +189,7 @@
         /// </summary>
         public void OpponentLeftMatch()
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new OpponentLeftMatchNotificationMessage(this.GameMode.Device));
+            this.GameMode.Device.NetworkManager.SendMessage(new OpponentLeftMatchNotificationMessage());
         }
 
         /// <summary>
@@ -197,7 +197,7 @@
         /// </summary>
         public void OpponentRejoinsMatch()
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new OpponentRejoinsMatchNotificationMessage(this.GameMode.Device));
+            this.GameMode.Device.NetworkManager.SendMessage(new OpponentRejoinsMatchNotificationMessage());
         }
         
         /// <summary>

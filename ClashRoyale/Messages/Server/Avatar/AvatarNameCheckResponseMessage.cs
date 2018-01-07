@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Avatar
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class AvatarNameCheckResponseMessage : Message
     {
@@ -31,7 +31,7 @@
         /// Initializes a new instance of the <see cref="AvatarNameCheckResponseMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public AvatarNameCheckResponseMessage(Device Device) : base(Device)
+        public AvatarNameCheckResponseMessage(ByteStream Stream) : base(Stream)
         {
             // AvatarNameCheckResponseMessage.
         }

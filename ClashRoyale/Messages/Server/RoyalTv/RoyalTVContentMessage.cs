@@ -5,8 +5,7 @@ namespace ClashRoyale.Messages.Server.RoyalTv
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.RoyalTV.Entry;
+    using ClashRoyale.Logic.RoyalTv;
 
     public class RoyalTvContentMessage : Message
     {
@@ -32,16 +31,15 @@ namespace ClashRoyale.Messages.Server.RoyalTv
             }
         }
 
-        private readonly ArenaData ArenaData;
-        private readonly List<RoyalTvEntry> MostViewedList;
+        public ArenaData ArenaData;
+        public List<RoyalTvEntry> MostViewedList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RoyalTvContentMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="RoyalTvEntries">The royal tv entries.</param>
         /// <param name="ArenaData">The arena data.</param>
-        public RoyalTvContentMessage(Device Device, List<RoyalTvEntry> RoyalTvEntries, ArenaData ArenaData) : base(Device)
+        public RoyalTvContentMessage(List<RoyalTvEntry> RoyalTvEntries, ArenaData ArenaData)
         {
             this.ArenaData      = ArenaData;
             this.MostViewedList = RoyalTvEntries;

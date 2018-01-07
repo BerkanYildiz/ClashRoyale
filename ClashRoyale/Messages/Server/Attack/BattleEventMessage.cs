@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Messages.Server.Attack
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Battle.Event;
 
     public class BattleEventMessage : Message
@@ -28,16 +27,31 @@
             }
         }
 
-        private readonly BattleEvent Event;
+        public BattleEvent Event;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BattleEventMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        public BattleEventMessage()
+        {
+            // BattleEventMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BattleEventMessage"/> class.
+        /// </summary>
         /// <param name="Event">The event.</param>
-        public BattleEventMessage(Device Device, BattleEvent Event) : base(Device)
+        public BattleEventMessage(BattleEvent Event)
         {
             this.Event = Event;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.Event.Decode(this.Stream);
         }
 
         /// <summary>

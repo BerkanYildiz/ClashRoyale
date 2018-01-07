@@ -1,12 +1,10 @@
 namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class InboxCountMessage : Message
     {
-        internal int InboxNewMessageCnt;
-
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
@@ -29,11 +27,21 @@ namespace ClashRoyale.Messages.Server.Account
             }
         }
 
+        public int InboxNewMessageCnt;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InboxCountMessage"/> class.
+        /// </summary>
+        public InboxCountMessage()
+        {
+            // InboxCountMessage.
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InboxCountMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public InboxCountMessage(Device Device) : base(Device)
+        public InboxCountMessage(ByteStream Stream) : base(Stream)
         {
             // InboxCountMessage.
         }

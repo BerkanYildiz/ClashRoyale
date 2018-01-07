@@ -1,19 +1,12 @@
 ﻿namespace ClashRoyale.Messages.Client.RoyalTv
 {
-    using System.Linq;
-
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.RoyalTV;
-    using ClashRoyale.Messages.Server.RoyalTv;
 
     public class AskForTvContentMessage : Message
     {
-        internal ArenaData ArenaData;
-
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
@@ -36,10 +29,21 @@
             }
         }
 
+        public ArenaData ArenaData;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForTvContentMessage"/> class.
         /// </summary>
-        public AskForTvContentMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForTvContentMessage()
+        {
+            // AskForTvContentMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AskForTvContentMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AskForTvContentMessage(ByteStream Stream) : base(Stream)
         {
             // AskForTVContentMessage.
         }
@@ -58,30 +62,6 @@
         public override void Encode()
         {
             this.Stream.EncodeData(this.ArenaData);
-        }
-
-        /// <summary>
-        /// Processes this instance.
-        /// </summary>
-        public override void Process()
-        {
-            if (this.ArenaData != null)
-            {
-                int ChannelIdx = RoyalTvManager.GetChannelArenaData(this.ArenaData);
-
-                if (ChannelIdx != -1)
-                {
-                    this.Device.NetworkManager.SendMessage(new RoyalTvContentMessage(this.Device, RoyalTvManager.Channels[ChannelIdx].ToList(), this.ArenaData));
-                }
-                else
-                {
-                    Logging.Info(this.GetType(), "Channel doesn't exist. (arena: " + this.ArenaData.Name + ")");
-                }
-            }
-            else
-            {
-                Logging.Info(this.GetType(), "Arena data is NULL.");
-            }
         }
     }
 }

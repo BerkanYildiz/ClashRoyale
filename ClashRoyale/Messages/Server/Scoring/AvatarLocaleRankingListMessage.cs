@@ -1,9 +1,8 @@
 namespace ClashRoyale.Messages.Server.Scoring
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Scoring;
-    using ClashRoyale.Logic.Scoring.Entries;
 
     public class AvatarLocaleRankingListMessage : Message
     {
@@ -29,18 +28,48 @@ namespace ClashRoyale.Messages.Server.Scoring
             }
         }
 
-        private readonly AvatarRankingEntry[] AvatarRankingList;
-        private readonly AvatarRankingEntry[] PreviousSeasonTopPlayers;
+        public AvatarRankingEntry[] AvatarRankingList;
+        public AvatarRankingEntry[] PreviousSeasonTopPlayers;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AvatarLocaleRankingListMessage"/> class.
+        /// </summary>
+        public AvatarLocaleRankingListMessage()
+        {
+            // AvatarLocaleRankingListMessage.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AvatarLocaleRankingListMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        /// <param name="Leaderboard">The leaderboard.</param>
-        public AvatarLocaleRankingListMessage(Device Device, LeaderboardPlayers Leaderboard) : base(Device)
+        public AvatarLocaleRankingListMessage(ByteStream Stream) : base(Stream)
         {
-            this.AvatarRankingList          = Leaderboard.Players.ToArray();
-            this.PreviousSeasonTopPlayers   = Leaderboard.LastSeason.ToArray();
+            // AvatarLocaleRankingListMessage.
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.AvatarRankingList = new AvatarRankingEntry[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.AvatarRankingList.Length; i++)
+            {
+                AvatarRankingEntry Entry = new AvatarRankingEntry();
+                Entry.Decode(this.Stream);
+                this.AvatarRankingList[i] = Entry;
+            }
+
+            this.PreviousSeasonTopPlayers = new AvatarRankingEntry[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.PreviousSeasonTopPlayers.Length; i++)
+            {
+                AvatarRankingEntry Entry = new AvatarRankingEntry();
+                Entry.Decode(this.Stream);
+                this.PreviousSeasonTopPlayers[i] = Entry;
+            }
         }
 
         /// <summary>

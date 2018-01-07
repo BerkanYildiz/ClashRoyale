@@ -1,7 +1,7 @@
 namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class DeviceReloadMessage : Message
     {
@@ -30,8 +30,16 @@ namespace ClashRoyale.Messages.Server.Account
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceReloadMessage"/> class.
         /// </summary>
+        public DeviceReloadMessage()
+        {
+            // DeviceReloadMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeviceReloadMessage"/> class.
+        /// </summary>
         /// <param name="Device">The device.</param>
-        public DeviceReloadMessage(Device Device) : base(Device)
+        public DeviceReloadMessage(ByteStream Stream) : base(Stream)
         {
             // DeviceReloadMessage.
         }

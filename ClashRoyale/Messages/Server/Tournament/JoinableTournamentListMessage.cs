@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Tournament
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class JoinableTournamentListMessage : Message
     {
@@ -31,7 +31,7 @@
         /// Initializes a new instance of the <see cref="JoinableTournamentListMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public JoinableTournamentListMessage(Device Device) : base(Device)
+        public JoinableTournamentListMessage(ByteStream Stream) : base(Stream)
         {
             // Joinable_Tournaments_Message.
         }

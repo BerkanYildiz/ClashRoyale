@@ -6,7 +6,6 @@
 
     using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Logic.Player;
-    using ClashRoyale.Logic.Scoring.Entries;
 
     public class LeaderboardPlayers
     {

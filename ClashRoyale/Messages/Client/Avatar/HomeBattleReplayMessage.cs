@@ -1,27 +1,13 @@
 ﻿namespace ClashRoyale.Messages.Client.Avatar
 {
-    using System.Text;
-    using System.Threading;
-
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Battle;
-    using ClashRoyale.Logic.Collections;
-    using ClashRoyale.Logic.RoyalTV;
-    using ClashRoyale.Logic.RoyalTV.Entry;
     using ClashRoyale.Maths;
-    using ClashRoyale.Messages.Server.Avatar;
 
     public class HomeBattleReplayMessage : Message
     {
-        internal ArenaData ArenaData;
-        internal LogicLong ReplayId;
-
-        internal int ReplayShardId;
-
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
@@ -44,12 +30,24 @@
             }
         }
 
+        public ArenaData ArenaData;
+        public LogicLong ReplayId;
+
+        public int ReplayShardId;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeBattleReplayMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public HomeBattleReplayMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public HomeBattleReplayMessage()
+        {
+            // HomeBattleReplayMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeBattleReplayMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public HomeBattleReplayMessage(ByteStream Stream) : base(Stream)
         {
             // HomeBattleReplayMessage.
         }
@@ -82,43 +80,32 @@
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        public override async void Process()
+        public override void Encode()
         {
-            if (!this.ReplayId.IsZero)
+            this.Stream.WriteLong(this.ReplayId);
+
+            this.Stream.WriteBoolean(false);
+
+            if (false)
             {
-                BattleLog BattleLog = await Battles.Get(this.ReplayId.HigherInt, this.ReplayId.LowerInt);
-
-                if (BattleLog != null)
-                {
-                    int ChannelIdx = RoyalTvManager.GetChannelArenaData(this.ArenaData);
-
-                    if (ChannelIdx != -1)
-                    {
-                        RoyalTvEntry TvEntry = RoyalTvManager.GetEntryByIdx(ChannelIdx, this.ReplayShardId);
-
-                        if (TvEntry != null)
-                        {
-                            Interlocked.Increment(ref TvEntry.ViewCount);
-                        }
-                    }
-
-                    byte[] Decompressed = Encoding.UTF8.GetBytes(BattleLog.ReplayJson);
-                    byte[] Compressed   = Encoding.UTF8.GetBytes(BattleLog.ReplayJson);
-                    // byte[] Compressed   = ZLibHelper.CompressByteArray(Decompressed);
-
-                    this.Device.NetworkManager.SendMessage(new HomeBattleReplayDataMessage(this.Device, Compressed));
-                }
-                else
-                { 
-                    Logging.Info(this.GetType(), "Unable to get the replay id " + this.ReplayId + ".");
-                }
+                this.Stream.WriteLong(0);
             }
-            else
-            {
-                Logging.Info(this.GetType(), "Replay id is empty.");
-            }
+
+            this.Stream.WriteVInt(this.ReplayShardId);
+
+            this.Stream.WriteVInt(0);
+            this.Stream.WriteVInt(0);
+            this.Stream.WriteVInt(0);
+
+            this.Stream.WriteBoolean(false);
+            this.Stream.WriteBoolean(false);
+            this.Stream.WriteBoolean(false);
+            this.Stream.WriteBoolean(false);
+            this.Stream.WriteBoolean(false);
+
+            this.Stream.EncodeData(this.ArenaData);
         }
     }
 }

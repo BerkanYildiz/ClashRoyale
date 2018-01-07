@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Logic.Scoring.Entries
+﻿namespace ClashRoyale.Logic.Scoring
 {
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
@@ -62,14 +62,18 @@
         /// <param name="Stream">The stream.</param>
         public virtual void Decode(ByteStream Stream)
         {
-            // Decode.
+            this.Id             = Stream.DecodeLogicLong();
+            this.Name           = Stream.ReadString();
+            this.Order          = Stream.ReadVInt();
+            this.Score          = Stream.ReadVInt();
+            this.PreviousOrder  = Stream.ReadVInt();
         }
 
         /// <summary>
         /// Encodes in the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
-        public virtual void Encode(ByteStream Stream)
+        public virtual void Encode(ChecksumEncoder Stream)
         {
             Stream.EncodeLogicLong(this.Id);
             Stream.WriteString(this.Name);

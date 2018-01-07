@@ -3,7 +3,6 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Files.Csv.Client;
-    using ClashRoyale.Logic;
     using ClashRoyale.Messages;
 
     public class LoginMessage : Message
@@ -35,11 +34,21 @@
 
         public string Token;
         public string MasterHash;
-        public string SVersion;
 
         public int MajorVersion;
         public int MinorVersion;
         public int BuildVersion;
+
+        public string OpenUdid;
+        public string MacAddress;
+        public string Model;
+
+        public string AdvertiseId;
+        public string AndroidId;
+        public string OsVersion;
+        public string Region;
+
+        public bool IsAndroid;
 
         public LocaleData Locale;
 
@@ -54,11 +63,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public LoginMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        /// <param name="Stream">The stream.</param>
+        public LoginMessage(ByteStream Stream) : base(Stream)
         {
-            this.Device.State               = State.Login;
+            // LoginMessage.
         }
 
         /// <summary>
@@ -66,32 +74,65 @@
         /// </summary>
         public override void Decode()
         {
-            this.HighId                     = this.Stream.ReadInt();
-            this.LowId                      = this.Stream.ReadInt();
-            this.Token                      = this.Stream.ReadString();
+            this.HighId             = this.Stream.ReadInt();
+            this.LowId              = this.Stream.ReadInt();
+            this.Token              = this.Stream.ReadString();
             
-            this.MajorVersion               = this.Stream.ReadVInt();
-            this.MinorVersion               = this.Stream.ReadVInt();
-            this.BuildVersion               = this.Stream.ReadVInt();
+            this.MajorVersion       = this.Stream.ReadVInt();
+            this.MinorVersion       = this.Stream.ReadVInt();
+            this.BuildVersion       = this.Stream.ReadVInt();
 
-            this.MasterHash                 = this.Stream.ReadString();
+            this.MasterHash         = this.Stream.ReadString();
 
             this.Stream.ReadInt();
 
-            this.Device.Defines.OpenUdid    = this.Stream.ReadString();
-            this.Device.Defines.MacAddress  = this.Stream.ReadString();
-            this.Device.Defines.Model       = this.Stream.ReadString();
+            this.OpenUdid           = this.Stream.ReadString();
+            this.MacAddress         = this.Stream.ReadString();
+            this.Model              = this.Stream.ReadString();
 
-            this.Device.Defines.AdvertiseId = this.Stream.ReadString();
-            this.Device.Defines.OsVersion   = this.Stream.ReadString();
+            this.AdvertiseId        = this.Stream.ReadString();
+            this.OsVersion          = this.Stream.ReadString();
 
-            this.Device.Defines.Android     = this.Stream.ReadBoolean();
+            this.IsAndroid          = this.Stream.ReadBoolean();
 
             this.Stream.ReadStringReference();
 
-            this.Device.Defines.AndroidId   = this.Stream.ReadStringReference();
+            this.AndroidId          = this.Stream.ReadStringReference();
 
-            this.Device.Defines.Region      = this.Stream.ReadString();
+            this.Region             = this.Stream.ReadString();
+        }
+
+        /// <summary>
+        /// Encodes this instance.
+        /// </summary>
+        public override void Encode()
+        {
+            this.Stream.WriteInt(this.HighId);
+            this.Stream.WriteInt(this.LowId);
+
+            this.Stream.WriteString(this.Token);
+
+            this.Stream.WriteVInt(this.MajorVersion);
+            this.Stream.WriteVInt(this.MinorVersion);
+            this.Stream.WriteVInt(this.BuildVersion);
+
+            this.Stream.WriteString(this.MasterHash);
+
+            this.Stream.WriteInt(0);
+
+            this.Stream.WriteString(this.OpenUdid);
+            this.Stream.WriteString(this.MacAddress);
+            this.Stream.WriteString(this.Model);
+
+            this.Stream.WriteString(this.AdvertiseId);
+            this.Stream.WriteString(this.OsVersion);
+
+            this.Stream.WriteBoolean(this.IsAndroid);
+
+            this.Stream.WriteStringReference(string.Empty);
+            this.Stream.WriteStringReference(this.AndroidId);
+
+            this.Stream.WriteString(this.Region);
         }
     }
 }

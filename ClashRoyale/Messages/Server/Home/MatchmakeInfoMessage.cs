@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Home
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class MatchmakeInfoMessage : Message
     {
@@ -27,16 +27,32 @@
             }
         }
 
-        private readonly int EstimedTime;
+        public int EstimatedTime;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MatchmakeInfoMessage"/> class.
+        /// </summary>
+        public MatchmakeInfoMessage()
+        {
+            // MatchmakeInfoMessage.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MatchmakeInfoMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
         /// <param name="EstimedTime">The estimed time.</param>
-        public MatchmakeInfoMessage(Device Device, int EstimedTime) : base(Device)
+        public MatchmakeInfoMessage(ByteStream Stream) : base(Stream)
         {
-            this.EstimedTime = EstimedTime;
+            // MatchmakeInfoMessage.
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.EstimatedTime = this.Stream.ReadInt();
         }
 
         /// <summary>
@@ -44,7 +60,7 @@
         /// </summary>
         public override void Encode()
         {
-            this.Stream.WriteInt(this.EstimedTime);
+            this.Stream.WriteInt(this.EstimatedTime);
         }
     }
 }

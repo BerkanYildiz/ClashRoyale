@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Attack
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class OpponentLeftMatchNotificationMessage : Message
     {
@@ -30,8 +30,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="OpponentLeftMatchNotificationMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        public OpponentLeftMatchNotificationMessage(Device Device) : base(Device)
+        public OpponentLeftMatchNotificationMessage()
+        {
+            // OpponentLeftMatchNotificationMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpponentLeftMatchNotificationMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public OpponentLeftMatchNotificationMessage(ByteStream Stream) : base(Stream)
         {
             // OpponentLeftMatchNotificationMessage.
         }

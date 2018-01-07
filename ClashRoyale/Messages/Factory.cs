@@ -122,7 +122,7 @@
 
             Factory.Messages.Add(26068, typeof(InboxCountMessage));
             Factory.Messages.Add(26550, typeof(AllianceDataMessage));
-            Factory.Messages.Add(26973, typeof(AllianceLocaleRankingListMessage));
+            Factory.Messages.Add(26973, typeof(AllianceLocalRankingListMessage));
 
             Factory.Messages.Add(28502, typeof(OwnHomeDataMessage));
             Factory.Messages.Add(29567, typeof(AvatarStreamMessage));

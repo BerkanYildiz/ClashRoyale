@@ -2,11 +2,7 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Collections;
-    using ClashRoyale.Logic.Scoring;
     using ClashRoyale.Maths;
-    using ClashRoyale.Messages.Server.Scoring;
 
     public class AskForAvatarLocalRankingListMessage : Message
     {
@@ -32,12 +28,21 @@
             }
         }
 
-        internal LogicLong AccountId;
+        public LogicLong PlayerId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForAvatarLocalRankingListMessage"/> class.
         /// </summary>
-        public AskForAvatarLocalRankingListMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForAvatarLocalRankingListMessage()
+        {
+            // AskForAvatarLocalRankingListMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AskForAvatarLocalRankingListMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AskForAvatarLocalRankingListMessage(ByteStream Stream) : base(Stream)
         {
             // AskForAvatarLocalRankingListMessage.
         }
@@ -51,7 +56,7 @@
 
             if (this.Stream.ReadBoolean())
             {
-                this.AccountId = this.Stream.ReadLong();
+                this.PlayerId = this.Stream.ReadLong();
             }
         }
 
@@ -61,28 +66,11 @@
         public override void Encode()
         {
             this.Stream.WriteBoolean(false);
-            this.Stream.WriteBoolean(!this.AccountId.IsZero);
+            this.Stream.WriteBoolean(!this.PlayerId.IsZero);
 
-            if (!this.AccountId.IsZero)
+            if (!this.PlayerId.IsZero)
             {
-                this.Stream.WriteLong(this.AccountId);
-            }
-        }
-
-        /// <summary>
-        /// Processes this message.
-        /// </summary>
-        public override void Process()
-        {
-            LeaderboardPlayers Leaderboard = Leaderboards.GetRegionalPlayers(this.Device.Defines.Region);
-
-            if (Leaderboard != null)
-            {
-                this.Device.NetworkManager.SendMessage(new AvatarLocaleRankingListMessage(this.Device, Leaderboard));
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "Leaderboard == null at Process() with Region == '" + this.Device.Defines.Region + "'.");
+                this.Stream.WriteLong(this.PlayerId);
             }
         }
     }

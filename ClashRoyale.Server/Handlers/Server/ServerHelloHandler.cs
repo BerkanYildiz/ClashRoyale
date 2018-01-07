@@ -1,8 +1,9 @@
-﻿namespace ClashRoyale.Server.Handlers.Server
+﻿namespace ClashRoyale.Handlers.Server
 {
     using System.Threading;
     using System.Threading.Tasks;
 
+    using ClashRoyale.Enums;
     using ClashRoyale.Exceptions;
     using ClashRoyale.Logic;
     using ClashRoyale.Messages;
@@ -18,16 +19,18 @@
         /// <param name="Cancellation">The cancellation.</param>
         public static async Task Handle(Device Device, Message Message, CancellationToken Cancellation)
         {
-            var ServerHello = (ServerHelloMessage) Message;
+            var ServerHelloMessage = (ServerHelloMessage) Message;
 
-            if (ServerHello == null)
+            if (ServerHelloMessage == null)
             {
-                throw new LogicException(typeof(ServerHelloHandler), "ServerHello == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(ServerHelloHandler), nameof(ServerHelloMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
 
-            if (ServerHello.SessionKey == null)
+            Device.State = State.SessionOk;
+
+            if (ServerHelloMessage.SessionKey == null)
             {
-                throw new LogicException(typeof(ServerHelloHandler), "ServerHello.SessionKey == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(ServerHelloHandler), "ServerHelloMessage.SessionKey == null at Handle(Device, Message, CancellationToken).");
             }
 
             if (Device.NetworkManager.PepperInit.SessionKey != null)
@@ -35,7 +38,7 @@
                 Logging.Warning(typeof(ServerHelloHandler), "Device.SessionKey != null at Handle(Device, Message, CancellationToken).");
             }
 
-            Device.NetworkManager.PepperInit.SessionKey = ServerHello.SessionKey;
+            Device.NetworkManager.PepperInit.SessionKey = ServerHelloMessage.SessionKey;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Socials
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class GamecenterAccountBoundMessage : Message
     {
@@ -33,7 +33,7 @@
         /// Initializes a new instance of the <see cref="GamecenterAccountBoundMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public GamecenterAccountBoundMessage(Device Device) : base(Device)
+        public GamecenterAccountBoundMessage(ByteStream Stream) : base(Stream)
         {
             // GamecenterAccountBoundMessage.
         }

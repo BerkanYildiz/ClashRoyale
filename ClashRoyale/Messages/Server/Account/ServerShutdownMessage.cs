@@ -1,7 +1,7 @@
 namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class ServerShutdownMessage : Message
     {
@@ -30,8 +30,16 @@ namespace ClashRoyale.Messages.Server.Account
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerShutdownMessage"/> class.
         /// </summary>
+        public ServerShutdownMessage()
+        {
+            // ServerShutdownMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerShutdownMessage"/> class.
+        /// </summary>
         /// <param name="Device">The device.</param>
-        public ServerShutdownMessage(Device Device) : base(Device)
+        public ServerShutdownMessage(ByteStream Stream) : base(Stream)
         {
             // ServerShutdownMessage.
         }

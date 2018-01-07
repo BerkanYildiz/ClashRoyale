@@ -3,7 +3,6 @@
     using System.Collections.Generic;
 
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Alliance.Entries;
 
     public class JoinableAllianceListMessage : Message
@@ -30,14 +29,14 @@
             }
         }
 
-        private readonly List<AllianceHeaderEntry> Alliances;
+        public List<AllianceHeaderEntry> Alliances;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JoinableAllianceListMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
         /// <param name="Alliances">The alliances.</param>
-        public JoinableAllianceListMessage(Device Device, List<AllianceHeaderEntry> Alliances) : base(Device)
+        public JoinableAllianceListMessage(List<AllianceHeaderEntry> Alliances)
         {
             this.Alliances = Alliances;
         }

@@ -2,8 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Messages.Server.Tournament;
 
     public class AskForJoinableTournamentMessage : Message
     {
@@ -32,9 +30,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForJoinableTournamentMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForJoinableTournamentMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForJoinableTournamentMessage()
+        {
+            // AskForJoinableTournamentMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AskForJoinableTournamentMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AskForJoinableTournamentMessage(ByteStream Stream) : base(Stream)
         {
             // AskForJoinableTournamentMessage.
         }
@@ -46,16 +51,7 @@
         {
             this.Stream.ReadVInt();
             this.Stream.ReadVInt();
-
             this.Stream.ReadBoolean();
-        }
-
-        /// <summary>
-        /// Processes this instance.
-        /// </summary>
-        public override void Process()
-        {
-            this.Device.NetworkManager.SendMessage(new JoinableTournamentListMessage(this.Device));
         }
     }
 }

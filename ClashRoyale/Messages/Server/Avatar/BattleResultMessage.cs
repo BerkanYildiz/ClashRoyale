@@ -2,7 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions.Helper;
-    using ClashRoyale.Logic;
 
     public class BattleResultMessage : Message
     {
@@ -28,14 +27,13 @@
             }
         }
 
-        private readonly byte[] FullUpdate;
+        public byte[] FullUpdate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BattleResultMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Update">The update.</param>
-        public BattleResultMessage(Device Device, byte[] Update) : base(Device)
+        public BattleResultMessage(byte[] Update)
         {
             this.FullUpdate = Update;
         }

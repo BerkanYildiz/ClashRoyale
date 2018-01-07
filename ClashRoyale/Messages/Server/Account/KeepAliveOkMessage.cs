@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class KeepAliveOkMessage : Message
     {
@@ -39,7 +39,7 @@
         /// Initializes a new instance of the <see cref="KeepAliveOkMessage"/> class.
         /// </summary>
         /// <param name="Device">The device.</param>
-        public KeepAliveOkMessage(Device Device) : base(Device)
+        public KeepAliveOkMessage(ByteStream Stream) : base(Stream)
         {
             // KeepAliveOkMessage.
         }

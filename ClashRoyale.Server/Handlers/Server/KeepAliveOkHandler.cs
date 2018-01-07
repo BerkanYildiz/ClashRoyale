@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Handlers.Server
+﻿namespace ClashRoyale.Handlers.Server
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -22,7 +22,7 @@
 
             if (KeepAliveOkMessage == null)
             {
-                throw new LogicException(typeof(KeepAliveOkHandler), "KeepAliveOkMessage == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(KeepAliveOkHandler), nameof(KeepAliveOkMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
         }
     }

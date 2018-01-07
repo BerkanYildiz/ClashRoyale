@@ -2,10 +2,6 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Alliance;
-    using ClashRoyale.Logic.Collections;
-    using ClashRoyale.Messages.Server.Alliance;
 
     public class AskForAllianceDataMessage : Message
     {
@@ -31,15 +27,22 @@
             }
         }
 
-        private int AllianceHighId;
-        private int AllianceLowId;
+        public int HighId;
+        public int LowId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForAllianceDataMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForAllianceDataMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForAllianceDataMessage()
+        {
+            // AskForAllianceDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AskForAllianceDataMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AskForAllianceDataMessage(ByteStream Stream) : base(Stream)
         {
             // AskForAllianceDataMessage.
         }
@@ -49,27 +52,17 @@
         /// </summary>
         public override void Decode()
         {
-            this.AllianceHighId = this.Stream.ReadInt();
-            this.AllianceLowId  = this.Stream.ReadInt();
+            this.HighId = this.Stream.ReadInt();
+            this.LowId  = this.Stream.ReadInt();
         }
 
         /// <summary>
-        /// Processes this instance.
+        /// Encodes this instance.
         /// </summary>
-        public override async void Process()
+        public override void Encode()
         {
-            Clan Clan = await Clans.Get(this.AllianceHighId, this.AllianceLowId);
-
-            Logging.Info(this.GetType(), "Trying to retrieve a clan from the database (" + this.AllianceHighId + "-" + this.AllianceLowId + ").");
-
-            if (Clan != null)
-            {
-                this.Device.NetworkManager.SendMessage(new AllianceDataMessage(this.Device, Clan));
-            }
-            else
-            {
-                Logging.Warning(this.GetType(), "Tried to retrieve a clan from the database, null value returned.");
-            }
+            this.Stream.WriteInt(this.HighId);
+            this.Stream.WriteInt(this.LowId);
         }
     }
 }

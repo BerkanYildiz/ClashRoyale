@@ -44,7 +44,7 @@
                 {
                     foreach (Player Connected in this.Connected.Values.ToArray())
                     {
-                        Connected.GameMode.Device.NetworkManager.SendMessage(new AllianceOnlineStatusUpdatedMessage(Connected.GameMode.Device, Online));
+                        Connected.GameMode.Device.NetworkManager.SendMessage(new AllianceOnlineStatusUpdatedMessage(Online));
                     }
                 });
 
@@ -71,7 +71,7 @@
                 {
                     foreach (Player Connected in this.Connected.Values.ToArray())
                     {
-                        Connected.GameMode.Device.NetworkManager.SendMessage(new AllianceOnlineStatusUpdatedMessage(Connected.GameMode.Device, Online));
+                        Connected.GameMode.Device.NetworkManager.SendMessage(new AllianceOnlineStatusUpdatedMessage(Online));
                     }
                 });
 

@@ -28,14 +28,13 @@
             }
         }
 
-        private readonly StreamEntry StreamEntry;
+        public StreamEntry StreamEntry;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceStreamEntryMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Entry">The entry.</param>
-        public AllianceStreamEntryMessage(Device Device, StreamEntry Entry) : base(Device)
+        public AllianceStreamEntryMessage(StreamEntry Entry)
         {
             this.StreamEntry = Entry;
         }

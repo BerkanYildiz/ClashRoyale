@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Messages.Server.Alliance
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
 
     public class AllianceOnlineStatusUpdatedMessage : Message
     {
@@ -27,16 +26,28 @@
             }
         }
 
-        private readonly int MemberOnline;
+        public int MemberOnline;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceOnlineStatusUpdatedMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="MemberOnline">The member online.</param>
-        public AllianceOnlineStatusUpdatedMessage(Device Device, int MemberOnline) : base(Device)
+        public AllianceOnlineStatusUpdatedMessage(int MemberOnline)
         {
             this.MemberOnline = MemberOnline;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.MemberOnline = this.Stream.ReadVInt();
+
+            for (int i = 0; i < this.Stream.ReadVInt(); i++)
+            {
+                // TODO.
+            }
         }
 
         /// <summary>

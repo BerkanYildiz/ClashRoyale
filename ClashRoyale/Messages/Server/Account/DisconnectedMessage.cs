@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
 
     public class DisconnectedMessage : Message
     {
@@ -27,21 +27,23 @@
             }
         }
 
+        public bool ShowPopup;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DisconnectedMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        public DisconnectedMessage(Device Device) : base(Device)
+        public DisconnectedMessage()
         {
             // DisconnectedMessage.
         }
 
         /// <summary>
-        /// Encodes this instance.
+        /// Initializes a new instance of the <see cref="DisconnectedMessage"/> class.
         /// </summary>
-        public override void Encode()
+        /// <param name="Device">The device.</param>
+        public DisconnectedMessage(ByteStream Stream) : base(Stream)
         {
-            this.Stream.WriteBoolean(true);
+            // DisconnectedMessage.
         }
 
         /// <summary>
@@ -49,15 +51,15 @@
         /// </summary>
         public override void Decode()
         {
-            this.Stream.ReadBoolean();
+            this.ShowPopup = this.Stream.ReadBoolean();
         }
-
+        
         /// <summary>
-        /// Processes this instance.
+        /// Encodes this instance.
         /// </summary>
-        public override void Process()
+        public override void Encode()
         {
-            this.Device.State = State.Disconnected;
+            this.Stream.WriteBoolean(this.ShowPopup);
         }
     }
 }

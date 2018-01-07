@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Handlers.Client
+﻿namespace ClashRoyale.Handlers.Client
 {
     using System.Linq;
     using System.Threading;
@@ -24,34 +24,36 @@
         /// <param name="Cancellation">The cancellation.</param>
         public static async Task Handle(Device Device, Message Message, CancellationToken Cancellation)
         {
-            var ClientHello = (ClientHelloMessage) Message;
+            var ClientHelloMessage = (ClientHelloMessage) Message;
 
-            if (ClientHello == null)
+            if (ClientHelloMessage == null)
             {
-                throw new LogicException(typeof(ClientHelloHandler), "ClientHello == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(ClientHelloHandler), "ClientHelloMessage == null at Handle(Device, Message, CancellationToken).");
             }
 
-            if (ClientHello.Protocol == 1)
+            Device.State = State.Session;
+
+            if (ClientHelloMessage.Protocol == 1)
             {
-                if (ClientHello.MajorVersion == Config.ClientMajorVersion && ClientHello.MinorVersion == 0 && ClientHello.BuildVersion == Config.ClientBuildVersion)
+                if (ClientHelloMessage.MajorVersion == Config.ClientMajorVersion && ClientHelloMessage.MinorVersion == 0 && ClientHelloMessage.BuildVersion == Config.ClientBuildVersion)
                 {
-                    if (string.Equals(ClientHello.MasterHash, Fingerprint.Masterhash))
+                    if (string.Equals(ClientHelloMessage.MasterHash, Fingerprint.Masterhash))
                     {
-                        if (PepperFactory.SecretKeys.TryGetValue(ClientHello.KeyVersion, out byte[] SecretKey))
+                        if (PepperFactory.SecretKeys.TryGetValue(ClientHelloMessage.KeyVersion, out byte[] SecretKey))
                         {
-                            if (ClientHello.DeviceType == 3)
+                            if (ClientHelloMessage.DeviceType == 3)
                             {
                                 if (!Config.IsDevelopment)
                                 {
-                                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Redirection)); // Dev Host
+                                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Redirection)); // Dev Host
 
                                     return;
                                 }
                                 else
                                 {
-                                    if (ClientHello.KeyVersion != PepperFactory.SecretKeys.Keys.Last())
+                                    if (ClientHelloMessage.KeyVersion != PepperFactory.SecretKeys.Keys.Last())
                                     {
-                                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Update));
+                                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Update));
                                         return;
                                     }
                                 }
@@ -60,17 +62,17 @@
                             {
                                 if (Config.IsDevelopment)
                                 {
-                                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Redirection)); // Prod Host
+                                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Redirection)); // Prod Host
 
                                     return;
                                 }
                             }
 
-                            if (ClientHello.DeviceType == 30)
+                            if (ClientHelloMessage.DeviceType == 30)
                             {
                                 if (!Config.IsKunlunServer)
                                 {
-                                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Redirection)); // Kunlun Host
+                                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Redirection)); // Kunlun Host
 
                                     return;
                                 }
@@ -79,43 +81,43 @@
                             {
                                 if (Config.IsKunlunServer)
                                 {
-                                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Redirection)); // Prod Host
+                                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Redirection)); // Prod Host
                                     return;
                                 }
                             }
 
                             if (Program.Initialized)
                             {
-                                Device.NetworkManager.PepperInit.KeyVersion = ClientHello.KeyVersion;
+                                Device.NetworkManager.PepperInit.KeyVersion = ClientHelloMessage.KeyVersion;
                                 Device.NetworkManager.PepperInit.ServerPublicKey = new byte[32];
 
                                 Curve25519Xsalsa20Poly1305.CryptoBoxGetpublickey(Device.NetworkManager.PepperInit.ServerPublicKey, SecretKey);
 
-                                Device.NetworkManager.SendMessage(new ServerHelloMessage(Device));
+                                Device.NetworkManager.SendMessage(new ServerHelloMessage());
                             }
                             else
                             {
-                                Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Maintenance));
+                                Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Maintenance));
                             }
                         }
                         else
                         {
-                            Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.UpdateInProgress));
+                            Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.UpdateInProgress));
                         }
                     }
                     else
                     {
-                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Patch));
+                        Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Patch));
                     }
                 }
                 else
                 {
-                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.Update));
+                    Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.Update));
                 }
             }
             else
             {
-                Device.NetworkManager.SendMessage(new LoginFailedMessage(Device, Reason.UpdateInProgress));
+                Device.NetworkManager.SendMessage(new LoginFailedMessage(Reason.UpdateInProgress));
             }
         }
     }

@@ -38,7 +38,7 @@
         /// <summary>
         /// Encodes this instance.
         /// </summary>
-        public override void Encode(ByteStream Stream)
+        public override void Encode(ChecksumEncoder Stream)
         {
             base.Encode(Stream);
         }

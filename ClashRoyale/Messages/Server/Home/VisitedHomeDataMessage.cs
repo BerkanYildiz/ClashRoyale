@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Home
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Player;
 
     public class VisitedHomeDataMessage : Message
@@ -28,16 +28,32 @@
             }
         }
 
-        private readonly Player Player;
+        public Player Player;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VisitedHomeDataMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="Player">The player.</param>
-        public VisitedHomeDataMessage(Device Device, Player Player) : base(Device)
+        public VisitedHomeDataMessage()
         {
-            this.Player     = Player;
+            // VisitedHomeDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VisitedHomeDataMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public VisitedHomeDataMessage(ByteStream Stream) : base(Stream)
+        {
+            // VisitedHomeDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VisitedHomeDataMessage"/> class.
+        /// </summary>
+        /// <param name="Player">The player.</param>
+        public VisitedHomeDataMessage(Player Player)
+        {
+            this.Player = Player;
         }
 
         /// <summary>
@@ -54,10 +70,10 @@
                 
                 this.Stream.WriteLong(this.Player.PlayerId);
 
-                this.Stream.WriteBoolean(true);
+                this.Stream.WriteBoolean(false);
                 {
-                    this.Stream.WriteVInt(this.Device.GameMode.Home.HighId);
-                    this.Stream.WriteVInt(this.Device.GameMode.Home.LowId);
+                    this.Stream.WriteVInt(this.Player.GameMode.Home.HighId);
+                    this.Stream.WriteVInt(this.Player.GameMode.Home.LowId);
                 }
 
                 this.Stream.WriteVInt(0);

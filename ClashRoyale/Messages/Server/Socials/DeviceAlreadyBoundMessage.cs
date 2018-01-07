@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Messages.Server.Socials
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Player;
 
     public class DeviceAlreadyBoundMessage : Message
@@ -33,9 +32,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceAlreadyBoundMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Player">The player.</param>
-        public DeviceAlreadyBoundMessage(Device Device, Player Player) : base(Device)
+        public DeviceAlreadyBoundMessage(Player Player)
         {
             this.Player = Player;
         }

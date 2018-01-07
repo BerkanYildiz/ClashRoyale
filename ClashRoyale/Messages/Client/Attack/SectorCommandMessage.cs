@@ -2,17 +2,11 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Commands;
     using ClashRoyale.Logic.Commands.Manager;
 
     public class SectorCommandMessage : Message
     {
-        internal int ClientTick;
-        internal int ClientChecksum;
-
-        internal Command Command;
-
         /// <summary>
         /// The type of this message.
         /// </summary>
@@ -35,10 +29,24 @@
             }
         }
 
+        public int Tick;
+        public int Checksum;
+
+        public Command Command;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SectorCommandMessage"/> class.
         /// </summary>
-        public SectorCommandMessage(Device Device, ByteStream Stream) : base(Device, Stream)
+        public SectorCommandMessage()
+        {
+            // SectorCommandMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SectorCommandMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public SectorCommandMessage(ByteStream Stream) : base(Stream)
         {
             // SectorCommandMessage   
         }
@@ -48,8 +56,8 @@
         /// </summary>
         public override void Decode()
         {
-            this.ClientChecksum = this.Stream.ReadVInt();
-            this.ClientTick     = this.Stream.ReadVInt();
+            this.Checksum = this.Stream.ReadVInt();
+            this.Tick     = this.Stream.ReadVInt();
 
             if (!this.Stream.EndOfStream)
             {
@@ -61,17 +69,18 @@
         }
 
         /// <summary>
-        /// Processes this instance.
+        /// Encodes this instance.
         /// </summary>
-        public override void Process()
+        public override void Encode()
         {
-            if (this.Device.GameMode.State == HomeState.Attack)
+            this.Stream.WriteVInt(this.Checksum);
+            this.Stream.WriteVInt(this.Tick);
+
+            this.Stream.WriteBoolean(this.Command != null);
+
+            if (this.Command != null)
             {
-                this.Device.GameMode.SectorManager.ReceiveSectorCommand(this.ClientTick, this.ClientChecksum, this.Command);
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "State != HomeState.Attack at Process().");
+                this.Command.Encode(this.Stream);
             }
         }
     }

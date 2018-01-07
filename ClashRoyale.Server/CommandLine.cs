@@ -1,8 +1,8 @@
-﻿namespace ClashRoyale.Server
+﻿namespace ClashRoyale
 {
     using System;
 
-    using ClashRoyale.Server.CmdHandlers;
+    using ClashRoyale.CmdHandlers;
 
     internal static class CommandLine
     {

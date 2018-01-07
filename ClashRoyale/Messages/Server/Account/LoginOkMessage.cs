@@ -2,7 +2,6 @@ namespace ClashRoyale.Messages.Server.Account
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Player;
 
     public class LoginOkMessage : Message
@@ -29,25 +28,86 @@ namespace ClashRoyale.Messages.Server.Account
             }
         }
 
-        public readonly Player Player;
+        public Player Player;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginOkMessage"/> class.
         /// </summary>
         public LoginOkMessage()
         {
-            // LoginOkMessage.
+            this.Version = 1;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginOkMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="PassToken">The pass token.</param>
-        public LoginOkMessage(Device Device, Player Player) : base(Device)
+        /// <param name="Stream">The stream.</param>
+        public LoginOkMessage(ByteStream Stream) : base(Stream)
         {
             this.Version = 1;
-            this.Player  = Player;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginOkMessage"/> class.
+        /// </summary>
+        /// <param name="Player">The player.</param>
+        public LoginOkMessage(Player Player)
+        {
+            this.Version = 1;
+            this.Player = Player;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.Player.HighId  = this.Stream.ReadInt();
+            this.Player.LowId   = this.Stream.ReadInt();
+
+            this.Player.HighId  = this.Stream.ReadInt();
+            this.Player.LowId   = this.Stream.ReadInt();
+
+            this.Player.Token   = this.Stream.ReadString();
+
+            this.Stream.ReadString();
+            this.Stream.ReadString();
+
+            this.Stream.ReadVInt();
+            this.Stream.ReadVInt();
+            this.Stream.ReadVInt();
+            this.Stream.ReadVInt();
+
+            this.Stream.ReadString();
+
+            this.Stream.ReadVInt();
+            this.Stream.ReadVInt();
+            this.Stream.ReadVInt();
+
+            this.Stream.ReadString();
+            this.Stream.ReadString();
+            this.Stream.ReadString();
+
+            this.Stream.ReadVInt();
+
+            this.Stream.ReadString();
+            this.Stream.ReadString();
+            this.Stream.ReadString();
+
+            for (int i = 0; i < this.Stream.ReadVInt(); i++)
+            {
+                this.Stream.ReadString();
+            }
+
+            for (int i = 0; i < this.Stream.ReadVInt(); i++)
+            {
+                this.Stream.ReadString();
+            }
+
+            for (int i = 0; i < this.Stream.ReadVInt(); i++)
+            {
+                this.Stream.ReadString();
+            }
         }
 
         /// <summary>

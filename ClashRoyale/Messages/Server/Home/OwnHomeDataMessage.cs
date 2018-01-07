@@ -1,10 +1,7 @@
 namespace ClashRoyale.Messages.Server.Home
 {
-    using System;
-
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Home;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Player;
 
     public class OwnHomeDataMessage : Message
@@ -31,18 +28,40 @@ namespace ClashRoyale.Messages.Server.Home
             }
         }
 
-        private readonly Home Home;
-        private readonly Player Player;
+        public Player Player;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OwnHomeDataMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="Player">The player.</param>
-        public OwnHomeDataMessage(Device Device, Player Player) : base(Device)
+        public OwnHomeDataMessage()
         {
-            this.Home   = Player.Home;
+            // OwnHomeDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OwnHomeDataMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public OwnHomeDataMessage(ByteStream Stream) : base(Stream)
+        {
+            // OwnHomeDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OwnHomeDataMessage"/> class.
+        /// </summary>
+        /// <param name="Player">The player.</param>
+        public OwnHomeDataMessage(Player Player)
+        {
             this.Player = Player;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            // TODO.
         }
 
         /// <summary>
@@ -50,21 +69,12 @@ namespace ClashRoyale.Messages.Server.Home
         /// </summary>
         public override void Encode()
         {
-            this.Home.Encode(this.Stream);
+            this.Player.Home.Encode(this.Stream);
             this.Player.Encode(this.Stream);
 
             this.Stream.WriteVInt(0);
             this.Stream.WriteVInt(0);
             this.Stream.WriteVInt(0);
-        }
-
-        /// <summary>
-        /// Processes this instance.
-        /// </summary>
-        public override void Process()
-        {
-            this.Device.GameMode.LoadHomeState(this.Player, this.Home.SecondsSinceLastSave, 113);
-            this.Device.GameMode.Home.LastTick = DateTime.UtcNow;
         }
     }
 }

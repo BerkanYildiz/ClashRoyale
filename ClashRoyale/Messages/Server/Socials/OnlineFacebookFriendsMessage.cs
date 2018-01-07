@@ -3,7 +3,6 @@
     using System.Collections.Generic;
 
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
     using ClashRoyale.Logic.Player;
 
     public class OnlineFacebookFriendsMessage : Message
@@ -36,9 +35,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="OnlineFacebookFriendsMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Friends">The friends.</param>
-        public OnlineFacebookFriendsMessage(Device Device, List<Player> Friends) : base(Device)
+        public OnlineFacebookFriendsMessage(List<Player> Friends)
         {
             this.Friends       = Friends;
             this.OnlineFriends = new List<Player>(Friends.Count);

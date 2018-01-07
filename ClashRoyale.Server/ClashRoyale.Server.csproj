@@ -7,7 +7,7 @@
     <ProjectGuid>{D37FC105-EF32-4B9E-B347-1436D72693EA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClashRoyale.Server</RootNamespace>
+    <RootNamespace>ClashRoyale</RootNamespace>
     <AssemblyName>ClashRoyale.Server</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -63,7 +63,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ClashRoyale.Server.Program</StartupObject>
+    <StartupObject>ClashRoyale.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -115,7 +115,6 @@
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MongoDB.Bson, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.5.0\lib\net45\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -128,35 +127,58 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine.cs" />
     <Compile Include="CmdHandlers\ClanHandler.cs" />
     <Compile Include="CmdHandlers\PlayerHandler.cs" />
     <Compile Include="CmdHandlers\ExitHandler.cs" />
+    <Compile Include="Database\GameDb.cs" />
+    <Compile Include="Database\Models\BattleDb.cs" />
+    <Compile Include="Database\Models\ClanDb.cs" />
+    <Compile Include="Database\Models\PlayerDb.cs" />
+    <Compile Include="Handlers\Client\AskForAvatarLocalRankingListHandler.cs" />
+    <Compile Include="Handlers\Client\ChangeAvatarNameHandler.cs" />
+    <Compile Include="Handlers\Client\CancelMatchmakeHandler.cs" />
+    <Compile Include="Handlers\Client\AskForAvatarRankingListHandler.cs" />
+    <Compile Include="Handlers\Client\AskForAllianceDataHandler.cs" />
+    <Compile Include="Handlers\Client\DefaultHandler.cs" />
+    <Compile Include="Handlers\Client\SectorCommandHandler.cs" />
+    <Compile Include="Handlers\Client\SendBattleEventHandler.cs" />
+    <Compile Include="Handlers\Client\StartTrainingBattleHandler.cs" />
+    <Compile Include="Handlers\Client\HomeBattleReplayHandler.cs" />
+    <Compile Include="Handlers\Client\VisitHomeHandler.cs" />
+    <Compile Include="Handlers\Client\GoHomeHandler.cs" />
+    <Compile Include="Handlers\Client\AskForBattleReplayStreamHandler.cs" />
     <Compile Include="Handlers\Client\ClientHelloHandler.cs" />
+    <Compile Include="Handlers\Client\AskForAvatarStreamHandler.cs" />
+    <Compile Include="Handlers\Client\EndClientTurnHandler.cs" />
     <Compile Include="Handlers\Client\LoginHandler.cs" />
     <Compile Include="Handlers\Client\KeepAliveHandler.cs" />
     <Compile Include="Handlers\Client\ClientCapabilitiesHandler.cs" />
     <Compile Include="Handlers\Factory.cs" />
+    <Compile Include="Handlers\Server\ServerShutdownHandler.cs" />
+    <Compile Include="Handlers\Server\ServerErrorHandler.cs" />
+    <Compile Include="Handlers\Server\DisconnectedHandler.cs" />
+    <Compile Include="Handlers\Server\DefaultHandler.cs" />
     <Compile Include="Handlers\Server\KeepAliveOkHandler.cs" />
     <Compile Include="Handlers\Server\LoginOkHandler.cs" />
     <Compile Include="Handlers\Server\LoginFailedHandler.cs" />
     <Compile Include="Handlers\Server\ServerHelloHandler.cs" />
+    <Compile Include="Logic\Battle\BattleManager.cs" />
+    <Compile Include="Logic\Collections\Battles.cs" />
+    <Compile Include="Logic\Collections\Clans.cs" />
+    <Compile Include="Logic\Collections\Leaderboards.cs" />
+    <Compile Include="Logic\Collections\Players.cs" />
+    <Compile Include="Logic\RoyalTv\RoyalTvManager.cs" />
+    <Compile Include="Logic\Scoring\LeaderboardClans.cs" />
+    <Compile Include="Logic\Scoring\LeaderboardPlayers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -3,9 +3,7 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
-    using ClashRoyale.Logic;
     using ClashRoyale.Maths;
-    using ClashRoyale.Messages.Server.Home;
 
     public class AskForBattleReplayStreamMessage : Message
     {
@@ -31,14 +29,21 @@
             }
         }
 
-        private LogicLong PlayerId;
+        public LogicLong PlayerId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AskForBattleReplayStreamMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AskForBattleReplayStreamMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AskForBattleReplayStreamMessage()
+        {
+            // AskForBattleReplayStreamMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AskForBattleReplayStreamMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AskForBattleReplayStreamMessage(ByteStream Stream) : base(Stream)
         {
             // AskForBattleReplayStreamMessage.
         }
@@ -52,11 +57,11 @@
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        public override void Process()
+        public override void Encode()
         {
-            this.Device.NetworkManager.SendMessage(new BattleReportStreamMessage(this.Device));
+            this.Stream.WriteLong(this.PlayerId);
         }
     }
 }

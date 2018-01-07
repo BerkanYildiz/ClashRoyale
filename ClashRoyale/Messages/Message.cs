@@ -4,7 +4,6 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
 
     public class Message
     {
@@ -42,17 +41,6 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance has an handler.
-        /// </summary>
-        public bool HasHandler
-        {
-            get
-            {
-                return Factory.Handlers.ContainsKey(this.Type);
-            }
-        }
-
-        /// <summary>
         /// Gets the length of this <see cref="Message"/>
         /// </summary>
         public int Length
@@ -80,15 +68,6 @@
             get;
             set;
         }
-
-        /// <summary>
-        /// The device, technically called as 'client'.
-        /// </summary>
-        public Device Device
-        {
-            get;
-            set;
-        }
         
         /// <summary>
         /// The message stream, used to.. read or write the message.
@@ -104,27 +83,15 @@
         /// </summary>
         public Message()
         {
-            // Message.
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Message"/> class.
-        /// </summary>
-        /// <param name="Device">The device.</param>
-        public Message(Device Device) : this()
-        {
-            this.Device = Device;
             this.Stream = new ByteStream();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Message"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
         /// <param name="Stream">The stream.</param>
-        public Message(Device Device, ByteStream Stream) : this()
+        public Message(ByteStream Stream) : this()
         {
-            this.Device = Device;
             this.Stream = Stream;
         }
 
@@ -142,14 +109,6 @@
         public virtual void Encode()
         {
             // Encode.
-        }
-
-        /// <summary>
-        /// Processes this instance.
-        /// </summary>
-        public virtual void Process()
-        {
-            // Process.
         }
 
         /// <summary>

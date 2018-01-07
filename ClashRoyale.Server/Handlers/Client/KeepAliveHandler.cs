@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Server.Handlers.Client
+﻿namespace ClashRoyale.Handlers.Client
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -22,7 +22,7 @@
 
             if (KeepAliveMessage == null)
             {
-                throw new LogicException(typeof(KeepAliveHandler), "KeepAliveMessage == null at Handle(Device, Message, CancellationToken).");
+                throw new LogicException(typeof(KeepAliveHandler), nameof(KeepAliveMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
 
             Device.NetworkManager.KeepAliveMessageReceived();

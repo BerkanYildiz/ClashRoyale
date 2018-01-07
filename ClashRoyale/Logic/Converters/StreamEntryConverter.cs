@@ -1,8 +1,9 @@
-﻿namespace ClashRoyale.Logic.Alliance.Stream
+﻿namespace ClashRoyale.Logic.Converters
 {
     using System;
 
     using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Logic.Alliance.Stream;
     using ClashRoyale.Logic.Alliance.Stream.Factory;
     using ClashRoyale.Logic.Home.Spells;
 

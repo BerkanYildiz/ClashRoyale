@@ -1,27 +1,24 @@
 ﻿namespace ClashRoyale.Messages.Client.Avatar
 {
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Messages.Server.Avatar;
 
     public class AvatarNameCheckRequestMessage : Message
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AvatarNameCheckRequestMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public AvatarNameCheckRequestMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public AvatarNameCheckRequestMessage()
         {
             // AvatarNameCheckRequestMessage.
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Initializes a new instance of the <see cref="AvatarNameCheckRequestMessage"/> class.
         /// </summary>
-        public override void Process()
+        /// <param name="Stream">The stream.</param>
+        public AvatarNameCheckRequestMessage(ByteStream Stream) : base(Stream)
         {
-            this.Device.NetworkManager.SendMessage(new AvatarNameCheckResponseMessage(this.Device));
+            // AvatarNameCheckRequestMessage.
         }
     }
 }

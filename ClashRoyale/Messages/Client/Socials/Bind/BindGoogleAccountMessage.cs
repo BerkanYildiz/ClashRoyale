@@ -1,13 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Client.Socials.Bind
 {
-    using ClashRoyale.Database;
-    using ClashRoyale.Database.Models;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Apis;
-
-    using MongoDB.Driver;
 
     public class BindGoogleAccountMessage : Message
     {
@@ -33,15 +27,24 @@
             }
         }
 
-        private string GoogleId;
-        private string GoogleToken;
+        public bool Force;
+
+        public string GoogleId;
+        public string GoogleToken;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BindGoogleAccountMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public BindGoogleAccountMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public BindGoogleAccountMessage()
+        {
+            // BindGoogleAccountMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindGoogleAccountMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public BindGoogleAccountMessage(ByteStream Stream) : base(Stream)
         {
             // BindGoogleAccountMessage.
         }
@@ -51,69 +54,19 @@
         /// </summary>
         public override void Decode()
         {
-            this.Stream.ReadVInt();
-
-            this.GoogleId    = this.Stream.ReadString();
-            this.GoogleToken = this.Stream.ReadString();
+            this.Force          = this.Stream.ReadBoolean();
+            this.GoogleId       = this.Stream.ReadString();
+            this.GoogleToken    = this.Stream.ReadString();
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        public override void Process()
+        public override void Encode()
         {
-            ApiManager ApiManager = this.Device.GameMode.Player.ApiManager;
-
-            if (string.IsNullOrEmpty(this.GoogleId) || string.IsNullOrEmpty(this.GoogleToken))
-            {
-                Logging.Warning(this.GetType(), "Either GoogleId or GoogleToken is null or empty. (GoogleId : " + this.GoogleId + ", GoogleToken : \"" + this.GoogleToken + "\".");
-
-                // Temp Fix, Network can be null
-
-                if (string.IsNullOrEmpty(this.GoogleId) == false)
-                {
-                    if (ApiManager.Google.Filled == false)
-                    {
-                        ApiManager.Google.Identifier = this.GoogleId;
-                    }
-                }
-            }
-            else
-            {
-                if (ApiManager.Google.Filled)
-                {
-                    if (this.GoogleId == ApiManager.Google.Identifier)
-                    {
-                        return;
-                    }
-                }
-
-                var Matches         = GameDb.Players.Find(new JsonFilterDefinition<PlayerDb>("{'Data.api.google.ggId': '" + this.GoogleId + "'}"));
-                var MatchesCount    = Matches.Count();
-
-                if (MatchesCount == 1)
-                {
-                    /* Player Player   = JsonConvert.DeserializeObject<Player>(Matches.First().Profile.ToString(), Resources.Players.Settings);
-
-                    if (Player.ApiManager.Google.Token == this.GoogleToken)
-                    {
-                        this.Device.NetworkManager.SendMessage(new DeviceAlreadyBoundMessage(this.Device, Player));
-                    }
-                    else
-                    {
-                        this.Device.NetworkManager.SendMessage(new DisconnectedMessage(this.Device)); // TODO : Implement anti-hack / ban system.
-                    } */
-                }
-                else if (MatchesCount == 0)
-                {
-                    ApiManager.Google.Identifier = this.GoogleId;
-                    ApiManager.Google.Token      = this.GoogleToken;
-                }
-                else
-                {
-                    // Error.
-                }
-            }
+            this.Stream.WriteBoolean(this.Force);
+            this.Stream.WriteString(this.GoogleId);
+            this.Stream.WriteString(this.GoogleToken);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Logic.RoyalTV.Entry
+﻿namespace ClashRoyale.Logic.RoyalTv
 {
     using System;
 
@@ -53,6 +53,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="RoyalTvEntry"/> class.
         /// </summary>
+        /// <param name="BattleLog">The battle log.</param>
         public RoyalTvEntry(BattleLog BattleLog) : this()
         {
             this.BattleLogJson  = BattleLog.SaveJson().ToString(Formatting.None);

@@ -3,13 +3,10 @@
     using System.Collections.Generic;
 
     using ClashRoyale.Enums;
+    using ClashRoyale.Exceptions;
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Alliance;
-    using ClashRoyale.Logic.Collections;
     using ClashRoyale.Logic.Commands;
     using ClashRoyale.Logic.Commands.Manager;
-    using ClashRoyale.Logic.Player;
 
     public class EndClientTurnMessage : Message
     {
@@ -35,20 +32,27 @@
             }
         }
 
-        private int Tick;
-        private int Checksum;
-        private int Count;
+        public int Tick;
+        public int Checksum;
+        public int Count;
 
-        private List<Command> Commands;
+        public List<Command> Commands;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EndClientTurnMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="ByteStream">The byte stream.</param>
-        public EndClientTurnMessage(Device Device, ByteStream ByteStream) : base(Device, ByteStream)
+        public EndClientTurnMessage()
         {
-            // End_Client_Turn_Message.
+            // EndClientTurnMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EndClientTurnMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public EndClientTurnMessage(ByteStream Stream) : base(Stream)
+        {
+            // EndClientTurnMessage.
         }
 
         /// <summary>
@@ -60,81 +64,51 @@
             this.Checksum   = this.Stream.ReadVInt();
             this.Count      = this.Stream.ReadVInt();
 
+            if (this.Count < 0)
+            {
+                throw new LogicException(this.GetType(), "Count < 0 at Decode().");
+            }
+
+            if (this.Count > 512)
+            {
+                throw new LogicException(this.GetType(), "Count > 512 at Decode().");
+            }
+
+            this.Commands   = new List<Command>(this.Count);
+
             if (this.Count > 0)
             {
-                if (this.Count <= 512)
+                for (int I = 0; I < this.Count; I++)
                 {
-                    this.Commands = new List<Command>(this.Count);
+                    Command Command = CommandManager.DecodeCommand(this.Stream);
 
-                    for (int I = 0; I < this.Count; I++)
+                    if (Command == null)
                     {
-                        Command Command = CommandManager.DecodeCommand(this.Stream);
-
-                        if (Command == null)
-                        {
-                            break;
-                        }
-
-                        Logging.Info(this.GetType(), " - " + Command.GetType().Name + ".");
-
-                        this.Commands.Add(Command);
+                        break;
                     }
-                }
-                else
-                {
-                    Logging.Error(this.GetType(), "Decode() - Command count is invalid (" + this.Count + ")");
+
+                    Logging.Info(this.GetType(), " - " + Command.GetType().Name + ".");
+
+                    this.Commands.Add(Command);
                 }
             }
         }
 
         /// <summary>
-        /// Processes this message.
+        /// Encodes this instance.
         /// </summary>
-        public override async void Process()
+        public override void Encode()
         {
-            if (this.Commands != null)
+            this.Stream.WriteVInt(this.Tick);
+            this.Stream.WriteVInt(this.Checksum);
+            this.Stream.WriteVInt(this.Count);
+
+            foreach (var Command in this.Commands)
             {
-                this.Commands.ForEach(Command =>
-                {
-                    if (Command.ExecuteTick <= this.Tick)
-                    {
-                        this.Device.GameMode.CommandManager.AddCommand(Command);
-                    }
-                });
+                Command.Encode(this.Stream);
             }
 
-            for (int I = this.Device.GameMode.Time; I < this.Tick; I++)
-            {
-                this.Device.GameMode.UpdateOneTick();
-            }
-
-            Player Player = this.Device.GameMode.Player;
-
-            if (Player.IsInAlliance)
-            {
-                Clan Clan = await Clans.Get(Player.ClanHighId, Player.ClanLowId);
-
-                if (Clan != null)
-                {
-                    if (Clan.Members.TryGetValue(Player.PlayerId, out var Member))
-                    {
-                        Member.Update(Player);
-                    }
-                }
-                else
-                {
-                    Logging.Error(this.GetType(), "Player can't be updated, alliance instance was null.");
-                }
-            }
-
-            /* if (this.Device.GameMode.State == HomeState.Home)
-            {
-                if (this.Checksum != this.Device.GameMode.Checksum)
-                {
-                    Logging.Error(this.GetType(), "Player is out of sync (S: " + this.Device.GameMode.Checksum + ", C: " + this.Checksum + ").");
-                    this.Device.NetworkManager.SendMessage(new OutOfSyncMessage(this.Device, this.Checksum, this.Device.GameMode.Checksum));
-                }
-            } */
+            this.Stream.WriteInt(-1);
         }
     }
 }
