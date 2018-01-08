@@ -2,6 +2,7 @@
 {
     using System;
 
+    using ClashRoyale.Api;
     using ClashRoyale.Compression.ZLib;
     using ClashRoyale.Extensions;
 
@@ -12,7 +13,7 @@
         /// </summary>
         public static void Initialize()
         {
-            // Initialize.
+            // Tests.
         }
 
         /// <summary>
@@ -108,6 +109,28 @@
             byte[] Decompressed = ZlibStream.UncompressBuffer(Compressed);
 
             Logging.Info(typeof(Tests), "Decompressed : " + BitConverter.ToString(Decompressed));
+        }
+
+        /// <summary>
+        /// Gets informations about the specified ip address.
+        /// </summary>
+        /// <param name="IpAddress">The ip address.</param>
+        public static void GetIp(string IpAddress)
+        {
+            var Result = IpRequester.GetIpInfo(IpAddress).Result;
+
+            if (Result.IsSuccess)
+            {
+                Logging.Info(typeof(Tests), "IP Address : " + IpAddress);
+                Logging.Info(typeof(Tests), "Result :");
+                Logging.Info(typeof(Tests), "    - City      " + Result.City + ".");
+                Logging.Info(typeof(Tests), "    - Region    " + Result.Region + ".");
+                Logging.Info(typeof(Tests), "    - Country   " + Result.Country + ".");
+            }
+            else
+            {
+                Logging.Info(typeof(Tests), "Failed to retrieve data about " + IpAddress + ".");
+            }
         }
     }
 }

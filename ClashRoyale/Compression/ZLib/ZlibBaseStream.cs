@@ -8,7 +8,9 @@ namespace ClashRoyale.Compression.ZLib
     internal enum ZlibStreamFlavor
     {
         ZLIB = 1950,
+
         DEFLATE = 1951,
+
         GZIP = 1952
     }
 
@@ -17,24 +19,36 @@ namespace ClashRoyale.Compression.ZLib
         internal protected ZlibCodec _z; // deferred init... new ZlibCodec();
 
         internal protected StreamMode _streamMode = StreamMode.Undefined;
+
         internal protected FlushType _flushMode;
+
         internal protected ZlibStreamFlavor _flavor;
+
         internal protected CompressionMode _compressionMode;
+
         internal protected CompressionLevel _level;
+
         internal protected bool _leaveOpen;
+
         internal protected byte[] _workingBuffer;
+
         internal protected int _bufferSize = ZlibConstants.WorkingBufferSizeDefault;
+
         internal protected byte[] _buf1 = new byte[1];
 
         internal protected Stream _stream;
+
         internal protected CompressionStrategy Strategy = CompressionStrategy.Default;
 
         // workitem 7159
         private readonly CRC32 crc;
 
         internal protected string _GzipFileName;
+
         internal protected string _GzipComment;
+
         internal protected DateTime _GzipMtime;
+
         internal protected int _gzipHeaderByteCount;
 
         internal int Crc32
@@ -146,7 +160,6 @@ namespace ClashRoyale.Compression.ZLib
 
                 // if (_workingBuffer.Length - _z.AvailableBytesOut > 0)
                 this._stream.Write(this._workingBuffer, 0, this._workingBuffer.Length - this._z.AvailableBytesOut);
-
                 done = this._z.AvailableBytesIn == 0 && this._z.AvailableBytesOut != 0;
 
                 // If GZIP and de-compress, we're done when 8 bytes remain.
@@ -174,7 +187,6 @@ namespace ClashRoyale.Compression.ZLib
                     this._z.NextOut = 0;
                     this._z.AvailableBytesOut = this._workingBuffer.Length;
                     int rc = this._wantCompress ? this._z.Deflate(FlushType.Finish) : this._z.Inflate(FlushType.Finish);
-
                     if (rc != ZlibConstants.Z_STREAM_END && rc != ZlibConstants.Z_OK)
                     {
                         string verb = (this._wantCompress ? "de" : "in") + "flating";
@@ -211,7 +223,7 @@ namespace ClashRoyale.Compression.ZLib
                         // Emit the GZIP trailer: CRC32 and size mod 2^32
                         int c1 = this.crc.Crc32Result;
                         this._stream.Write(BitConverter.GetBytes(c1), 0, 4);
-                        int c2 = (int) (this.crc.TotalBytesRead & 0x00000000FFFFFFFF);
+                        int c2 = (int)(this.crc.TotalBytesRead & 0x00000000FFFFFFFF);
                         this._stream.Write(BitConverter.GetBytes(c2), 0, 4);
                     }
                     else
@@ -257,8 +269,7 @@ namespace ClashRoyale.Compression.ZLib
                         int crc32_expected = BitConverter.ToInt32(trailer, 0);
                         int crc32_actual = this.crc.Crc32Result;
                         int isize_expected = BitConverter.ToInt32(trailer, 4);
-                        int isize_actual = (int) (this._z.TotalBytesOut & 0x00000000FFFFFFFF);
-
+                        int isize_actual = (int)(this._z.TotalBytesOut & 0x00000000FFFFFFFF);
                         if (crc32_actual != crc32_expected)
                         {
                             throw new ZlibException(string.Format("Bad CRC32 in GZIP trailer. (actual({0:X8})!=expected({1:X8}))", crc32_actual, crc32_expected));
@@ -374,6 +385,7 @@ namespace ClashRoyale.Compression.ZLib
                 }
             }
             while (!done);
+
             byte[] a = list.ToArray();
             return GZipStream.iso8859dash1.GetString(a, 0, a.Length);
         }
@@ -410,8 +422,7 @@ namespace ClashRoyale.Compression.ZLib
                 // read and discard extra field
                 n = this._stream.Read(header, 0, 2); // 2-byte length field
                 totalBytesRead += n;
-
-                short extraLength = (short) (header[0] + header[1] * 256);
+                short extraLength = (short)(header[0] + header[1] * 256);
                 byte[] extra = new byte[extraLength];
                 n = this._stream.Read(extra, 0, extra.Length);
                 if (n != extraLength)
@@ -515,7 +526,6 @@ namespace ClashRoyale.Compression.ZLib
             // This is necessary in case _workingBuffer has been resized. (new byte[]) (The first
             // reference to _workingBuffer goes through the private accessor which may initialize it.)
             this._z.InputBuffer = this.workingBuffer;
-
             do
             {
                 // need data in _workingBuffer in order to deflate/inflate. Here, we check if we have any.
@@ -532,7 +542,6 @@ namespace ClashRoyale.Compression.ZLib
 
                 // we have data in InputBuffer; now compress or decompress as appropriate
                 rc = this._wantCompress ? this._z.Deflate(this._flushMode) : this._z.Inflate(this._flushMode);
-
                 if (this.nomoreinput && rc == ZlibConstants.Z_BUF_ERROR)
                 {
                     return 0;
@@ -568,7 +577,6 @@ namespace ClashRoyale.Compression.ZLib
                     {
                         // no more input data available; therefore we flush to try to complete the read
                         rc = this._z.Deflate(FlushType.Finish);
-
                         if (rc != ZlibConstants.Z_OK && rc != ZlibConstants.Z_STREAM_END)
                         {
                             throw new ZlibException(string.Format("Deflating:  rc={0}  msg={1}", rc, this._z.Message));
@@ -612,7 +620,9 @@ namespace ClashRoyale.Compression.ZLib
         internal enum StreamMode
         {
             Writer,
+
             Reader,
+
             Undefined
         }
 

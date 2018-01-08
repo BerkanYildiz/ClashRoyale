@@ -1,20 +1,15 @@
 ﻿namespace ClashRoyale
 {
-    using ClashRoyale.Crypto.Randomizers;
-    using ClashRoyale.Extensions.Game;
-    using ClashRoyale.Files;
-    using ClashRoyale.Files.Csv;
-    using ClashRoyale.Handlers;
+    using ClashRoyale.Database;
     using ClashRoyale.Logic.Battle;
     using ClashRoyale.Logic.Collections;
-    using ClashRoyale.Logic.Event.Manager;
+    using ClashRoyale.Logic.Event;
     using ClashRoyale.Logic.Inbox;
     using ClashRoyale.Logic.RoyalTv;
+
     using ClashRoyale.Network;
 
-    using GameDb = ClashRoyale.Database.GameDb;
-
-    internal class Program
+    internal static class Program
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Program"/> has been initialized.
@@ -28,17 +23,9 @@
         /// <summary>
         /// Defines the entry point of the application.
         /// </summary>
-        private static void Main()
+        internal static void Main()
         {
-            Sentry.Initialize();
-            XorShift.Initialize();
-
-            CsvFiles.Initialize();
-            Fingerprint.Initialize();
-            Home.Initialize();
-            
-            Globals.Initialize();
-            ClientGlobals.Initialize();
+            Base.Initialize();
             GameDb.Initialize();
 
             Players.Initialize();
@@ -51,10 +38,8 @@
             BattleManager.Initialize();
             RoyalTvManager.Initialize();
 
-            Factory.Initialize();
+            Handlers.Handlers.Initialize();
             NetworkTcp.Initialize();
-
-            Tests.Initialize();
 
             Program.Initialized = true;
 

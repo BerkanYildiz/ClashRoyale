@@ -1,11 +1,13 @@
 ﻿namespace ClashRoyale.Handlers.Client
 {
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
     using ClashRoyale.Exceptions;
     using ClashRoyale.Logic;
     using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Alliance.Entries;
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Messages;
     using ClashRoyale.Messages.Client.Alliance;
@@ -32,11 +34,16 @@
 
             if (Clan != null)
             {
-                Device.NetworkManager.SendMessage(new AllianceDataMessage(Clan));
+                Device.NetworkManager.SendMessage(new AllianceDataMessage(new AllianceFullEntry()
+                {
+                    Header      = Clan.HeaderEntry,
+                    Members     = Clan.Members.Values.ToArray(),
+                    Description = Clan.Description
+                }));
             }
             else
             {
-                Logging.Warning(typeof(AskForAllianceDataHandler), "Tried to retrieve a clan from the database, null value returned.");
+                Logging.Warning(typeof(AskForAllianceDataHandler), "Clan == null at Handle(Device, Message, CancellationToken).");
             }
         }
     }

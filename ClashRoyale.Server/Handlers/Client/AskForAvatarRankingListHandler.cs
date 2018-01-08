@@ -34,8 +34,8 @@
             {
                 Device.NetworkManager.SendMessage(new AvatarRankingListMessage()
                 {
-                    AvatarRankingList = Leaderboard.Players.ToArray(),
-                    PreviousSeasonTopPlayers = Leaderboard.LastSeason.ToArray()
+                    Entries = Leaderboard.Players.ToArray(),
+                    LastSeasonEntries = Leaderboard.LastSeason.ToArray()
                 });
             }
             else

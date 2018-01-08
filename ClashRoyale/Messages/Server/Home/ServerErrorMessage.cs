@@ -3,6 +3,7 @@ namespace ClashRoyale.Messages.Server.Home
     using System.Text;
 
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
 
     public class ServerErrorMessage : Message
     {
@@ -34,6 +35,15 @@ namespace ClashRoyale.Messages.Server.Home
         /// Initializes a new instance of the <see cref="ServerErrorMessage"/> class.
         /// </summary>
         public ServerErrorMessage()
+        {
+            // ServerErrorMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerErrorMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public ServerErrorMessage(ByteStream Stream) : base(Stream)
         {
             // ServerErrorMessage.
         }

@@ -30,7 +30,15 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AvatarNameCheckResponseMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        public AvatarNameCheckResponseMessage()
+        {
+            // AvatarNameCheckResponseMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AvatarNameCheckResponseMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
         public AvatarNameCheckResponseMessage(ByteStream Stream) : base(Stream)
         {
             // AvatarNameCheckResponseMessage.

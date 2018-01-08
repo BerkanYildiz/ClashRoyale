@@ -1,8 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Alliance
 {
-    using System.Collections.Generic;
-
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Alliance.Entries;
 
     public class SearchClansDataMessage : Message
@@ -29,18 +28,35 @@
             }
         }
 
-        public List<AllianceHeaderEntry> Alliances;
+        public AllianceHeaderEntry[] Entries;
         public string Filter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchClansDataMessage"/> class.
         /// </summary>
-        /// <param name="Filter">The filter.</param>
-        /// <param name="Alliances">The alliances.</param>
-        public SearchClansDataMessage(string Filter, List<AllianceHeaderEntry> Alliances)
+        public SearchClansDataMessage()
         {
-            this.Filter     = Filter;
-            this.Alliances  = Alliances;
+            // SearchClansDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SearchClansDataMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public SearchClansDataMessage(ByteStream Stream) : base(Stream)
+        {
+            // SearchClansDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SearchClansDataMessage"/> class.
+        /// </summary>
+        /// <param name="Filter">The filter.</param>
+        /// <param name="Entries">The entries.</param>
+        public SearchClansDataMessage(string Filter, AllianceHeaderEntry[] Entries)
+        {
+            this.Filter  = Filter;
+            this.Entries = Entries;
         }
 
         /// <summary>
@@ -49,11 +65,11 @@
         public override void Encode()
         {
             this.Stream.WriteString(this.Filter);
-            this.Stream.WriteVInt(this.Alliances.Count);
+            this.Stream.WriteVInt(this.Entries.Length);
 
-            foreach (var Alliance in this.Alliances)
+            foreach (var Entry in this.Entries)
             {
-                Alliance.Encode(this.Stream);
+                Entry.Encode(this.Stream);
             }
         }
     }

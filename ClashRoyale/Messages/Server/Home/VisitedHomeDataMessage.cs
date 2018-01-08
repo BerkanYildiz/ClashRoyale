@@ -57,6 +57,41 @@
         }
 
         /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.Stream.ReadVInt();
+            this.Stream.ReadVInt();
+
+            if (this.Stream.ReadBoolean())
+            {
+                this.Player.Home.SpellDeck.Decode(this.Stream);
+
+                this.Player.HighId  = this.Stream.ReadInt();
+                this.Player.LowId   = this.Stream.ReadInt();
+
+                if (this.Stream.ReadBoolean())
+                {
+                    this.Player.GameMode.Home.HighId = this.Stream.ReadVInt();
+                    this.Player.GameMode.Home.LowId  = this.Stream.ReadVInt();
+                }
+
+                this.Stream.ReadVInt();
+            }
+
+            if (this.Stream.ReadBoolean())
+            {
+                // this.Player.Decode();
+            }
+
+            if (this.Stream.ReadBoolean())
+            {
+                // this.Player.Decode();
+            }
+        }
+
+        /// <summary>
         /// Encodes this instance.
         /// </summary>
         public override void Encode()

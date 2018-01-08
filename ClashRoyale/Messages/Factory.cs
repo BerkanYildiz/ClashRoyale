@@ -32,6 +32,15 @@
     public static class Factory
     {
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Factory"/> has been initialized.
+        /// </summary>
+        public static bool Initialized
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// The delimiter used to detect if x string is a call-command.
         /// </summary>
         public const char Delimiter = '/';
@@ -59,7 +68,14 @@
         /// </summary>
         public static void Initialize()
         {
+            if (Factory.Initialized)
+            {
+                return;
+            }
+
             Factory.LoadMessages();
+
+            Factory.Initialized = true;
         }
 
         /// <summary>
@@ -116,7 +132,7 @@
             Factory.Messages.Add(24719, typeof(AllianceStreamMessage));
 
             Factory.Messages.Add(25105, typeof(AllianceRankingListMessage));
-            Factory.Messages.Add(25390, typeof(AvatarLocaleRankingListMessage));
+            Factory.Messages.Add(25390, typeof(AvatarLocalRankingListMessage));
             Factory.Messages.Add(25412, typeof(HomeBattleReplayDataMessage));
             Factory.Messages.Add(25880, typeof(VisitedHomeDataMessage));
 

@@ -1,14 +1,10 @@
 ﻿namespace ClashRoyale.Messages.Server.Sector
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
 
     public class UdpConnectionInfoMessage : Message
     {
-        internal int ServerPort;
-        internal string Nonce;
-        internal string ServerHost;
-        internal byte[] SessionId;
-
         /// <summary>
         /// Gets the type of this message.
         /// </summary>
@@ -31,6 +27,11 @@
             }
         }
 
+        public int ServerPort;
+        public string Nonce;
+        public string ServerHost;
+        public byte[] SessionId;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UdpConnectionInfoMessage"/> class.
         /// </summary>
@@ -40,14 +41,38 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="UdpConnectionInfoMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public UdpConnectionInfoMessage(ByteStream Stream) : base(Stream)
+        {
+            // UdpConnectionInfoMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UdpConnectionInfoMessage"/> class.
+        /// </summary>
+        /// <param name="ServerPort">The server port.</param>
+        /// <param name="ServerHost">The server host.</param>
+        /// <param name="SessionId">The session identifier.</param>
+        /// <param name="Nonce">The nonce.</param>
+        public UdpConnectionInfoMessage(int ServerPort, string ServerHost, byte[] SessionId, string Nonce)
+        {
+            this.ServerPort = ServerPort;
+            this.ServerHost = ServerHost;
+            this.SessionId  = SessionId;
+            this.Nonce      = Nonce;
+        }
+
+        /// <summary>
         /// Decodes this instance.
         /// </summary>
         public override void Decode()
         {
             this.ServerPort = this.Stream.ReadVInt();
             this.ServerHost = this.Stream.ReadString();
-            this.SessionId = this.Stream.ReadBytes();
-            this.Nonce = this.Stream.ReadStringReference();
+            this.SessionId  = this.Stream.ReadBytes();
+            this.Nonce      = this.Stream.ReadStringReference();
         }
 
         /// <summary>

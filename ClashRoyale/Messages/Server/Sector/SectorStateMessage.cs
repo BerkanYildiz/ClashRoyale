@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Sector
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
 
     public class SectorStateMessage : Message
@@ -27,7 +28,24 @@
             }
         }
 
-        private readonly byte[] FullUpdate;
+        public byte[] FullUpdate;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SectorStateMessage"/> class.
+        /// </summary>
+        public SectorStateMessage()
+        {
+            // SectorStateMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SectorStateMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public SectorStateMessage(ByteStream Stream) : base(Stream)
+        {
+            // SectorStateMessage.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SectorStateMessage"/> class.
@@ -36,6 +54,14 @@
         public SectorStateMessage(byte[] Update)
         {
             this.FullUpdate = Update;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            // TODO : SectorStateMessage::Decode().
         }
 
         /// <summary>

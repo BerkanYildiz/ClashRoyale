@@ -1,21 +1,21 @@
-namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
+namespace ClashRoyale.Compression.Lzma.Compress.LzmaAlone
 {
     using System;
     using System.Collections;
     using System.IO;
 
-    using ClashRoyale.Compression.LZMA.Common;
-    using ClashRoyale.Compression.LZMA.Compress.LZMA;
+    using ClashRoyale.Compression.Lzma.Common;
+    using ClashRoyale.Compression.Lzma.Compress.LZMA;
 
     public class CDoubleStream : Stream
     {
-        public int FileIndex;
+        public int fileIndex;
 
-        public Stream S1;
+        public Stream s1;
 
-        public Stream S2;
+        public Stream s2;
 
-        public long SkipSize;
+        public long skipSize;
 
         public override bool CanRead => true;
 
@@ -23,7 +23,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
         public override bool CanWrite => false;
 
-        public override long Length => this.S1.Length + this.S2.Length - this.SkipSize;
+        public override long Length => this.s1.Length + this.s2.Length - this.skipSize;
 
         public override long Position
         {
@@ -41,50 +41,50 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
         {
         }
 
-        public override int Read(byte[] Buffer, int Offset, int Count)
+        public override int Read(byte[] buffer, int offset, int count)
         {
-            int NumTotal = 0;
-            while (Count > 0)
+            int numTotal = 0;
+            while (count > 0)
             {
-                if (this.FileIndex == 0)
+                if (this.fileIndex == 0)
                 {
-                    int num = this.S1.Read(Buffer, Offset, Count);
-                    Offset += num;
-                    Count -= num;
-                    NumTotal += num;
+                    int num = this.s1.Read(buffer, offset, count);
+                    offset += num;
+                    count -= num;
+                    numTotal += num;
                     if (num == 0)
                     {
-                        this.FileIndex++;
+                        this.fileIndex++;
                     }
                 }
 
-                if (this.FileIndex == 1)
+                if (this.fileIndex == 1)
                 {
-                    NumTotal += this.S2.Read(Buffer, Offset, Count);
-                    return NumTotal;
+                    numTotal += this.s2.Read(buffer, offset, count);
+                    return numTotal;
                 }
             }
 
-            return NumTotal;
+            return numTotal;
         }
 
-        public override long Seek(long Offset, SeekOrigin Origin)
+        public override long Seek(long offset, SeekOrigin origin)
         {
             throw new Exception("can't Seek");
         }
 
-        public override void SetLength(long Value)
+        public override void SetLength(long value)
         {
             throw new Exception("can't SetLength");
         }
 
-        public override void Write(byte[] Buffer, int Offset, int Count)
+        public override void Write(byte[] buffer, int offset, int count)
         {
             throw new Exception("can't Write");
         }
     }
 
-    public class LzmaAlone
+    internal class LzmaAlone
     {
         private enum Key
         {
@@ -106,7 +106,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
             MatchFinder,
 
-            Eos,
+            EOS,
 
             StdIn,
 
@@ -115,19 +115,19 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
             Train
         }
 
-        private static bool GetNumber(string S, out int V)
+        private static bool GetNumber(string s, out int v)
         {
-            V = 0;
-            for (int i = 0; i < S.Length; i++)
+            v = 0;
+            for (int i = 0; i < s.Length; i++)
             {
-                char c = S[i];
+                char c = s[i];
                 if (c < '0' || c > '9')
                 {
                     return false;
                 }
 
-                V *= 10;
-                V += c - '0';
+                v *= 10;
+                v += c - '0';
             }
 
             return true;
@@ -153,34 +153,34 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
             );
         }
 
-        private static int Start(string[] Args)
+        private static int Start(string[] args)
         {
             Console.WriteLine("\nLZMA# 4.61  2008-11-23\n");
-            if (Args.Length == 0)
+            if (args.Length == 0)
             {
                 LzmaAlone.PrintHelp();
                 return 0;
             }
 
-            SwitchForm[] KSwitchForms = new SwitchForm[13];
+            SwitchForm[] kSwitchForms = new SwitchForm[13];
             int sw = 0;
-            KSwitchForms[sw++] = new SwitchForm("?", SwitchType.Simple, false);
-            KSwitchForms[sw++] = new SwitchForm("H", SwitchType.Simple, false);
-            KSwitchForms[sw++] = new SwitchForm("A", SwitchType.UnLimitedPostString, false, 1);
-            KSwitchForms[sw++] = new SwitchForm("D", SwitchType.UnLimitedPostString, false, 1);
-            KSwitchForms[sw++] = new SwitchForm("FB", SwitchType.UnLimitedPostString, false, 1);
-            KSwitchForms[sw++] = new SwitchForm("LC", SwitchType.UnLimitedPostString, false, 1);
-            KSwitchForms[sw++] = new SwitchForm("LP", SwitchType.UnLimitedPostString, false, 1);
-            KSwitchForms[sw++] = new SwitchForm("PB", SwitchType.UnLimitedPostString, false, 1);
-            KSwitchForms[sw++] = new SwitchForm("MF", SwitchType.UnLimitedPostString, false, 1);
-            KSwitchForms[sw++] = new SwitchForm("EOS", SwitchType.Simple, false);
-            KSwitchForms[sw++] = new SwitchForm("SI", SwitchType.Simple, false);
-            KSwitchForms[sw++] = new SwitchForm("SO", SwitchType.Simple, false);
-            KSwitchForms[sw++] = new SwitchForm("T", SwitchType.UnLimitedPostString, false, 1);
+            kSwitchForms[sw++] = new SwitchForm("?", SwitchType.Simple, false);
+            kSwitchForms[sw++] = new SwitchForm("H", SwitchType.Simple, false);
+            kSwitchForms[sw++] = new SwitchForm("A", SwitchType.UnLimitedPostString, false, 1);
+            kSwitchForms[sw++] = new SwitchForm("D", SwitchType.UnLimitedPostString, false, 1);
+            kSwitchForms[sw++] = new SwitchForm("FB", SwitchType.UnLimitedPostString, false, 1);
+            kSwitchForms[sw++] = new SwitchForm("LC", SwitchType.UnLimitedPostString, false, 1);
+            kSwitchForms[sw++] = new SwitchForm("LP", SwitchType.UnLimitedPostString, false, 1);
+            kSwitchForms[sw++] = new SwitchForm("PB", SwitchType.UnLimitedPostString, false, 1);
+            kSwitchForms[sw++] = new SwitchForm("MF", SwitchType.UnLimitedPostString, false, 1);
+            kSwitchForms[sw++] = new SwitchForm("EOS", SwitchType.Simple, false);
+            kSwitchForms[sw++] = new SwitchForm("SI", SwitchType.Simple, false);
+            kSwitchForms[sw++] = new SwitchForm("SO", SwitchType.Simple, false);
+            kSwitchForms[sw++] = new SwitchForm("T", SwitchType.UnLimitedPostString, false, 1);
             Parser parser = new Parser(sw);
             try
             {
-                parser.ParseStrings(KSwitchForms, Args);
+                parser.ParseStrings(kSwitchForms, args);
             }
             catch
             {
@@ -193,27 +193,27 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
                 return 0;
             }
 
-            ArrayList NonSwitchStrings = parser.NonSwitchStrings;
-            int ParamIndex = 0;
-            if (ParamIndex >= NonSwitchStrings.Count)
+            ArrayList nonSwitchStrings = parser.NonSwitchStrings;
+            int paramIndex = 0;
+            if (paramIndex >= nonSwitchStrings.Count)
             {
                 return LzmaAlone.IncorrectCommand();
             }
 
-            string command = (string)NonSwitchStrings[ParamIndex++];
+            string command = (string)nonSwitchStrings[paramIndex++];
             command = command.ToLower();
-            bool DictionaryIsDefined = false;
+            bool dictionaryIsDefined = false;
             int dictionary = 1 << 21;
             if (parser[(int)Key.Dictionary].ThereIs)
             {
-                int DicLog;
-                if (!LzmaAlone.GetNumber((string)parser[(int)Key.Dictionary].PostStrings[0], out DicLog))
+                int dicLog;
+                if (!LzmaAlone.GetNumber((string)parser[(int)Key.Dictionary].PostStrings[0], out dicLog))
                 {
                     LzmaAlone.IncorrectCommand();
                 }
 
-                dictionary = 1 << DicLog;
-                DictionaryIsDefined = true;
+                dictionary = 1 << dicLog;
+                dictionaryIsDefined = true;
             }
 
             string mf = "bt4";
@@ -225,17 +225,17 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
             mf = mf.ToLower();
             if (command == "b")
             {
-                const int KNumDefaultItereations = 10;
-                int NumIterations = KNumDefaultItereations;
-                if (ParamIndex < NonSwitchStrings.Count)
+                const int kNumDefaultItereations = 10;
+                int numIterations = kNumDefaultItereations;
+                if (paramIndex < nonSwitchStrings.Count)
                 {
-                    if (!LzmaAlone.GetNumber((string)NonSwitchStrings[ParamIndex++], out NumIterations))
+                    if (!LzmaAlone.GetNumber((string)nonSwitchStrings[paramIndex++], out numIterations))
                     {
-                        NumIterations = KNumDefaultItereations;
+                        numIterations = kNumDefaultItereations;
                     }
                 }
 
-                return LzmaBench.LzmaBenchmark(NumIterations, (UInt32)dictionary);
+                return LzmaBench.LzmaBenchmark(numIterations, (UInt32)dictionary);
             }
 
             string train = string.Empty;
@@ -244,71 +244,71 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
                 train = (string)parser[(int)Key.Train].PostStrings[0];
             }
 
-            bool EncodeMode = false;
+            bool encodeMode = false;
             if (command == "e")
             {
-                EncodeMode = true;
+                encodeMode = true;
             }
             else if (command == "d")
             {
-                EncodeMode = false;
+                encodeMode = false;
             }
             else
             {
                 LzmaAlone.IncorrectCommand();
             }
 
-            bool StdInMode = parser[(int)Key.StdIn].ThereIs;
-            bool StdOutMode = parser[(int)Key.StdOut].ThereIs;
-            Stream InStream = null;
-            if (StdInMode)
+            bool stdInMode = parser[(int)Key.StdIn].ThereIs;
+            bool stdOutMode = parser[(int)Key.StdOut].ThereIs;
+            Stream inStream = null;
+            if (stdInMode)
             {
                 throw new Exception("Not implemeted");
             }
 
-            if (ParamIndex >= NonSwitchStrings.Count)
+            if (paramIndex >= nonSwitchStrings.Count)
             {
                 LzmaAlone.IncorrectCommand();
             }
 
-            string InputName = (string)NonSwitchStrings[ParamIndex++];
-            InStream = new FileStream(InputName, FileMode.Open, FileAccess.Read);
-            FileStream OutStream = null;
-            if (StdOutMode)
+            string inputName = (string)nonSwitchStrings[paramIndex++];
+            inStream = new FileStream(inputName, FileMode.Open, FileAccess.Read);
+            FileStream outStream = null;
+            if (stdOutMode)
             {
                 throw new Exception("Not implemeted");
             }
 
-            if (ParamIndex >= NonSwitchStrings.Count)
+            if (paramIndex >= nonSwitchStrings.Count)
             {
                 LzmaAlone.IncorrectCommand();
             }
 
-            string OutputName = (string)NonSwitchStrings[ParamIndex++];
-            OutStream = new FileStream(OutputName, FileMode.Create, FileAccess.Write);
-            FileStream TrainStream = null;
+            string outputName = (string)nonSwitchStrings[paramIndex++];
+            outStream = new FileStream(outputName, FileMode.Create, FileAccess.Write);
+            FileStream trainStream = null;
             if (train.Length != 0)
             {
-                TrainStream = new FileStream(train, FileMode.Open, FileAccess.Read);
+                trainStream = new FileStream(train, FileMode.Open, FileAccess.Read);
             }
 
-            if (EncodeMode)
+            if (encodeMode)
             {
-                if (!DictionaryIsDefined)
+                if (!dictionaryIsDefined)
                 {
                     dictionary = 1 << 23;
                 }
 
-                int PosStateBits = 2;
-                int LitContextBits = 3; // for normal files
+                int posStateBits = 2;
+                int litContextBits = 3; // for normal files
 
                 // UInt32 litContextBits = 0; // for 32-bit data
-                int LitPosBits = 0;
+                int litPosBits = 0;
 
                 // UInt32 litPosBits = 2; // for 32-bit data
                 int algorithm = 2;
-                int NumFastBytes = 128;
-                bool eos = parser[(int)Key.Eos].ThereIs || StdInMode;
+                int numFastBytes = 128;
+                bool eos = parser[(int)Key.EOS].ThereIs || stdInMode;
                 if (parser[(int)Key.Mode].ThereIs)
                 {
                     if (!LzmaAlone.GetNumber((string)parser[(int)Key.Mode].PostStrings[0], out algorithm))
@@ -319,7 +319,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
                 if (parser[(int)Key.FastBytes].ThereIs)
                 {
-                    if (!LzmaAlone.GetNumber((string)parser[(int)Key.FastBytes].PostStrings[0], out NumFastBytes))
+                    if (!LzmaAlone.GetNumber((string)parser[(int)Key.FastBytes].PostStrings[0], out numFastBytes))
                     {
                         LzmaAlone.IncorrectCommand();
                     }
@@ -327,7 +327,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
                 if (parser[(int)Key.LitContext].ThereIs)
                 {
-                    if (!LzmaAlone.GetNumber((string)parser[(int)Key.LitContext].PostStrings[0], out LitContextBits))
+                    if (!LzmaAlone.GetNumber((string)parser[(int)Key.LitContext].PostStrings[0], out litContextBits))
                     {
                         LzmaAlone.IncorrectCommand();
                     }
@@ -335,7 +335,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
                 if (parser[(int)Key.LitPos].ThereIs)
                 {
-                    if (!LzmaAlone.GetNumber((string)parser[(int)Key.LitPos].PostStrings[0], out LitPosBits))
+                    if (!LzmaAlone.GetNumber((string)parser[(int)Key.LitPos].PostStrings[0], out litPosBits))
                     {
                         LzmaAlone.IncorrectCommand();
                     }
@@ -343,90 +343,90 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
                 if (parser[(int)Key.PosBits].ThereIs)
                 {
-                    if (!LzmaAlone.GetNumber((string)parser[(int)Key.PosBits].PostStrings[0], out PosStateBits))
+                    if (!LzmaAlone.GetNumber((string)parser[(int)Key.PosBits].PostStrings[0], out posStateBits))
                     {
                         LzmaAlone.IncorrectCommand();
                     }
                 }
 
-                CoderPropId[] PropIDs =
+                CoderPropId[] propIDs =
                     {
                         CoderPropId.DictionarySize, CoderPropId.PosStateBits, CoderPropId.LitContextBits, CoderPropId.LitPosBits, CoderPropId.Algorithm, CoderPropId.NumFastBytes, CoderPropId.MatchFinder, CoderPropId.EndMarker
                     };
                 object[] properties =
                     {
-                        dictionary, PosStateBits, LitContextBits, LitPosBits, algorithm, NumFastBytes, mf, eos
+                        dictionary, posStateBits, litContextBits, litPosBits, algorithm, numFastBytes, mf, eos
                     };
                 Encoder encoder = new Encoder();
-                encoder.SetCoderProperties(PropIDs, properties);
-                encoder.WriteCoderProperties(OutStream);
-                long FileSize;
-                if (eos || StdInMode)
+                encoder.SetCoderProperties(propIDs, properties);
+                encoder.WriteCoderProperties(outStream);
+                long fileSize;
+                if (eos || stdInMode)
                 {
-                    FileSize = -1;
+                    fileSize = -1;
                 }
                 else
                 {
-                    FileSize = InStream.Length;
+                    fileSize = inStream.Length;
                 }
 
                 for (int i = 0; i < 8; i++)
                 {
-                    OutStream.WriteByte((Byte)(FileSize >> (8 * i)));
+                    outStream.WriteByte((Byte)(fileSize >> (8 * i)));
                 }
 
-                if (TrainStream != null)
+                if (trainStream != null)
                 {
-                    CDoubleStream DoubleStream = new CDoubleStream();
-                    DoubleStream.S1 = TrainStream;
-                    DoubleStream.S2 = InStream;
-                    DoubleStream.FileIndex = 0;
-                    InStream = DoubleStream;
-                    long TrainFileSize = TrainStream.Length;
-                    DoubleStream.SkipSize = 0;
-                    if (TrainFileSize > dictionary)
+                    CDoubleStream doubleStream = new CDoubleStream();
+                    doubleStream.s1 = trainStream;
+                    doubleStream.s2 = inStream;
+                    doubleStream.fileIndex = 0;
+                    inStream = doubleStream;
+                    long trainFileSize = trainStream.Length;
+                    doubleStream.skipSize = 0;
+                    if (trainFileSize > dictionary)
                     {
-                        DoubleStream.SkipSize = TrainFileSize - dictionary;
+                        doubleStream.skipSize = trainFileSize - dictionary;
                     }
 
-                    TrainStream.Seek(DoubleStream.SkipSize, SeekOrigin.Begin);
-                    encoder.SetTrainSize((uint)(TrainFileSize - DoubleStream.SkipSize));
+                    trainStream.Seek(doubleStream.skipSize, SeekOrigin.Begin);
+                    encoder.SetTrainSize((uint)(trainFileSize - doubleStream.skipSize));
                 }
 
-                encoder.Code(InStream, OutStream, -1, -1, null);
+                encoder.Code(inStream, outStream, -1, -1, null);
             }
             else if (command == "d")
             {
                 byte[] properties = new byte[5];
-                if (InStream.Read(properties, 0, 5) != 5)
+                if (inStream.Read(properties, 0, 5) != 5)
                 {
                     throw new Exception("input .lzma is too short");
                 }
 
                 Decoder decoder = new Decoder();
                 decoder.SetDecoderProperties(properties);
-                if (TrainStream != null)
+                if (trainStream != null)
                 {
-                    if (!decoder.Train(TrainStream))
+                    if (!decoder.Train(trainStream))
                     {
                         throw new Exception("can't train");
                     }
                 }
 
-                long OutSize = 0;
+                long outSize = 0;
                 for (int i = 0; i < 8; i++)
                 {
-                    int v = InStream.ReadByte();
+                    int v = inStream.ReadByte();
                     if (v < 0)
                     {
                         throw new Exception("Can't Read 1");
                     }
 
-                    OutSize |= (long)(byte)v << (8 * i);
+                    outSize |= (long)(byte)v << (8 * i);
                 }
 
-                long CompressedSize = InStream.Length - InStream.Position;
-                decoder.Code(InStream, OutStream, CompressedSize, OutSize, null);
+                long compressedSize = inStream.Length - inStream.Position;
+                decoder.Code(inStream, outStream, compressedSize, outSize, null);
             }
             else
             {

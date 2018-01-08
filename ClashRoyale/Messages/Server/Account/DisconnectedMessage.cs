@@ -40,7 +40,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DisconnectedMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Stream">The stream.</param>
         public DisconnectedMessage(ByteStream Stream) : base(Stream)
         {
             // DisconnectedMessage.

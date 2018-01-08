@@ -1,62 +1,62 @@
-namespace ClashRoyale.Compression.LZMA.Common
+namespace ClashRoyale.Compression.Lzma.Common
 {
     using System.IO;
 
     public class InBuffer
     {
-        private readonly byte[] MBuffer;
+        private readonly byte[] m_Buffer;
 
-        private readonly uint MBufferSize;
+        private readonly uint m_BufferSize;
 
-        private uint MLimit;
+        private uint m_Limit;
 
-        private uint MPos;
+        private uint m_Pos;
 
-        private ulong MProcessedSize;
+        private ulong m_ProcessedSize;
 
-        private Stream MStream;
+        private Stream m_Stream;
 
-        private bool MStreamWasExhausted;
+        private bool m_StreamWasExhausted;
 
-        public InBuffer(uint BufferSize)
+        public InBuffer(uint bufferSize)
         {
-            this.MBuffer = new byte[BufferSize];
-            this.MBufferSize = BufferSize;
+            this.m_Buffer = new byte[bufferSize];
+            this.m_BufferSize = bufferSize;
         }
 
         public ulong GetProcessedSize()
         {
-            return this.MProcessedSize + this.MPos;
+            return this.m_ProcessedSize + this.m_Pos;
         }
 
-        public void Init(Stream Stream)
+        public void Init(Stream stream)
         {
-            this.MStream = Stream;
-            this.MProcessedSize = 0;
-            this.MLimit = 0;
-            this.MPos = 0;
-            this.MStreamWasExhausted = false;
+            this.m_Stream = stream;
+            this.m_ProcessedSize = 0;
+            this.m_Limit = 0;
+            this.m_Pos = 0;
+            this.m_StreamWasExhausted = false;
         }
 
         public bool ReadBlock()
         {
-            if (this.MStreamWasExhausted)
+            if (this.m_StreamWasExhausted)
             {
                 return false;
             }
 
-            this.MProcessedSize += this.MPos;
-            int ANumProcessedBytes = this.MStream.Read(this.MBuffer, 0, (int)this.MBufferSize);
-            this.MPos = 0;
-            this.MLimit = (uint)ANumProcessedBytes;
-            this.MStreamWasExhausted = ANumProcessedBytes == 0;
-            return !this.MStreamWasExhausted;
+            this.m_ProcessedSize += this.m_Pos;
+            int aNumProcessedBytes = this.m_Stream.Read(this.m_Buffer, 0, (int)this.m_BufferSize);
+            this.m_Pos = 0;
+            this.m_Limit = (uint)aNumProcessedBytes;
+            this.m_StreamWasExhausted = aNumProcessedBytes == 0;
+            return !this.m_StreamWasExhausted;
         }
 
-        public bool ReadByte(byte B)
+        public bool ReadByte(byte b)
         {
             // check it
-            if (this.MPos >= this.MLimit)
+            if (this.m_Pos >= this.m_Limit)
             {
                 if (!this.ReadBlock())
                 {
@@ -64,14 +64,14 @@ namespace ClashRoyale.Compression.LZMA.Common
                 }
             }
 
-            B = this.MBuffer[this.MPos++];
+            b = this.m_Buffer[this.m_Pos++];
             return true;
         }
 
         public byte ReadByte()
         {
             // return (byte)m_Stream.ReadByte();
-            if (this.MPos >= this.MLimit)
+            if (this.m_Pos >= this.m_Limit)
             {
                 if (!this.ReadBlock())
                 {
@@ -79,13 +79,13 @@ namespace ClashRoyale.Compression.LZMA.Common
                 }
             }
 
-            return this.MBuffer[this.MPos++];
+            return this.m_Buffer[this.m_Pos++];
         }
 
         public void ReleaseStream()
         {
             // m_Stream.Close();
-            this.MStream = null;
+            this.m_Stream = null;
         }
     }
 }

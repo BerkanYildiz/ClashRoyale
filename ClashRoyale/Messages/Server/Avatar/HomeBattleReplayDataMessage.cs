@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Avatar
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
 
     public class HomeBattleReplayDataMessage : Message
     {
@@ -31,6 +32,23 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeBattleReplayDataMessage"/> class.
         /// </summary>
+        public HomeBattleReplayDataMessage()
+        {
+            // HomeBattleReplayDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeBattleReplayDataMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public HomeBattleReplayDataMessage(ByteStream Stream) : base(Stream)
+        {
+            // HomeBattleReplayDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeBattleReplayDataMessage"/> class.
+        /// </summary>
         /// <param name="CompressedReplayData">The compressed replay data.</param>
         public HomeBattleReplayDataMessage(byte[] CompressedReplayData)
         {
@@ -42,7 +60,8 @@
         /// </summary>
         public override void Decode()
         {
-            // TODO : Decode.
+            int Length = this.Stream.ReadVInt();
+            this.CompressedReplayDataJson = this.Stream.ReadBytes();
         }
 
         /// <summary>

@@ -32,10 +32,10 @@
 
             if (Leaderboard != null)
             {
-                Device.NetworkManager.SendMessage(new AvatarLocaleRankingListMessage()
+                Device.NetworkManager.SendMessage(new AvatarLocalRankingListMessage()
                 {
-                    AvatarRankingList = Leaderboard.Players.ToArray(),
-                    PreviousSeasonTopPlayers = Leaderboard.LastSeason.ToArray()
+                    Entries = Leaderboard.Players.ToArray(),
+                    LastSeasonEntries = Leaderboard.LastSeason.ToArray()
                 });
             }
             else

@@ -31,7 +31,9 @@ namespace ClashRoyale.Compression.ZLib
     public class DeflateStream : Stream
     {
         internal ZlibBaseStream _baseStream;
+
         internal Stream _innerStream;
+
         private bool _disposed;
 
         /// <summary>
@@ -80,7 +82,8 @@ namespace ClashRoyale.Compression.ZLib
         /// </example>
         /// <param name="stream">The stream which will be read or written.</param>
         /// <param name="mode">Indicates whether the DeflateStream will compress or decompress.</param>
-        public DeflateStream(Stream stream, CompressionMode mode) : this(stream, mode, CompressionLevel.Default, false)
+        public DeflateStream(Stream stream, CompressionMode mode)
+            : this(stream, mode, CompressionLevel.Default, false)
         {
         }
 
@@ -137,7 +140,8 @@ namespace ClashRoyale.Compression.ZLib
         /// <param name="stream">The stream to be read or written while deflating or inflating.</param>
         /// <param name="mode">Indicates whether the <c>DeflateStream</c> will compress or decompress.</param>
         /// <param name="level">A tuning knob to trade speed for effectiveness.</param>
-        public DeflateStream(Stream stream, CompressionMode mode, CompressionLevel level) : this(stream, mode, level, false)
+        public DeflateStream(Stream stream, CompressionMode mode, CompressionLevel level)
+            : this(stream, mode, level, false)
         {
         }
 
@@ -166,7 +170,8 @@ namespace ClashRoyale.Compression.ZLib
         /// <param name="leaveOpen">
         /// true if the application would like the stream to remain open after inflation/deflation.
         /// </param>
-        public DeflateStream(Stream stream, CompressionMode mode, bool leaveOpen) : this(stream, mode, CompressionLevel.Default, leaveOpen)
+        public DeflateStream(Stream stream, CompressionMode mode, bool leaveOpen)
+            : this(stream, mode, CompressionLevel.Default, leaveOpen)
         {
         }
 
@@ -438,7 +443,6 @@ namespace ClashRoyale.Compression.ZLib
             using (MemoryStream ms = new MemoryStream())
             {
                 Stream compressor = new DeflateStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
-
                 ZlibBaseStream.CompressBuffer(b, compressor);
                 return ms.ToArray();
             }
@@ -482,7 +486,6 @@ namespace ClashRoyale.Compression.ZLib
             using (MemoryStream input = new MemoryStream(compressed))
             {
                 Stream decompressor = new DeflateStream(input, CompressionMode.Decompress);
-
                 return ZlibBaseStream.UncompressBuffer(compressed, decompressor);
             }
         }
@@ -501,7 +504,6 @@ namespace ClashRoyale.Compression.ZLib
             using (MemoryStream input = new MemoryStream(compressed))
             {
                 Stream decompressor = new DeflateStream(input, CompressionMode.Decompress);
-
                 return ZlibBaseStream.UncompressString(compressed, decompressor);
             }
         }

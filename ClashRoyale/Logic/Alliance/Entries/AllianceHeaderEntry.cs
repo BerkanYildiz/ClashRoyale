@@ -19,13 +19,13 @@
         [JsonProperty("name")]          public string Name;
 
         [JsonProperty("type")] 			public int Type;
-        [JsonProperty("required_score")]public int RequiredScore;
+        [JsonProperty("requiredScore")] public int RequiredScore;
 
         [JsonProperty("region")]        public RegionData Region;
         [JsonProperty("locale")]        public LocaleData Locale;
         [JsonProperty("badge")]         public AllianceBadgeData Badge;
 
-        [JsonProperty("members")]       public int NumberOfMembers
+        [JsonProperty("members")]       public int MembersCount
         {
             get
             {
@@ -78,22 +78,60 @@
         /// </summary>
         public AllianceHeaderEntry(Clan Clan)
         {
-            this.Clan   = Clan;
-            this.HighId 	= Clan.HighId;
-            this.LowId 	    = Clan.LowId;
+            this.Clan           = Clan;
+            this.HighId 	    = Clan.HighId;
+            this.LowId 	        = Clan.LowId;
         }
 
         /// <summary>
-        /// Encodes this instance.
+        /// Decodes from the specified stream.
         /// </summary>
-        public void Encode(ByteStream Stream)
+        /// <param name="Stream">The stream.</param>
+        public void Decode(ByteStream Stream)
+        {
+            this.HighId         = Stream.ReadInt();
+            this.LowId          = Stream.ReadInt();
+
+            this.Name           = Stream.ReadString();
+            this.Badge          = Stream.DecodeData<AllianceBadgeData>();
+
+            this.Type           = Stream.ReadVInt();
+            // this.MembersCount   = Stream.ReadVInt();
+            // this.Score          = Stream.ReadVInt();
+            this.RequiredScore  = Stream.ReadVInt();
+
+            Stream.ReadVInt();
+            Stream.ReadVInt();
+            Stream.ReadVInt();
+            Stream.ReadVInt();
+
+            // this.Donations      = Stream.ReadVInt();
+
+            Stream.ReadVInt();
+
+            this.Locale         = Stream.DecodeData<LocaleData>();
+            this.Region         = Stream.DecodeData<RegionData>();
+
+            bool Event          = Stream.ReadBoolean();
+
+            if (Event)
+            {
+                // TODO : Decode the clan event.
+            }
+        }
+
+        /// <summary>
+        /// Encodes in the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public void Encode(ChecksumEncoder Stream)
         {
             Stream.WriteLong(this.Clan.AllianceId);
             Stream.WriteString(this.Name);
             Stream.EncodeData(this.Badge);
 
             Stream.WriteVInt(this.Type);
-            Stream.WriteVInt(this.NumberOfMembers);
+            Stream.WriteVInt(this.MembersCount);
             Stream.WriteVInt(this.Score);
             Stream.WriteVInt(this.RequiredScore);
 
@@ -108,6 +146,11 @@
             Stream.EncodeData(this.Region);
 
             Stream.WriteBoolean(false);
+
+            if (false)
+            {
+                // TODO : Encode the clan event.
+            }
         }
 
         /// <summary>
@@ -115,7 +158,7 @@
         /// </summary>
         public void SetAlliance(Clan Clan)
         {
-            this.Clan   = Clan;
+            this.Clan       = Clan;
             this.HighId     = Clan.HighId;
             this.LowId      = Clan.LowId;
         }

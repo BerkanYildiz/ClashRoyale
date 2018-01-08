@@ -47,6 +47,15 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="AvatarNameChangeFailedMessage"/> class.
+        /// </summary>
+        /// <param name="ErrorCode">The error code.</param>
+        public AvatarNameChangeFailedMessage(int ErrorCode)
+        {
+            this.ErrorCode = ErrorCode;
+        }
+
+        /// <summary>
         /// Decodes this instance.
         /// </summary>
         public override void Decode()

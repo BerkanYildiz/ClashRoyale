@@ -5,26 +5,32 @@ namespace ClashRoyale.Compression.ZLib
     internal enum BlockState
     {
         NeedMore = 0, // block not completed, need more input or more output
+
         BlockDone, // block flush performed
+
         FinishStarted, // finish started, need only more output at next deflate
+
         FinishDone // finish done, accept no more input or output
     }
 
     internal enum DeflateFlavor
     {
         Store,
+
         Fast,
+
         Slow
     }
 
     internal sealed class DeflateManager
     {
         private static readonly int MEM_LEVEL_MAX = 9;
+
         private static readonly int MEM_LEVEL_DEFAULT = 8;
 
         internal delegate BlockState CompressFunc(FlushType flush);
 
-        public class Config
+        internal class Config
         {
             private static readonly Config[] Table;
 
@@ -47,9 +53,9 @@ namespace ClashRoyale.Compression.ZLib
             static Config()
             {
                 Config.Table = new[]
-                {
-                    new Config(0, 0, 0, 0, DeflateFlavor.Store), new Config(4, 4, 8, 4, DeflateFlavor.Fast), new Config(4, 5, 16, 8, DeflateFlavor.Fast), new Config(4, 6, 32, 32, DeflateFlavor.Fast), new Config(4, 4, 16, 16, DeflateFlavor.Slow), new Config(8, 16, 32, 32, DeflateFlavor.Slow), new Config(8, 16, 128, 128, DeflateFlavor.Slow), new Config(8, 32, 128, 256, DeflateFlavor.Slow), new Config(32, 128, 258, 1024, DeflateFlavor.Slow), new Config(32, 258, 258, 4096, DeflateFlavor.Slow)
-                };
+                                   {
+                                       new Config(0, 0, 0, 0, DeflateFlavor.Store), new Config(4, 4, 8, 4, DeflateFlavor.Fast), new Config(4, 5, 16, 8, DeflateFlavor.Fast), new Config(4, 6, 32, 32, DeflateFlavor.Fast), new Config(4, 4, 16, 16, DeflateFlavor.Slow), new Config(8, 16, 32, 32, DeflateFlavor.Slow), new Config(8, 16, 128, 128, DeflateFlavor.Slow), new Config(8, 32, 128, 256, DeflateFlavor.Slow), new Config(32, 128, 258, 1024, DeflateFlavor.Slow), new Config(32, 258, 258, 4096, DeflateFlavor.Slow)
+                                   };
             }
 
             private Config(int goodLength, int maxLazy, int niceLength, int maxChainLength, DeflateFlavor flavor)
@@ -63,40 +69,46 @@ namespace ClashRoyale.Compression.ZLib
 
             public static Config Lookup(CompressionLevel level)
             {
-                return Config.Table[(int) level];
+                return Config.Table[(int)level];
             }
         }
 
         private CompressFunc DeflateFunction;
 
         private static readonly string[] _ErrorMessage =
-        {
-            "need dictionary", "stream end", string.Empty, "file error", "stream error", "data error", "insufficient memory", "buffer error", "incompatible version", string.Empty
-        };
+            {
+                "need dictionary", "stream end", string.Empty, "file error", "stream error", "data error", "insufficient memory", "buffer error", "incompatible version", string.Empty
+            };
 
         // preset dictionary flag in zlib header
         private static readonly int PRESET_DICT = 0x20;
 
         private static readonly int INIT_STATE = 42;
+
         private static readonly int BUSY_STATE = 113;
+
         private static readonly int FINISH_STATE = 666;
 
         // The deflate compression method
         private static readonly int Z_DEFLATED = 8;
 
         private static readonly int STORED_BLOCK = 0;
+
         private static readonly int STATIC_TREES = 1;
+
         private static readonly int DYN_TREES = 2;
 
         // The three kinds of block type
         private static readonly int Z_BINARY = 0;
 
         private static readonly int Z_ASCII = 1;
+
         private static readonly int Z_UNKNOWN = 2;
 
         private static readonly int Buf_size = 8 * 2;
 
         private static readonly int MIN_MATCH = 3;
+
         private static readonly int MAX_MATCH = 258;
 
         private static readonly int MIN_LOOKAHEAD = DeflateManager.MAX_MATCH + DeflateManager.MIN_MATCH + 1;
@@ -106,16 +118,23 @@ namespace ClashRoyale.Compression.ZLib
         private static readonly int END_BLOCK = 256;
 
         internal ZlibCodec _codec; // the zlib encoder/decoder
+
         internal int status; // as the name implies
+
         internal byte[] pending; // output still pending - waiting to be compressed
+
         internal int nextPending; // index of next pending byte to output to the stream
+
         internal int pendingCount; // number of bytes in the pending buffer
 
         internal sbyte data_type; // UNKNOWN, BINARY or ASCII
+
         internal int last_flush; // value of flush param for previous deflate call
 
         internal int w_size; // LZ77 window size (32K by default)
+
         internal int w_bits; // log2(w_size)  (8..16)
+
         internal int w_mask; // w_size - 1
 
         // internal byte[] dictionary;
@@ -138,8 +157,11 @@ namespace ClashRoyale.Compression.ZLib
         internal short[] head; // Heads of the hash chains or NIL.
 
         internal int ins_h; // hash index of string to be inserted
+
         internal int hash_size; // number of elements in hash table
+
         internal int hash_bits; // log2(hash_size)
+
         internal int hash_mask; // hash_size-1
 
         // Number of bits by which ins_h must be shifted at each input step. It must be such that
@@ -152,11 +174,17 @@ namespace ClashRoyale.Compression.ZLib
         internal int block_start;
 
         private Config config;
+
         internal int match_length; // length of best match
+
         internal int prev_match; // previous match
+
         internal int match_available; // set if previous match exists
+
         internal int strstart; // start of string to insert into.....????
+
         internal int match_start; // start of matching string
+
         internal int lookahead; // number of valid bytes ahead in window
 
         // Length of the best match at previous step. Matches not greater than this are discarded.
@@ -171,11 +199,15 @@ namespace ClashRoyale.Compression.ZLib
         internal CompressionStrategy compressionStrategy; // favor or force Huffman coding
 
         internal short[] dyn_ltree; // literal and length tree
+
         internal short[] dyn_dtree; // distance tree
+
         internal short[] bl_tree; // Huffman tree for bit lengths
 
         internal Tree treeLiterals = new Tree(); // desc for literal tree
+
         internal Tree treeDistances = new Tree(); // desc for distance tree
+
         internal Tree treeBitLengths = new Tree(); // desc for bit length tree
 
         // number of codes at each bit length for an optimal tree
@@ -185,6 +217,7 @@ namespace ClashRoyale.Compression.ZLib
         internal int[] heap = new int[2 * InternalConstants.L_CODES + 1];
 
         internal int heap_len; // number of elements in the heap
+
         internal int heap_max; // element of largest frequency
 
         // The sons of heap[n] are heap[2*n] and heap[2*n+1]. heap[0] is not used. The same heap
@@ -216,8 +249,11 @@ namespace ClashRoyale.Compression.ZLib
         internal int _distanceOffset; // index into pending; points to distance data??
 
         internal int opt_len; // bit length of current block with optimal trees
+
         internal int static_len; // bit length of current block with static trees
+
         internal int matches; // number of string matches in current block
+
         internal int last_eob_len; // bit length of EOB code for last block
 
         // Output buffer. bits are inserted starting at the bottom (least significant bits).
@@ -244,7 +280,6 @@ namespace ClashRoyale.Compression.ZLib
             // for (int i = 0; i < hash_size; i++) head[i] = 0;
             this.config = Config.Lookup(this.compressionLevel);
             this.SetDeflater();
-
             this.strstart = 0;
             this.block_start = 0;
             this.lookahead = 0;
@@ -258,13 +293,10 @@ namespace ClashRoyale.Compression.ZLib
         {
             this.treeLiterals.dyn_tree = this.dyn_ltree;
             this.treeLiterals.staticTree = StaticTree.Literals;
-
             this.treeDistances.dyn_tree = this.dyn_dtree;
             this.treeDistances.staticTree = StaticTree.Distances;
-
             this.treeBitLengths.dyn_tree = this.bl_tree;
             this.treeBitLengths.staticTree = StaticTree.BitLengths;
-
             this.bi_buf = 0;
             this.bi_valid = 0;
             this.last_eob_len = 8; // enough lookahead for inflate
@@ -346,7 +378,6 @@ namespace ClashRoyale.Compression.ZLib
             int count = 0; // repeat count of the current code
             int max_count = 7; // max repeat count
             int min_count = 4; // min repeat count
-
             if (nextlen == 0)
             {
                 max_count = 138;
@@ -354,7 +385,6 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             tree[(max_code + 1) * 2 + 1] = 0x7fff; // guard //??
-
             for (n = 0; n <= max_code; n++)
             {
                 curlen = nextlen;
@@ -366,7 +396,7 @@ namespace ClashRoyale.Compression.ZLib
 
                 if (count < min_count)
                 {
-                    this.bl_tree[curlen * 2] = (short) (this.bl_tree[curlen * 2] + count);
+                    this.bl_tree[curlen * 2] = (short)(this.bl_tree[curlen * 2] + count);
                 }
                 else if (curlen != 0)
                 {
@@ -434,7 +464,6 @@ namespace ClashRoyale.Compression.ZLib
 
             // Update opt_len to include the bit length tree and counts
             this.opt_len += 3 * (max_blindex + 1) + 5 + 5 + 4;
-
             return max_blindex;
         }
 
@@ -444,7 +473,6 @@ namespace ClashRoyale.Compression.ZLib
         internal void send_all_trees(int lcodes, int dcodes, int blcodes)
         {
             int rank; // index in bl_order
-
             this.send_bits(lcodes - 257, 5); // not +255 as stated in appnote.txt
             this.send_bits(dcodes - 1, 5);
             this.send_bits(blcodes - 4, 4); // not -3 as stated in appnote.txt
@@ -467,7 +495,6 @@ namespace ClashRoyale.Compression.ZLib
             int count = 0; // repeat count of the current code
             int max_count = 7; // max repeat count
             int min_count = 4; // min repeat count
-
             if (nextlen == 0)
             {
                 max_count = 138;
@@ -577,19 +604,18 @@ namespace ClashRoyale.Compression.ZLib
                 if (this.bi_valid > DeflateManager.Buf_size - len)
                 {
                     // int val = value; bi_buf |= (val << bi_valid);
-                    this.bi_buf |= (short) ((value << this.bi_valid) & 0xffff);
+                    this.bi_buf |= (short)((value << this.bi_valid) & 0xffff);
 
                     // put_short(bi_buf);
-                    this.pending[this.pendingCount++] = (byte) this.bi_buf;
-                    this.pending[this.pendingCount++] = (byte) (this.bi_buf >> 8);
-
-                    this.bi_buf = (short) ((uint) value >> (DeflateManager.Buf_size - this.bi_valid));
+                    this.pending[this.pendingCount++] = (byte)this.bi_buf;
+                    this.pending[this.pendingCount++] = (byte)(this.bi_buf >> 8);
+                    this.bi_buf = (short)((uint)value >> (DeflateManager.Buf_size - this.bi_valid));
                     this.bi_valid += len - DeflateManager.Buf_size;
                 }
                 else
                 {
                     // bi_buf |= (value) << bi_valid;
-                    this.bi_buf |= (short) ((value << this.bi_valid) & 0xffff);
+                    this.bi_buf |= (short)((value << this.bi_valid) & 0xffff);
                     this.bi_valid += len;
                 }
             }
@@ -606,7 +632,6 @@ namespace ClashRoyale.Compression.ZLib
         {
             this.send_bits(DeflateManager.STATIC_TREES << 1, 3);
             this.send_code(DeflateManager.END_BLOCK, StaticTree.lengthAndLiteralsTreeCodes);
-
             this.bi_flush();
 
             // Of the 10 bits for the empty block, we have already sent (10 - bi_valid) bits. The
@@ -626,11 +651,10 @@ namespace ClashRoyale.Compression.ZLib
         // be flushed.
         internal bool _tr_tally(int dist, int lc)
         {
-            this.pending[this._distanceOffset + this.last_lit * 2] = unchecked((byte) ((uint) dist >> 8));
-            this.pending[this._distanceOffset + this.last_lit * 2 + 1] = unchecked((byte) dist);
-            this.pending[this._lengthOffset + this.last_lit] = unchecked((byte) lc);
+            this.pending[this._distanceOffset + this.last_lit * 2] = unchecked((byte)((uint)dist >> 8));
+            this.pending[this._distanceOffset + this.last_lit * 2 + 1] = unchecked((byte)dist);
+            this.pending[this._lengthOffset + this.last_lit] = unchecked((byte)lc);
             this.last_lit++;
-
             if (dist == 0)
             {
                 // lc is the unmatched char
@@ -646,7 +670,7 @@ namespace ClashRoyale.Compression.ZLib
                 this.dyn_dtree[Tree.DistanceCode(dist) * 2]++;
             }
 
-            if ((this.last_lit & 0x1fff) == 0 && (int) this.compressionLevel > 2)
+            if ((this.last_lit & 0x1fff) == 0 && (int)this.compressionLevel > 2)
             {
                 // Compute an upper bound for the compressed length
                 int out_length = this.last_lit << 3;
@@ -654,7 +678,7 @@ namespace ClashRoyale.Compression.ZLib
                 int dcode;
                 for (dcode = 0; dcode < InternalConstants.D_CODES; dcode++)
                 {
-                    out_length = (int) (out_length + this.dyn_dtree[dcode * 2] * (5L + Tree.ExtraDistanceBits[dcode]));
+                    out_length = (int)(out_length + this.dyn_dtree[dcode * 2] * (5L + Tree.ExtraDistanceBits[dcode]));
                 }
 
                 out_length >>= 3;
@@ -678,7 +702,6 @@ namespace ClashRoyale.Compression.ZLib
             int lx = 0; // running index in l_buf
             int code; // the code to send
             int extra; // number of extra bits to send
-
             if (this.last_lit != 0)
             {
                 do
@@ -687,7 +710,6 @@ namespace ClashRoyale.Compression.ZLib
                     distance = ((this.pending[ix] << 8) & 0xff00) | (this.pending[ix + 1] & 0xff);
                     lc = this.pending[this._lengthOffset + lx] & 0xff;
                     lx++;
-
                     if (distance == 0)
                     {
                         this.send_code(lc, ltree); // send a literal byte
@@ -712,7 +734,6 @@ namespace ClashRoyale.Compression.ZLib
 
                         // send the distance code
                         this.send_code(code, dtree);
-
                         extra = Tree.ExtraDistanceBits[code];
                         if (extra != 0)
                         {
@@ -758,7 +779,7 @@ namespace ClashRoyale.Compression.ZLib
                 n++;
             }
 
-            this.data_type = (sbyte) (bin_freq > ascii_freq >> 2 ? DeflateManager.Z_BINARY : DeflateManager.Z_ASCII);
+            this.data_type = (sbyte)(bin_freq > ascii_freq >> 2 ? DeflateManager.Z_BINARY : DeflateManager.Z_ASCII);
         }
 
         // Flush the bit buffer, keeping at most 7 bits in it.
@@ -766,15 +787,15 @@ namespace ClashRoyale.Compression.ZLib
         {
             if (this.bi_valid == 16)
             {
-                this.pending[this.pendingCount++] = (byte) this.bi_buf;
-                this.pending[this.pendingCount++] = (byte) (this.bi_buf >> 8);
+                this.pending[this.pendingCount++] = (byte)this.bi_buf;
+                this.pending[this.pendingCount++] = (byte)(this.bi_buf >> 8);
                 this.bi_buf = 0;
                 this.bi_valid = 0;
             }
             else if (this.bi_valid >= 8)
             {
                 // put_byte((byte)bi_buf);
-                this.pending[this.pendingCount++] = (byte) this.bi_buf;
+                this.pending[this.pendingCount++] = (byte)this.bi_buf;
                 this.bi_buf >>= 8;
                 this.bi_valid -= 8;
             }
@@ -785,13 +806,13 @@ namespace ClashRoyale.Compression.ZLib
         {
             if (this.bi_valid > 8)
             {
-                this.pending[this.pendingCount++] = (byte) this.bi_buf;
-                this.pending[this.pendingCount++] = (byte) (this.bi_buf >> 8);
+                this.pending[this.pendingCount++] = (byte)this.bi_buf;
+                this.pending[this.pendingCount++] = (byte)(this.bi_buf >> 8);
             }
             else if (this.bi_valid > 0)
             {
                 // put_byte((byte)bi_buf);
-                this.pending[this.pendingCount++] = (byte) this.bi_buf;
+                this.pending[this.pendingCount++] = (byte)this.bi_buf;
             }
 
             this.bi_buf = 0;
@@ -803,18 +824,17 @@ namespace ClashRoyale.Compression.ZLib
         {
             this.bi_windup(); // align on byte boundary
             this.last_eob_len = 8; // enough lookahead for inflate
-
             if (header)
             {
                 unchecked
                 {
                     // put_short((short)len);
-                    this.pending[this.pendingCount++] = (byte) len;
-                    this.pending[this.pendingCount++] = (byte) (len >> 8);
+                    this.pending[this.pendingCount++] = (byte)len;
+                    this.pending[this.pendingCount++] = (byte)(len >> 8);
 
                     // put_short((short)~len);
-                    this.pending[this.pendingCount++] = (byte) ~len;
-                    this.pending[this.pendingCount++] = (byte) (~len >> 8);
+                    this.pending[this.pendingCount++] = (byte)~len;
+                    this.pending[this.pendingCount++] = (byte)(~len >> 8);
                 }
             }
 
@@ -839,7 +859,6 @@ namespace ClashRoyale.Compression.ZLib
             // each stored block has a 5 byte header:
             int max_block_size = 0xffff;
             int max_start;
-
             if (max_block_size > this.pending.Length - 5)
             {
                 max_block_size = this.pending.Length - 5;
@@ -873,7 +892,6 @@ namespace ClashRoyale.Compression.ZLib
                     // strstart == 0 is possible when wraparound on 16-bit machine
                     this.lookahead = this.strstart - max_start;
                     this.strstart = max_start;
-
                     this.flush_block_only(false);
                     if (this._codec.AvailableBytesOut == 0)
                     {
@@ -927,7 +945,6 @@ namespace ClashRoyale.Compression.ZLib
 
                 // Construct the literal and distance trees
                 this.treeLiterals.build_tree(this);
-
                 this.treeDistances.build_tree(this);
 
                 // At this point, opt_len and static_len are the total bit lengths of the compressed
@@ -940,7 +957,6 @@ namespace ClashRoyale.Compression.ZLib
                 // Determine the best encoding. Compute first the block length in bytes
                 opt_lenb = (this.opt_len + 3 + 7) >> 3;
                 static_lenb = (this.static_len + 3 + 7) >> 3;
-
                 if (static_lenb <= opt_lenb)
                 {
                     opt_lenb = static_lenb;
@@ -974,7 +990,6 @@ namespace ClashRoyale.Compression.ZLib
             // The above check is made mod 2^32, for files larger than 512 MB and uLong implemented
             // on 32 bits.
             this._InitializeBlocks();
-
             if (eof)
             {
                 this.bi_windup();
@@ -991,7 +1006,6 @@ namespace ClashRoyale.Compression.ZLib
             int n, m;
             int p;
             int more; // Amount of free space at the end of the window.
-
             do
             {
                 more = this.window_size - this.lookahead - this.strstart;
@@ -1026,7 +1040,7 @@ namespace ClashRoyale.Compression.ZLib
                     do
                     {
                         m = this.head[--p] & 0xffff;
-                        this.head[p] = (short) (m >= this.w_size ? m - this.w_size : 0);
+                        this.head[p] = (short)(m >= this.w_size ? m - this.w_size : 0);
                     }
                     while (--n != 0);
 
@@ -1035,12 +1049,13 @@ namespace ClashRoyale.Compression.ZLib
                     do
                     {
                         m = this.prev[--p] & 0xffff;
-                        this.prev[p] = (short) (m >= this.w_size ? m - this.w_size : 0);
+                        this.prev[p] = (short)(m >= this.w_size ? m - this.w_size : 0);
 
                         // If n is not on any hash chain, prev[n] is garbage but its value will never
                         // be used.
                     }
                     while (--n != 0);
+
                     more += this.w_size;
                 }
 
@@ -1081,7 +1096,6 @@ namespace ClashRoyale.Compression.ZLib
             // short hash_head = 0; // head of the hash chain
             int hash_head = 0; // head of the hash chain
             bool bflush; // set if current block must be flushed
-
             while (true)
             {
                 // Make sure that we always have enough lookahead, except at the end of the input
@@ -1110,7 +1124,7 @@ namespace ClashRoyale.Compression.ZLib
                     // prev[strstart&w_mask]=hash_head=head[ins_h];
                     hash_head = this.head[this.ins_h] & 0xffff;
                     this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
-                    this.head[this.ins_h] = unchecked((short) this.strstart);
+                    this.head[this.ins_h] = unchecked((short)this.strstart);
                 }
 
                 // Find the longest match, discarding those <= prev_length. At this point we have
@@ -1132,7 +1146,6 @@ namespace ClashRoyale.Compression.ZLib
                 {
                     // check_match(strstart, match_start, match_length);
                     bflush = this._tr_tally(this.strstart - this.match_start, this.match_length - DeflateManager.MIN_MATCH);
-
                     this.lookahead -= this.match_length;
 
                     // Insert new strings in the hash table only if the match length is not too
@@ -1143,18 +1156,18 @@ namespace ClashRoyale.Compression.ZLib
                         do
                         {
                             this.strstart++;
-
                             this.ins_h = ((this.ins_h << this.hash_shift) ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 0xff)) & this.hash_mask;
 
                             // prev[strstart&w_mask]=hash_head=head[ins_h];
                             hash_head = this.head[this.ins_h] & 0xffff;
                             this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
-                            this.head[this.ins_h] = unchecked((short) this.strstart);
+                            this.head[this.ins_h] = unchecked((short)this.strstart);
 
                             // strstart never exceeds WSIZE-MAX_MATCH, so there are always MIN_MATCH
                             // bytes ahead.
                         }
                         while (--this.match_length != 0);
+
                         this.strstart++;
                     }
                     else
@@ -1162,7 +1175,6 @@ namespace ClashRoyale.Compression.ZLib
                         this.strstart += this.match_length;
                         this.match_length = 0;
                         this.ins_h = this.window[this.strstart] & 0xff;
-
                         this.ins_h = ((this.ins_h << this.hash_shift) ^ (this.window[this.strstart + 1] & 0xff)) & this.hash_mask;
 
                         // If lookahead < MIN_MATCH, ins_h is garbage, but it does not matter since
@@ -1238,14 +1250,13 @@ namespace ClashRoyale.Compression.ZLib
                     // prev[strstart&w_mask]=hash_head=head[ins_h];
                     hash_head = this.head[this.ins_h] & 0xffff;
                     this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
-                    this.head[this.ins_h] = unchecked((short) this.strstart);
+                    this.head[this.ins_h] = unchecked((short)this.strstart);
                 }
 
                 // Find the longest match, discarding those <= prev_length.
                 this.prev_length = this.match_length;
                 this.prev_match = this.match_start;
                 this.match_length = DeflateManager.MIN_MATCH - 1;
-
                 if (hash_head != 0 && this.prev_length < this.config.MaxLazy && ((this.strstart - hash_head) & 0xffff) <= this.w_size - DeflateManager.MIN_LOOKAHEAD)
                 {
                     // To simplify the code, we prevent matches with the string of window index 0 (in
@@ -1290,14 +1301,14 @@ namespace ClashRoyale.Compression.ZLib
                             // prev[strstart&w_mask]=hash_head=head[ins_h];
                             hash_head = this.head[this.ins_h] & 0xffff;
                             this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
-                            this.head[this.ins_h] = unchecked((short) this.strstart);
+                            this.head[this.ins_h] = unchecked((short)this.strstart);
                         }
                     }
                     while (--this.prev_length != 0);
+
                     this.match_available = 0;
                     this.match_length = DeflateManager.MIN_MATCH - 1;
                     this.strstart++;
-
                     if (bflush)
                     {
                         this.flush_block_only(false);
@@ -1313,7 +1324,6 @@ namespace ClashRoyale.Compression.ZLib
                     // there was a match but the current match is longer, truncate the previous match
                     // to a single literal.
                     bflush = this._tr_tally(0, this.window[this.strstart - 1] & 0xff);
-
                     if (bflush)
                     {
                         this.flush_block_only(false);
@@ -1342,7 +1352,6 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             this.flush_block_only(flush == FlushType.Finish);
-
             if (this._codec.AvailableBytesOut == 0)
             {
                 if (flush == FlushType.Finish)
@@ -1364,13 +1373,11 @@ namespace ClashRoyale.Compression.ZLib
             int len; // length of current match
             int best_len = this.prev_length; // best match length so far
             int limit = this.strstart > this.w_size - DeflateManager.MIN_LOOKAHEAD ? this.strstart - (this.w_size - DeflateManager.MIN_LOOKAHEAD) : 0;
-
             int niceLength = this.config.NiceLength;
 
             // Stop when cur_match becomes <= limit. To simplify the code, we prevent matches with
             // the string of window index 0.
             int wmask = this.w_mask;
-
             int strend = this.strstart + DeflateManager.MAX_MATCH;
             byte scan_end1 = this.window[scan + best_len - 1];
             byte scan_end = this.window[scan + best_len];
@@ -1389,7 +1396,6 @@ namespace ClashRoyale.Compression.ZLib
             {
                 niceLength = this.lookahead;
             }
-
             do
             {
                 match = cur_match;
@@ -1417,7 +1423,6 @@ namespace ClashRoyale.Compression.ZLib
 
                 len = DeflateManager.MAX_MATCH - (strend - scan);
                 scan = strend - DeflateManager.MAX_MATCH;
-
                 if (len > best_len)
                 {
                     this.match_start = cur_match;
@@ -1481,16 +1486,13 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             this._codec.dstate = this;
-
             this.w_bits = windowBits;
             this.w_size = 1 << this.w_bits;
             this.w_mask = this.w_size - 1;
-
             this.hash_bits = memLevel + 7;
             this.hash_size = 1 << this.hash_bits;
             this.hash_mask = this.hash_size - 1;
             this.hash_shift = (this.hash_bits + DeflateManager.MIN_MATCH - 1) / DeflateManager.MIN_MATCH;
-
             this.window = new byte[this.w_size * 2];
             this.prev = new short[this.w_size];
             this.head = new short[this.hash_size];
@@ -1510,7 +1512,6 @@ namespace ClashRoyale.Compression.ZLib
             // length codes.
             this.compressionLevel = level;
             this.compressionStrategy = strategy;
-
             this.Reset();
             return ZlibConstants.Z_OK;
         }
@@ -1523,14 +1524,10 @@ namespace ClashRoyale.Compression.ZLib
             // strm.data_type = Z_UNKNOWN;
             this.pendingCount = 0;
             this.nextPending = 0;
-
             this.Rfc1950BytesEmitted = false;
-
             this.status = this.WantRfc1950HeaderBytes ? DeflateManager.INIT_STATE : DeflateManager.BUSY_STATE;
             this._codec._Adler32 = Adler.Adler32(0, null, 0, 0);
-
-            this.last_flush = (int) FlushType.None;
-
+            this.last_flush = (int)FlushType.None;
             this._InitializeTreeData();
             this._InitializeLazyMatch();
         }
@@ -1559,11 +1556,9 @@ namespace ClashRoyale.Compression.ZLib
                 case DeflateFlavor.Store:
                     this.DeflateFunction = this.DeflateNone;
                     break;
-
                 case DeflateFlavor.Fast:
                     this.DeflateFunction = this.DeflateFast;
                     break;
-
                 case DeflateFlavor.Slow:
                     this.DeflateFunction = this.DeflateSlow;
                     break;
@@ -1573,7 +1568,6 @@ namespace ClashRoyale.Compression.ZLib
         internal int SetParams(CompressionLevel level, CompressionStrategy strategy)
         {
             int result = ZlibConstants.Z_OK;
-
             if (this.compressionLevel != level)
             {
                 Config newConfig = Config.Lookup(level);
@@ -1592,7 +1586,6 @@ namespace ClashRoyale.Compression.ZLib
 
             // no need to flush with change in strategy? Really?
             this.compressionStrategy = strategy;
-
             return result;
         }
 
@@ -1600,14 +1593,12 @@ namespace ClashRoyale.Compression.ZLib
         {
             int length = dictionary.Length;
             int index = 0;
-
             if (dictionary == null || this.status != DeflateManager.INIT_STATE)
             {
                 throw new ZlibException("Stream error.");
             }
 
             this._codec._Adler32 = Adler.Adler32(this._codec._Adler32, dictionary, 0, dictionary.Length);
-
             if (length < DeflateManager.MIN_MATCH)
             {
                 return ZlibConstants.Z_OK;
@@ -1627,12 +1618,11 @@ namespace ClashRoyale.Compression.ZLib
             // stays null, so s->ins_h will be recomputed at the next call of fill_window.
             this.ins_h = this.window[0] & 0xff;
             this.ins_h = ((this.ins_h << this.hash_shift) ^ (this.window[1] & 0xff)) & this.hash_mask;
-
             for (int n = 0; n <= length - DeflateManager.MIN_MATCH; n++)
             {
                 this.ins_h = ((this.ins_h << this.hash_shift) ^ (this.window[n + (DeflateManager.MIN_MATCH - 1)] & 0xff)) & this.hash_mask;
                 this.prev[n & this.w_mask] = this.head[this.ins_h];
-                this.head[this.ins_h] = (short) n;
+                this.head[this.ins_h] = (short)n;
             }
 
             return ZlibConstants.Z_OK;
@@ -1641,7 +1631,6 @@ namespace ClashRoyale.Compression.ZLib
         internal int Deflate(FlushType flush)
         {
             int old_flush;
-
             if (this._codec.OutputBuffer == null || this._codec.InputBuffer == null && this._codec.AvailableBytesIn != 0 || this.status == DeflateManager.FINISH_STATE && flush != FlushType.Finish)
             {
                 this._codec.Message = DeflateManager._ErrorMessage[ZlibConstants.Z_NEED_DICT - ZlibConstants.Z_STREAM_ERROR];
@@ -1655,14 +1644,13 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             old_flush = this.last_flush;
-            this.last_flush = (int) flush;
+            this.last_flush = (int)flush;
 
             // Write the zlib (rfc1950) header bytes
             if (this.status == DeflateManager.INIT_STATE)
             {
                 int header = (DeflateManager.Z_DEFLATED + ((this.w_bits - 8) << 4)) << 8;
-                int level_flags = (((int) this.compressionLevel - 1) & 0xff) >> 1;
-
+                int level_flags = (((int)this.compressionLevel - 1) & 0xff) >> 1;
                 if (level_flags > 3)
                 {
                     level_flags = 3;
@@ -1675,23 +1663,22 @@ namespace ClashRoyale.Compression.ZLib
                 }
 
                 header += 31 - header % 31;
-
                 this.status = DeflateManager.BUSY_STATE;
 
                 // putShortMSB(header);
                 unchecked
                 {
-                    this.pending[this.pendingCount++] = (byte) (header >> 8);
-                    this.pending[this.pendingCount++] = (byte) header;
+                    this.pending[this.pendingCount++] = (byte)(header >> 8);
+                    this.pending[this.pendingCount++] = (byte)header;
                 }
 
                 // Save the adler32 of the preset dictionary:
                 if (this.strstart != 0)
                 {
-                    this.pending[this.pendingCount++] = (byte) ((this._codec._Adler32 & 0xFF000000) >> 24);
-                    this.pending[this.pendingCount++] = (byte) ((this._codec._Adler32 & 0x00FF0000) >> 16);
-                    this.pending[this.pendingCount++] = (byte) ((this._codec._Adler32 & 0x0000FF00) >> 8);
-                    this.pending[this.pendingCount++] = (byte) (this._codec._Adler32 & 0x000000FF);
+                    this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 0xFF000000) >> 24);
+                    this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 0x00FF0000) >> 16);
+                    this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 0x0000FF00) >> 8);
+                    this.pending[this.pendingCount++] = (byte)(this._codec._Adler32 & 0x000000FF);
                 }
 
                 this._codec._Adler32 = Adler.Adler32(0, null, 0, 0);
@@ -1715,7 +1702,7 @@ namespace ClashRoyale.Compression.ZLib
                 // repeated and useless calls with Z_FINISH, we keep returning Z_STREAM_END instead
                 // of Z_BUFF_ERROR.
             }
-            else if (this._codec.AvailableBytesIn == 0 && (int) flush <= old_flush && flush != FlushType.Finish)
+            else if (this._codec.AvailableBytesIn == 0 && (int)flush <= old_flush && flush != FlushType.Finish)
             {
                 // workitem 8557 Not sure why this needs to be an error. pendingCount == 0, which
                 // means there's nothing to deflate. And the caller has not asked for a
@@ -1738,7 +1725,6 @@ namespace ClashRoyale.Compression.ZLib
             if (this._codec.AvailableBytesIn != 0 || this.lookahead != 0 || flush != FlushType.None && this.status != DeflateManager.FINISH_STATE)
             {
                 BlockState bstate = this.DeflateFunction(flush);
-
                 if (bstate == BlockState.FinishStarted || bstate == BlockState.FinishDone)
                 {
                     this.status = DeflateManager.FINISH_STATE;
@@ -1802,10 +1788,10 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             // Write the zlib trailer (adler32)
-            this.pending[this.pendingCount++] = (byte) ((this._codec._Adler32 & 0xFF000000) >> 24);
-            this.pending[this.pendingCount++] = (byte) ((this._codec._Adler32 & 0x00FF0000) >> 16);
-            this.pending[this.pendingCount++] = (byte) ((this._codec._Adler32 & 0x0000FF00) >> 8);
-            this.pending[this.pendingCount++] = (byte) (this._codec._Adler32 & 0x000000FF);
+            this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 0xFF000000) >> 24);
+            this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 0x00FF0000) >> 16);
+            this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 0x0000FF00) >> 8);
+            this.pending[this.pendingCount++] = (byte)(this._codec._Adler32 & 0x000000FF);
 
             // putShortMSB((int)(SharedUtils.URShift(_codec._Adler32, 16)));
             // putShortMSB((int)(_codec._Adler32 & 0xffff));
@@ -1813,7 +1799,6 @@ namespace ClashRoyale.Compression.ZLib
 
             // If avail_out is zero, the application will call deflate again to flush the rest.
             this.Rfc1950BytesEmitted = true; // write the trailer only once!
-
             return this.pendingCount != 0 ? ZlibConstants.Z_OK : ZlibConstants.Z_STREAM_END;
         }
     }

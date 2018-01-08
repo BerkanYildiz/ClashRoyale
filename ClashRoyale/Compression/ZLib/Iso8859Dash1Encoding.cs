@@ -85,15 +85,14 @@ namespace ClashRoyale.Compression.ZLib
             for (int i = 0; i < count; i++)
             {
                 char c = chars[start + i]; // get the unicode char
-
                 if (c >= '\x00FF')
                 {
                     // out of range?
-                    bytes[byteIndex + i] = (byte) '?';
+                    bytes[byteIndex + i] = (byte)'?';
                 }
                 else
                 {
-                    bytes[byteIndex + i] = (byte) c;
+                    bytes[byteIndex + i] = (byte)c;
                 }
             }
 
@@ -160,7 +159,7 @@ namespace ClashRoyale.Compression.ZLib
             // characters; because of that, decoding is trivial.
             for (int i = 0; i < count; i++)
             {
-                chars[charIndex + i] = (char) bytes[i + start];
+                chars[charIndex + i] = (char)bytes[i + start];
             }
 
             return count;

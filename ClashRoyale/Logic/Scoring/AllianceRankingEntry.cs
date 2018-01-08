@@ -39,7 +39,7 @@
 
             this.AllianceRegionData    = Clan.HeaderEntry.Region;
             this.AllianceBadgeData     = Clan.HeaderEntry.Badge;
-            this.NumberOfMembers       = Clan.HeaderEntry.NumberOfMembers;
+            this.NumberOfMembers       = Clan.HeaderEntry.MembersCount;
         }
 
         /// <summary>

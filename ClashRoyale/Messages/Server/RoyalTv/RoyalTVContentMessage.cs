@@ -1,7 +1,5 @@
 namespace ClashRoyale.Messages.Server.RoyalTv
 {
-    using System.Collections.Generic;
-
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
@@ -31,18 +29,33 @@ namespace ClashRoyale.Messages.Server.RoyalTv
             }
         }
 
-        public ArenaData ArenaData;
-        public List<RoyalTvEntry> MostViewedList;
+        public RoyalTvEntry[] Entries;
+        public ArenaData Arena;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RoyalTvContentMessage"/> class.
         /// </summary>
-        /// <param name="RoyalTvEntries">The royal tv entries.</param>
-        /// <param name="ArenaData">The arena data.</param>
-        public RoyalTvContentMessage(List<RoyalTvEntry> RoyalTvEntries, ArenaData ArenaData)
+        /// <param name="Entries">The entries.</param>
+        /// <param name="Arena">The arena.</param>
+        public RoyalTvContentMessage(RoyalTvEntry[] Entries, ArenaData Arena)
         {
-            this.ArenaData      = ArenaData;
-            this.MostViewedList = RoyalTvEntries;
+            this.Arena   = Arena;
+            this.Entries = Entries;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.Entries = new RoyalTvEntry[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.Entries.Length; i++)
+            {
+                RoyalTvEntry Entry = new RoyalTvEntry();
+                Entry.Decode(this.Stream);
+                this.Entries[i] = Entry;
+            }
         }
 
         /// <summary>
@@ -50,21 +63,14 @@ namespace ClashRoyale.Messages.Server.RoyalTv
         /// </summary>
         public override void Encode()
         {
-            if (this.MostViewedList != null)
-            {
-                this.Stream.WriteVInt(this.MostViewedList.Count);
+            this.Stream.WriteVInt(this.Entries.Length);
 
-                this.MostViewedList.ForEach(Viewed =>
-                {
-                    Viewed.Encode(this.Stream);
-                });
-            }
-            else
+            foreach (RoyalTvEntry Entry in this.Entries)
             {
-                this.Stream.WriteVInt(-1);
+                Entry.Encode(this.Stream);
             }
 
-            this.Stream.EncodeData(this.ArenaData);
+            this.Stream.EncodeData(this.Arena);
         }
     }
 }

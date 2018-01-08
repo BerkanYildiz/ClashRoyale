@@ -5,8 +5,6 @@ namespace ClashRoyale.Compression.ZLib
     using System;
     using System.IO;
 
-    using Interop;
-
     /// <summary>
     /// Computes a CRC-32. The CRC-32 algorithm is parameterized - you can set the polynomial and
     /// enable or disable bit reversal. This can be used for GZIP, BZip2, or ZIP.
@@ -15,10 +13,10 @@ namespace ClashRoyale.Compression.ZLib
     /// This type is used internally by DotNetZip; it is generally not used directly by applications
     /// wishing to create, read, or manipulate zip archive files.
     /// </remarks>
-    [Guid("ebc25cf6-9120-4283-b972-0e5520d0000C")]
-    [ComVisible(true)]
+    [Interop.GuidAttribute("ebc25cf6-9120-4283-b972-0e5520d0000C")]
+    [Interop.ComVisibleAttribute(true)]
 #if !NETCF
-    [ClassInterface(Interop.ClassInterfaceType.AutoDispatch)]
+    [Interop.ClassInterfaceAttribute(Interop.ClassInterfaceType.AutoDispatch)]
 #endif
     public class CRC32
     {
@@ -28,14 +26,17 @@ namespace ClashRoyale.Compression.ZLib
         private readonly uint dwPolynomial;
 
         private readonly bool reverseBits;
+
         private uint _register = 0xFFFFFFFFU;
+
         private uint[] crc32Table;
 
         /// <summary>
         /// Create an instance of the CRC32 class using the default settings: no bit reversal, and a
         /// polynomial of 0xEDB88320.
         /// </summary>
-        public CRC32() : this(false)
+        public CRC32()
+            : this(false)
         {
         }
 
@@ -51,7 +52,8 @@ namespace ClashRoyale.Compression.ZLib
         /// those, you should pass false.
         /// </para>
         /// </remarks>
-        public CRC32(bool reverseBits) : this(unchecked((int) 0xEDB88320), reverseBits)
+        public CRC32(bool reverseBits)
+            : this(unchecked((int)0xEDB88320), reverseBits)
         {
         }
 
@@ -77,14 +79,14 @@ namespace ClashRoyale.Compression.ZLib
         public CRC32(int polynomial, bool reverseBits)
         {
             this.reverseBits = reverseBits;
-            this.dwPolynomial = (uint) polynomial;
+            this.dwPolynomial = (uint)polynomial;
             this.GenerateLookupTable();
         }
 
         /// <summary>
         /// Indicates the current CRC for all blocks slurped in.
         /// </summary>
-        public int Crc32Result => unchecked((int) ~this._register);
+        public int Crc32Result => unchecked((int)~this._register);
 
         /// <summary>
         /// Indicates the total number of bytes applied to the CRC.
@@ -109,14 +111,13 @@ namespace ClashRoyale.Compression.ZLib
         {
             uint[] even = new uint[32]; // even-power-of-two zeros operator
             uint[] odd = new uint[32]; // odd-power-of-two zeros operator
-
             if (length == 0)
             {
                 return;
             }
 
             uint crc1 = ~this._register;
-            uint crc2 = (uint) crc;
+            uint crc2 = (uint)crc;
 
             // put operator for one zero bit in odd
             odd[0] = this.dwPolynomial; // the CRC-32 polynomial
@@ -132,8 +133,7 @@ namespace ClashRoyale.Compression.ZLib
 
             // put operator for four zero bits in odd
             this.gf2_matrix_square(odd, even);
-
-            uint len2 = (uint) length;
+            uint len2 = (uint)length;
 
             // apply len2 zeros to crc1 (first square will put the operator for one zero byte, eight
             // zero bits, in even)
@@ -141,14 +141,12 @@ namespace ClashRoyale.Compression.ZLib
             {
                 // apply zeros operator for this bit of len2
                 this.gf2_matrix_square(even, odd);
-
                 if ((len2 & 1) == 1)
                 {
                     crc1 = this.gf2_matrix_times(even, crc1);
                 }
 
                 len2 >>= 1;
-
                 if (len2 == 0)
                 {
                     break;
@@ -166,7 +164,6 @@ namespace ClashRoyale.Compression.ZLib
             while (len2 != 0);
 
             crc1 ^= crc2;
-
             this._register = ~crc1;
 
             // return (int) crc1;
@@ -181,7 +178,7 @@ namespace ClashRoyale.Compression.ZLib
         /// <returns>The CRC-ized result.</returns>
         public int ComputeCrc32(int W, byte B)
         {
-            return this._InternalComputeCrc32((uint) W, B);
+            return this._InternalComputeCrc32((uint)W, B);
         }
 
         /// <summary>
@@ -211,7 +208,6 @@ namespace ClashRoyale.Compression.ZLib
             {
                 byte[] buffer = new byte[CRC32.BUFFER_SIZE];
                 int readSize = CRC32.BUFFER_SIZE;
-
                 this.TotalBytesRead = 0;
                 int count = input.Read(buffer, 0, readSize);
                 if (output != null)
@@ -232,7 +228,7 @@ namespace ClashRoyale.Compression.ZLib
                     this.TotalBytesRead += count;
                 }
 
-                return (int) ~this._register;
+                return (int)~this._register;
             }
         }
 
@@ -334,7 +330,7 @@ namespace ClashRoyale.Compression.ZLib
 
         internal int _InternalComputeCrc32(uint W, byte B)
         {
-            return (int) (this.crc32Table[(W ^ B) & 0xFF] ^ (W >> 8));
+            return (int)(this.crc32Table[(W ^ B) & 0xFF] ^ (W >> 8));
         }
 
         private static uint ReverseBits(uint data)
@@ -354,11 +350,11 @@ namespace ClashRoyale.Compression.ZLib
         {
             unchecked
             {
-                uint u = (uint) data * 0x00020202;
+                uint u = (uint)data * 0x00020202;
                 uint m = 0x01044010;
                 uint s = u & m;
                 uint t = (u << 2) & (m << 1);
-                return (byte) ((0x01001001 * (s + t)) >> 24);
+                return (byte)((0x01001001 * (s + t)) >> 24);
             }
         }
 
@@ -401,10 +397,10 @@ namespace ClashRoyale.Compression.ZLib
 #if VERBOSE
             Console.WriteLine();
             Console.WriteLine("private static readonly UInt32[] crc32Table = {");
-            for (int i = 0; i < crc32Table.Length; i+=4)
+            for (int i = 0; i < crc32Table.Length; i += 4)
             {
                 Console.Write("   ");
-                for (int j=0; j < 4; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     Console.Write(" 0x{0:X8}U,", crc32Table[i+j]);
                 }
@@ -458,7 +454,9 @@ namespace ClashRoyale.Compression.ZLib
         private static readonly long UnsetLengthLimit = -99;
 
         internal Stream _innerStream;
+
         private readonly CRC32 _Crc32;
+
         private readonly long _lengthLimit = -99;
 
         /// <summary>
@@ -471,7 +469,8 @@ namespace ClashRoyale.Compression.ZLib
         /// </para>
         /// </remarks>
         /// <param name="stream">The underlying stream</param>
-        public CrcCalculatorStream(Stream stream) : this(true, CrcCalculatorStream.UnsetLengthLimit, stream, null)
+        public CrcCalculatorStream(Stream stream)
+            : this(true, CrcCalculatorStream.UnsetLengthLimit, stream, null)
         {
         }
 
@@ -488,7 +487,8 @@ namespace ClashRoyale.Compression.ZLib
         /// true to leave the underlying stream open upon close of the <c>CrcCalculatorStream</c>;
         /// false otherwise.
         /// </param>
-        public CrcCalculatorStream(Stream stream, bool leaveOpen) : this(leaveOpen, CrcCalculatorStream.UnsetLengthLimit, stream, null)
+        public CrcCalculatorStream(Stream stream, bool leaveOpen)
+            : this(leaveOpen, CrcCalculatorStream.UnsetLengthLimit, stream, null)
         {
         }
 
@@ -505,7 +505,8 @@ namespace ClashRoyale.Compression.ZLib
         /// </remarks>
         /// <param name="stream">The underlying stream</param>
         /// <param name="length">The length of the stream to slurp</param>
-        public CrcCalculatorStream(Stream stream, long length) : this(true, length, stream, null)
+        public CrcCalculatorStream(Stream stream, long length)
+            : this(true, length, stream, null)
         {
             if (length < 0)
             {
@@ -528,7 +529,8 @@ namespace ClashRoyale.Compression.ZLib
         /// true to leave the underlying stream open upon close of the <c>CrcCalculatorStream</c>;
         /// false otherwise.
         /// </param>
-        public CrcCalculatorStream(Stream stream, long length, bool leaveOpen) : this(leaveOpen, length, stream, null)
+        public CrcCalculatorStream(Stream stream, long length, bool leaveOpen)
+            : this(leaveOpen, length, stream, null)
         {
             if (length < 0)
             {
@@ -553,7 +555,8 @@ namespace ClashRoyale.Compression.ZLib
         /// false otherwise.
         /// </param>
         /// <param name="crc32">the CRC32 instance to use to calculate the CRC32</param>
-        public CrcCalculatorStream(Stream stream, long length, bool leaveOpen, CRC32 crc32) : this(leaveOpen, length, stream, crc32)
+        public CrcCalculatorStream(Stream stream, long length, bool leaveOpen, CRC32 crc32)
+            : this(leaveOpen, length, stream, crc32)
         {
             if (length < 0)
             {
@@ -704,7 +707,7 @@ namespace ClashRoyale.Compression.ZLib
                 long bytesRemaining = this._lengthLimit - this._Crc32.TotalBytesRead;
                 if (bytesRemaining < count)
                 {
-                    bytesToRead = (int) bytesRemaining;
+                    bytesToRead = (int)bytesRemaining;
                 }
             }
 

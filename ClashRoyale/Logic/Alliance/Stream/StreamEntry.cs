@@ -98,6 +98,7 @@
 
             this.SenderExpLevel = Stream.ReadVInt();
             this.SenderRole     = Stream.ReadVInt();
+
             Stream.ReadVInt();
 
             this.Removed        = Stream.ReadBoolean();

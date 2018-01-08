@@ -28,6 +28,8 @@
             }
         }
 
+        public InboxEntry[] Entries;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InboxListMessage"/> class.
         /// </summary>
@@ -39,11 +41,19 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="InboxListMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="InboxEntries">The inbox entries.</param>
+        /// <param name="Stream">The stream.</param>
         public InboxListMessage(ByteStream Stream) : base(Stream)
         {
             // InboxListMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InboxListMessage"/> class.
+        /// </summary>
+        /// <param name="Entries">The entries.</param>
+        public InboxListMessage(params InboxEntry[] Entries)
+        {
+            this.Entries = Entries;
         }
 
         /// <summary>
@@ -51,7 +61,14 @@
         /// </summary>
         public override void Decode()
         {
-            InboxManager.Decode(this.Stream);
+            this.Entries = new InboxEntry[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.Entries.Length; i++)
+            {
+                InboxEntry Entry = new InboxEntry();
+                Entry.Decode(this.Stream);
+                this.Entries[i] = Entry;
+            }
         }
 
         /// <summary>
@@ -59,7 +76,12 @@
         /// </summary>
         public override void Encode()
         {
-            InboxManager.Encode(this.Stream);
+            this.Stream.WriteVInt(this.Entries.Length);
+
+            foreach (InboxEntry Entry in this.Entries)
+            {
+                Entry.Encode(this.Stream);
+            }
         }
     }
 }

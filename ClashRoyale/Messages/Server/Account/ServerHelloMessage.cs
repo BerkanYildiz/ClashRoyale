@@ -40,10 +40,19 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerHelloMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Stream">The stream.</param>
         public ServerHelloMessage(ByteStream Stream) : base(Stream)
         {
             // ServerHelloMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerHelloMessage"/> class.
+        /// </summary>
+        /// <param name="SessionKey">The session key.</param>
+        public ServerHelloMessage(byte[] SessionKey)
+        {
+            this.SessionKey = SessionKey;
         }
 
         /// <summary>

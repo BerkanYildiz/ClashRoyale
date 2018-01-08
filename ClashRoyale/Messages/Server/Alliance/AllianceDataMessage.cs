@@ -1,8 +1,8 @@
 ﻿namespace ClashRoyale.Messages.Server.Alliance
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
-    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Extensions;
+    using ClashRoyale.Logic.Alliance.Entries;
 
     public class AllianceDataMessage : Message
     {
@@ -28,15 +28,40 @@
             }
         }
 
-        public Clan Clan;
+        public AllianceFullEntry AllianceFullEntry;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceDataMessage"/> class.
         /// </summary>
-        /// <param name="Clan">The clan.</param>
-        public AllianceDataMessage(Clan Clan)
+        public AllianceDataMessage()
         {
-            this.Clan = Clan;
+            // AllianceDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceDataMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AllianceDataMessage(ByteStream Stream) : base(Stream)
+        {
+            // AllianceDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceDataMessage"/> class.
+        /// </summary>
+        /// <param name="AllianceFullEntry">The alliance full entry.</param>
+        public AllianceDataMessage(AllianceFullEntry AllianceFullEntry)
+        {
+            this.AllianceFullEntry = AllianceFullEntry;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.AllianceFullEntry.Decode(this.Stream);
         }
 
         /// <summary>
@@ -44,7 +69,7 @@
         /// </summary>
         public override void Encode()
         {
-            this.Clan.Encode(this.Stream);
+            this.AllianceFullEntry.Encode(this.Stream);
         }
     }
 }

@@ -1,15 +1,15 @@
-namespace ClashRoyale.Compression.LZMA.Common
+namespace ClashRoyale.Compression.Lzma.Common
 {
-    public class Crc
+    internal class CRC
     {
         public static readonly uint[] Table;
 
-        private uint Value = 0xFFFFFFFF;
+        private uint _value = 0xFFFFFFFF;
 
-        static Crc()
+        static CRC()
         {
-            Crc.Table = new uint[256];
-            const uint KPoly = 0xEDB88320;
+            CRC.Table = new uint[256];
+            const uint kPoly = 0xEDB88320;
             for (uint i = 0; i < 256; i++)
             {
                 uint r = i;
@@ -17,7 +17,7 @@ namespace ClashRoyale.Compression.LZMA.Common
                 {
                     if ((r & 1) != 0)
                     {
-                        r = (r >> 1) ^ KPoly;
+                        r = (r >> 1) ^ kPoly;
                     }
                     else
                     {
@@ -25,45 +25,45 @@ namespace ClashRoyale.Compression.LZMA.Common
                     }
                 }
 
-                Crc.Table[i] = r;
+                CRC.Table[i] = r;
             }
         }
 
         public uint GetDigest()
         {
-            return this.Value ^ 0xFFFFFFFF;
+            return this._value ^ 0xFFFFFFFF;
         }
 
         public void Init()
         {
-            this.Value = 0xFFFFFFFF;
+            this._value = 0xFFFFFFFF;
         }
 
-        public void Update(byte[] Data, uint Offset, uint Size)
+        public void Update(byte[] data, uint offset, uint size)
         {
-            for (uint i = 0; i < Size; i++)
+            for (uint i = 0; i < size; i++)
             {
-                this.Value = Crc.Table[(byte)this.Value ^ Data[Offset + i]] ^ (this.Value >> 8);
+                this._value = CRC.Table[(byte)this._value ^ data[offset + i]] ^ (this._value >> 8);
             }
         }
 
-        public void UpdateByte(byte B)
+        public void UpdateByte(byte b)
         {
-            this.Value = Crc.Table[(byte)this.Value ^ B] ^ (this.Value >> 8);
+            this._value = CRC.Table[(byte)this._value ^ b] ^ (this._value >> 8);
         }
 
-        private static uint CalculateDigest(byte[] Data, uint Offset, uint Size)
+        private static uint CalculateDigest(byte[] data, uint offset, uint size)
         {
-            Crc crc = new Crc();
+            CRC crc = new CRC();
 
             // crc.Init();
-            crc.Update(Data, Offset, Size);
+            crc.Update(data, offset, size);
             return crc.GetDigest();
         }
 
-        private static bool VerifyDigest(uint Digest, byte[] Data, uint Offset, uint Size)
+        private static bool VerifyDigest(uint digest, byte[] data, uint offset, uint size)
         {
-            return Crc.CalculateDigest(Data, Offset, Size) == Digest;
+            return CRC.CalculateDigest(data, offset, size) == digest;
         }
     }
 }

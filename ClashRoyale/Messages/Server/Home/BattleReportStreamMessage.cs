@@ -40,7 +40,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BattleReportStreamMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Stream">The stream.</param>
         public BattleReportStreamMessage(ByteStream Stream) : base(Stream)
         {
             // BattleReportStreamMessage.

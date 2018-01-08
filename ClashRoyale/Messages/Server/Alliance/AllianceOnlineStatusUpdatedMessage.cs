@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Alliance
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
 
     public class AllianceOnlineStatusUpdatedMessage : Message
     {
@@ -31,7 +32,24 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceOnlineStatusUpdatedMessage"/> class.
         /// </summary>
-        /// <param name="MemberOnline">The member online.</param>
+        public AllianceOnlineStatusUpdatedMessage()
+        {
+            // AllianceOnlineStatusUpdatedMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceOnlineStatusUpdatedMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AllianceOnlineStatusUpdatedMessage(ByteStream Stream) : base(Stream)
+        {
+            // AllianceOnlineStatusUpdatedMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceOnlineStatusUpdatedMessage"/> class.
+        /// </summary>
+        /// <param name="MemberOnline">The online members count.</param>
         public AllianceOnlineStatusUpdatedMessage(int MemberOnline)
         {
             this.MemberOnline = MemberOnline;

@@ -3,7 +3,6 @@
     using System.Collections.Generic;
 
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic.Inbox.Entry;
 
     public static class InboxManager
     {

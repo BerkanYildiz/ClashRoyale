@@ -76,8 +76,9 @@
         }
 
         /// <summary>
-        /// Decodes this instance.
+        /// Decodes from the specified stream.
         /// </summary>
+        /// <param name="Stream">The stream.</param>
         public void Decode(ByteStream Stream)
         {
             this.HighId     = Stream.ReadVInt();
@@ -109,9 +110,10 @@
         }
 
         /// <summary>
-        /// Encodes this instance.
+        /// Encodes in the specified stream.
         /// </summary>
-        public void Encode(ByteStream Stream)
+        /// <param name="Stream">The stream.</param>
+        public void Encode(ChecksumEncoder Stream)
         {
             Stream.WriteLong(this.PlayerId);
             Stream.WriteString(this.Name);

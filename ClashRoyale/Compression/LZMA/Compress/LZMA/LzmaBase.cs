@@ -1,4 +1,4 @@
-namespace ClashRoyale.Compression.LZMA.Compress.LZMA
+namespace ClashRoyale.Compression.Lzma.Compress.LZMA
 {
     internal abstract class Base
     {
@@ -58,12 +58,12 @@ namespace ClashRoyale.Compression.LZMA.Compress.LZMA
 
         public const uint kStartPosModelIndex = 4;
 
-        public static uint GetLenToPosState(uint Len)
+        public static uint GetLenToPosState(uint len)
         {
-            Len -= Base.kMatchMinLen;
-            if (Len < Base.kNumLenToPosStates)
+            len -= Base.kMatchMinLen;
+            if (len < Base.kNumLenToPosStates)
             {
-                return Len;
+                return len;
             }
 
             return Base.kNumLenToPosStates - 1;

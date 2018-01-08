@@ -40,11 +40,19 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="MatchmakeInfoMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="EstimedTime">The estimed time.</param>
+        /// <param name="EstimedTime">The estimated time.</param>
         public MatchmakeInfoMessage(ByteStream Stream) : base(Stream)
         {
             // MatchmakeInfoMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MatchmakeInfoMessage"/> class.
+        /// </summary>
+        /// <param name="EstimatedTime">The estimated time.</param>
+        public MatchmakeInfoMessage(int EstimatedTime)
+        {
+            this.EstimatedTime = EstimatedTime;
         }
 
         /// <summary>

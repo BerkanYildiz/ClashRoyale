@@ -38,7 +38,7 @@ namespace ClashRoyale.Messages.Server.Account
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceReloadMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Stream">The stream.</param>
         public DeviceReloadMessage(ByteStream Stream) : base(Stream)
         {
             // DeviceReloadMessage.

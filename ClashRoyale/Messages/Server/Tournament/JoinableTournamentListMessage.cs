@@ -30,10 +30,26 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="JoinableTournamentListMessage"/> class.
         /// </summary>
+        public JoinableTournamentListMessage()
+        {
+            // JoinableTournamentListMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JoinableTournamentListMessage"/> class.
+        /// </summary>
         /// <param name="Device">The device.</param>
         public JoinableTournamentListMessage(ByteStream Stream) : base(Stream)
         {
-            // Joinable_Tournaments_Message.
+            // JoinableTournamentListMessage.
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.Stream.ReadVInt();
         }
 
         /// <summary>

@@ -60,11 +60,45 @@
             this.ReplayHighId   = BattleLog.HighId;
             this.ReplayLowId    = BattleLog.LowId;
         }
-        
+
         /// <summary>
-        /// Encodes this instance.
+        /// Decodes from the specified stream.
         /// </summary>
-        public void Encode(ByteStream Stream)
+        /// <param name="Stream">The stream.</param>
+        public void Decode(ByteStream Stream)
+        {
+            this.BattleLogJson = Stream.ReadString();
+
+            if (Stream.ReadBoolean())
+            {
+                // ...
+            }
+
+            Stream.ReadVInt();
+            Stream.ReadVInt();
+            Stream.ReadVInt();
+
+            this.ViewCount = Stream.ReadVInt();
+
+            Stream.ReadVInt();
+            Stream.ReadVInt();
+            Stream.ReadVInt();
+
+            this.RunningId = Stream.ReadVInt();
+
+            if (Stream.ReadBoolean())
+            {
+                this.ReplayShardId  = Stream.ReadVInt();
+                this.ReplayHighId   = Stream.ReadInt();
+                this.ReplayLowId    = Stream.ReadInt();
+            }
+        }
+
+        /// <summary>
+        /// Encodes in the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public void Encode(ChecksumEncoder Stream)
         {
             Stream.WriteString(this.BattleLogJson);
             Stream.WriteBoolean(true);

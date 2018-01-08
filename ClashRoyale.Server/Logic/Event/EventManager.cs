@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Logic.Event.Manager
+﻿namespace ClashRoyale.Logic.Event
 {
     using ClashRoyale.Extensions;
 
@@ -29,12 +29,21 @@
         }
 
         /// <summary>
-        /// Encodes the specified stream.
+        /// Decodes from the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
-        public static void Encode(ByteStream Stream)
+        public static void Decode(ByteStream Stream)
         {
-            // TODO : Implement EventManager::Encode(ByteSteam).
+            // TODO : Implement EventManager::Decode(Stream).
+        }
+
+        /// <summary>
+        /// Encodes in the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public static void Encode(ChecksumEncoder Stream)
+        {
+            // TODO : Implement EventManager::Encode(Stream).
         }
     }
 }

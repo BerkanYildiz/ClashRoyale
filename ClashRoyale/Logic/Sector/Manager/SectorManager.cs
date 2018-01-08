@@ -179,7 +179,7 @@
         /// <summary>
         /// Sends a sector heatbeat.
         /// </summary>
-        public void SendSectorHeartbeat(int Time, int Checksum, List<Command> Commands)
+        public void SendSectorHeartbeat(int Time, int Checksum, Command[] Commands)
         {
             this.GameMode.Device.NetworkManager.SendMessage(new SectorHearbeatMessage(Time, Checksum, Commands));
         }
@@ -221,7 +221,7 @@
                     this.GameMode.CommandManager.AddCommand(Command);
                 });
 
-                this.SendSectorHeartbeat(this.Time / 10, this.GameMode.Checksum, this.Queue.Commands);
+                this.SendSectorHeartbeat(this.Time / 10, this.GameMode.Checksum, this.Queue.Commands.ToArray());
             }
 
             this.Time.IncreaseTick();

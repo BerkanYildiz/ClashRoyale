@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Logic.Inbox.Entry
+﻿namespace ClashRoyale.Logic.Inbox
 {
     using System;
 

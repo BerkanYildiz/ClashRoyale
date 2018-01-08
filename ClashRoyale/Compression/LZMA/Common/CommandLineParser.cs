@@ -1,4 +1,4 @@
-namespace ClashRoyale.Compression.LZMA.Common
+namespace ClashRoyale.Compression.Lzma.Common
 {
     using System;
     using System.Collections;
@@ -18,7 +18,7 @@ namespace ClashRoyale.Compression.LZMA.Common
 
     public class SwitchForm
     {
-        public string IdString;
+        public string IDString;
 
         public int MaxLen;
 
@@ -30,23 +30,23 @@ namespace ClashRoyale.Compression.LZMA.Common
 
         public SwitchType Type;
 
-        public SwitchForm(string IdString, SwitchType Type, bool Multi, int MinLen, int MaxLen, string PostCharSet)
+        public SwitchForm(string idString, SwitchType type, bool multi, int minLen, int maxLen, string postCharSet)
         {
-            this.IdString = IdString;
-            this.Type = Type;
-            this.Multi = Multi;
-            this.MinLen = MinLen;
-            this.MaxLen = MaxLen;
-            this.PostCharSet = PostCharSet;
+            this.IDString = idString;
+            this.Type = type;
+            this.Multi = multi;
+            this.MinLen = minLen;
+            this.MaxLen = maxLen;
+            this.PostCharSet = postCharSet;
         }
 
-        public SwitchForm(string IdString, SwitchType Type, bool Multi, int MinLen)
-            : this(IdString, Type, Multi, MinLen, 0, string.Empty)
+        public SwitchForm(string idString, SwitchType type, bool multi, int minLen)
+            : this(idString, type, multi, minLen, 0, string.Empty)
         {
         }
 
-        public SwitchForm(string IdString, SwitchType Type, bool Multi)
-            : this(IdString, Type, Multi, 0)
+        public SwitchForm(string idString, SwitchType type, bool multi)
+            : this(idString, type, multi, 0)
         {
         }
     }
@@ -79,178 +79,178 @@ namespace ClashRoyale.Compression.LZMA.Common
 
         public ArrayList NonSwitchStrings = new ArrayList();
 
-        private readonly SwitchResult[] Switches;
+        private readonly SwitchResult[] _switches;
 
-        public Parser(int NumSwitches)
+        public Parser(int numSwitches)
         {
-            this.Switches = new SwitchResult[NumSwitches];
-            for (int i = 0; i < NumSwitches; i++)
+            this._switches = new SwitchResult[numSwitches];
+            for (int i = 0; i < numSwitches; i++)
             {
-                this.Switches[i] = new SwitchResult();
+                this._switches[i] = new SwitchResult();
             }
         }
 
-        public SwitchResult this[int Index] => this.Switches[Index];
+        public SwitchResult this[int index] => this._switches[index];
 
-        public static int ParseCommand(CommandForm[] CommandForms, string CommandString, out string PostString)
+        public static int ParseCommand(CommandForm[] commandForms, string commandString, out string postString)
         {
-            for (int i = 0; i < CommandForms.Length; i++)
+            for (int i = 0; i < commandForms.Length; i++)
             {
-                string id = CommandForms[i].IdString;
-                if (CommandForms[i].PostStringMode)
+                string id = commandForms[i].IDString;
+                if (commandForms[i].PostStringMode)
                 {
-                    if (CommandString.IndexOf(id) == 0)
+                    if (commandString.IndexOf(id) == 0)
                     {
-                        PostString = CommandString.Substring(id.Length);
+                        postString = commandString.Substring(id.Length);
                         return i;
                     }
                 }
-                else if (CommandString == id)
+                else if (commandString == id)
                 {
-                    PostString = string.Empty;
+                    postString = string.Empty;
                     return i;
                 }
             }
 
-            PostString = string.Empty;
+            postString = string.Empty;
             return -1;
         }
 
-        public void ParseStrings(SwitchForm[] SwitchForms, string[] CommandStrings)
+        public void ParseStrings(SwitchForm[] switchForms, string[] commandStrings)
         {
-            int NumCommandStrings = CommandStrings.Length;
-            bool StopSwitch = false;
-            for (int i = 0; i < NumCommandStrings; i++)
+            int numCommandStrings = commandStrings.Length;
+            bool stopSwitch = false;
+            for (int i = 0; i < numCommandStrings; i++)
             {
-                string s = CommandStrings[i];
-                if (StopSwitch)
+                string s = commandStrings[i];
+                if (stopSwitch)
                 {
                     this.NonSwitchStrings.Add(s);
                 }
                 else if (s == Parser.kStopSwitchParsing)
                 {
-                    StopSwitch = true;
+                    stopSwitch = true;
                 }
-                else if (!this.ParseString(s, SwitchForms))
+                else if (!this.ParseString(s, switchForms))
                 {
                     this.NonSwitchStrings.Add(s);
                 }
             }
         }
 
-        private static bool IsItSwitchChar(char C)
+        private static bool IsItSwitchChar(char c)
         {
-            return C == Parser.kSwitchID1 || C == Parser.kSwitchID2;
+            return c == Parser.kSwitchID1 || c == Parser.kSwitchID2;
         }
 
-        private static bool ParseSubCharsCommand(int NumForms, CommandSubCharsSet[] Forms, string CommandString, ArrayList Indices)
+        private static bool ParseSubCharsCommand(int numForms, CommandSubCharsSet[] forms, string commandString, ArrayList indices)
         {
-            Indices.Clear();
-            int NumUsedChars = 0;
-            for (int i = 0; i < NumForms; i++)
+            indices.Clear();
+            int numUsedChars = 0;
+            for (int i = 0; i < numForms; i++)
             {
-                CommandSubCharsSet CharsSet = Forms[i];
-                int CurrentIndex = -1;
-                int len = CharsSet.Chars.Length;
+                CommandSubCharsSet charsSet = forms[i];
+                int currentIndex = -1;
+                int len = charsSet.Chars.Length;
                 for (int j = 0; j < len; j++)
                 {
-                    char c = CharsSet.Chars[j];
-                    int NewIndex = CommandString.IndexOf(c);
-                    if (NewIndex >= 0)
+                    char c = charsSet.Chars[j];
+                    int newIndex = commandString.IndexOf(c);
+                    if (newIndex >= 0)
                     {
-                        if (CurrentIndex >= 0)
+                        if (currentIndex >= 0)
                         {
                             return false;
                         }
 
-                        if (CommandString.IndexOf(c, NewIndex + 1) >= 0)
+                        if (commandString.IndexOf(c, newIndex + 1) >= 0)
                         {
                             return false;
                         }
 
-                        CurrentIndex = j;
-                        NumUsedChars++;
+                        currentIndex = j;
+                        numUsedChars++;
                     }
                 }
 
-                if (CurrentIndex == -1 && !CharsSet.EmptyAllowed)
+                if (currentIndex == -1 && !charsSet.EmptyAllowed)
                 {
                     return false;
                 }
 
-                Indices.Add(CurrentIndex);
+                indices.Add(currentIndex);
             }
 
-            return NumUsedChars == CommandString.Length;
+            return numUsedChars == commandString.Length;
         }
 
-        private bool ParseString(string SrcString, SwitchForm[] SwitchForms)
+        private bool ParseString(string srcString, SwitchForm[] switchForms)
         {
-            int len = SrcString.Length;
+            int len = srcString.Length;
             if (len == 0)
             {
                 return false;
             }
 
             int pos = 0;
-            if (!Parser.IsItSwitchChar(SrcString[pos]))
+            if (!Parser.IsItSwitchChar(srcString[pos]))
             {
                 return false;
             }
 
             while (pos < len)
             {
-                if (Parser.IsItSwitchChar(SrcString[pos]))
+                if (Parser.IsItSwitchChar(srcString[pos]))
                 {
                     pos++;
                 }
 
-                const int KNoLen = -1;
-                int MatchedSwitchIndex = 0;
-                int MaxLen = KNoLen;
-                for (int SwitchIndex = 0; SwitchIndex < this.Switches.Length; SwitchIndex++)
+                const int kNoLen = -1;
+                int matchedSwitchIndex = 0;
+                int maxLen = kNoLen;
+                for (int switchIndex = 0; switchIndex < this._switches.Length; switchIndex++)
                 {
-                    int SwitchLen = SwitchForms[SwitchIndex].IdString.Length;
-                    if (SwitchLen <= MaxLen || pos + SwitchLen > len)
+                    int switchLen = switchForms[switchIndex].IDString.Length;
+                    if (switchLen <= maxLen || pos + switchLen > len)
                     {
                         continue;
                     }
 
-                    if (string.Compare(SwitchForms[SwitchIndex].IdString, 0, SrcString, pos, SwitchLen, true) == 0)
+                    if (string.Compare(switchForms[switchIndex].IDString, 0, srcString, pos, switchLen, true) == 0)
                     {
-                        MatchedSwitchIndex = SwitchIndex;
-                        MaxLen = SwitchLen;
+                        matchedSwitchIndex = switchIndex;
+                        maxLen = switchLen;
                     }
                 }
 
-                if (MaxLen == KNoLen)
+                if (maxLen == kNoLen)
                 {
                     throw new Exception("maxLen == kNoLen");
                 }
 
-                SwitchResult MatchedSwitch = this.Switches[MatchedSwitchIndex];
-                SwitchForm SwitchForm = SwitchForms[MatchedSwitchIndex];
-                if (!SwitchForm.Multi && MatchedSwitch.ThereIs)
+                SwitchResult matchedSwitch = this._switches[matchedSwitchIndex];
+                SwitchForm switchForm = switchForms[matchedSwitchIndex];
+                if (!switchForm.Multi && matchedSwitch.ThereIs)
                 {
                     throw new Exception("switch must be single");
                 }
 
-                MatchedSwitch.ThereIs = true;
-                pos += MaxLen;
-                int TailSize = len - pos;
-                SwitchType type = SwitchForm.Type;
+                matchedSwitch.ThereIs = true;
+                pos += maxLen;
+                int tailSize = len - pos;
+                SwitchType type = switchForm.Type;
                 switch (type)
                 {
                     case SwitchType.PostMinus:
                         {
-                            if (TailSize == 0)
+                            if (tailSize == 0)
                             {
-                                MatchedSwitch.WithMinus = false;
+                                matchedSwitch.WithMinus = false;
                             }
                             else
                             {
-                                MatchedSwitch.WithMinus = SrcString[pos] == Parser.kSwitchMinus;
-                                if (MatchedSwitch.WithMinus)
+                                matchedSwitch.WithMinus = srcString[pos] == Parser.kSwitchMinus;
+                                if (matchedSwitch.WithMinus)
                                 {
                                     pos++;
                                 }
@@ -261,27 +261,27 @@ namespace ClashRoyale.Compression.LZMA.Common
 
                     case SwitchType.PostChar:
                         {
-                            if (TailSize < SwitchForm.MinLen)
+                            if (tailSize < switchForm.MinLen)
                             {
                                 throw new Exception("switch is not full");
                             }
 
-                            string CharSet = SwitchForm.PostCharSet;
-                            const int KEmptyCharValue = -1;
-                            if (TailSize == 0)
+                            string charSet = switchForm.PostCharSet;
+                            const int kEmptyCharValue = -1;
+                            if (tailSize == 0)
                             {
-                                MatchedSwitch.PostCharIndex = KEmptyCharValue;
+                                matchedSwitch.PostCharIndex = kEmptyCharValue;
                             }
                             else
                             {
-                                int index = CharSet.IndexOf(SrcString[pos]);
+                                int index = charSet.IndexOf(srcString[pos]);
                                 if (index < 0)
                                 {
-                                    MatchedSwitch.PostCharIndex = KEmptyCharValue;
+                                    matchedSwitch.PostCharIndex = kEmptyCharValue;
                                 }
                                 else
                                 {
-                                    MatchedSwitch.PostCharIndex = index;
+                                    matchedSwitch.PostCharIndex = index;
                                     pos++;
                                 }
                             }
@@ -292,32 +292,32 @@ namespace ClashRoyale.Compression.LZMA.Common
                     case SwitchType.LimitedPostString:
                     case SwitchType.UnLimitedPostString:
                         {
-                            int MinLen = SwitchForm.MinLen;
-                            if (TailSize < MinLen)
+                            int minLen = switchForm.MinLen;
+                            if (tailSize < minLen)
                             {
                                 throw new Exception("switch is not full");
                             }
 
                             if (type == SwitchType.UnLimitedPostString)
                             {
-                                MatchedSwitch.PostStrings.Add(SrcString.Substring(pos));
+                                matchedSwitch.PostStrings.Add(srcString.Substring(pos));
                                 return true;
                             }
 
-                            string StringSwitch = SrcString.Substring(pos, MinLen);
-                            pos += MinLen;
-                            for (int i = MinLen; i < SwitchForm.MaxLen && pos < len; i++, pos++)
+                            string stringSwitch = srcString.Substring(pos, minLen);
+                            pos += minLen;
+                            for (int i = minLen; i < switchForm.MaxLen && pos < len; i++, pos++)
                             {
-                                char c = SrcString[pos];
+                                char c = srcString[pos];
                                 if (Parser.IsItSwitchChar(c))
                                 {
                                     break;
                                 }
 
-                                StringSwitch += c;
+                                stringSwitch += c;
                             }
 
-                            MatchedSwitch.PostStrings.Add(StringSwitch);
+                            matchedSwitch.PostStrings.Add(stringSwitch);
                             break;
                         }
                 }
@@ -329,18 +329,18 @@ namespace ClashRoyale.Compression.LZMA.Common
 
     public class CommandForm
     {
-        public string IdString = string.Empty;
+        public string IDString = string.Empty;
 
         public bool PostStringMode;
 
-        public CommandForm(string IdString, bool PostStringMode)
+        public CommandForm(string idString, bool postStringMode)
         {
-            this.IdString = IdString;
-            this.PostStringMode = PostStringMode;
+            this.IDString = idString;
+            this.PostStringMode = postStringMode;
         }
     }
 
-    public class CommandSubCharsSet
+    internal class CommandSubCharsSet
     {
         public string Chars = string.Empty;
 

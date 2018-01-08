@@ -1,69 +1,69 @@
-namespace ClashRoyale.Compression.LZMA.Compress.LZ
+namespace ClashRoyale.Compression.Lzma.Compress.LZ
 {
     using System;
     using System.IO;
 
     public class InWindow
     {
-        public uint BlockSize; // Size of Allocated memory block
+        public uint _blockSize; // Size of Allocated memory block
 
-        public byte[] BufferBase; // pointer to buffer with data
+        public byte[] _bufferBase; // pointer to buffer with data
 
-        public uint BufferOffset;
+        public uint _bufferOffset;
 
-        public uint Pos; // offset (from _buffer) of curent byte
+        public uint _pos; // offset (from _buffer) of curent byte
 
-        public uint StreamPos; // offset (from _buffer) of first not read byte from Stream
+        public uint _streamPos; // offset (from _buffer) of first not read byte from Stream
 
-        private uint KeepSizeAfter; // how many BYTEs must be kept buffer after _pos
+        private uint _keepSizeAfter; // how many BYTEs must be kept buffer after _pos
 
-        private uint KeepSizeBefore; // how many BYTEs must be kept in buffer before _pos
+        private uint _keepSizeBefore; // how many BYTEs must be kept in buffer before _pos
 
-        private uint PointerToLastSafePosition;
+        private uint _pointerToLastSafePosition;
 
-        private uint PosLimit; // offset (from _buffer) of first byte when new block reading must be done
+        private uint _posLimit; // offset (from _buffer) of first byte when new block reading must be done
 
-        private Stream Stream;
+        private Stream _stream;
 
-        private bool StreamEndWasReached; // if (true) then _streamPos shows real end of stream
+        private bool _streamEndWasReached; // if (true) then _streamPos shows real end of stream
 
-        public void Create(uint KeepSizeBefore, uint KeepSizeAfter, uint KeepSizeReserv)
+        public void Create(uint keepSizeBefore, uint keepSizeAfter, uint keepSizeReserv)
         {
-            this.KeepSizeBefore = KeepSizeBefore;
-            this.KeepSizeAfter = KeepSizeAfter;
-            uint BlockSize = KeepSizeBefore + KeepSizeAfter + KeepSizeReserv;
-            if (this.BufferBase == null || this.BlockSize != BlockSize)
+            this._keepSizeBefore = keepSizeBefore;
+            this._keepSizeAfter = keepSizeAfter;
+            uint blockSize = keepSizeBefore + keepSizeAfter + keepSizeReserv;
+            if (this._bufferBase == null || this._blockSize != blockSize)
             {
                 this.Free();
-                this.BlockSize = BlockSize;
-                this.BufferBase = new byte[this.BlockSize];
+                this._blockSize = blockSize;
+                this._bufferBase = new byte[this._blockSize];
             }
 
-            this.PointerToLastSafePosition = this.BlockSize - KeepSizeAfter;
+            this._pointerToLastSafePosition = this._blockSize - keepSizeAfter;
         }
 
-        public byte GetIndexByte(int Index)
+        public byte GetIndexByte(int index)
         {
-            return this.BufferBase[this.BufferOffset + this.Pos + Index];
+            return this._bufferBase[this._bufferOffset + this._pos + index];
         }
 
         // index + limit have not to exceed _keepSizeAfter;
-        public uint GetMatchLen(int Index, uint Distance, uint Limit)
+        public uint GetMatchLen(int index, uint distance, uint limit)
         {
-            if (this.StreamEndWasReached)
+            if (this._streamEndWasReached)
             {
-                if (this.Pos + Index + Limit > this.StreamPos)
+                if (this._pos + index + limit > this._streamPos)
                 {
-                    Limit = this.StreamPos - (UInt32)(this.Pos + Index);
+                    limit = this._streamPos - (UInt32)(this._pos + index);
                 }
             }
 
-            Distance++;
+            distance++;
 
             // Byte *pby = _buffer + (size_t)_pos + index;
-            uint pby = this.BufferOffset + this.Pos + (UInt32)Index;
+            uint pby = this._bufferOffset + this._pos + (UInt32)index;
             uint i;
-            for (i = 0; i < Limit && this.BufferBase[pby + i] == this.BufferBase[pby + i - Distance]; i++)
+            for (i = 0; i < limit && this._bufferBase[pby + i] == this._bufferBase[pby + i - distance]; i++)
             {
                 ;
             }
@@ -73,21 +73,21 @@ namespace ClashRoyale.Compression.LZMA.Compress.LZ
 
         public uint GetNumAvailableBytes()
         {
-            return this.StreamPos - this.Pos;
+            return this._streamPos - this._pos;
         }
 
         public void Init()
         {
-            this.BufferOffset = 0;
-            this.Pos = 0;
-            this.StreamPos = 0;
-            this.StreamEndWasReached = false;
+            this._bufferOffset = 0;
+            this._pos = 0;
+            this._streamPos = 0;
+            this._streamEndWasReached = false;
             this.ReadBlock();
         }
 
         public void MoveBlock()
         {
-            uint offset = this.BufferOffset + this.Pos - this.KeepSizeBefore;
+            uint offset = this._bufferOffset + this._pos - this._keepSizeBefore;
 
             // we need one additional byte, since MovePos moves on 1 byte.
             if (offset > 0)
@@ -95,24 +95,24 @@ namespace ClashRoyale.Compression.LZMA.Compress.LZ
                 offset--;
             }
 
-            uint NumBytes = this.BufferOffset + this.StreamPos - offset;
+            uint numBytes = this._bufferOffset + this._streamPos - offset;
 
             // check negative offset ????
-            for (uint i = 0; i < NumBytes; i++)
+            for (uint i = 0; i < numBytes; i++)
             {
-                this.BufferBase[i] = this.BufferBase[offset + i];
+                this._bufferBase[i] = this._bufferBase[offset + i];
             }
 
-            this.BufferOffset -= offset;
+            this._bufferOffset -= offset;
         }
 
         public void MovePos()
         {
-            this.Pos++;
-            if (this.Pos > this.PosLimit)
+            this._pos++;
+            if (this._pos > this._posLimit)
             {
-                uint PointerToPostion = this.BufferOffset + this.Pos;
-                if (PointerToPostion > this.PointerToLastSafePosition)
+                uint pointerToPostion = this._bufferOffset + this._pos;
+                if (pointerToPostion > this._pointerToLastSafePosition)
                 {
                     this.MoveBlock();
                 }
@@ -123,62 +123,62 @@ namespace ClashRoyale.Compression.LZMA.Compress.LZ
 
         public virtual void ReadBlock()
         {
-            if (this.StreamEndWasReached)
+            if (this._streamEndWasReached)
             {
                 return;
             }
 
             while (true)
             {
-                int size = (int)(0 - this.BufferOffset + this.BlockSize - this.StreamPos);
+                int size = (int)(0 - this._bufferOffset + this._blockSize - this._streamPos);
                 if (size == 0)
                 {
                     return;
                 }
 
-                int NumReadBytes = this.Stream.Read(this.BufferBase, (int)(this.BufferOffset + this.StreamPos), size);
-                if (NumReadBytes == 0)
+                int numReadBytes = this._stream.Read(this._bufferBase, (int)(this._bufferOffset + this._streamPos), size);
+                if (numReadBytes == 0)
                 {
-                    this.PosLimit = this.StreamPos;
-                    uint PointerToPostion = this.BufferOffset + this.PosLimit;
-                    if (PointerToPostion > this.PointerToLastSafePosition)
+                    this._posLimit = this._streamPos;
+                    uint pointerToPostion = this._bufferOffset + this._posLimit;
+                    if (pointerToPostion > this._pointerToLastSafePosition)
                     {
-                        this.PosLimit = this.PointerToLastSafePosition - this.BufferOffset;
+                        this._posLimit = this._pointerToLastSafePosition - this._bufferOffset;
                     }
 
-                    this.StreamEndWasReached = true;
+                    this._streamEndWasReached = true;
                     return;
                 }
 
-                this.StreamPos += (UInt32)NumReadBytes;
-                if (this.StreamPos >= this.Pos + this.KeepSizeAfter)
+                this._streamPos += (UInt32)numReadBytes;
+                if (this._streamPos >= this._pos + this._keepSizeAfter)
                 {
-                    this.PosLimit = this.StreamPos - this.KeepSizeAfter;
+                    this._posLimit = this._streamPos - this._keepSizeAfter;
                 }
             }
         }
 
-        public void ReduceOffsets(int SubValue)
+        public void ReduceOffsets(int subValue)
         {
-            this.BufferOffset += (UInt32)SubValue;
-            this.PosLimit -= (UInt32)SubValue;
-            this.Pos -= (UInt32)SubValue;
-            this.StreamPos -= (UInt32)SubValue;
+            this._bufferOffset += (UInt32)subValue;
+            this._posLimit -= (UInt32)subValue;
+            this._pos -= (UInt32)subValue;
+            this._streamPos -= (UInt32)subValue;
         }
 
         public void ReleaseStream()
         {
-            this.Stream = null;
+            this._stream = null;
         }
 
-        public void SetStream(Stream Stream)
+        public void SetStream(Stream stream)
         {
-            this.Stream = Stream;
+            this._stream = stream;
         }
 
         private void Free()
         {
-            this.BufferBase = null;
+            this._bufferBase = null;
         }
     }
 }

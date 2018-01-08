@@ -175,10 +175,15 @@ namespace ClashRoyale.Compression.ZLib
         }
 
         private int _headerByteCount;
+
         internal ZlibBaseStream _baseStream;
+
         private bool _disposed;
+
         private bool _firstReadDone;
+
         private string _FileName;
+
         private string _Comment;
 
         /// <summary>
@@ -287,7 +292,8 @@ namespace ClashRoyale.Compression.ZLib
         /// </example>
         /// <param name="stream">The stream which will be read or written.</param>
         /// <param name="mode">Indicates whether the GZipStream will compress or decompress.</param>
-        public GZipStream(Stream stream, CompressionMode mode) : this(stream, mode, CompressionLevel.Default, false)
+        public GZipStream(Stream stream, CompressionMode mode)
+            : this(stream, mode, CompressionLevel.Default, false)
         {
         }
 
@@ -343,7 +349,8 @@ namespace ClashRoyale.Compression.ZLib
         /// <param name="stream">The stream to be read or written while deflating or inflating.</param>
         /// <param name="mode">Indicates whether the <c>GZipStream</c> will compress or decompress.</param>
         /// <param name="level">A tuning knob to trade speed for effectiveness.</param>
-        public GZipStream(Stream stream, CompressionMode mode, CompressionLevel level) : this(stream, mode, level, false)
+        public GZipStream(Stream stream, CompressionMode mode, CompressionLevel level)
+            : this(stream, mode, level, false)
         {
         }
 
@@ -380,7 +387,8 @@ namespace ClashRoyale.Compression.ZLib
         /// <param name="leaveOpen">
         /// true if the application would like the base stream to remain open after inflation/deflation.
         /// </param>
-        public GZipStream(Stream stream, CompressionMode mode, bool leaveOpen) : this(stream, mode, CompressionLevel.Default, leaveOpen)
+        public GZipStream(Stream stream, CompressionMode mode, bool leaveOpen)
+            : this(stream, mode, CompressionLevel.Default, leaveOpen)
         {
         }
 
@@ -784,10 +792,8 @@ namespace ClashRoyale.Compression.ZLib
         {
             byte[] commentBytes = this.Comment == null ? null : GZipStream.iso8859dash1.GetBytes(this.Comment);
             byte[] filenameBytes = this.FileName == null ? null : GZipStream.iso8859dash1.GetBytes(this.FileName);
-
             int cbLength = this.Comment == null ? 0 : commentBytes.Length + 1;
             int fnLength = this.FileName == null ? 0 : filenameBytes.Length + 1;
-
             int bufferLength = 10 + cbLength + fnLength;
             byte[] header = new byte[bufferLength];
             int i = 0;
@@ -819,7 +825,7 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             TimeSpan delta = this.LastModified.Value - GZipStream._unixEpoch;
-            int timet = (int) delta.TotalSeconds;
+            int timet = (int)delta.TotalSeconds;
             Array.Copy(BitConverter.GetBytes(timet), 0, header, i, 4);
             i += 4;
 
@@ -849,7 +855,6 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             this._baseStream._stream.Write(header, 0, header.Length);
-
             return header.Length; // bytes written
         }
 
@@ -886,7 +891,6 @@ namespace ClashRoyale.Compression.ZLib
             using (MemoryStream ms = new MemoryStream())
             {
                 Stream compressor = new GZipStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
-
                 ZlibBaseStream.CompressBuffer(b, compressor);
                 return ms.ToArray();
             }
@@ -922,7 +926,6 @@ namespace ClashRoyale.Compression.ZLib
             using (MemoryStream input = new MemoryStream(compressed))
             {
                 Stream decompressor = new GZipStream(input, CompressionMode.Decompress);
-
                 return ZlibBaseStream.UncompressBuffer(compressed, decompressor);
             }
         }

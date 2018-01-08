@@ -1,4 +1,4 @@
-namespace ClashRoyale.Compression.LZMA.Compress.LZ
+namespace ClashRoyale.Compression.Lzma.Compress.LZ
 {
     using System.IO;
 
@@ -6,96 +6,96 @@ namespace ClashRoyale.Compression.LZMA.Compress.LZ
     {
         public uint TrainSize;
 
-        private byte[] Buffer;
+        private byte[] _buffer;
 
-        private uint Pos;
+        private uint _pos;
 
-        private Stream Stream;
+        private Stream _stream;
 
-        private uint StreamPos;
+        private uint _streamPos;
 
-        private uint WindowSize;
+        private uint _windowSize;
 
-        public void CopyBlock(uint Distance, uint Len)
+        public void CopyBlock(uint distance, uint len)
         {
-            uint pos = this.Pos - Distance - 1;
-            if (pos >= this.WindowSize)
+            uint pos = this._pos - distance - 1;
+            if (pos >= this._windowSize)
             {
-                pos += this.WindowSize;
+                pos += this._windowSize;
             }
 
-            for (; Len > 0; Len--)
+            for (; len > 0; len--)
             {
-                if (pos >= this.WindowSize)
+                if (pos >= this._windowSize)
                 {
                     pos = 0;
                 }
 
-                this.Buffer[this.Pos++] = this.Buffer[pos++];
-                if (this.Pos >= this.WindowSize)
+                this._buffer[this._pos++] = this._buffer[pos++];
+                if (this._pos >= this._windowSize)
                 {
                     this.Flush();
                 }
             }
         }
 
-        public void Create(uint WindowSize)
+        public void Create(uint windowSize)
         {
-            if (this.WindowSize != WindowSize)
+            if (this._windowSize != windowSize)
             {
                 // System.GC.Collect();
-                this.Buffer = new byte[WindowSize];
+                this._buffer = new byte[windowSize];
             }
 
-            this.WindowSize = WindowSize;
-            this.Pos = 0;
-            this.StreamPos = 0;
+            this._windowSize = windowSize;
+            this._pos = 0;
+            this._streamPos = 0;
         }
 
         public void Flush()
         {
-            uint size = this.Pos - this.StreamPos;
+            uint size = this._pos - this._streamPos;
             if (size == 0)
             {
                 return;
             }
 
-            this.Stream.Write(this.Buffer, (int)this.StreamPos, (int)size);
-            if (this.Pos >= this.WindowSize)
+            this._stream.Write(this._buffer, (int)this._streamPos, (int)size);
+            if (this._pos >= this._windowSize)
             {
-                this.Pos = 0;
+                this._pos = 0;
             }
 
-            this.StreamPos = this.Pos;
+            this._streamPos = this._pos;
         }
 
-        public byte GetByte(uint Distance)
+        public byte GetByte(uint distance)
         {
-            uint pos = this.Pos - Distance - 1;
-            if (pos >= this.WindowSize)
+            uint pos = this._pos - distance - 1;
+            if (pos >= this._windowSize)
             {
-                pos += this.WindowSize;
+                pos += this._windowSize;
             }
 
-            return this.Buffer[pos];
+            return this._buffer[pos];
         }
 
-        public void Init(Stream Stream, bool Solid)
+        public void Init(Stream stream, bool solid)
         {
             this.ReleaseStream();
-            this.Stream = Stream;
-            if (!Solid)
+            this._stream = stream;
+            if (!solid)
             {
-                this.StreamPos = 0;
-                this.Pos = 0;
+                this._streamPos = 0;
+                this._pos = 0;
                 this.TrainSize = 0;
             }
         }
 
-        public void PutByte(byte B)
+        public void PutByte(byte b)
         {
-            this.Buffer[this.Pos++] = B;
-            if (this.Pos >= this.WindowSize)
+            this._buffer[this._pos++] = b;
+            if (this._pos >= this._windowSize)
             {
                 this.Flush();
             }
@@ -104,36 +104,36 @@ namespace ClashRoyale.Compression.LZMA.Compress.LZ
         public void ReleaseStream()
         {
             this.Flush();
-            this.Stream = null;
+            this._stream = null;
         }
 
-        public bool Train(Stream Stream)
+        public bool Train(Stream stream)
         {
-            long len = Stream.Length;
-            uint size = len < this.WindowSize ? (uint)len : this.WindowSize;
+            long len = stream.Length;
+            uint size = len < this._windowSize ? (uint)len : this._windowSize;
             this.TrainSize = size;
-            Stream.Position = len - size;
-            this.StreamPos = this.Pos = 0;
+            stream.Position = len - size;
+            this._streamPos = this._pos = 0;
             while (size > 0)
             {
-                uint CurSize = this.WindowSize - this.Pos;
-                if (size < CurSize)
+                uint curSize = this._windowSize - this._pos;
+                if (size < curSize)
                 {
-                    CurSize = size;
+                    curSize = size;
                 }
 
-                int NumReadBytes = Stream.Read(this.Buffer, (int)this.Pos, (int)CurSize);
-                if (NumReadBytes == 0)
+                int numReadBytes = stream.Read(this._buffer, (int)this._pos, (int)curSize);
+                if (numReadBytes == 0)
                 {
                     return false;
                 }
 
-                size -= (uint)NumReadBytes;
-                this.Pos += (uint)NumReadBytes;
-                this.StreamPos += (uint)NumReadBytes;
-                if (this.Pos == this.WindowSize)
+                size -= (uint)numReadBytes;
+                this._pos += (uint)numReadBytes;
+                this._streamPos += (uint)numReadBytes;
+                if (this._pos == this._windowSize)
                 {
-                    this.StreamPos = this.Pos = 0;
+                    this._streamPos = this._pos = 0;
                 }
             }
 

@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Alliance
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Alliance.Stream;
 
     public class AllianceStreamEntryMessage : Message
@@ -29,6 +29,24 @@
         }
 
         public StreamEntry StreamEntry;
+        public int EntryType;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceStreamEntryMessage"/> class.
+        /// </summary>
+        public AllianceStreamEntryMessage()
+        {
+            // AllianceStreamEntryMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceStreamEntryMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AllianceStreamEntryMessage(ByteStream Stream) : base(Stream)
+        {
+            // AllianceStreamEntryMessage.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceStreamEntryMessage"/> class.
@@ -36,7 +54,17 @@
         /// <param name="Entry">The entry.</param>
         public AllianceStreamEntryMessage(StreamEntry Entry)
         {
+            this.EntryType   = Entry.Type;
             this.StreamEntry = Entry;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.EntryType = Stream.ReadVInt();
+            this.StreamEntry.Decode(this.Stream);
         }
 
         /// <summary>
@@ -44,7 +72,7 @@
         /// </summary>
         public override void Encode()
         {
-            this.Stream.WriteVInt(this.StreamEntry.Type);
+            this.Stream.WriteVInt(this.EntryType);
             this.StreamEntry.Encode(this.Stream);
         }
     }

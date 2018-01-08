@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Alliance
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
 
     public class AllianceStreamRemovedMessage : Message
     {
@@ -27,6 +28,23 @@
         }
 
         public long StreamEntryId;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceStreamRemovedMessage"/> class.
+        /// </summary>
+        public AllianceStreamRemovedMessage()
+        {
+            // AllianceStreamRemovedMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceStreamRemovedMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AllianceStreamRemovedMessage(ByteStream Stream) : base(Stream)
+        {
+            // AllianceStreamRemovedMessage.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceStreamRemovedMessage"/> class.

@@ -1,12 +1,12 @@
-namespace ClashRoyale.Compression.LZMA.Compress.LZ
+namespace ClashRoyale.Compression.Lzma.Compress.LZ
 {
     using System.IO;
 
     internal interface IInWindowStream
     {
-        byte GetIndexByte(int Index);
+        byte GetIndexByte(int index);
 
-        uint GetMatchLen(int Index, uint Distance, uint Limit);
+        uint GetMatchLen(int index, uint distance, uint limit);
 
         uint GetNumAvailableBytes();
 
@@ -14,15 +14,15 @@ namespace ClashRoyale.Compression.LZMA.Compress.LZ
 
         void ReleaseStream();
 
-        void SetStream(Stream InStream);
+        void SetStream(Stream inStream);
     }
 
     internal interface IMatchFinder : IInWindowStream
     {
-        void Create(uint HistorySize, uint KeepAddBufferBefore, uint MatchMaxLen, uint KeepAddBufferAfter);
+        void Create(uint historySize, uint keepAddBufferBefore, uint matchMaxLen, uint keepAddBufferAfter);
 
-        uint GetMatches(uint[] Distances);
+        uint GetMatches(uint[] distances);
 
-        void Skip(uint Num);
+        void Skip(uint num);
     }
 }

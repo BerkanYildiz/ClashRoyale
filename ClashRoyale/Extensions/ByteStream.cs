@@ -637,6 +637,21 @@
         }
 
         /// <summary>
+        /// Reads the array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Action">The action.</param>
+        public void ReadArray<T>(Action<T> Action) where T : new()
+        {
+            int Length = this.ReadVInt();
+
+            for (int i = 0; i < Length; i++)
+            {
+                Action.Invoke(new T());
+            }
+        }
+
+        /// <summary>
         /// Reads a element of buffer.
         /// </summary>
         private byte Read()

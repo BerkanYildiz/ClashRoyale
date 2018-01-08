@@ -4,8 +4,6 @@ namespace ClashRoyale.Compression.ZLib
 {
     using System;
 
-    using Interop;
-
     /// <summary>
     /// Encoder and Decoder for ZLIB and DEFLATE (IETF RFC1950 and RFC1951).
     /// </summary>
@@ -15,10 +13,10 @@ namespace ClashRoyale.Compression.ZLib
     /// href="http://www.ietf.org/rfc/rfc1950.txt"> RFC 1950 - ZLIB </see> and <see
     /// href="http://www.ietf.org/rfc/rfc1951.txt"> RFC 1951 - DEFLATE </see> .
     /// </remarks>
-    [Guid("ebc25cf6-9120-4283-b972-0e5520d0000D")]
-    [ComVisible(true)]
+    [Interop.GuidAttribute("ebc25cf6-9120-4283-b972-0e5520d0000D")]
+    [Interop.ComVisibleAttribute(true)]
 #if !NETCF
-    [ClassInterface(Interop.ClassInterfaceType.AutoDispatch)]
+    [Interop.ClassInterfaceAttribute(Interop.ClassInterfaceType.AutoDispatch)]
 #endif
     public sealed class ZlibCodec
     {
@@ -155,7 +153,7 @@ namespace ClashRoyale.Compression.ZLib
         /// The Adler32 checksum on the data transferred through the codec so far. You probably don't
         /// need to look at this.
         /// </summary>
-        public int Adler32 => (int) this._Adler32;
+        public int Adler32 => (int)this._Adler32;
 
         /// <summary>
         /// Deflate one batch of data.
@@ -613,7 +611,6 @@ namespace ClashRoyale.Compression.ZLib
         internal void flush_pending()
         {
             int len = this.dstate.pendingCount;
-
             if (len > this.AvailableBytesOut)
             {
                 len = this.AvailableBytesOut;
@@ -630,7 +627,6 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             Array.Copy(this.dstate.pending, this.dstate.nextPending, this.OutputBuffer, this.NextOut, len);
-
             this.NextOut += len;
             this.dstate.nextPending += len;
             this.TotalBytesOut += len;
@@ -649,7 +645,6 @@ namespace ClashRoyale.Compression.ZLib
         internal int read_buf(byte[] buf, int start, int size)
         {
             int len = this.AvailableBytesIn;
-
             if (len > size)
             {
                 len = size;
@@ -661,7 +656,6 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             this.AvailableBytesIn -= len;
-
             if (this.dstate.WantRfc1950HeaderBytes)
             {
                 this._Adler32 = Adler.Adler32(this._Adler32, this.InputBuffer, this.NextIn, len);
@@ -682,7 +676,6 @@ namespace ClashRoyale.Compression.ZLib
 
             this.dstate = new DeflateManager();
             this.dstate.WantRfc1950HeaderBytes = wantRfc1950Header;
-
             return this.dstate.Initialize(this, this.CompressLevel, this.WindowBits, this.Strategy);
         }
     }

@@ -162,7 +162,7 @@
     <Compile Include="Handlers\Client\LoginHandler.cs" />
     <Compile Include="Handlers\Client\KeepAliveHandler.cs" />
     <Compile Include="Handlers\Client\ClientCapabilitiesHandler.cs" />
-    <Compile Include="Handlers\Factory.cs" />
+    <Compile Include="Handlers\Handlers.cs" />
     <Compile Include="Handlers\Server\ServerShutdownHandler.cs" />
     <Compile Include="Handlers\Server\ServerErrorHandler.cs" />
     <Compile Include="Handlers\Server\DisconnectedHandler.cs" />
@@ -176,6 +176,8 @@
     <Compile Include="Logic\Collections\Clans.cs" />
     <Compile Include="Logic\Collections\Leaderboards.cs" />
     <Compile Include="Logic\Collections\Players.cs" />
+    <Compile Include="Logic\Event\EventManager.cs" />
+    <Compile Include="Logic\Inbox\InboxManager.cs" />
     <Compile Include="Logic\RoyalTv\RoyalTvManager.cs" />
     <Compile Include="Logic\Scoring\LeaderboardClans.cs" />
     <Compile Include="Logic\Scoring\LeaderboardPlayers.cs" />

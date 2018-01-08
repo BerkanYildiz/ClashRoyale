@@ -12,7 +12,6 @@
     using ClashRoyale.Logic.Structures;
     using ClashRoyale.Maths;
     using ClashRoyale.Messages;
-    using ClashRoyale.Messages.Client;
 
     public class NetworkManager
     {

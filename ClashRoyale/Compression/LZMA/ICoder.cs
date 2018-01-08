@@ -1,4 +1,4 @@
-namespace ClashRoyale.Compression.LZMA
+namespace ClashRoyale.Compression.Lzma
 {
     using System;
     using System.IO;
@@ -6,7 +6,7 @@ namespace ClashRoyale.Compression.LZMA
     /// <summary>
     /// The exception that is thrown when an error in input stream occurs during decoding.
     /// </summary>
-    public class DataErrorException : ApplicationException
+    internal class DataErrorException : ApplicationException
     {
         public DataErrorException()
             : base("Data Error")
@@ -17,7 +17,7 @@ namespace ClashRoyale.Compression.LZMA
     /// <summary>
     /// The exception that is thrown when the value of an argument is outside the allowable range.
     /// </summary>
-    public class InvalidParamException : ApplicationException
+    internal class InvalidParamException : ApplicationException
     {
         public InvalidParamException()
             : base("Invalid Parameter")

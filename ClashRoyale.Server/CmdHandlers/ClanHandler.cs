@@ -76,7 +76,7 @@
 
                 if (ClanHandler.SelectedClan.IsZero == false)
                 {
-                    Console.WriteLine("[*] Selected clan " + ClanHandler.SelectedClan + " called " + Clan.HeaderEntry.Name + ", with " + Clan.HeaderEntry.Score + " and " + Clan.HeaderEntry.NumberOfMembers + " members.");
+                    Console.WriteLine("[*] Selected clan " + ClanHandler.SelectedClan + " called " + Clan.HeaderEntry.Name + ", with " + Clan.HeaderEntry.Score + " and " + Clan.HeaderEntry.MembersCount + " members.");
                 }
             }
         }

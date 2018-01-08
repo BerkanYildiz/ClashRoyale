@@ -1,7 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Alliance
 {
     using ClashRoyale.Enums;
-    using ClashRoyale.Logic;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Alliance.Stream;
 
     public class AllianceStreamMessage : Message
@@ -33,10 +33,44 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceStreamMessage"/> class.
         /// </summary>
+        public AllianceStreamMessage()
+        {
+            // AllianceStreamMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceStreamMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public AllianceStreamMessage(ByteStream Stream) : base(Stream)
+        {
+            // AllianceStreamMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AllianceStreamMessage"/> class.
+        /// </summary>
         /// <param name="Entries">The entries.</param>
         public AllianceStreamMessage(StreamEntry[] Entries)
         {
             this.Entries = Entries;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.Entries = new StreamEntry[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.Entries.Length; i++)
+            {
+                int EntryType = this.Stream.ReadVInt();
+
+                StreamEntry Entry = new StreamEntry();
+                Entry.Decode(this.Stream);
+                this.Entries[i] = Entry;
+            }
         }
 
         /// <summary>
@@ -46,10 +80,10 @@
         {
             this.Stream.WriteVInt(this.Entries.Length);
 
-            for (int I = 0; I < this.Entries.Length; I++)
+            for (int i = 0; i < this.Entries.Length; i++)
             {
-                this.Stream.WriteVInt(this.Entries[I].Type);
-                this.Entries[I].Encode(this.Stream);
+                this.Stream.WriteVInt(this.Entries[i].Type);
+                this.Entries[i].Encode(this.Stream);
             }
         }
     }

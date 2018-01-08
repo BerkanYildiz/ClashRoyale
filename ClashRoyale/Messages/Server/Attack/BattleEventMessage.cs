@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Attack
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Battle.Event;
 
     public class BattleEventMessage : Message
@@ -33,6 +34,15 @@
         /// Initializes a new instance of the <see cref="BattleEventMessage"/> class.
         /// </summary>
         public BattleEventMessage()
+        {
+            // BattleEventMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BattleEventMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public BattleEventMessage(ByteStream Stream) : base(Stream)
         {
             // BattleEventMessage.
         }

@@ -40,10 +40,19 @@ namespace ClashRoyale.Messages.Server.Account
         /// <summary>
         /// Initializes a new instance of the <see cref="InboxCountMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Stream">The stream.</param>
         public InboxCountMessage(ByteStream Stream) : base(Stream)
         {
             // InboxCountMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InboxCountMessage"/> class.
+        /// </summary>
+        /// <param name="NewMessageCount">The new message count.</param>
+        public InboxCountMessage(int NewMessageCount)
+        {
+            this.InboxNewMessageCnt = NewMessageCount;
         }
 
         /// <summary>

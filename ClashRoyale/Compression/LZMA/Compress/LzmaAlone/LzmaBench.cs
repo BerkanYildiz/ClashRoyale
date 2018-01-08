@@ -1,10 +1,10 @@
-namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
+namespace ClashRoyale.Compression.Lzma.Compress.LzmaAlone
 {
     using System;
     using System.IO;
 
-    using ClashRoyale.Compression.LZMA.Common;
-    using ClashRoyale.Compression.LZMA.Compress.LZMA;
+    using ClashRoyale.Compression.Lzma.Common;
+    using ClashRoyale.Compression.Lzma.Compress.LZMA;
 
     /// <summary>
     /// LZMA Benchmark
@@ -19,14 +19,14 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
         private const int kSubBits = 8;
 
-        public static int LzmaBenchmark(int NumIterations, uint DictionarySize)
+        public static int LzmaBenchmark(int numIterations, uint dictionarySize)
         {
-            if (NumIterations <= 0)
+            if (numIterations <= 0)
             {
                 return 0;
             }
 
-            if (DictionarySize < 1 << 18)
+            if (dictionarySize < 1 << 18)
             {
                 Console.WriteLine("\nError: dictionary size for benchmark must be >= 19 (512 KB)");
                 return 1;
@@ -35,106 +35,106 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
             Console.Write("\n       Compressing                Decompressing\n\n");
             Encoder encoder = new Encoder();
             Decoder decoder = new Decoder();
-            CoderPropId[] PropIDs =
+            CoderPropId[] propIDs =
                 {
                     CoderPropId.DictionarySize
                 };
             object[] properties =
                 {
-                    (Int32)DictionarySize
+                    (Int32)dictionarySize
                 };
-            uint KBufferSize = DictionarySize + LzmaBench.kAdditionalSize;
-            uint KCompressedBufferSize = KBufferSize / 2 + LzmaBench.kCompressedAdditionalSize;
-            encoder.SetCoderProperties(PropIDs, properties);
-            MemoryStream PropStream = new MemoryStream();
-            encoder.WriteCoderProperties(PropStream);
-            byte[] PropArray = PropStream.ToArray();
+            uint kBufferSize = dictionarySize + LzmaBench.kAdditionalSize;
+            uint kCompressedBufferSize = kBufferSize / 2 + LzmaBench.kCompressedAdditionalSize;
+            encoder.SetCoderProperties(propIDs, properties);
+            MemoryStream propStream = new MemoryStream();
+            encoder.WriteCoderProperties(propStream);
+            byte[] propArray = propStream.ToArray();
             CBenchRandomGenerator rg = new CBenchRandomGenerator();
-            rg.Set(KBufferSize);
+            rg.Set(kBufferSize);
             rg.Generate();
-            Crc crc = new Crc();
+            CRC crc = new CRC();
             crc.Init();
             crc.Update(rg.Buffer, 0, rg.BufferSize);
-            CProgressInfo ProgressInfo = new CProgressInfo();
-            ProgressInfo.ApprovedStart = DictionarySize;
-            ulong TotalBenchSize = 0;
-            ulong TotalEncodeTime = 0;
-            ulong TotalDecodeTime = 0;
-            ulong TotalCompressedSize = 0;
-            MemoryStream InStream = new MemoryStream(rg.Buffer, 0, (int)rg.BufferSize);
-            MemoryStream CompressedStream = new MemoryStream((int)KCompressedBufferSize);
-            CrcOutStream CrcOutStream = new CrcOutStream();
-            for (int i = 0; i < NumIterations; i++)
+            CProgressInfo progressInfo = new CProgressInfo();
+            progressInfo.ApprovedStart = dictionarySize;
+            ulong totalBenchSize = 0;
+            ulong totalEncodeTime = 0;
+            ulong totalDecodeTime = 0;
+            ulong totalCompressedSize = 0;
+            MemoryStream inStream = new MemoryStream(rg.Buffer, 0, (int)rg.BufferSize);
+            MemoryStream compressedStream = new MemoryStream((int)kCompressedBufferSize);
+            CrcOutStream crcOutStream = new CrcOutStream();
+            for (int i = 0; i < numIterations; i++)
             {
-                ProgressInfo.Init();
-                InStream.Seek(0, SeekOrigin.Begin);
-                CompressedStream.Seek(0, SeekOrigin.Begin);
-                encoder.Code(InStream, CompressedStream, -1, -1, ProgressInfo);
-                TimeSpan sp2 = DateTime.UtcNow - ProgressInfo.Time;
-                ulong EncodeTime = (UInt64)sp2.Ticks;
-                long CompressedSize = CompressedStream.Position;
-                if (ProgressInfo.InSize == 0)
+                progressInfo.Init();
+                inStream.Seek(0, SeekOrigin.Begin);
+                compressedStream.Seek(0, SeekOrigin.Begin);
+                encoder.Code(inStream, compressedStream, -1, -1, progressInfo);
+                TimeSpan sp2 = DateTime.UtcNow - progressInfo.Time;
+                ulong encodeTime = (UInt64)sp2.Ticks;
+                long compressedSize = compressedStream.Position;
+                if (progressInfo.InSize == 0)
                 {
                     throw new Exception("Internal ERROR 1282");
                 }
 
-                ulong DecodeTime = 0;
+                ulong decodeTime = 0;
                 for (int j = 0; j < 2; j++)
                 {
-                    CompressedStream.Seek(0, SeekOrigin.Begin);
-                    CrcOutStream.Init();
-                    decoder.SetDecoderProperties(PropArray);
-                    ulong OutSize = KBufferSize;
-                    DateTime StartTime = DateTime.UtcNow;
-                    decoder.Code(CompressedStream, CrcOutStream, 0, (Int64)OutSize, null);
-                    TimeSpan sp = DateTime.UtcNow - StartTime;
-                    DecodeTime = (ulong)sp.Ticks;
-                    if (CrcOutStream.GetDigest() != crc.GetDigest())
+                    compressedStream.Seek(0, SeekOrigin.Begin);
+                    crcOutStream.Init();
+                    decoder.SetDecoderProperties(propArray);
+                    ulong outSize = kBufferSize;
+                    DateTime startTime = DateTime.UtcNow;
+                    decoder.Code(compressedStream, crcOutStream, 0, (Int64)outSize, null);
+                    TimeSpan sp = DateTime.UtcNow - startTime;
+                    decodeTime = (ulong)sp.Ticks;
+                    if (crcOutStream.GetDigest() != crc.GetDigest())
                     {
                         throw new Exception("CRC Error");
                     }
                 }
 
-                ulong BenchSize = KBufferSize - (UInt64)ProgressInfo.InSize;
-                LzmaBench.PrintResults(DictionarySize, EncodeTime, BenchSize, false, 0);
+                ulong benchSize = kBufferSize - (UInt64)progressInfo.InSize;
+                LzmaBench.PrintResults(dictionarySize, encodeTime, benchSize, false, 0);
                 Console.Write("     ");
-                LzmaBench.PrintResults(DictionarySize, DecodeTime, KBufferSize, true, (ulong)CompressedSize);
+                LzmaBench.PrintResults(dictionarySize, decodeTime, kBufferSize, true, (ulong)compressedSize);
                 Console.WriteLine();
-                TotalBenchSize += BenchSize;
-                TotalEncodeTime += EncodeTime;
-                TotalDecodeTime += DecodeTime;
-                TotalCompressedSize += (ulong)CompressedSize;
+                totalBenchSize += benchSize;
+                totalEncodeTime += encodeTime;
+                totalDecodeTime += decodeTime;
+                totalCompressedSize += (ulong)compressedSize;
             }
 
             Console.WriteLine("---------------------------------------------------");
-            LzmaBench.PrintResults(DictionarySize, TotalEncodeTime, TotalBenchSize, false, 0);
+            LzmaBench.PrintResults(dictionarySize, totalEncodeTime, totalBenchSize, false, 0);
             Console.Write("     ");
-            LzmaBench.PrintResults(DictionarySize, TotalDecodeTime, KBufferSize * (UInt64)NumIterations, true, TotalCompressedSize);
+            LzmaBench.PrintResults(dictionarySize, totalDecodeTime, kBufferSize * (UInt64)numIterations, true, totalCompressedSize);
             Console.WriteLine("    Average");
             return 0;
         }
 
-        private static ulong GetCompressRating(uint DictionarySize, ulong ElapsedTime, ulong Size)
+        private static ulong GetCompressRating(uint dictionarySize, ulong elapsedTime, ulong size)
         {
-            ulong t = LzmaBench.GetLogSize(DictionarySize) - (18 << LzmaBench.kSubBits);
-            ulong NumCommandsForOne = 1060 + ((t * t * 10) >> (2 * LzmaBench.kSubBits));
-            ulong NumCommands = Size * NumCommandsForOne;
-            return LzmaBench.MyMultDiv64(NumCommands, ElapsedTime);
+            ulong t = LzmaBench.GetLogSize(dictionarySize) - (18 << LzmaBench.kSubBits);
+            ulong numCommandsForOne = 1060 + ((t * t * 10) >> (2 * LzmaBench.kSubBits));
+            ulong numCommands = size * numCommandsForOne;
+            return LzmaBench.MyMultDiv64(numCommands, elapsedTime);
         }
 
-        private static ulong GetDecompressRating(ulong ElapsedTime, ulong OutSize, ulong InSize)
+        private static ulong GetDecompressRating(ulong elapsedTime, ulong outSize, ulong inSize)
         {
-            ulong NumCommands = InSize * 220 + OutSize * 20;
-            return LzmaBench.MyMultDiv64(NumCommands, ElapsedTime);
+            ulong numCommands = inSize * 220 + outSize * 20;
+            return LzmaBench.MyMultDiv64(numCommands, elapsedTime);
         }
 
-        private static uint GetLogSize(uint Size)
+        private static uint GetLogSize(uint size)
         {
             for (int i = LzmaBench.kSubBits; i < 32; i++)
             {
                 for (uint j = 0; j < 1 << LzmaBench.kSubBits; j++)
                 {
-                    if (Size <= ((UInt32)1 << i) + (j << (i - LzmaBench.kSubBits)))
+                    if (size <= ((UInt32)1 << i) + (j << (i - LzmaBench.kSubBits)))
                     {
                         return (UInt32)(i << LzmaBench.kSubBits) + j;
                     }
@@ -144,56 +144,56 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
             return 32 << LzmaBench.kSubBits;
         }
 
-        private static ulong GetTotalRating(uint DictionarySize, ulong ElapsedTimeEn, ulong SizeEn, ulong ElapsedTimeDe, ulong InSizeDe, ulong OutSizeDe)
+        private static ulong GetTotalRating(uint dictionarySize, ulong elapsedTimeEn, ulong sizeEn, ulong elapsedTimeDe, ulong inSizeDe, ulong outSizeDe)
         {
-            return (LzmaBench.GetCompressRating(DictionarySize, ElapsedTimeEn, SizeEn) + LzmaBench.GetDecompressRating(ElapsedTimeDe, InSizeDe, OutSizeDe)) / 2;
+            return (LzmaBench.GetCompressRating(dictionarySize, elapsedTimeEn, sizeEn) + LzmaBench.GetDecompressRating(elapsedTimeDe, inSizeDe, outSizeDe)) / 2;
         }
 
-        private static ulong MyMultDiv64(ulong Value, ulong ElapsedTime)
+        private static ulong MyMultDiv64(ulong value, ulong elapsedTime)
         {
             ulong freq = TimeSpan.TicksPerSecond;
-            ulong ElTime = ElapsedTime;
+            ulong elTime = elapsedTime;
             while (freq > 1000000)
             {
                 freq >>= 1;
-                ElTime >>= 1;
+                elTime >>= 1;
             }
 
-            if (ElTime == 0)
+            if (elTime == 0)
             {
-                ElTime = 1;
+                elTime = 1;
             }
 
-            return Value * freq / ElTime;
+            return value * freq / elTime;
         }
 
-        private static void PrintRating(ulong Rating)
+        private static void PrintRating(ulong rating)
         {
-            LzmaBench.PrintValue(Rating / 1000000);
+            LzmaBench.PrintValue(rating / 1000000);
             Console.Write(" MIPS");
         }
 
-        private static void PrintResults(uint DictionarySize, ulong ElapsedTime, ulong Size, bool DecompressMode, ulong SecondSize)
+        private static void PrintResults(uint dictionarySize, ulong elapsedTime, ulong size, bool decompressMode, ulong secondSize)
         {
-            ulong speed = LzmaBench.MyMultDiv64(Size, ElapsedTime);
+            ulong speed = LzmaBench.MyMultDiv64(size, elapsedTime);
             LzmaBench.PrintValue(speed / 1024);
             Console.Write(" KB/s  ");
             ulong rating;
-            if (DecompressMode)
+            if (decompressMode)
             {
-                rating = LzmaBench.GetDecompressRating(ElapsedTime, Size, SecondSize);
+                rating = LzmaBench.GetDecompressRating(elapsedTime, size, secondSize);
             }
             else
             {
-                rating = LzmaBench.GetCompressRating(DictionarySize, ElapsedTime, Size);
+                rating = LzmaBench.GetCompressRating(dictionarySize, elapsedTime, size);
             }
 
             LzmaBench.PrintRating(rating);
         }
 
-        private static void PrintValue(ulong V)
+        private static void PrintValue(ulong v)
         {
-            string s = V.ToString();
+            string s = v.ToString();
             for (int i = 0; i + s.Length < 6; i++)
             {
                 Console.Write(" ");
@@ -212,22 +212,22 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
             private uint Rep0;
 
-            private readonly CBitRandomGenerator Rg = new CBitRandomGenerator();
+            private readonly CBitRandomGenerator RG = new CBitRandomGenerator();
 
             public void Generate()
             {
-                this.Rg.Init();
+                this.RG.Init();
                 this.Rep0 = 1;
                 while (this.Pos < this.BufferSize)
                 {
                     if (this.GetRndBit() == 0 || this.Pos < 1)
                     {
-                        this.Buffer[this.Pos++] = (Byte)this.Rg.GetRnd(8);
+                        this.Buffer[this.Pos++] = (Byte)this.RG.GetRnd(8);
                     }
                     else
                     {
                         uint len;
-                        if (this.Rg.GetRnd(3) == 0)
+                        if (this.RG.GetRnd(3) == 0)
                         {
                             len = 1 + this.GetLen1();
                         }
@@ -251,27 +251,27 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
                 }
             }
 
-            public void Set(uint BufferSize)
+            public void Set(uint bufferSize)
             {
-                this.Buffer = new byte[BufferSize];
+                this.Buffer = new byte[bufferSize];
                 this.Pos = 0;
-                this.BufferSize = BufferSize;
+                this.BufferSize = bufferSize;
             }
 
             private uint GetLen1()
             {
-                return this.Rg.GetRnd(1 + (int)this.Rg.GetRnd(2));
+                return this.RG.GetRnd(1 + (int)this.RG.GetRnd(2));
             }
 
             private uint GetLen2()
             {
-                return this.Rg.GetRnd(2 + (int)this.Rg.GetRnd(2));
+                return this.RG.GetRnd(2 + (int)this.RG.GetRnd(2));
             }
 
-            private uint GetLogRandBits(int NumBits)
+            private uint GetLogRandBits(int numBits)
             {
-                uint len = this.Rg.GetRnd(NumBits);
-                return this.Rg.GetRnd((int)len);
+                uint len = this.RG.GetRnd(numBits);
+                return this.RG.GetRnd((int)len);
             }
 
             private uint GetOffset()
@@ -281,12 +281,12 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
                     return this.GetLogRandBits(4);
                 }
 
-                return (this.GetLogRandBits(4) << 10) | this.Rg.GetRnd(10);
+                return (this.GetLogRandBits(4) << 10) | this.RG.GetRnd(10);
             }
 
             private uint GetRndBit()
             {
-                return this.Rg.GetRnd(1);
+                return this.RG.GetRnd(1);
             }
         }
 
@@ -294,27 +294,27 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
         {
             private int NumBits;
 
-            private readonly CRandomGenerator Rg = new CRandomGenerator();
+            private readonly CRandomGenerator RG = new CRandomGenerator();
 
             private uint Value;
 
-            public uint GetRnd(int NumBits)
+            public uint GetRnd(int numBits)
             {
                 uint result;
-                if (this.NumBits > NumBits)
+                if (this.NumBits > numBits)
                 {
-                    result = this.Value & (((UInt32)1 << NumBits) - 1);
-                    this.Value >>= NumBits;
-                    this.NumBits -= NumBits;
+                    result = this.Value & (((UInt32)1 << numBits) - 1);
+                    this.Value >>= numBits;
+                    this.NumBits -= numBits;
                     return result;
                 }
 
-                NumBits -= this.NumBits;
-                result = this.Value << NumBits;
-                this.Value = this.Rg.GetRnd();
-                result |= this.Value & (((UInt32)1 << NumBits) - 1);
-                this.Value >>= NumBits;
-                this.NumBits = 32 - NumBits;
+                numBits -= this.NumBits;
+                result = this.Value << numBits;
+                this.Value = this.RG.GetRnd();
+                result |= this.Value & (((UInt32)1 << numBits) - 1);
+                this.Value >>= numBits;
+                this.NumBits = 32 - numBits;
                 return result;
             }
 
@@ -338,12 +338,12 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
                 this.InSize = 0;
             }
 
-            public void SetProgress(long InSize, long OutSize)
+            public void SetProgress(long inSize, long outSize)
             {
-                if (InSize >= this.ApprovedStart && this.InSize == 0)
+                if (inSize >= this.ApprovedStart && this.InSize == 0)
                 {
                     this.Time = DateTime.UtcNow;
-                    this.InSize = InSize;
+                    this.InSize = inSize;
                 }
             }
         }
@@ -373,7 +373,7 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
         private class CrcOutStream : Stream
         {
-            public readonly Crc Crc = new Crc();
+            public readonly CRC CRC = new CRC();
 
             public override bool CanRead => false;
 
@@ -401,36 +401,36 @@ namespace ClashRoyale.Compression.LZMA.Compress.LzmaAlone
 
             public uint GetDigest()
             {
-                return this.Crc.GetDigest();
+                return this.CRC.GetDigest();
             }
 
             public void Init()
             {
-                this.Crc.Init();
+                this.CRC.Init();
             }
 
-            public override int Read(byte[] Buffer, int Offset, int Count)
+            public override int Read(byte[] buffer, int offset, int count)
             {
                 return 0;
             }
 
-            public override long Seek(long Offset, SeekOrigin Origin)
+            public override long Seek(long offset, SeekOrigin origin)
             {
                 return 0;
             }
 
-            public override void SetLength(long Value)
+            public override void SetLength(long value)
             {
             }
 
-            public override void Write(byte[] Buffer, int Offset, int Count)
+            public override void Write(byte[] buffer, int offset, int count)
             {
-                this.Crc.Update(Buffer, (uint)Offset, (uint)Count);
+                this.CRC.Update(buffer, (uint)offset, (uint)count);
             }
 
-            public override void WriteByte(byte B)
+            public override void WriteByte(byte b)
             {
-                this.Crc.UpdateByte(B);
+                this.CRC.UpdateByte(b);
             }
         }
     }

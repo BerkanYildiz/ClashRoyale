@@ -1,4 +1,4 @@
-namespace ClashRoyale.Compression.LZMA.Compress.RangeCoder
+namespace ClashRoyale.Compression.Lzma.Compress.RangeCoder
 {
     using System;
 
@@ -21,9 +21,9 @@ namespace ClashRoyale.Compression.LZMA.Compress.RangeCoder
             this.Prob = BitEncoder.kBitModelTotal >> 1;
         }
 
-        public void UpdateModel(uint Symbol)
+        public void UpdateModel(uint symbol)
         {
-            if (Symbol == 0)
+            if (symbol == 0)
             {
                 this.Prob += (BitEncoder.kBitModelTotal - this.Prob) >> BitEncoder.kNumMoveBits;
             }
@@ -33,26 +33,26 @@ namespace ClashRoyale.Compression.LZMA.Compress.RangeCoder
             }
         }
 
-        public void Encode(Encoder Encoder, uint Symbol)
+        public void Encode(Encoder encoder, uint symbol)
         {
             // encoder.EncodeBit(Prob, kNumBitModelTotalBits, symbol); UpdateModel(symbol);
-            uint NewBound = (Encoder.Range >> BitEncoder.kNumBitModelTotalBits) * this.Prob;
-            if (Symbol == 0)
+            uint newBound = (encoder.Range >> BitEncoder.kNumBitModelTotalBits) * this.Prob;
+            if (symbol == 0)
             {
-                Encoder.Range = NewBound;
+                encoder.Range = newBound;
                 this.Prob += (BitEncoder.kBitModelTotal - this.Prob) >> BitEncoder.kNumMoveBits;
             }
             else
             {
-                Encoder.Low += NewBound;
-                Encoder.Range -= NewBound;
+                encoder.Low += newBound;
+                encoder.Range -= newBound;
                 this.Prob -= this.Prob >> BitEncoder.kNumMoveBits;
             }
 
-            if (Encoder.Range < Encoder.kTopValue)
+            if (encoder.Range < Encoder.kTopValue)
             {
-                Encoder.Range <<= 8;
-                Encoder.ShiftLow();
+                encoder.Range <<= 8;
+                encoder.ShiftLow();
             }
         }
 
@@ -60,21 +60,21 @@ namespace ClashRoyale.Compression.LZMA.Compress.RangeCoder
 
         static BitEncoder()
         {
-            const int KNumBits = BitEncoder.kNumBitModelTotalBits - BitEncoder.kNumMoveReducingBits;
-            for (int i = KNumBits - 1; i >= 0; i--)
+            const int kNumBits = BitEncoder.kNumBitModelTotalBits - BitEncoder.kNumMoveReducingBits;
+            for (int i = kNumBits - 1; i >= 0; i--)
             {
-                uint start = (UInt32)1 << (KNumBits - i - 1);
-                uint end = (UInt32)1 << (KNumBits - i);
+                uint start = (UInt32)1 << (kNumBits - i - 1);
+                uint end = (UInt32)1 << (kNumBits - i);
                 for (uint j = start; j < end; j++)
                 {
-                    BitEncoder.ProbPrices[j] = ((UInt32)i << BitEncoder.kNumBitPriceShiftBits) + (((end - j) << BitEncoder.kNumBitPriceShiftBits) >> (KNumBits - i - 1));
+                    BitEncoder.ProbPrices[j] = ((UInt32)i << BitEncoder.kNumBitPriceShiftBits) + (((end - j) << BitEncoder.kNumBitPriceShiftBits) >> (kNumBits - i - 1));
                 }
             }
         }
 
-        public uint GetPrice(uint Symbol)
+        public uint GetPrice(uint symbol)
         {
-            return BitEncoder.ProbPrices[(((this.Prob - Symbol) ^ -(int)Symbol) & (BitEncoder.kBitModelTotal - 1)) >> BitEncoder.kNumMoveReducingBits];
+            return BitEncoder.ProbPrices[(((this.Prob - symbol) ^ -(int)symbol) & (BitEncoder.kBitModelTotal - 1)) >> BitEncoder.kNumMoveReducingBits];
         }
 
         public uint GetPrice0()
@@ -98,15 +98,15 @@ namespace ClashRoyale.Compression.LZMA.Compress.RangeCoder
 
         private uint Prob;
 
-        public void UpdateModel(int NumMoveBits, uint Symbol)
+        public void UpdateModel(int numMoveBits, uint symbol)
         {
-            if (Symbol == 0)
+            if (symbol == 0)
             {
-                this.Prob += (BitDecoder.kBitModelTotal - this.Prob) >> NumMoveBits;
+                this.Prob += (BitDecoder.kBitModelTotal - this.Prob) >> numMoveBits;
             }
             else
             {
-                this.Prob -= this.Prob >> NumMoveBits;
+                this.Prob -= this.Prob >> numMoveBits;
             }
         }
 
@@ -115,29 +115,29 @@ namespace ClashRoyale.Compression.LZMA.Compress.RangeCoder
             this.Prob = BitDecoder.kBitModelTotal >> 1;
         }
 
-        public uint Decode(Decoder RangeDecoder)
+        public uint Decode(Decoder rangeDecoder)
         {
-            uint NewBound = (RangeDecoder.Range >> BitDecoder.kNumBitModelTotalBits) * this.Prob;
-            if (RangeDecoder.Code < NewBound)
+            uint newBound = (rangeDecoder.Range >> BitDecoder.kNumBitModelTotalBits) * this.Prob;
+            if (rangeDecoder.Code < newBound)
             {
-                RangeDecoder.Range = NewBound;
+                rangeDecoder.Range = newBound;
                 this.Prob += (BitDecoder.kBitModelTotal - this.Prob) >> BitDecoder.kNumMoveBits;
-                if (RangeDecoder.Range < Decoder.kTopValue)
+                if (rangeDecoder.Range < Decoder.kTopValue)
                 {
-                    RangeDecoder.Code = (RangeDecoder.Code << 8) | (byte)RangeDecoder.Stream.ReadByte();
-                    RangeDecoder.Range <<= 8;
+                    rangeDecoder.Code = (rangeDecoder.Code << 8) | (byte)rangeDecoder.Stream.ReadByte();
+                    rangeDecoder.Range <<= 8;
                 }
 
                 return 0;
             }
 
-            RangeDecoder.Range -= NewBound;
-            RangeDecoder.Code -= NewBound;
+            rangeDecoder.Range -= newBound;
+            rangeDecoder.Code -= newBound;
             this.Prob -= this.Prob >> BitDecoder.kNumMoveBits;
-            if (RangeDecoder.Range < Decoder.kTopValue)
+            if (rangeDecoder.Range < Decoder.kTopValue)
             {
-                RangeDecoder.Code = (RangeDecoder.Code << 8) | (byte)RangeDecoder.Stream.ReadByte();
-                RangeDecoder.Range <<= 8;
+                rangeDecoder.Code = (rangeDecoder.Code << 8) | (byte)rangeDecoder.Stream.ReadByte();
+                rangeDecoder.Range <<= 8;
             }
 
             return 1;

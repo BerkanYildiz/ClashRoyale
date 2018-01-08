@@ -40,5 +40,10 @@
 
             return Input;
         }
+
+        public static byte[] DecompressCompressableByteArray(byte[] Input)
+        {
+            return ZlibStream.UncompressBuffer(Input);
+        }
     }
 }

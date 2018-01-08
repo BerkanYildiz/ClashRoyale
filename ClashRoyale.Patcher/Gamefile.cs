@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Security.Cryptography;
 
-    using ClashRoyale.Compression.LZMA;
-    using ClashRoyale.Compression.LZMA.Compress.LZMA;
+    using ClashRoyale.Compression.Lzma;
+    using ClashRoyale.Compression.Lzma.Compress.LZMA;
 
     using Newtonsoft.Json.Linq;
 

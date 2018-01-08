@@ -1,8 +1,7 @@
 ﻿namespace ClashRoyale.Messages.Server.Sector
 {
-    using System.Collections.Generic;
-
     using ClashRoyale.Enums;
+    using ClashRoyale.Exceptions;
     using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Commands;
     using ClashRoyale.Logic.Commands.Manager;
@@ -34,7 +33,24 @@
         public int ServerTurn;
         public int Checksum;
 
-        public List<Command> Commands;
+        public Command[] Commands;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SectorHearbeatMessage"/> class.
+        /// </summary>
+        public SectorHearbeatMessage()
+        {
+            // SectorHearbeatMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SectorHearbeatMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public SectorHearbeatMessage(ByteStream Stream) : base(Stream)
+        {
+            // SectorHearbeatMessage.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SectorHearbeatMessage"/> class.
@@ -42,11 +58,36 @@
         /// <param name="ServerTurn">The server turn.</param>
         /// <param name="Checksum">The checksum.</param>
         /// <param name="Commands">The commands.</param>
-        public SectorHearbeatMessage(int ServerTurn, int Checksum, List<Command> Commands)
+        public SectorHearbeatMessage(int ServerTurn, int Checksum, Command[] Commands)
         {
             this.ServerTurn = ServerTurn;
-            this.Checksum = Checksum;
-            this.Commands = Commands;
+            this.Checksum   = Checksum;
+            this.Commands   = Commands;
+        }
+
+        /// <summary>
+        /// Decodes this instance.
+        /// </summary>
+        public override void Decode()
+        {
+            this.ServerTurn = this.Stream.ReadVInt();
+            this.Checksum   = this.Stream.ReadVInt();
+
+            this.Commands   = new Command[this.Stream.ReadVInt()];
+
+            for (int i = 0; i < this.Commands.Length; i++)
+            {
+                Command Command = CommandManager.DecodeCommand(this.Stream);
+
+                if (Command != null)
+                {
+                    this.Commands[i] = Command;
+                }
+                else
+                {
+                    throw new LogicException(this.GetType(), "Command == null at Decode().");
+                }
+            }
         }
 
         /// <summary>
@@ -57,20 +98,23 @@
             this.Stream.WriteVInt(this.ServerTurn);
             this.Stream.WriteVInt(this.Checksum);
 
-            if (this.Commands.Count > 0)
-            {
-                this.Stream.WriteVInt(this.Commands.Count);
+            this.Stream.WriteVInt(this.Commands.Length);
 
+            if (this.Commands.Length > 0)
+            {
                 ChecksumEncoder Encoder = new ChecksumEncoder(this.Stream);
 
-                for (int I = 0; I < this.Commands.Count; I++)
+                foreach (Command Command in this.Commands)
                 {
-                    CommandManager.EncodeCommand(this.Commands[I], Encoder);
+                    if (Command != null)
+                    {
+                        CommandManager.EncodeCommand(Command, Encoder);
+                    }
+                    else
+                    {
+                        throw new LogicException(this.GetType(), "Command == null at Encode().");
+                    }
                 }
-            }
-            else
-            {
-                this.Stream.WriteVInt(0);
             }
         }
     }

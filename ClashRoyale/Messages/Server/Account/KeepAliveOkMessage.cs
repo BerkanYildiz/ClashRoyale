@@ -38,7 +38,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="KeepAliveOkMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        /// <param name="Stream">The stream.</param>
         public KeepAliveOkMessage(ByteStream Stream) : base(Stream)
         {
             // KeepAliveOkMessage.

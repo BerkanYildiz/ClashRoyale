@@ -1,71 +1,71 @@
-namespace ClashRoyale.Compression.LZMA.Common
+namespace ClashRoyale.Compression.Lzma.Common
 {
     using System.IO;
 
     public class OutBuffer
     {
-        private readonly byte[] MBuffer;
+        private readonly byte[] m_Buffer;
 
-        private readonly uint MBufferSize;
+        private readonly uint m_BufferSize;
 
-        private uint MPos;
+        private uint m_Pos;
 
-        private ulong MProcessedSize;
+        private ulong m_ProcessedSize;
 
-        private Stream MStream;
+        private Stream m_Stream;
 
-        public OutBuffer(uint BufferSize)
+        public OutBuffer(uint bufferSize)
         {
-            this.MBuffer = new byte[BufferSize];
-            this.MBufferSize = BufferSize;
+            this.m_Buffer = new byte[bufferSize];
+            this.m_BufferSize = bufferSize;
         }
 
         public void CloseStream()
         {
-            this.MStream.Close();
+            this.m_Stream.Close();
         }
 
         public void FlushData()
         {
-            if (this.MPos == 0)
+            if (this.m_Pos == 0)
             {
                 return;
             }
 
-            this.MStream.Write(this.MBuffer, 0, (int)this.MPos);
-            this.MPos = 0;
+            this.m_Stream.Write(this.m_Buffer, 0, (int)this.m_Pos);
+            this.m_Pos = 0;
         }
 
         public void FlushStream()
         {
-            this.MStream.Flush();
+            this.m_Stream.Flush();
         }
 
         public ulong GetProcessedSize()
         {
-            return this.MProcessedSize + this.MPos;
+            return this.m_ProcessedSize + this.m_Pos;
         }
 
         public void Init()
         {
-            this.MProcessedSize = 0;
-            this.MPos = 0;
+            this.m_ProcessedSize = 0;
+            this.m_Pos = 0;
         }
 
         public void ReleaseStream()
         {
-            this.MStream = null;
+            this.m_Stream = null;
         }
 
-        public void SetStream(Stream Stream)
+        public void SetStream(Stream stream)
         {
-            this.MStream = Stream;
+            this.m_Stream = stream;
         }
 
-        public void WriteByte(byte B)
+        public void WriteByte(byte b)
         {
-            this.MBuffer[this.MPos++] = B;
-            if (this.MPos >= this.MBufferSize)
+            this.m_Buffer[this.m_Pos++] = b;
+            if (this.m_Pos >= this.m_BufferSize)
             {
                 this.FlushData();
             }

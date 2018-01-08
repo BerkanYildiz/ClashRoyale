@@ -51,6 +51,9 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.2.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.2.1\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="SharpRaven, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpRaven.2.2.0\lib\net45\SharpRaven.dll</HintPath>
     </Reference>
@@ -63,25 +66,33 @@
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compression\LZMA\Common\CommandLineParser.cs" />
-    <Compile Include="Compression\LZMA\Common\CRC.cs" />
-    <Compile Include="Compression\LZMA\Common\InBuffer.cs" />
-    <Compile Include="Compression\LZMA\Common\OutBuffer.cs" />
-    <Compile Include="Compression\LZMA\Compress\LzmaAlone\LzmaAlone.cs" />
-    <Compile Include="Compression\LZMA\Compress\LzmaAlone\LzmaBench.cs" />
-    <Compile Include="Compression\LZMA\Compress\LZMA\LzmaBase.cs" />
-    <Compile Include="Compression\LZMA\Compress\LZMA\LzmaDecoder.cs" />
-    <Compile Include="Compression\LZMA\Compress\LZMA\LzmaEncoder.cs" />
-    <Compile Include="Compression\LZMA\Compress\LZ\IMatchFinder.cs" />
-    <Compile Include="Compression\LZMA\Compress\LZ\LzBinTree.cs" />
-    <Compile Include="Compression\LZMA\Compress\LZ\LzInWindow.cs" />
-    <Compile Include="Compression\LZMA\Compress\LZ\LzOutWindow.cs" />
-    <Compile Include="Compression\LZMA\Compress\RangeCoder\RangeCoder.cs" />
-    <Compile Include="Compression\LZMA\Compress\RangeCoder\RangeCoderBit.cs" />
-    <Compile Include="Compression\LZMA\Compress\RangeCoder\RangeCoderBitTree.cs" />
-    <Compile Include="Compression\LZMA\ICoder.cs" />
+    <Compile Include="Api\IpResponse.cs" />
+    <Compile Include="Api\IpRequester.cs" />
+    <Compile Include="Base.cs" />
+    <Compile Include="Compression\Lzma\Common\CommandLineParser.cs" />
+    <Compile Include="Compression\Lzma\Common\CRC.cs" />
+    <Compile Include="Compression\Lzma\Common\InBuffer.cs" />
+    <Compile Include="Compression\Lzma\Common\OutBuffer.cs" />
+    <Compile Include="Compression\Lzma\Compress\LzmaAlone\LzmaAlone.cs" />
+    <Compile Include="Compression\Lzma\Compress\LzmaAlone\LzmaBench.cs" />
+    <Compile Include="Compression\Lzma\Compress\LZMA\LzmaBase.cs" />
+    <Compile Include="Compression\Lzma\Compress\LZMA\LzmaDecoder.cs" />
+    <Compile Include="Compression\Lzma\Compress\LZMA\LzmaEncoder.cs" />
+    <Compile Include="Compression\Lzma\Compress\LZ\IMatchFinder.cs" />
+    <Compile Include="Compression\Lzma\Compress\LZ\LzBinTree.cs" />
+    <Compile Include="Compression\Lzma\Compress\LZ\LzInWindow.cs" />
+    <Compile Include="Compression\Lzma\Compress\LZ\LzOutWindow.cs" />
+    <Compile Include="Compression\Lzma\Compress\RangeCoder\RangeCoder.cs" />
+    <Compile Include="Compression\Lzma\Compress\RangeCoder\RangeCoderBit.cs" />
+    <Compile Include="Compression\Lzma\Compress\RangeCoder\RangeCoderBitTree.cs" />
+    <Compile Include="Compression\Lzma\ICoder.cs" />
     <Compile Include="Compression\ZLib\CRC32.cs" />
     <Compile Include="Compression\ZLib\Deflate.cs" />
     <Compile Include="Compression\ZLib\DeflateStream.cs" />
@@ -223,6 +234,7 @@
     <Compile Include="Interfaces\IDevice.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Logic\Alliance\Clan.cs" />
+    <Compile Include="Logic\Alliance\Entries\AllianceFullEntry.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceHeaderEntry.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceMemberEntry.cs" />
     <Compile Include="Logic\Alliance\Slots\AllianceMemberEntries.cs" />
@@ -281,7 +293,6 @@
     <Compile Include="Logic\Converters\SpellCollectionConverter.cs" />
     <Compile Include="Logic\Converters\SpellDeckConverter.cs" />
     <Compile Include="Logic\Device.cs" />
-    <Compile Include="Logic\Event\Manager\EventManager.cs" />
     <Compile Include="Logic\GameObject\Character.cs" />
     <Compile Include="Logic\GameObject\Component\CharacterBuffComponent.cs" />
     <Compile Include="Logic\GameObject\Component\CombatComponent.cs" />
@@ -298,8 +309,7 @@
     <Compile Include="Logic\Home\Spells\SpellCollection.cs" />
     <Compile Include="Logic\Home\Spells\SpellDeck.cs" />
     <Compile Include="Logic\Home\Spells\SpellSet.cs" />
-    <Compile Include="Logic\Inbox\Entry\InboxEntry.cs" />
-    <Compile Include="Logic\Inbox\InboxManager.cs" />
+    <Compile Include="Logic\Inbox\InboxEntry.cs" />
     <Compile Include="Logic\Manager\AchievementManager.cs" />
     <Compile Include="Logic\Mode\GameMode.cs" />
     <Compile Include="Logic\Player\Enums\CommodityType.cs" />
@@ -411,7 +421,7 @@
     <Compile Include="Messages\Server\RoyalTv\RoyalTVContentMessage.cs" />
     <Compile Include="Messages\Server\Scoring\AllianceLocalRankingListMessage.cs" />
     <Compile Include="Messages\Server\Scoring\AllianceRankingListMessage.cs" />
-    <Compile Include="Messages\Server\Scoring\AvatarLocaleRankingListMessage.cs" />
+    <Compile Include="Messages\Server\Scoring\AvatarLocalRankingListMessage.cs" />
     <Compile Include="Messages\Server\Scoring\AvatarRankingListMessage.cs" />
     <Compile Include="Messages\Server\Sector\SectorHearbeatMessage.cs" />
     <Compile Include="Messages\Server\Sector\SectorStateMessage.cs" />
@@ -4588,6 +4598,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logic\Commands\Debug\" />
+    <Folder Include="Logic\Event\" />
     <Folder Include="Logic\Home\Manager\" />
     <Folder Include="Logic\Home\Slot\" />
   </ItemGroup>

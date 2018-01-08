@@ -4,7 +4,7 @@ namespace ClashRoyale.Messages.Server.Scoring
     using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Scoring;
 
-    public class AvatarRankingListMessage : Message
+    public class AvatarLocalRankingListMessage : Message
     {
         /// <summary>
         /// Gets the type of this message.
@@ -13,7 +13,7 @@ namespace ClashRoyale.Messages.Server.Scoring
         {
             get
             {
-                return 29733;
+                return 25390;
             }
         }
 
@@ -27,35 +27,33 @@ namespace ClashRoyale.Messages.Server.Scoring
                 return Node.Scoring;
             }
         }
-        
+
         public AvatarRankingEntry[] Entries;
         public AvatarRankingEntry[] LastSeasonEntries;
 
-        public int TimeLeft;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="AvatarRankingListMessage"/> class.
+        /// Initializes a new instance of the <see cref="AvatarLocalRankingListMessage"/> class.
         /// </summary>
-        public AvatarRankingListMessage()
+        public AvatarLocalRankingListMessage()
         {
-            // AvatarRankingListMessage.
+            // AvatarLocaleRankingListMessage.
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AvatarRankingListMessage"/> class.
+        /// Initializes a new instance of the <see cref="AvatarLocalRankingListMessage"/> class.
         /// </summary>
         /// <param name="Stream">The stream.</param>
-        public AvatarRankingListMessage(ByteStream Stream) : base(Stream)
+        public AvatarLocalRankingListMessage(ByteStream Stream) : base(Stream)
         {
-            // AvatarRankingListMessage.
+            // AvatarLocaleRankingListMessage.
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AvatarRankingListMessage"/> class.
+        /// Initializes a new instance of the <see cref="AvatarLocalRankingListMessage"/> class.
         /// </summary>
         /// <param name="Entries">The entries.</param>
         /// <param name="LastSeasonEntries">The last season entries.</param>
-        public AvatarRankingListMessage(AvatarRankingEntry[] Entries, AvatarRankingEntry[] LastSeasonEntries)
+        public AvatarLocalRankingListMessage(AvatarRankingEntry[] Entries, AvatarRankingEntry[] LastSeasonEntries)
         {
             this.Entries = Entries;
             this.LastSeasonEntries = LastSeasonEntries;
@@ -83,8 +81,6 @@ namespace ClashRoyale.Messages.Server.Scoring
                 Entry.Decode(this.Stream);
                 this.LastSeasonEntries[i] = Entry;
             }
-
-            this.TimeLeft = this.Stream.ReadInt();
         }
 
         /// <summary>
@@ -105,8 +101,6 @@ namespace ClashRoyale.Messages.Server.Scoring
             {
                 Entry.Encode(this.Stream);
             }
-
-            this.Stream.WriteInt(this.TimeLeft);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace ClashRoyale.Compression.ZLib
     {
         // And'ing with mask[n] masks the lower n bits
         internal static readonly int[] InflateMask =
-        {
-            0x00000000, 0x00000001, 0x00000003, 0x00000007, 0x0000000f, 0x0000001f, 0x0000003f, 0x0000007f, 0x000000ff, 0x000001ff, 0x000003ff, 0x000007ff, 0x00000fff, 0x00001fff, 0x00003fff, 0x00007fff, 0x0000ffff
-        };
+            {
+                0x00000000, 0x00000001, 0x00000003, 0x00000007, 0x0000000f, 0x0000001f, 0x0000003f, 0x0000007f, 0x000000ff, 0x000001ff, 0x000003ff, 0x000007ff, 0x00000fff, 0x00001fff, 0x00003fff, 0x00007fff, 0x0000ffff
+            };
     }
 
     internal sealed class InflateBlocks
@@ -17,9 +17,9 @@ namespace ClashRoyale.Compression.ZLib
 
         // Table for deflate from PKZIP's appnote.txt.
         internal static readonly int[] border =
-        {
-            16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15
-        };
+            {
+                16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15
+            };
 
         internal ZlibCodec _codec;
 
@@ -58,7 +58,9 @@ namespace ClashRoyale.Compression.ZLib
         internal int last;
 
         internal int left;
+
         internal int readAt;
+
         internal int table;
 
         // table lengths (14 bits)
@@ -82,14 +84,23 @@ namespace ClashRoyale.Compression.ZLib
         private enum InflateBlockMode
         {
             TYPE = 0, // get type bits (3, including end bit)
+
             LENS = 1, // get lengths for stored
+
             STORED = 2, // processing stored block
+
             TABLE = 3, // get table lengths
+
             BTREE = 4, // get bit lengths tree for a dynamic block
+
             DTREE = 5, // get length, distance trees for a dynamic block
+
             CODES = 6, // processing fixed or dynamic block
+
             DRY = 7, // output remaining window bytes
+
             DONE = 8, // finished last block, done
+
             BAD = 9 // ot a data error--stuck here
         }
 
@@ -111,7 +122,6 @@ namespace ClashRoyale.Compression.ZLib
         internal int Flush(int r)
         {
             int nBytes;
-
             for (int pass = 0; pass < 2; pass++)
             {
                 if (pass == 0)
@@ -203,7 +213,6 @@ namespace ClashRoyale.Compression.ZLib
             n = this._codec.AvailableBytesIn;
             b = this.bitb;
             k = this.bitk;
-
             q = this.writeAt;
             m = q < this.readAt ? this.readAt - q - 1 : this.end - q;
 
@@ -213,7 +222,6 @@ namespace ClashRoyale.Compression.ZLib
                 switch (this.mode)
                 {
                     case InflateBlockMode.TYPE:
-
                         while (k < 3)
                         {
                             if (n != 0)
@@ -238,8 +246,7 @@ namespace ClashRoyale.Compression.ZLib
 
                         t = b & 7;
                         this.last = t & 1;
-
-                        switch ((uint) t >> 1)
+                        switch ((uint)t >> 1)
                         {
                             case 0: // stored
                                 b >>= 3;
@@ -249,7 +256,6 @@ namespace ClashRoyale.Compression.ZLib
                                 k -= t;
                                 this.mode = InflateBlockMode.LENS; // get length of stored block
                                 break;
-
                             case 1: // fixed
                                 int[] bl = new int[1];
                                 int[] bd = new int[1];
@@ -261,13 +267,11 @@ namespace ClashRoyale.Compression.ZLib
                                 k -= 3;
                                 this.mode = InflateBlockMode.CODES;
                                 break;
-
                             case 2: // dynamic
                                 b >>= 3;
                                 k -= 3;
                                 this.mode = InflateBlockMode.TABLE;
                                 break;
-
                             case 3: // illegal
                                 b >>= 3;
                                 k -= 3;
@@ -284,9 +288,7 @@ namespace ClashRoyale.Compression.ZLib
                         }
 
                         break;
-
                     case InflateBlockMode.LENS:
-
                         while (k < 32)
                         {
                             if (n != 0)
@@ -315,7 +317,6 @@ namespace ClashRoyale.Compression.ZLib
                             this.mode = InflateBlockMode.BAD;
                             this._codec.Message = "invalid stored block lengths";
                             r = ZlibConstants.Z_DATA_ERROR;
-
                             this.bitb = b;
                             this.bitk = k;
                             this._codec.AvailableBytesIn = n;
@@ -329,7 +330,6 @@ namespace ClashRoyale.Compression.ZLib
                         b = k = 0; // dump bits
                         this.mode = this.left != 0 ? InflateBlockMode.STORED : (this.last != 0 ? InflateBlockMode.DRY : InflateBlockMode.TYPE);
                         break;
-
                     case InflateBlockMode.STORED:
                         if (n == 0)
                         {
@@ -376,7 +376,6 @@ namespace ClashRoyale.Compression.ZLib
                         }
 
                         r = ZlibConstants.Z_OK;
-
                         t = this.left;
                         if (t > n)
                         {
@@ -400,9 +399,7 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = this.last != 0 ? InflateBlockMode.DRY : InflateBlockMode.TYPE;
                         break;
-
                     case InflateBlockMode.TABLE:
-
                         while (k < 14)
                         {
                             if (n != 0)
@@ -431,7 +428,6 @@ namespace ClashRoyale.Compression.ZLib
                             this.mode = InflateBlockMode.BAD;
                             this._codec.Message = "too many length or distance symbols";
                             r = ZlibConstants.Z_DATA_ERROR;
-
                             this.bitb = b;
                             this.bitk = k;
                             this._codec.AvailableBytesIn = n;
@@ -455,11 +451,9 @@ namespace ClashRoyale.Compression.ZLib
 
                         b >>= 14;
                         k -= 14;
-
                         this.index = 0;
                         this.mode = InflateBlockMode.BTREE;
                         goto case InflateBlockMode.BTREE;
-
                     case InflateBlockMode.BTREE:
                         while (this.index < 4 + (this.table >> 10))
                         {
@@ -486,7 +480,6 @@ namespace ClashRoyale.Compression.ZLib
                             }
 
                             this.blens[InflateBlocks.border[this.index++]] = b & 7;
-
                             b >>= 3;
                             k -= 3;
                         }
@@ -519,7 +512,6 @@ namespace ClashRoyale.Compression.ZLib
                         this.index = 0;
                         this.mode = InflateBlockMode.DTREE;
                         goto case InflateBlockMode.DTREE;
-
                     case InflateBlockMode.DTREE:
                         while (true)
                         {
@@ -530,9 +522,7 @@ namespace ClashRoyale.Compression.ZLib
                             }
 
                             int i, j, c;
-
                             t = this.bb[0];
-
                             while (k < t)
                             {
                                 if (n != 0)
@@ -557,7 +547,6 @@ namespace ClashRoyale.Compression.ZLib
 
                             t = this.hufts[(this.tb[0] + (b & InternalInflateConstants.InflateMask[t])) * 3 + 1];
                             c = this.hufts[(this.tb[0] + (b & InternalInflateConstants.InflateMask[t])) * 3 + 2];
-
                             if (c < 16)
                             {
                                 b >>= t;
@@ -569,7 +558,6 @@ namespace ClashRoyale.Compression.ZLib
                                 // c == 16..18
                                 i = c == 18 ? 7 : c - 14;
                                 j = c == 18 ? 11 : 3;
-
                                 while (k < t + i)
                                 {
                                     if (n != 0)
@@ -594,12 +582,9 @@ namespace ClashRoyale.Compression.ZLib
 
                                 b >>= t;
                                 k -= t;
-
                                 j += b & InternalInflateConstants.InflateMask[i];
-
                                 b >>= i;
                                 k -= i;
-
                                 i = this.index;
                                 t = this.table;
                                 if (i + j > 258 + (t & 0x1f) + ((t >> 5) & 0x1f) || c == 16 && i < 1)
@@ -608,7 +593,6 @@ namespace ClashRoyale.Compression.ZLib
                                     this.mode = InflateBlockMode.BAD;
                                     this._codec.Message = "invalid bit length repeat";
                                     r = ZlibConstants.Z_DATA_ERROR;
-
                                     this.bitb = b;
                                     this.bitk = k;
                                     this._codec.AvailableBytesIn = n;
@@ -624,51 +608,48 @@ namespace ClashRoyale.Compression.ZLib
                                     this.blens[i++] = c;
                                 }
                                 while (--j != 0);
+
                                 this.index = i;
                             }
                         }
 
                         this.tb[0] = -1;
-                    {
-                        int[] bl =
                         {
-                            9
-                        }; // must be <= 9 for lookahead assumptions
-                        int[] bd =
-                        {
-                            6
-                        }; // must be <= 9 for lookahead assumptions
-                        int[] tl = new int[1];
-                        int[] td = new int[1];
-
-                        t = this.table;
-                        t = this.inftree.inflate_trees_dynamic(257 + (t & 0x1f), 1 + ((t >> 5) & 0x1f), this.blens, bl, bd, tl, td, this.hufts, this._codec);
-
-                        if (t != ZlibConstants.Z_OK)
-                        {
-                            if (t == ZlibConstants.Z_DATA_ERROR)
+                            int[] bl =
+                                {
+                                    9
+                                }; // must be <= 9 for lookahead assumptions
+                            int[] bd =
+                                {
+                                    6
+                                }; // must be <= 9 for lookahead assumptions
+                            int[] tl = new int[1];
+                            int[] td = new int[1];
+                            t = this.table;
+                            t = this.inftree.inflate_trees_dynamic(257 + (t & 0x1f), 1 + ((t >> 5) & 0x1f), this.blens, bl, bd, tl, td, this.hufts, this._codec);
+                            if (t != ZlibConstants.Z_OK)
                             {
-                                this.blens = null;
-                                this.mode = InflateBlockMode.BAD;
+                                if (t == ZlibConstants.Z_DATA_ERROR)
+                                {
+                                    this.blens = null;
+                                    this.mode = InflateBlockMode.BAD;
+                                }
+
+                                r = t;
+                                this.bitb = b;
+                                this.bitk = k;
+                                this._codec.AvailableBytesIn = n;
+                                this._codec.TotalBytesIn += p - this._codec.NextIn;
+                                this._codec.NextIn = p;
+                                this.writeAt = q;
+                                return this.Flush(r);
                             }
 
-                            r = t;
-
-                            this.bitb = b;
-                            this.bitk = k;
-                            this._codec.AvailableBytesIn = n;
-                            this._codec.TotalBytesIn += p - this._codec.NextIn;
-                            this._codec.NextIn = p;
-                            this.writeAt = q;
-                            return this.Flush(r);
+                            this.codes.Init(bl[0], bd[0], this.hufts, tl[0], this.hufts, td[0]);
                         }
-
-                        this.codes.Init(bl[0], bd[0], this.hufts, tl[0], this.hufts, td[0]);
-                    }
 
                         this.mode = InflateBlockMode.CODES;
                         goto case InflateBlockMode.CODES;
-
                     case InflateBlockMode.CODES:
                         this.bitb = b;
                         this.bitk = k;
@@ -676,7 +657,6 @@ namespace ClashRoyale.Compression.ZLib
                         this._codec.TotalBytesIn += p - this._codec.NextIn;
                         this._codec.NextIn = p;
                         this.writeAt = q;
-
                         r = this.codes.Process(this, r);
                         if (r != ZlibConstants.Z_STREAM_END)
                         {
@@ -690,7 +670,6 @@ namespace ClashRoyale.Compression.ZLib
                         k = this.bitk;
                         q = this.writeAt;
                         m = q < this.readAt ? this.readAt - q - 1 : this.end - q;
-
                         if (this.last == 0)
                         {
                             this.mode = InflateBlockMode.TYPE;
@@ -699,7 +678,6 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = InflateBlockMode.DRY;
                         goto case InflateBlockMode.DRY;
-
                     case InflateBlockMode.DRY:
                         this.writeAt = q;
                         r = this.Flush(r);
@@ -718,7 +696,6 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = InflateBlockMode.DONE;
                         goto case InflateBlockMode.DONE;
-
                     case InflateBlockMode.DONE:
                         r = ZlibConstants.Z_STREAM_END;
                         this.bitb = b;
@@ -728,10 +705,8 @@ namespace ClashRoyale.Compression.ZLib
                         this._codec.NextIn = p;
                         this.writeAt = q;
                         return this.Flush(r);
-
                     case InflateBlockMode.BAD:
                         r = ZlibConstants.Z_DATA_ERROR;
-
                         this.bitb = b;
                         this.bitk = k;
                         this._codec.AvailableBytesIn = n;
@@ -739,10 +714,8 @@ namespace ClashRoyale.Compression.ZLib
                         this._codec.NextIn = p;
                         this.writeAt = q;
                         return this.Flush(r);
-
                     default:
                         r = ZlibConstants.Z_STREAM_ERROR;
-
                         this.bitb = b;
                         this.bitk = k;
                         this._codec.AvailableBytesIn = n;
@@ -761,7 +734,6 @@ namespace ClashRoyale.Compression.ZLib
             this.bitk = 0;
             this.bitb = 0;
             this.readAt = this.writeAt = 0;
-
             if (this.checkfn != null)
             {
                 this._codec._Adler32 = this.check = Adler.Adler32(0, null, 0, 0);
@@ -873,7 +845,6 @@ namespace ClashRoyale.Compression.ZLib
             int c; // bytes to copy
             int d; // distance back to copy from
             int r; // copy source pointer
-
             int tp_index_t_3; // (tp_index+t)*3
 
             // load input, output, bit values
@@ -908,21 +879,19 @@ namespace ClashRoyale.Compression.ZLib
                 {
                     b >>= tp[tp_index_t_3 + 1];
                     k -= tp[tp_index_t_3 + 1];
-
-                    s.window[q++] = (byte) tp[tp_index_t_3 + 2];
+                    s.window[q++] = (byte)tp[tp_index_t_3 + 2];
                     m--;
                     continue;
                 }
+
                 do
                 {
                     b >>= tp[tp_index_t_3 + 1];
                     k -= tp[tp_index_t_3 + 1];
-
                     if ((e & 16) != 0)
                     {
                         e &= 15;
                         c = tp[tp_index_t_3 + 2] + (b & InternalInflateConstants.InflateMask[e]);
-
                         b >>= e;
                         k -= e;
 
@@ -940,12 +909,10 @@ namespace ClashRoyale.Compression.ZLib
                         tp_index = td_index;
                         tp_index_t_3 = (tp_index + t) * 3;
                         e = tp[tp_index_t_3];
-
                         do
                         {
                             b >>= tp[tp_index_t_3 + 1];
                             k -= tp[tp_index_t_3 + 1];
-
                             if ((e & 16) != 0)
                             {
                                 // get extra bits to add to distance base
@@ -959,7 +926,6 @@ namespace ClashRoyale.Compression.ZLib
                                 }
 
                                 d = tp[tp_index_t_3 + 2] + (b & InternalInflateConstants.InflateMask[e]);
-
                                 b >>= e;
                                 k -= e;
 
@@ -992,6 +958,7 @@ namespace ClashRoyale.Compression.ZLib
                                         r += s.end; // force pointer in window
                                     }
                                     while (r < 0); // covers invalid distances
+
                                     e = s.end - r;
                                     if (c > e)
                                     {
@@ -1047,24 +1014,22 @@ namespace ClashRoyale.Compression.ZLib
                             else
                             {
                                 z.Message = "invalid distance code";
-
                                 c = z.AvailableBytesIn - n;
                                 c = k >> 3 < c ? k >> 3 : c;
                                 n += c;
                                 p -= c;
                                 k -= c << 3;
-
                                 s.bitb = b;
                                 s.bitk = k;
                                 z.AvailableBytesIn = n;
                                 z.TotalBytesIn += p - z.NextIn;
                                 z.NextIn = p;
                                 s.writeAt = q;
-
                                 return ZlibConstants.Z_DATA_ERROR;
                             }
                         }
                         while (true);
+
                         break;
                     }
 
@@ -1077,7 +1042,7 @@ namespace ClashRoyale.Compression.ZLib
                         {
                             b >>= tp[tp_index_t_3 + 1];
                             k -= tp[tp_index_t_3 + 1];
-                            s.window[q++] = (byte) tp[tp_index_t_3 + 2];
+                            s.window[q++] = (byte)tp[tp_index_t_3 + 2];
                             m--;
                             break;
                         }
@@ -1089,33 +1054,28 @@ namespace ClashRoyale.Compression.ZLib
                         n += c;
                         p -= c;
                         k -= c << 3;
-
                         s.bitb = b;
                         s.bitk = k;
                         z.AvailableBytesIn = n;
                         z.TotalBytesIn += p - z.NextIn;
                         z.NextIn = p;
                         s.writeAt = q;
-
                         return ZlibConstants.Z_STREAM_END;
                     }
                     else
                     {
                         z.Message = "invalid literal/length code";
-
                         c = z.AvailableBytesIn - n;
                         c = k >> 3 < c ? k >> 3 : c;
                         n += c;
                         p -= c;
                         k -= c << 3;
-
                         s.bitb = b;
                         s.bitk = k;
                         z.AvailableBytesIn = n;
                         z.TotalBytesIn += p - z.NextIn;
                         z.NextIn = p;
                         s.writeAt = q;
-
                         return ZlibConstants.Z_DATA_ERROR;
                     }
                 }
@@ -1129,14 +1089,12 @@ namespace ClashRoyale.Compression.ZLib
             n += c;
             p -= c;
             k -= c << 3;
-
             s.bitb = b;
             s.bitk = k;
             z.AvailableBytesIn = n;
             z.TotalBytesIn += p - z.NextIn;
             z.NextIn = p;
             s.writeAt = q;
-
             return ZlibConstants.Z_OK;
         }
 
@@ -1144,8 +1102,8 @@ namespace ClashRoyale.Compression.ZLib
         internal void Init(int bl, int bd, int[] tl, int tl_index, int[] td, int td_index)
         {
             this.mode = InflateCodes.START;
-            this.lbits = (byte) bl;
-            this.dbits = (byte) bd;
+            this.lbits = (byte)bl;
+            this.dbits = (byte)bd;
             this.ltree = tl;
             this.ltree_index = tl_index;
             this.dtree = td;
@@ -1165,7 +1123,6 @@ namespace ClashRoyale.Compression.ZLib
             int q; // output window write pointer
             int m; // bytes to end of window or read pointer
             int f; // pointer to copy strings from
-
             ZlibCodec z = blocks._codec;
 
             // copy input/output information to locals (UPDATE macro restores)
@@ -1192,14 +1149,12 @@ namespace ClashRoyale.Compression.ZLib
                             z.NextIn = p;
                             blocks.writeAt = q;
                             r = this.InflateFast(this.lbits, this.dbits, this.ltree, this.ltree_index, this.dtree, this.dtree_index, blocks, z);
-
                             p = z.NextIn;
                             n = z.AvailableBytesIn;
                             b = blocks.bitb;
                             k = blocks.bitk;
                             q = blocks.writeAt;
                             m = q < blocks.readAt ? blocks.readAt - q - 1 : blocks.end - q;
-
                             if (r != ZlibConstants.Z_OK)
                             {
                                 this.mode = r == ZlibConstants.Z_STREAM_END ? InflateCodes.WASH : InflateCodes.BADCODE;
@@ -1210,13 +1165,10 @@ namespace ClashRoyale.Compression.ZLib
                         this.need = this.lbits;
                         this.tree = this.ltree;
                         this.tree_index = this.ltree_index;
-
                         this.mode = InflateCodes.LEN;
                         goto case InflateCodes.LEN;
-
                     case InflateCodes.LEN: // i: get length/literal/eob next
                         j = this.need;
-
                         while (k < j)
                         {
                             if (n != 0)
@@ -1240,12 +1192,9 @@ namespace ClashRoyale.Compression.ZLib
                         }
 
                         tindex = (this.tree_index + (b & InternalInflateConstants.InflateMask[j])) * 3;
-
                         b >>= this.tree[tindex + 1];
                         k -= this.tree[tindex + 1];
-
                         e = this.tree[tindex];
-
                         if (e == 0)
                         {
                             // literal
@@ -1281,7 +1230,6 @@ namespace ClashRoyale.Compression.ZLib
                         this.mode = InflateCodes.BADCODE; // invalid code
                         z.Message = "invalid literal/length code";
                         r = ZlibConstants.Z_DATA_ERROR;
-
                         blocks.bitb = b;
                         blocks.bitk = k;
                         z.AvailableBytesIn = n;
@@ -1289,10 +1237,8 @@ namespace ClashRoyale.Compression.ZLib
                         z.NextIn = p;
                         blocks.writeAt = q;
                         return blocks.Flush(r);
-
                     case InflateCodes.LENEXT: // i: getting length extra (have base)
                         j = this.bitsToGet;
-
                         while (k < j)
                         {
                             if (n != 0)
@@ -1316,19 +1262,15 @@ namespace ClashRoyale.Compression.ZLib
                         }
 
                         this.len += b & InternalInflateConstants.InflateMask[j];
-
                         b >>= j;
                         k -= j;
-
                         this.need = this.dbits;
                         this.tree = this.dtree;
                         this.tree_index = this.dtree_index;
                         this.mode = InflateCodes.DIST;
                         goto case InflateCodes.DIST;
-
                     case InflateCodes.DIST: // i: get distance next
                         j = this.need;
-
                         while (k < j)
                         {
                             if (n != 0)
@@ -1352,10 +1294,8 @@ namespace ClashRoyale.Compression.ZLib
                         }
 
                         tindex = (this.tree_index + (b & InternalInflateConstants.InflateMask[j])) * 3;
-
                         b >>= this.tree[tindex + 1];
                         k -= this.tree[tindex + 1];
-
                         e = this.tree[tindex];
                         if ((e & 0x10) != 0)
                         {
@@ -1377,7 +1317,6 @@ namespace ClashRoyale.Compression.ZLib
                         this.mode = InflateCodes.BADCODE; // invalid code
                         z.Message = "invalid distance code";
                         r = ZlibConstants.Z_DATA_ERROR;
-
                         blocks.bitb = b;
                         blocks.bitk = k;
                         z.AvailableBytesIn = n;
@@ -1385,10 +1324,8 @@ namespace ClashRoyale.Compression.ZLib
                         z.NextIn = p;
                         blocks.writeAt = q;
                         return blocks.Flush(r);
-
                     case InflateCodes.DISTEXT: // i: getting distance extra
                         j = this.bitsToGet;
-
                         while (k < j)
                         {
                             if (n != 0)
@@ -1412,13 +1349,10 @@ namespace ClashRoyale.Compression.ZLib
                         }
 
                         this.dist += b & InternalInflateConstants.InflateMask[j];
-
                         b >>= j;
                         k -= j;
-
                         this.mode = InflateCodes.COPY;
                         goto case InflateCodes.COPY;
-
                     case InflateCodes.COPY: // o: copying bytes in window, waiting for space
                         f = q - this.dist;
                         while (f < 0)
@@ -1443,7 +1377,6 @@ namespace ClashRoyale.Compression.ZLib
                                     r = blocks.Flush(r);
                                     q = blocks.writeAt;
                                     m = q < blocks.readAt ? blocks.readAt - q - 1 : blocks.end - q;
-
                                     if (q == blocks.end && blocks.readAt != 0)
                                     {
                                         q = 0;
@@ -1465,7 +1398,6 @@ namespace ClashRoyale.Compression.ZLib
 
                             blocks.window[q++] = blocks.window[f++];
                             m--;
-
                             if (f == blocks.end)
                             {
                                 f = 0;
@@ -1476,7 +1408,6 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = InflateCodes.START;
                         break;
-
                     case InflateCodes.LIT: // o: got literal, waiting for output space
                         if (m == 0)
                         {
@@ -1492,7 +1423,6 @@ namespace ClashRoyale.Compression.ZLib
                                 r = blocks.Flush(r);
                                 q = blocks.writeAt;
                                 m = q < blocks.readAt ? blocks.readAt - q - 1 : blocks.end - q;
-
                                 if (q == blocks.end && blocks.readAt != 0)
                                 {
                                     q = 0;
@@ -1513,13 +1443,10 @@ namespace ClashRoyale.Compression.ZLib
                         }
 
                         r = ZlibConstants.Z_OK;
-
-                        blocks.window[q++] = (byte) this.lit;
+                        blocks.window[q++] = (byte)this.lit;
                         m--;
-
                         this.mode = InflateCodes.START;
                         break;
-
                     case InflateCodes.WASH: // o: got eob, possibly more output
                         if (k > 7)
                         {
@@ -1533,7 +1460,6 @@ namespace ClashRoyale.Compression.ZLib
                         r = blocks.Flush(r);
                         q = blocks.writeAt;
                         m = q < blocks.readAt ? blocks.readAt - q - 1 : blocks.end - q;
-
                         if (blocks.readAt != blocks.writeAt)
                         {
                             blocks.bitb = b;
@@ -1547,7 +1473,6 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = InflateCodes.END;
                         goto case InflateCodes.END;
-
                     case InflateCodes.END:
                         r = ZlibConstants.Z_STREAM_END;
                         blocks.bitb = b;
@@ -1557,11 +1482,8 @@ namespace ClashRoyale.Compression.ZLib
                         z.NextIn = p;
                         blocks.writeAt = q;
                         return blocks.Flush(r);
-
                     case InflateCodes.BADCODE: // x: got error
-
                         r = ZlibConstants.Z_DATA_ERROR;
-
                         blocks.bitb = b;
                         blocks.bitk = k;
                         z.AvailableBytesIn = n;
@@ -1569,10 +1491,8 @@ namespace ClashRoyale.Compression.ZLib
                         z.NextIn = p;
                         blocks.writeAt = q;
                         return blocks.Flush(r);
-
                     default:
                         r = ZlibConstants.Z_STREAM_ERROR;
-
                         blocks.bitb = b;
                         blocks.bitk = k;
                         z.AvailableBytesIn = n;
@@ -1598,9 +1518,9 @@ namespace ClashRoyale.Compression.ZLib
         private const int Z_DEFLATED = 8;
 
         private static readonly byte[] mark =
-        {
-            0, 0, 0xff, 0xff
-        };
+            {
+                0, 0, 0xff, 0xff
+            };
 
         internal ZlibCodec _codec;
 
@@ -1632,18 +1552,31 @@ namespace ClashRoyale.Compression.ZLib
         private enum InflateManagerMode
         {
             METHOD = 0, // waiting for method byte
+
             FLAG = 1, // waiting for flag byte
+
             DICT4 = 2, // four dictionary check bytes to go
+
             DICT3 = 3, // three dictionary check bytes to go
+
             DICT2 = 4, // two dictionary check bytes to go
+
             DICT1 = 5, // one dictionary check byte to go
+
             DICT0 = 6, // waiting for inflateSetDictionary
+
             BLOCKS = 7, // decompressing blocks
+
             CHECK4 = 8, // four check bytes to go
+
             CHECK3 = 9, // three check bytes to go
+
             CHECK2 = 10, // two check bytes to go
+
             CHECK1 = 11, // one check byte to go
+
             DONE = 12, // finished check, done
+
             BAD = 13 // got an error--stay here
         }
 
@@ -1677,7 +1610,6 @@ namespace ClashRoyale.Compression.ZLib
         internal int Inflate(FlushType flush)
         {
             int b;
-
             if (this._codec.InputBuffer == null)
             {
                 throw new ZlibException("InputBuffer is null. ");
@@ -1688,7 +1620,6 @@ namespace ClashRoyale.Compression.ZLib
             // workitem 8870
             int f = ZlibConstants.Z_OK;
             int r = ZlibConstants.Z_BUF_ERROR;
-
             while (true)
             {
                 switch (this.mode)
@@ -1720,7 +1651,6 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = InflateManagerMode.FLAG;
                         break;
-
                     case InflateManagerMode.FLAG:
                         if (this._codec.AvailableBytesIn == 0)
                         {
@@ -1731,7 +1661,6 @@ namespace ClashRoyale.Compression.ZLib
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
                         b = this._codec.InputBuffer[this._codec.NextIn++] & 0xff;
-
                         if (((this.method << 8) + b) % 31 != 0)
                         {
                             this.mode = InflateManagerMode.BAD;
@@ -1742,7 +1671,6 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = (b & InflateManager.PRESET_DICT) == 0 ? InflateManagerMode.BLOCKS : InflateManagerMode.DICT4;
                         break;
-
                     case InflateManagerMode.DICT4:
                         if (this._codec.AvailableBytesIn == 0)
                         {
@@ -1752,10 +1680,9 @@ namespace ClashRoyale.Compression.ZLib
                         r = f;
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
-                        this.expectedCheck = (uint) ((this._codec.InputBuffer[this._codec.NextIn++] << 24) & 0xff000000);
+                        this.expectedCheck = (uint)((this._codec.InputBuffer[this._codec.NextIn++] << 24) & 0xff000000);
                         this.mode = InflateManagerMode.DICT3;
                         break;
-
                     case InflateManagerMode.DICT3:
                         if (this._codec.AvailableBytesIn == 0)
                         {
@@ -1765,12 +1692,10 @@ namespace ClashRoyale.Compression.ZLib
                         r = f;
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
-                        this.expectedCheck += (uint) ((this._codec.InputBuffer[this._codec.NextIn++] << 16) & 0x00ff0000);
+                        this.expectedCheck += (uint)((this._codec.InputBuffer[this._codec.NextIn++] << 16) & 0x00ff0000);
                         this.mode = InflateManagerMode.DICT2;
                         break;
-
                     case InflateManagerMode.DICT2:
-
                         if (this._codec.AvailableBytesIn == 0)
                         {
                             return r;
@@ -1779,10 +1704,9 @@ namespace ClashRoyale.Compression.ZLib
                         r = f;
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
-                        this.expectedCheck += (uint) ((this._codec.InputBuffer[this._codec.NextIn++] << 8) & 0x0000ff00);
+                        this.expectedCheck += (uint)((this._codec.InputBuffer[this._codec.NextIn++] << 8) & 0x0000ff00);
                         this.mode = InflateManagerMode.DICT1;
                         break;
-
                     case InflateManagerMode.DICT1:
                         if (this._codec.AvailableBytesIn == 0)
                         {
@@ -1792,17 +1716,15 @@ namespace ClashRoyale.Compression.ZLib
                         r = f;
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
-                        this.expectedCheck += (uint) (this._codec.InputBuffer[this._codec.NextIn++] & 0x000000ff);
+                        this.expectedCheck += (uint)(this._codec.InputBuffer[this._codec.NextIn++] & 0x000000ff);
                         this._codec._Adler32 = this.expectedCheck;
                         this.mode = InflateManagerMode.DICT0;
                         return ZlibConstants.Z_NEED_DICT;
-
                     case InflateManagerMode.DICT0:
                         this.mode = InflateManagerMode.BAD;
                         this._codec.Message = "need dictionary";
                         this.marker = 0; // can try inflateSync
                         return ZlibConstants.Z_STREAM_ERROR;
-
                     case InflateManagerMode.BLOCKS:
                         r = this.blocks.Process(r);
                         if (r == ZlibConstants.Z_DATA_ERROR)
@@ -1832,7 +1754,6 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = InflateManagerMode.CHECK4;
                         break;
-
                     case InflateManagerMode.CHECK4:
                         if (this._codec.AvailableBytesIn == 0)
                         {
@@ -1842,10 +1763,9 @@ namespace ClashRoyale.Compression.ZLib
                         r = f;
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
-                        this.expectedCheck = (uint) ((this._codec.InputBuffer[this._codec.NextIn++] << 24) & 0xff000000);
+                        this.expectedCheck = (uint)((this._codec.InputBuffer[this._codec.NextIn++] << 24) & 0xff000000);
                         this.mode = InflateManagerMode.CHECK3;
                         break;
-
                     case InflateManagerMode.CHECK3:
                         if (this._codec.AvailableBytesIn == 0)
                         {
@@ -1855,10 +1775,9 @@ namespace ClashRoyale.Compression.ZLib
                         r = f;
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
-                        this.expectedCheck += (uint) ((this._codec.InputBuffer[this._codec.NextIn++] << 16) & 0x00ff0000);
+                        this.expectedCheck += (uint)((this._codec.InputBuffer[this._codec.NextIn++] << 16) & 0x00ff0000);
                         this.mode = InflateManagerMode.CHECK2;
                         break;
-
                     case InflateManagerMode.CHECK2:
                         if (this._codec.AvailableBytesIn == 0)
                         {
@@ -1868,10 +1787,9 @@ namespace ClashRoyale.Compression.ZLib
                         r = f;
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
-                        this.expectedCheck += (uint) ((this._codec.InputBuffer[this._codec.NextIn++] << 8) & 0x0000ff00);
+                        this.expectedCheck += (uint)((this._codec.InputBuffer[this._codec.NextIn++] << 8) & 0x0000ff00);
                         this.mode = InflateManagerMode.CHECK1;
                         break;
-
                     case InflateManagerMode.CHECK1:
                         if (this._codec.AvailableBytesIn == 0)
                         {
@@ -1881,7 +1799,7 @@ namespace ClashRoyale.Compression.ZLib
                         r = f;
                         this._codec.AvailableBytesIn--;
                         this._codec.TotalBytesIn++;
-                        this.expectedCheck += (uint) (this._codec.InputBuffer[this._codec.NextIn++] & 0x000000ff);
+                        this.expectedCheck += (uint)(this._codec.InputBuffer[this._codec.NextIn++] & 0x000000ff);
                         if (this.computedCheck != this.expectedCheck)
                         {
                             this.mode = InflateManagerMode.BAD;
@@ -1892,13 +1810,10 @@ namespace ClashRoyale.Compression.ZLib
 
                         this.mode = InflateManagerMode.DONE;
                         return ZlibConstants.Z_STREAM_END;
-
                     case InflateManagerMode.DONE:
                         return ZlibConstants.Z_STREAM_END;
-
                     case InflateManagerMode.BAD:
                         throw new ZlibException(string.Format("Bad state ({0})", this._codec.Message));
-
                     default:
                         throw new ZlibException("Stream error.");
                 }
@@ -1924,7 +1839,6 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             this.wbits = w;
-
             this.blocks = new InflateBlocks(codec, this.HandleRfc1950HeaderBytes ? this : null, 1 << w);
 
             // reset state
@@ -1956,7 +1870,6 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             this._codec._Adler32 = Adler.Adler32(0, null, 0, 0);
-
             if (length >= 1 << this.wbits)
             {
                 length = (1 << this.wbits) - 1;

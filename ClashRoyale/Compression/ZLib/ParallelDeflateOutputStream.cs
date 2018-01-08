@@ -6,15 +6,22 @@ namespace ClashRoyale.Compression.ZLib
     using System.IO;
     using System.Threading;
 
-    public class WorkItem
+    internal class WorkItem
     {
         public byte[] buffer;
+
         public byte[] compressed;
+
         public int compressedBytesAvailable;
+
         public ZlibCodec compressor;
+
         public int crc;
+
         public int index;
+
         public int inputBytesAvailable;
+
         public int ordinal;
 
         public WorkItem(int size, CompressionLevel compressLevel, CompressionStrategy strategy, int ix)
@@ -61,32 +68,52 @@ namespace ClashRoyale.Compression.ZLib
     public class ParallelDeflateOutputStream : Stream
     {
         private static readonly int IO_BUFFER_SIZE_DEFAULT = 64 * 1024; // 128k
+
         private static readonly int BufferPairsPerCore = 4;
 
         private List<WorkItem> _pool;
+
         private readonly bool _leaveOpen;
+
         private bool emitting;
+
         private Stream _outStream;
+
         private int _maxBufferPairs;
+
         private int _bufferSize = ParallelDeflateOutputStream.IO_BUFFER_SIZE_DEFAULT;
+
         private AutoResetEvent _newlyCompressedBlob;
 
         // private ManualResetEvent _writingDone; private ManualResetEvent _sessionReset;
         private readonly object _outputLock = new object();
 
         private bool _isClosed;
+
         private bool _firstWriteDone;
+
         private int _currentlyFilling;
+
         private int _lastFilled;
+
         private int _lastWritten;
+
         private int _latestCompressed;
+
         private CRC32 _runningCrc;
+
         private readonly object _latestLock = new object();
+
         private Queue<int> _toWrite;
+
         private Queue<int> _toFill;
+
         private readonly CompressionLevel _compressLevel;
+
         private volatile Exception _pendingException;
+
         private bool _handlingException;
+
         private readonly object _eLock = new object(); // protects _pendingException
 
         // This bitfield is used only when Trace is defined. private TraceBits _DesiredTrace =
@@ -157,7 +184,8 @@ namespace ClashRoyale.Compression.ZLib
         /// </code>
         /// </example>
         /// <param name="stream">The stream to which compressed data will be written.</param>
-        public ParallelDeflateOutputStream(Stream stream) : this(stream, CompressionLevel.Default, CompressionStrategy.Default, false)
+        public ParallelDeflateOutputStream(Stream stream)
+            : this(stream, CompressionLevel.Default, CompressionStrategy.Default, false)
         {
         }
 
@@ -170,7 +198,8 @@ namespace ClashRoyale.Compression.ZLib
         /// </remarks>
         /// <param name="stream">The stream to which compressed data will be written.</param>
         /// <param name="level">A tuning knob to trade speed for effectiveness.</param>
-        public ParallelDeflateOutputStream(Stream stream, CompressionLevel level) : this(stream, level, CompressionStrategy.Default, false)
+        public ParallelDeflateOutputStream(Stream stream, CompressionLevel level)
+            : this(stream, level, CompressionStrategy.Default, false)
         {
         }
 
@@ -186,7 +215,8 @@ namespace ClashRoyale.Compression.ZLib
         /// <param name="leaveOpen">
         /// true if the application would like the stream to remain open after inflation/deflation.
         /// </param>
-        public ParallelDeflateOutputStream(Stream stream, bool leaveOpen) : this(stream, CompressionLevel.Default, CompressionStrategy.Default, leaveOpen)
+        public ParallelDeflateOutputStream(Stream stream, bool leaveOpen)
+            : this(stream, CompressionLevel.Default, CompressionStrategy.Default, leaveOpen)
         {
         }
 
@@ -203,7 +233,8 @@ namespace ClashRoyale.Compression.ZLib
         /// <param name="leaveOpen">
         /// true if the application would like the stream to remain open after inflation/deflation.
         /// </param>
-        public ParallelDeflateOutputStream(Stream stream, CompressionLevel level, bool leaveOpen) : this(stream, CompressionLevel.Default, CompressionStrategy.Default, leaveOpen)
+        public ParallelDeflateOutputStream(Stream stream, CompressionLevel level, bool leaveOpen)
+            : this(stream, CompressionLevel.Default, CompressionStrategy.Default, leaveOpen)
         {
         }
 
@@ -454,12 +485,10 @@ namespace ClashRoyale.Compression.ZLib
                 this._InitializePoolOfWorkItems();
                 this._firstWriteDone = true;
             }
-
             do
             {
                 // may need to make buffers available
                 this.EmitPendingBuffers(false, mustWait);
-
                 mustWait = false;
 
                 // use current buffer, or get a new buffer to fill
@@ -481,21 +510,17 @@ namespace ClashRoyale.Compression.ZLib
 
                     ix = this._toFill.Dequeue();
                     this.TraceOutput(TraceBits.WriteTake, "Write    take     wi({0}) lf({1})", ix, this._lastFilled);
-                    ++this._lastFilled; 
+                    ++this._lastFilled;
                 }
 
                 WorkItem workitem = this._pool[ix];
-
                 int limit = workitem.buffer.Length - workitem.inputBytesAvailable > count ? count : workitem.buffer.Length - workitem.inputBytesAvailable;
-
                 workitem.ordinal = this._lastFilled;
-
                 this.TraceOutput(TraceBits.Write, "Write    lock     wi({0}) ord({1}) iba({2})", workitem.index, workitem.ordinal, workitem.inputBytesAvailable);
 
                 // copy from the provided buffer to our workitem, starting at the tail end of
                 // whatever data we might have in there currently.
                 Buffer.BlockCopy(buffer, offset, workitem.buffer, workitem.inputBytesAvailable, limit);
-
                 count -= limit;
                 offset += limit;
                 workitem.inputBytesAvailable += limit;
@@ -504,7 +529,6 @@ namespace ClashRoyale.Compression.ZLib
                     // No need for interlocked.increment: the Write() method is documented as not
                     // multi-thread safe, so we can assume Write() calls come in from only one thread.
                     this.TraceOutput(TraceBits.Write, "Write    QUWI     wi({0}) ord({1}) iba({2}) nf({3})", workitem.index, workitem.ordinal, workitem.inputBytesAvailable);
-
                     if (!ThreadPool.QueueUserWorkItem(this._DeflateOne, workitem))
                     {
                         throw new Exception("Cannot enqueue workitem");
@@ -541,7 +565,6 @@ namespace ClashRoyale.Compression.ZLib
             compressor.NextOut = 0;
             compressor.AvailableBytesOut = buffer.Length;
             rc = compressor.Deflate(FlushType.Finish);
-
             if (rc != ZlibConstants.Z_STREAM_END && rc != ZlibConstants.Z_OK)
             {
                 throw new Exception("deflating: " + compressor.Message);
@@ -550,14 +573,11 @@ namespace ClashRoyale.Compression.ZLib
             if (buffer.Length - compressor.AvailableBytesOut > 0)
             {
                 this.TraceOutput(TraceBits.EmitBegin, "Emit     begin    flush bytes({0})", buffer.Length - compressor.AvailableBytesOut);
-
                 this._outStream.Write(buffer, 0, buffer.Length - compressor.AvailableBytesOut);
-
                 this.TraceOutput(TraceBits.EmitDone, "Emit     done     flush");
             }
 
             compressor.EndDeflate();
-
             this.Crc32 = this._runningCrc.Crc32Result;
         }
 
@@ -623,7 +643,6 @@ namespace ClashRoyale.Compression.ZLib
         public override void Close()
         {
             this.TraceOutput(TraceBits.Session, "Close {0:X8}", this.GetHashCode());
-
             if (this._pendingException != null)
             {
                 this._handlingException = true;
@@ -643,7 +662,6 @@ namespace ClashRoyale.Compression.ZLib
             }
 
             this._Flush(true);
-
             if (!this._leaveOpen)
             {
                 this._outStream.Close();
@@ -725,7 +743,6 @@ namespace ClashRoyale.Compression.ZLib
         {
             this.TraceOutput(TraceBits.Session, "-------------------------------------------------------");
             this.TraceOutput(TraceBits.Session, "Reset {0:X8} firstDone({1})", this.GetHashCode(), this._firstWriteDone);
-
             if (!this._firstWriteDone)
             {
                 return;
@@ -768,13 +785,11 @@ namespace ClashRoyale.Compression.ZLib
             {
                 this._newlyCompressedBlob.WaitOne();
             }
-
             do
             {
                 int firstSkip = -1;
                 int millisecondsToWait = doAll ? 200 : (mustWait ? -1 : 0);
                 int nextToWrite = -1;
-
                 do
                 {
                     if (Monitor.TryEnter(this._toWrite, millisecondsToWait))
@@ -799,7 +814,6 @@ namespace ClashRoyale.Compression.ZLib
                             {
                                 // out of order. requeue and try again.
                                 this.TraceOutput(TraceBits.EmitSkip, "Emit     skip     wi({0}) ord({1}) lw({2}) fs({3})", workitem.index, workitem.ordinal, this._lastWritten, firstSkip);
-
                                 lock (this._toWrite)
                                 {
                                     this._toWrite.Enqueue(nextToWrite);
@@ -821,16 +835,12 @@ namespace ClashRoyale.Compression.ZLib
                             }
 
                             firstSkip = -1;
-
                             this.TraceOutput(TraceBits.EmitBegin, "Emit     begin    wi({0}) ord({1})              cba({2})", workitem.index, workitem.ordinal, workitem.compressedBytesAvailable);
-
                             this._outStream.Write(workitem.compressed, 0, workitem.compressedBytesAvailable);
                             this._runningCrc.Combine(workitem.crc, workitem.inputBytesAvailable);
                             this.BytesProcessed += workitem.inputBytesAvailable;
                             workitem.inputBytesAvailable = 0;
-
                             this.TraceOutput(TraceBits.EmitDone, "Emit     done     wi({0}) ord({1})              cba({2}) mtw({3})", workitem.index, workitem.ordinal, workitem.compressedBytesAvailable, millisecondsToWait);
-
                             this._lastWritten = workitem.ordinal;
                             this._toFill.Enqueue(workitem.index);
 
@@ -874,7 +884,7 @@ namespace ClashRoyale.Compression.ZLib
 
                     // repeatedly write buffers as they become ready
                     WorkItem workitem = null;
-                    Ionic.Zlib.CRC32 c= new Ionic.Zlib.CRC32();
+                    Ionic.Zlib.CRC32 c = new Ionic.Zlib.CRC32();
                     do
                     {
                         workitem = _pool[_nextToWrite % _pc];
@@ -903,7 +913,7 @@ namespace ClashRoyale.Compression.ZLib
                                     c.Combine(workitem.crc, workitem.inputBytesAvailable);
                                     _totalBytesProcessed += workitem.inputBytesAvailable;
                                     _nextToWrite++;
-                                    workitem.inputBytesAvailable= 0;
+                                    workitem.inputBytesAvailable = 0;
                                     workitem.status = (int)WorkItem.Status.Done;
 
                                     TraceOutput(TraceBits.WriteDone,
@@ -1022,7 +1032,7 @@ namespace ClashRoyale.Compression.ZLib
         private void _DeflateOne(object wi)
         {
             // compress one buffer
-            WorkItem workitem = (WorkItem) wi;
+            WorkItem workitem = (WorkItem)wi;
             try
             {
                 int myItem = workitem.index;
@@ -1037,7 +1047,6 @@ namespace ClashRoyale.Compression.ZLib
                 // update status
                 workitem.crc = crc.Crc32Result;
                 this.TraceOutput(TraceBits.Compress, "Compress          wi({0}) ord({1}) len({2})", workitem.index, workitem.ordinal, workitem.compressedBytesAvailable);
-
                 lock (this._latestLock)
                 {
                     if (workitem.ordinal > this._latestCompressed)
@@ -1072,7 +1081,6 @@ namespace ClashRoyale.Compression.ZLib
             int rc = 0;
             compressor.ResetDeflate();
             compressor.NextIn = 0;
-
             compressor.AvailableBytesIn = workitem.inputBytesAvailable;
 
             // step 1: deflate the buffer
@@ -1086,8 +1094,7 @@ namespace ClashRoyale.Compression.ZLib
 
             // step 2: flush (sync)
             rc = compressor.Deflate(FlushType.Sync);
-
-            workitem.compressedBytesAvailable = (int) compressor.TotalBytesOut;
+            workitem.compressedBytesAvailable = (int)compressor.TotalBytesOut;
             return true;
         }
 
@@ -1100,7 +1107,7 @@ namespace ClashRoyale.Compression.ZLib
                 {
                     int tid = Thread.CurrentThread.GetHashCode();
 #if !SILVERLIGHT
-                    Console.ForegroundColor = (ConsoleColor) (tid % 8 + 8);
+                    Console.ForegroundColor = (ConsoleColor)(tid % 8 + 8);
 #endif
                     Console.Write("{0:000} PDOS ", tid);
                     Console.WriteLine(format, varParams);
@@ -1116,22 +1123,39 @@ namespace ClashRoyale.Compression.ZLib
         private enum TraceBits : uint
         {
             None = 0,
+
             NotUsed1 = 1,
+
             EmitLock = 2,
+
             EmitEnter = 4, // enter _EmitPending
+
             EmitBegin = 8, // begin to write out
+
             EmitDone = 16, // done writing out
+
             EmitSkip = 32, // writer skipping a workitem
+
             EmitAll = 58, // All Emit flags
+
             Flush = 64,
+
             Lifecycle = 128, // constructor/disposer
+
             Session = 256, // Close/Reset
+
             Synch = 512, // thread synchronization
+
             Instance = 1024, // instance settings
+
             Compress = 2048, // compress task
+
             Write = 4096, // filling buffers, when caller invokes Write()
+
             WriteEnter = 8192, // upon entry to Write()
+
             WriteTake = 16384, // on _toFill.Take()
+
             All = 0xffffffff
         }
 

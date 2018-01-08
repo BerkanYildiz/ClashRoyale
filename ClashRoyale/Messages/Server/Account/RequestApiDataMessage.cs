@@ -32,10 +32,27 @@ namespace ClashRoyale.Messages.Server.Account
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestApiDataMessage"/> class.
         /// </summary>
-        /// <param name="Device">The device.</param>
+        public RequestApiDataMessage()
+        {
+            // RequestApiDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequestApiDataMessage"/> class.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
         public RequestApiDataMessage(ByteStream Stream) : base(Stream)
         {
             // RequestApiDataMessage.
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequestApiDataMessage"/> class.
+        /// </summary>
+        /// <param name="ApiKey">The API key.</param>
+        public RequestApiDataMessage(string ApiKey)
+        {
+            this.ApiKey = ApiKey;
         }
 
         /// <summary>
