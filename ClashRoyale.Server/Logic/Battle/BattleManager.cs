@@ -161,7 +161,7 @@
                     else
                         EstimatedTime = 900;
 
-                    GameMode.Device.NetworkManager.SendMessage(new MatchmakeInfoMessage()
+                    GameMode.Listener.SendMessage(new MatchmakeInfoMessage
                     {
                         EstimatedTime = EstimatedTime
                     });

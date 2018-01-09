@@ -6,6 +6,7 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Exceptions;
     using ClashRoyale.Files;
+    using ClashRoyale.Listener;
     using ClashRoyale.Logic;
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Logic.Mode;
@@ -65,7 +66,7 @@
                         {
                             if (Player.IsConnected)
                             {
-                                Player.GameMode.Device.NetworkManager.SendMessage(new DisconnectedMessage());
+                                Player.GameMode.Listener.SendMessage(new DisconnectedMessage());
                             }
 
                             await LoginHandler.Login(Device, LoginMessage, Player);
@@ -133,7 +134,8 @@
                 Player.AccountLocation = Message.Locale;
             }
 
-            Device.GameMode = new GameMode(Device);
+            Device.GameMode = new GameMode();
+            Device.GameMode.Listener = Device.GameListener;
             Device.GameMode.SetPlayer(Player);
             Device.NetworkManager.AccountId = new LogicLong(Player.HighId, Player.LowId);
 

@@ -2,6 +2,7 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
+    using ClashRoyale.Listener;
     using ClashRoyale.Logic.Battle;
     using ClashRoyale.Logic.Commands.Manager;
     using ClashRoyale.Logic.Home;
@@ -22,7 +23,7 @@
         public Player Player;
         public Replay Replay;
 
-        public Device Device;
+        public GameListener Listener;
         public SectorManager SectorManager;
         public CommandManager CommandManager;
         public AchievementManager AchievementManager;
@@ -48,9 +49,9 @@
         {
             get
             {
-                if (this.Device != null)
+                if (this.Listener != null)
                 {
-                    return this.Device.Network.IsConnected;
+                    return this.Listener.IsConnected();
                 }
 
                 return false;
@@ -107,22 +108,12 @@
                 return false;
             }
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
         /// </summary>
         public GameMode()
         {
-            // GameMode.
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GameMode"/> class.
-        /// </summary>
-        /// <param name="Device">The device.</param>
-        public GameMode(Device Device)
-        {
-            this.Device             = Device;
             this.Random             = new Random();
             this.SectorManager      = new SectorManager(this);
             this.CommandManager     = new CommandManager(this);

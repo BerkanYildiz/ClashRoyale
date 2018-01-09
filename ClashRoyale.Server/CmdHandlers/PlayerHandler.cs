@@ -185,7 +185,7 @@
             {
                 if (Player.IsConnected)
                 {
-                    NetworkTcp.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
+                    // NetworkTcp.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
 
                     if (Player.IsConnected == false)
                     {

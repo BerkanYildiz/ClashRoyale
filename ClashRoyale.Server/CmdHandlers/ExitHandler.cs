@@ -67,7 +67,7 @@
             {
                 Players.ForEach(Player =>
                 {
-                    Player.GameMode.Device.NetworkManager.SendMessage(new ServerShutdownMessage());
+                    Player.GameMode.Listener.SendMessage(new ServerShutdownMessage());
                 });
 
                 Logging.Info(typeof(ExitHandler), "Warned every player about the maintenance.");
@@ -83,7 +83,7 @@
             {
                 Players.ForEach(Player =>
                 {
-                    NetworkTcp.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
+                    // NetworkTcp.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
                 });
 
                 Logging.Info(typeof(ExitHandler), "Disconnected every player for the maintenance.");

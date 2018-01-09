@@ -6,7 +6,6 @@
     using ClashRoyale.Files;
     using ClashRoyale.Files.Csv;
     using ClashRoyale.Messages;
-    using ClashRoyale.Network;
 
     public static class Base
     {
@@ -41,7 +40,6 @@
 
             Factory.Initialize();
             IpRequester.Initialize();
-            NetworkTcp.Initialize();
 
             Tests.Initialize();
 

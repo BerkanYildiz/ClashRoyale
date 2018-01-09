@@ -54,7 +54,7 @@
             {
                 foreach (Player Player in this.Clan.Members.Connected.Values.ToArray())
                 {
-                    Player.GameMode.Device.NetworkManager.SendMessage(new AllianceStreamEntryMessage(Entry));
+                    Player.GameMode.Listener.SendMessage(new AllianceStreamEntryMessage(Entry));
                 }
             });
         }
@@ -74,7 +74,7 @@
                     {
                         foreach (Player Player in this.Clan.Members.Connected.Values.ToArray())
                         {
-                            Player.GameMode.Device.NetworkManager.SendMessage(new AllianceStreamRemovedMessage(Entry.StreamId));
+                            Player.GameMode.Listener.SendMessage(new AllianceStreamRemovedMessage(Entry.StreamId));
                         }
                     });
                 }
@@ -102,7 +102,7 @@
                     {
                         foreach (Player Player in this.Clan.Members.Connected.Values.ToArray())
                         {
-                            Player.GameMode.Device.NetworkManager.SendMessage(new AllianceStreamEntryMessage(Entry));
+                            Player.GameMode.Listener.SendMessage(new AllianceStreamEntryMessage(Entry));
                         }
                     });
                 }

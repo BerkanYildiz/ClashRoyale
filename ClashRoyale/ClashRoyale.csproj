@@ -231,7 +231,7 @@
     <Compile Include="Files\Csv\Tilemaps\TilemapData.cs" />
     <Compile Include="Files\Fingerprint.cs" />
     <Compile Include="Files\Home.cs" />
-    <Compile Include="Interfaces\IDevice.cs" />
+    <Compile Include="Listener\GameListener.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Logic\Alliance\Clan.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceFullEntry.cs" />
@@ -292,7 +292,6 @@
     <Compile Include="Logic\Converters\SavedDecksConverter.cs" />
     <Compile Include="Logic\Converters\SpellCollectionConverter.cs" />
     <Compile Include="Logic\Converters\SpellDeckConverter.cs" />
-    <Compile Include="Logic\Device.cs" />
     <Compile Include="Logic\GameObject\Character.cs" />
     <Compile Include="Logic\GameObject\Component\CharacterBuffComponent.cs" />
     <Compile Include="Logic\GameObject\Component\CombatComponent.cs" />
@@ -435,10 +434,6 @@
     <Compile Include="Messages\Server\Socials\OnlineFacebookFriendsMessage.cs" />
     <Compile Include="Messages\Server\Socials\OnlineInvitedFriendsMessage.cs" />
     <Compile Include="Messages\Server\Tournament\JoinableTournamentListMessage.cs" />
-    <Compile Include="Network\NetworkManager.cs" />
-    <Compile Include="Network\NetworkPool.cs" />
-    <Compile Include="Network\NetworkToken.cs" />
-    <Compile Include="Network\NetworkTcp.cs" />
     <Compile Include="Padding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sentry.cs" />

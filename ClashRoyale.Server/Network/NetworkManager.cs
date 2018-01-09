@@ -118,7 +118,7 @@
 
                 using (ByteStream Stream = new ByteStream(Packet))
                 {
-                    Message Message = Factory.CreateMessage(Type, this.Device, Stream);
+                    Message Message = Factory.CreateMessage(Type, Stream);
 
                     if (Message != null)
                     {
@@ -135,7 +135,7 @@
                                 Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + Message.Type + " has been processed. " + Exception);
                             }
 
-                            Factory.MessageHandle(this.Device, Message).ConfigureAwait(false);
+                            Handlers.Handlers.MessageHandle(this.Device, Message).ConfigureAwait(false);
                         }
                     }
                     else
@@ -192,7 +192,7 @@
                     Message.Stream.SetByteArray(Bytes);
 
                     NetworkTcp.Send(Message, this.Device.Network);
-                    Factory.MessageHandle(this.Device, Message).ConfigureAwait(false);
+                    Handlers.Handlers.MessageHandle(this.Device, Message).ConfigureAwait(false);
                 }
                 else
                 {

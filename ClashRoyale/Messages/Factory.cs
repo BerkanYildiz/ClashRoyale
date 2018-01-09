@@ -46,23 +46,10 @@
         public const char Delimiter = '/';
 
         /// <summary>
-        /// The message handler, used to process the received and sent messages.
-        /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="Message">The message.</param>
-        /// <param name="Cancellation">The cancellation token.</param>
-        public delegate Task MessageHandler(Device Device, Message Message, CancellationToken Cancellation);
-
-        /// <summary>
         /// The dictionnary of messages, used to route packet ids and decode them.
         /// </summary>
         public static readonly Dictionary<short, Type> Messages = new Dictionary<short, Type>();
-
-        /// <summary>
-        /// The dictionnary of handlers, used to route packet ids and handle them.
-        /// </summary>
-        public static readonly Dictionary<short, MessageHandler> Handlers = new Dictionary<short, MessageHandler>();
-
+        
         /// <summary>
         /// Initializes this instance.
         /// </summary>
@@ -184,43 +171,16 @@
         /// <summary>
         /// Creates a message with the specified type.
         /// </summary>
-        internal static Message CreateMessage(short Type, Device Device, ByteStream Stream)
+        public static Message CreateMessage(short Type, ByteStream Stream)
         {
             if (Factory.Messages.TryGetValue(Type, out Type Message))
             {
-                return (Message) Activator.CreateInstance(Message, Device, Stream);
+                return (Message) Activator.CreateInstance(Message, Stream);
             }
 
             Logging.Warning(typeof(Factory), "Messages.TryGetValue(" + Type + ", out Message) != true at CreateMessage(" + Type + ", Device, Stream).");
 
             return null;
-        }
-
-        /// <summary>
-        /// Handles the specified <see cref="Message"/> using the specified <see cref="Device"/>.
-        /// </summary>
-        /// <param name="Device">The device.</param>
-        /// <param name="Message">The message.</param>
-        internal static async Task MessageHandle(Device Device, Message Message)
-        {
-            using (var Cancellation = new CancellationTokenSource())
-            {
-                var Token = Cancellation.Token;
-
-                if (Factory.Handlers.TryGetValue(Message.Type, out MessageHandler Handler))
-                {
-                    Cancellation.CancelAfter(4000);
-
-                    try
-                    {
-                        await Handler(Device, Message, Token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        Logging.Warning(typeof(Factory), "Operation has been cancelled after 4 seconds.");
-                    }
-                }
-            }
         }
     }
 }

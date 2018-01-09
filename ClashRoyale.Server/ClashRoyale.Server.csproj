@@ -143,6 +143,8 @@
     <Compile Include="Database\Models\BattleDb.cs" />
     <Compile Include="Database\Models\ClanDb.cs" />
     <Compile Include="Database\Models\PlayerDb.cs" />
+    <Compile Include="Listener\ServerGameListener.cs" />
+    <Compile Include="Logic\Device.cs" />
     <Compile Include="Handlers\Client\AskForAvatarLocalRankingListHandler.cs" />
     <Compile Include="Handlers\Client\ChangeAvatarNameHandler.cs" />
     <Compile Include="Handlers\Client\CancelMatchmakeHandler.cs" />
@@ -181,6 +183,10 @@
     <Compile Include="Logic\RoyalTv\RoyalTvManager.cs" />
     <Compile Include="Logic\Scoring\LeaderboardClans.cs" />
     <Compile Include="Logic\Scoring\LeaderboardPlayers.cs" />
+    <Compile Include="Network\NetworkManager.cs" />
+    <Compile Include="Network\NetworkPool.cs" />
+    <Compile Include="Network\NetworkTcp.cs" />
+    <Compile Include="Network\NetworkToken.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

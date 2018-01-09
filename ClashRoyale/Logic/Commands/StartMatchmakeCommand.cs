@@ -72,14 +72,11 @@
                         return 3;
                     }
 
-                    if (GameMode.Device.Defines.Android == false)
+                    if (!GameMode.Listener.IsAndroid())
                     {
-                        GameMode.Device.NetworkManager.SendMessage(new MatchmakeFailedMessage());
+                        GameMode.Listener.SendMessage(new MatchmakeFailedMessage());
                     }
-
-                    // BattleManager.AddPlayer(GameMode);
-                    // TODO : Add player to BattleManager.
-
+                    
                     return 0;
                 }
 

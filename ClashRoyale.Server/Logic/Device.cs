@@ -1,11 +1,13 @@
 ﻿namespace ClashRoyale.Logic
 {
     using ClashRoyale.Enums;
+    using ClashRoyale.Listener;
     using ClashRoyale.Logic.Mode;
     using ClashRoyale.Network;
 
     public class Device
     {
+        public ServerGameListener GameListener;
         public NetworkManager NetworkManager;
         public NetworkToken   Network;
         public Defines        Defines;
@@ -20,6 +22,7 @@
         public Device(NetworkToken Network)
         {
             this.NetworkManager = new NetworkManager(this);
+            this.GameListener = new ServerGameListener(this);
             this.Network        = Network;
             this.Network.SetDevice(this);
         }

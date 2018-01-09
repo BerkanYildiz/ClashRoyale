@@ -78,9 +78,9 @@
         /// </summary>
         public void ReceiveBattleEvent(BattleEvent Event)
         {
-            if (Event.SenderId != this.GameMode.Device.NetworkManager.AccountId)
+            if (Event.SenderId != this.GameMode.Player.PlayerId)
             {
-                Logging.Error(this.GetType(), "ReceiveBattleEvent() - Sender id is not valid. AccountId:" + this.GameMode.Device.NetworkManager.AccountId + " SenderId:" + Event.HighId + "-" + Event.LowId);
+                Logging.Error(this.GetType(), "ReceiveBattleEvent() - Sender id is not valid. AccountId:" + this.GameMode.Player.PlayerId + " SenderId:" + Event.HighId + "-" + Event.LowId);
                 return;
             }
 
@@ -157,7 +157,7 @@
         /// </summary>
         public void SendBattleEvent(BattleEvent Event)
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new BattleEventMessage(Event));
+            this.GameMode.Listener.SendMessage(new BattleEventMessage(Event));
         }
 
         /// <summary>
@@ -165,7 +165,7 @@
         /// </summary>
         public void SendBattleResult()
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new BattleResultMessage(this.Update));
+            this.GameMode.Listener.SendMessage(new BattleResultMessage(this.Update));
         }
 
         /// <summary>
@@ -173,7 +173,7 @@
         /// </summary>
         public void SendSectorState()
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new SectorStateMessage(this.Update));
+            this.GameMode.Listener.SendMessage(new SectorStateMessage(this.Update));
         }
 
         /// <summary>
@@ -181,7 +181,7 @@
         /// </summary>
         public void SendSectorHeartbeat(int Time, int Checksum, Command[] Commands)
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new SectorHearbeatMessage(Time, Checksum, Commands));
+            this.GameMode.Listener.SendMessage(new SectorHearbeatMessage(Time, Checksum, Commands));
         }
 
         /// <summary>
@@ -189,7 +189,7 @@
         /// </summary>
         public void OpponentLeftMatch()
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new OpponentLeftMatchNotificationMessage());
+            this.GameMode.Listener.SendMessage(new OpponentLeftMatchNotificationMessage());
         }
 
         /// <summary>
@@ -197,7 +197,7 @@
         /// </summary>
         public void OpponentRejoinsMatch()
         {
-            this.GameMode.Device.NetworkManager.SendMessage(new OpponentRejoinsMatchNotificationMessage());
+            this.GameMode.Listener.SendMessage(new OpponentRejoinsMatchNotificationMessage());
         }
         
         /// <summary>
