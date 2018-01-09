@@ -71,8 +71,8 @@
         /// <param name="AcceptEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
         private static void StartAccept(SocketAsyncEventArgs AcceptEvent)
         {
-            AcceptEvent.AcceptSocket = null;
-            AcceptEvent.RemoteEndPoint = null;
+            AcceptEvent.AcceptSocket    = null;
+            AcceptEvent.RemoteEndPoint  = null;
 
             if (!NetworkTcp.Listener.AcceptAsync(AcceptEvent))
             {
@@ -103,25 +103,28 @@
         /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
         private static void ProcessAccept(SocketAsyncEventArgs AsyncEvent)
         {
-            Logging.Info(typeof(NetworkTcp), "Connection from " + ((IPEndPoint) AsyncEvent.AcceptSocket.RemoteEndPoint).Address + ".");
-
-            if (AsyncEvent.AcceptSocket.Connected && (AsyncEvent.AcceptSocket.RemoteEndPoint.ToString().StartsWith("192.168.0.") || AsyncEvent.AcceptSocket.RemoteEndPoint.ToString().StartsWith("192.168.1.")))
+            if (AsyncEvent.AcceptSocket.Connected)
             {
-                SocketAsyncEventArgs ReadEvent = NetworkTcp.ReadPool.Dequeue();
+                string IpAddress = ((IPEndPoint) AsyncEvent.AcceptSocket.RemoteEndPoint).Address.ToString();
 
-                if (ReadEvent != null)
+                if (IpAddress.StartsWith("192.168."))
                 {
-                    NetworkToken Token  = new NetworkToken(ReadEvent, AsyncEvent.AcceptSocket);
-                    Device Device       = new Device(Token);
+                    SocketAsyncEventArgs ReadEvent = NetworkTcp.ReadPool.Dequeue();
 
-                    if (!Token.Socket.ReceiveAsync(ReadEvent))
+                    if (ReadEvent != null)
                     {
-                        NetworkTcp.ProcessReceive(ReadEvent);
+                        NetworkToken Token  = new NetworkToken(ReadEvent, AsyncEvent.AcceptSocket);
+                        Device Device       = new Device(Token);
+
+                        if (!Token.Socket.ReceiveAsync(ReadEvent))
+                        {
+                            NetworkTcp.ProcessReceive(ReadEvent);
+                        }
                     }
-                }
-                else
-                {
-                    Logging.Warning(typeof(NetworkTcp), "Server is full, new connections cannot be accepted.");
+                    else
+                    {
+                        Logging.Warning(typeof(NetworkTcp), "Server is full, new connections cannot be accepted.");
+                    }
                 }
             }
 
@@ -157,22 +160,27 @@
                         Token.Process();
                     }
 
-                    if (Token.Aborting == false)
+                    if (Token.IsFailing == false)
                     {
                         if (!Token.Socket.ReceiveAsync(AsyncEvent))
                         {
                             NetworkTcp.ProcessReceive(AsyncEvent);
                         }
                     }
+                    else
+                    {
+                        NetworkTcp.Disconnect(AsyncEvent);
+                    }
                 }
-                catch (Exception)
+                catch (Exception Exception)
                 {
+                    Logging.Warning(typeof(NetworkTcp), Exception.GetType().Name + " thrown at ProcessReceive(" + AsyncEvent.RemoteEndPoint + ").");
                     NetworkTcp.Disconnect(AsyncEvent);
                 }
             }
             else
             {
-                // TODO : Disconnect.
+                NetworkTcp.Disconnect(AsyncEvent);
             }
         }
 
@@ -196,17 +204,18 @@
         /// <summary>
         /// Sends the specified message.
         /// </summary>
-        /// <param name="Message">The message.</param>
-        public static void Send(Message Message, NetworkToken Token)
+        /// <param name="Buffer">The buffer.</param>
+        /// <param name="Token">The token.</param>
+        public static void Send(byte[] Buffer, NetworkToken Token)
         {
-            if (Message == null)
+            if (Buffer == null)
             {
-                throw new ArgumentNullException(nameof(Message), "Message == null at Send(Message, Token).");
+                throw new ArgumentNullException(nameof(Message), "Buffer == null at Send(Buffer, Token).");
             }
 
             if (Token == null)
             {
-                throw new ArgumentNullException(nameof(Token), "Token == null at Send(Message, Token).");
+                throw new ArgumentNullException(nameof(Token), "Token == null at Send(Buffer, Token).");
             }
 
             if (Token.IsConnected)
@@ -221,17 +230,15 @@
                     };
                 }
 
-                WriteEvent.SetBuffer(Message.ToBytes, Message.Offset, Message.Length + 7 - Message.Offset);
+                WriteEvent.SetBuffer(Buffer, 0, Buffer.Length);
 
                 WriteEvent.AcceptSocket     = Token.Socket;
                 WriteEvent.RemoteEndPoint   = Token.Socket.RemoteEndPoint;
                 WriteEvent.UserToken        = Token;
 
-                Logging.Info(typeof(NetworkTcp), "Sending " + Message.GetType().Name + ".");
-
                 if (!Token.Socket.SendAsync(WriteEvent))
                 {
-                    NetworkTcp.ProcessSend(Message, WriteEvent);
+                    NetworkTcp.ProcessSend(WriteEvent);
                 }
             }
             else
@@ -241,27 +248,26 @@
         }
 
         /// <summary>
-        /// Processes to send the specified message using the specified SocketAsyncEventArgs.
+        /// Processes to send a <see cref="Message"/> using the specified <see cref="SocketAsyncEventArgs"/>.
         /// </summary>
-        /// <param name="Message">The message.</param>
         /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
-        private static void ProcessSend(Message Message, SocketAsyncEventArgs AsyncEvent)
+        private static void ProcessSend(SocketAsyncEventArgs AsyncEvent)
         {
             NetworkToken Token = (NetworkToken) AsyncEvent.UserToken;
 
             if (AsyncEvent.SocketError == SocketError.Success)
             {
-                Message.Offset += AsyncEvent.BytesTransferred;
-
-                if (Message.Length + 7 > Message.Offset)
+                if (AsyncEvent.Count > AsyncEvent.BytesTransferred)
                 {
+                    int Offset = AsyncEvent.Offset + AsyncEvent.BytesTransferred;
+
                     if (Token.IsConnected)
                     {
-                        AsyncEvent.SetBuffer(Message.Offset, Message.Length + 7 - Message.Offset);
+                        AsyncEvent.SetBuffer(Offset, AsyncEvent.Buffer.Length - Offset);
 
                         if (!Token.Socket.SendAsync(AsyncEvent))
                         {
-                            NetworkTcp.ProcessSend(Message, AsyncEvent);
+                            NetworkTcp.ProcessSend(AsyncEvent);
                         }
 
                         return;
@@ -296,24 +302,27 @@
         {
             NetworkToken Token = AsyncEvent.UserToken as NetworkToken;
 
-            if (Token.Aborting)
+            if (Token.IsAborting)
             {
                 return;
             }
 
-            Token.Aborting = true;
+            Token.IsAborting = true;
 
             if (Token.Device != null)
             {
                 Token.Device.State = State.Disconnected;
 
-                try
+                if (Token.IsConnected)
                 {
-                    Token.Socket.Shutdown(SocketShutdown.Both);
-                }
-                catch (Exception)
-                {
-                    // Already Closed.
+                    try
+                    {
+                        Token.Socket.Shutdown(SocketShutdown.Both);
+                    }
+                    catch (Exception Exception)
+                    {
+                        Logging.Warning(typeof(NetworkTcp), Exception.GetType().Name + " thrown at Disconnect(" + AsyncEvent.RemoteEndPoint + ").");
+                    }
                 }
 
                 Token.Socket.Close();

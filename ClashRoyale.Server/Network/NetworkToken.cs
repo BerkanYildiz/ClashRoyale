@@ -15,7 +15,7 @@
         public Device Device;
         public SocketAsyncEventArgs AsyncEvent;
 
-        public bool Aborting;
+        private int Fails;
 
         /// <summary>
         /// Gets a value indicating whether this instance is connected.
@@ -24,11 +24,6 @@
         {
             get
             {
-                if (this.Aborting)
-                {
-                    return false;
-                }
-
                 if (this.Socket.Connected)
                 {
                     try
@@ -46,6 +41,26 @@
 
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is failing.
+        /// </summary>
+        public bool IsFailing
+        {
+            get
+            {
+                return this.IsAborting || this.Fails >= 10;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is aborting.
+        /// </summary>
+        public bool IsAborting
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -68,7 +83,7 @@
         public void SetDevice(Device Device)
         {
             this.Device                 = Device;
-            this.Device.Network         = this;
+            this.Device.Token           = this;
         }
 
         /// <summary>
@@ -94,7 +109,7 @@
             }
             else
             {
-                // NetworkTcp.Disconnect(this.AsyncEvent);
+                NetworkTcp.Disconnect(this.AsyncEvent);
             }
         }
 
@@ -120,10 +135,14 @@
                         this.TcpProcess(Buffer.Get(Length + 7, Buffer.Length - 7 - Length));
                     }
                 }
+                else
+                {
+                    this.Fails++;
+                }
             }
             else
             {
-                // NetworkTcp.Disconnect(this.AsyncEvent);
+                NetworkTcp.Disconnect(this.AsyncEvent);
             }
         }
     }

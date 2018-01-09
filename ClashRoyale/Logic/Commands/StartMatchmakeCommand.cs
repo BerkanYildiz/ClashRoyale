@@ -72,9 +72,13 @@
                         return 3;
                     }
 
-                    if (!GameMode.Listener.IsAndroid())
+                    if (!GameMode.Listener.IsAndroid)
                     {
                         GameMode.Listener.SendMessage(new MatchmakeFailedMessage());
+                    }
+                    else
+                    {
+                        GameMode.Listener.Matchmaking();
                     }
                     
                     return 0;

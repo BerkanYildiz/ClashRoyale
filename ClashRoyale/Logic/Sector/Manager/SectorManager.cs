@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Logic.Sector.Manager
 {
     using System;
-    using System.Collections.Generic;
 
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;

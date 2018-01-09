@@ -83,7 +83,7 @@
             {
                 Players.ForEach(Player =>
                 {
-                    // NetworkTcp.Disconnect(Player.GameMode.Device.Network.AsyncEvent);
+                    // NetworkTcp.Disconnect(Player.GameMode.Device.Token.AsyncEvent);
                 });
 
                 Logging.Info(typeof(ExitHandler), "Disconnected every player for the maintenance.");

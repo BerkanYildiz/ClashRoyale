@@ -5,37 +5,54 @@
 
     public sealed class ServerGameListener : GameListener
     {
-        internal Device Device;
+        private readonly Device Device;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ServerGameListener"/> class.
+        /// Initializes a new instance of the <see cref="ServerGameListener"/> class.
         /// </summary>
-        public ServerGameListener(Device device)
+        /// <param name="Device">The device.</param>
+        public ServerGameListener(Device Device)
         {
-            this.Device = device;
+            this.Device = Device;
         }
 
-        public override bool IsConnected()
+        /// <summary>
+        /// Gets a value indicating whether this instance is connected.
+        /// </summary>
+        public override bool IsConnected
         {
-            return this.Device.Network.IsConnected;
+            get
+            {
+                return this.Device.Token.IsConnected;
+            }
         }
 
-        public override bool IsAndroid()
+        /// <summary>
+        /// Gets a value indicating whether this instance is an android device.
+        /// </summary>
+        public override bool IsAndroid
         {
-            return this.Device.Defines.Android;
+            get
+            {
+                return this.Device.Defines.Android;
+            }
         }
 
+        /// <summary>
+        /// Adds this instance to the matchmaking system.
+        /// </summary>
         public override void Matchmaking()
         {
             // TODO Implement Matchmaking.
         }
 
-        public override void SendMessage(Message message)
+        /// <summary>
+        /// Sends the specified <see cref="Message" />.
+        /// </summary>
+        /// <param name="Message">The message.</param>
+        public override void SendMessage(Message Message)
         {
-            if (this.Device.Network.IsConnected)
-            {
-                this.Device.NetworkManager.SendMessage(message);
-            }
+            this.Device.NetworkManager.SendMessage(Message);
         }
     }
 }

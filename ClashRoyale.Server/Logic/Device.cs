@@ -9,7 +9,7 @@
     {
         public ServerGameListener GameListener;
         public NetworkManager NetworkManager;
-        public NetworkToken   Network;
+        public NetworkToken   Token;
         public Defines        Defines;
         public GameMode       GameMode;
 
@@ -18,13 +18,13 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Device"/> class.
         /// </summary>
-        /// <param name="Network">The token.</param>
-        public Device(NetworkToken Network)
+        /// <param name="Token">The token.</param>
+        public Device(NetworkToken Token)
         {
             this.NetworkManager = new NetworkManager(this);
-            this.GameListener = new ServerGameListener(this);
-            this.Network        = Network;
-            this.Network.SetDevice(this);
+            this.GameListener   = new ServerGameListener(this);
+            this.Token          = Token;
+            this.Token.SetDevice(this);
         }
     }
 }

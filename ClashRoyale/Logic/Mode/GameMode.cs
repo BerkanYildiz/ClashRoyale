@@ -51,7 +51,7 @@
             {
                 if (this.Listener != null)
                 {
-                    return this.Listener.IsConnected();
+                    return this.Listener.IsConnected;
                 }
 
                 return false;

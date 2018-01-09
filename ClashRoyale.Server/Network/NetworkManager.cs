@@ -109,7 +109,7 @@
                     {
                         if (++this.InvalidMessageStateCnt >= 5)
                         {
-                            NetworkTcp.Disconnect(this.Device.Network.AsyncEvent);
+                            NetworkTcp.Disconnect(this.Device.Token.AsyncEvent);
                         }
 
                         return;
@@ -159,7 +159,9 @@
         /// <param name="Message">The message.</param>
         public void SendMessage(Message Message)
         {
-            if (this.Device.Network.IsConnected)
+            Logging.Info(typeof(NetworkTcp), "Sending " + Message.GetType().Name + ".");
+
+            if (this.Device.Token.IsConnected)
             {
                 if (Message.IsServerToClientMessage)
                 {
@@ -189,9 +191,9 @@
                         Bytes = this.SendEncrypter.Encrypt(Bytes);
                     }
 
-                    Message.Stream.SetByteArray(Bytes);
+                    // Message.Stream.SetByteArray(Bytes);
 
-                    NetworkTcp.Send(Message, this.Device.Network);
+                    NetworkTcp.Send(Bytes, this.Device.Token);
                     Handlers.Handlers.MessageHandle(this.Device, Message).ConfigureAwait(false);
                 }
                 else

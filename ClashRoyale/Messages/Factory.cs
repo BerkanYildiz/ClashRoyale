@@ -2,12 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     using ClashRoyale.Extensions;
-    using ClashRoyale.Logic;
-
     using ClashRoyale.Messages.Client;
     using ClashRoyale.Messages.Client.Alliance;
     using ClashRoyale.Messages.Client.Attack;
