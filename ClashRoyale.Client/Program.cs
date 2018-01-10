@@ -1,13 +1,7 @@
-﻿namespace ClashRoyale.Client
+﻿namespace ClashRoyale
 {
-    using System;
-
-    using ClashRoyale.Client.Logic;
-    using ClashRoyale.Client.Network.Packets;
-    using ClashRoyale.Crypto.Randomizers;
-    using ClashRoyale.Extensions.Game;
-    using ClashRoyale.Files;
-    using ClashRoyale.Files.Csv;
+    using ClashRoyale.Database;
+    using ClashRoyale.Network;
 
     internal class Program
     {
@@ -25,25 +19,15 @@
         /// </summary>
         private static void Main()
         {
-            Sentry.Initialize();
-            XorShift.Initialize();
+            Base.Initialize();
+            GameDb.Initialize();
 
-            CsvFiles.Initialize();
-            Fingerprint.Initialize();
-            Home.Initialize();
-
-            Globals.Initialize();
-            ClientGlobals.Initialize();
-
-            Factory.Initialize();
-
-            new Bot();
-
-            Tests.Initialize();
+            Handlers.Handlers.Initialize();
+            NetworkTcp.Initialize();
 
             Program.Initialized = true;
 
-            Console.ReadKey(false);
+            CommandLine.Initialize();
         }
     }
 }

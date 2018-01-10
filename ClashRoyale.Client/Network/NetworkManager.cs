@@ -1,46 +1,45 @@
-﻿namespace ClashRoyale.Client.Network
+﻿namespace ClashRoyale.Network
 {
     using System;
     using System.Net;
-    using System.Net.Sockets;
     using System.Timers;
 
-    using ClashRoyale.Client.Logic;
-    using ClashRoyale.Client.Network.Packets;
-    using ClashRoyale.Client.Network.Packets.Client;
     using ClashRoyale.Crypto;
     using ClashRoyale.Crypto.Encrypters;
     using ClashRoyale.Crypto.Inits;
+    using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
+    using ClashRoyale.Logic;
     using ClashRoyale.Maths;
+    using ClashRoyale.Messages;
+    using ClashRoyale.Messages.Client;
 
-    internal class NetworkManager
+    public class NetworkManager
     {
-        internal Bot Bot;
-        internal LogicLong AccountId;
-        internal NetworkGateway Gateway;
+        public Device Device;
+        public LogicLong AccountId;
 
-        internal int Ping;
-        internal int InvalidMessageStateCnt;
+        public int Ping;
+        public int InvalidMessageStateCnt;
 
-        internal string ConnectionInterface;
+        public string Interface;
 
-        internal DateTime LastChatMessage;
-        internal DateTime LastKeepAlive;
-        internal DateTime LastMessage;
-        internal DateTime Session;
+        public DateTime LastChatMessage;
+        public DateTime LastKeepAlive;
+        public DateTime LastMessage;
+        public DateTime Session;
 
-        internal PepperInit PepperInit;
-        internal IEncrypter SendEncrypter;
-        internal IEncrypter ReceiveEncrypter;
+        public PepperInit PepperInit;
+        public IEncrypter SendEncrypter;
+        public IEncrypter ReceiveEncrypter;
 
-        internal IPEndPoint UdpEndPoint;
-        internal Timer Timer;
+        public IPEndPoint UdpEndPoint;
+        public Timer Timer;
 
         /// <summary>
         /// Gets the time since last keep alive in ms.
         /// </summary>
-        internal long TimeSinceLastKeepAliveMs
+        public long TimeSinceLastKeepAliveMs
         {
             get
             {
@@ -49,23 +48,10 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="NetworkManager"/> is connected.
-        /// </summary>
-        internal bool IsConnected
-        {
-            get
-            {
-                return this.Gateway.IsConnected;
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="NetworkManager"/> class.
         /// </summary>
-        internal NetworkManager()
+        public NetworkManager()
         {
-            this.Gateway        = new NetworkGateway(this);
-
             this.Session        = DateTime.UtcNow;
             this.LastMessage    = DateTime.UtcNow;
             this.LastKeepAlive  = DateTime.UtcNow;
@@ -74,59 +60,31 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkManager"/> class.
         /// </summary>
-        /// <param name="Bot">The bot.</param>
-        internal NetworkManager(Bot Bot) : this()
+        /// <param name="Device">The bot.</param>
+        public NetworkManager(Device Device) : this()
         {
-            this.Bot            = Bot;
-        }
-
-        /// <summary>
-        /// Connects this instance.
-        /// </summary>
-        internal bool TryConnect()
-        {
-            if (this.Gateway.Interface == AddressFamily.InterNetwork)
-            {
-                this.ConnectionInterface = "eth0";
-            }
-            else
-            {
-                this.ConnectionInterface = "wlan";
-            }
-
-            this.Gateway.Connect("game.clashroyaleapp.com");
-
-            if (this.Gateway.IsConnected)
-            {
-                return true;
-            }
-
-            return false;
+            this.Device         = Device;
         }
 
         /// <summary>
         /// Receives the message.
         /// </summary>
-        internal void ReceiveMessage(short Type, short Version, byte[] Encrypted)
+        public void ReceiveMessage(short Type, short Version, byte[] Encrypted)
         {
+            Logging.Info(this.GetType(), "ReceiveMessage(" + Type + ", " + Version + ", null);");
+
             byte[] Packet = null;
 
             if (this.ReceiveEncrypter == null)
             {
-                // Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] this.ReceiveEncrypter == null at ReceiveMessage(" + Type + ").");
-
                 if (this.PepperInit.State == 1)
                 {
                     if (Type == 20100)
                     {
-                        // Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Type == 20100 at ReceiveMessage(" + Type + ").");
-
                         Packet = PepperCrypto.HandlePepperAuthentificationResponse(ref this.PepperInit, Encrypted);
                     }
                     else
                     {
-                        // Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Packet = Encrypted at ReceiveMessage(" + Type + ").");
-
                         Packet = Encrypted;
                     }
                 }
@@ -148,35 +106,37 @@
 
             if (Packet != null)
             {
-                Logging.Info(this.GetType(), "[" + this.Bot.BotId + "] " + Type + " : " + BitConverter.ToString(Packet) + ".");
-
                 using (ByteStream Stream = new ByteStream(Packet))
                 {
-                    Message Message = Factory.CreateMessage(Type, this.Bot, Stream);
+                    Message Message = Factory.CreateMessage(Type, Stream);
 
                     if (Message != null)
                     {
-                        Logging.Info(this.GetType(), "[" + this.Bot.BotId + "] " + "Received " +  Message.GetType().Name + ".");
+                        Logging.Info(this.GetType(), "Receiving " + Message.GetType().Name + ".");
 
-                        try
+                        // if (this.RequestTime.CanHandleMessage(Message))
                         {
-                            Message.Decode();
-                            Message.Process();
-                        }
-                        catch (Exception Exception)
-                        {
-                            Logging.Error(this.GetType(), "[" + this.Bot.BotId + "] " + Exception.GetType().Name + " at ReceiveMessage().");
+                            try
+                            {
+                                Message.Decode();
+                            }
+                            catch (Exception Exception)
+                            {
+                                Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + Message.Type + " has been processed. " + Exception);
+                            }
+
+                            Handlers.Handlers.MessageHandle(this.Device, Message).ConfigureAwait(false);
                         }
                     }
                     else
                     {
-                        // Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Message == null at ReceiveMessage().");
+                        Logging.Info(this.GetType(), BitConverter.ToString(Stream.ReadBytesWithoutLength(Stream.BytesLeft)));
                     }
                 }
             }
             else
             {
-                Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Packet == null at ReceiveMessage().");
+                Logging.Warning(this.GetType(), "Packet == null at ReceiveMessage().");
             }
         }
 
@@ -184,11 +144,11 @@
         /// Sends the specified message.
         /// </summary>
         /// <param name="Message">The message.</param>
-        internal void SendMessage(Message Message)
+        public void SendMessage(Message Message)
         {
-            if (Message.Bot.Network.IsConnected)
+            if (this.Device.Token.IsConnected)
             {
-                if (Message.IsClientToServerMessage)
+                if (Message.IsServerToClientMessage == false)
                 {
                     Message.Encode();
 
@@ -205,7 +165,7 @@
                         {
                             if (this.PepperInit.State == 2)
                             {
-                                PepperInit.ServerPublicKey = PepperFactory.PublicKey;
+                                this.PepperInit.ServerPublicKey = PepperFactory.PublicKey;
                                 Encrypted = PepperCrypto.SendPepperLogin(ref this.PepperInit, Decrypted);
                             }
                         }
@@ -217,18 +177,16 @@
 
                     Message.Stream.SetByteArray(Encrypted);
 
-                    this.Gateway.Send(Message);
-
-                    Message.Process();
+                    NetworkTcp.Send(Message.ToBytes, this.Device.Token);
                 }
                 else
                 {
-                    Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] ClientToServer != true at SendMessage(Message " + Message.Type + ").");
+                    Logging.Warning(this.GetType(), "ClientToServer != false at SendMessage(Message " + Message.Type + ").");
                 }
             }
-            else
+            // else
             {
-                Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] IsConnected != true at SendMessage(Message " + Message.Type + ").");
+                // Logging.Warning(this.GetType(), "[" + this.Device.BotId + "] IsConnected != true at SendMessage(Message " + Message.Type + ").");
             }
         }
 
@@ -245,14 +203,14 @@
         /// </summary>
         internal void KeepAlive()
         {
-            this.Timer = new Timer();
-            this.Timer.AutoReset = true;
-            this.Timer.Interval = TimeSpan.FromSeconds(5).TotalMilliseconds;
-            this.Timer.Elapsed += (Gobelin, Land) =>
+            this.Timer              = new Timer();
+            this.Timer.AutoReset    = true;
+            this.Timer.Interval     = TimeSpan.FromSeconds(5).TotalMilliseconds;
+            this.Timer.Elapsed     += (Gobelin, Land) =>
             {
-                if (this.Bot.IsLogged)
+                if (this.Device.State >= State.Login)
                 {
-                    this.SendMessage(new KeepAliveMessage(this.Bot));
+                    this.SendMessage(new KeepAliveMessage());
                 }
             };
             this.Timer.Start();

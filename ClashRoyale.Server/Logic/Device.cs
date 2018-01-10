@@ -7,11 +7,11 @@
 
     public class Device
     {
-        public ServerGameListener GameListener;
-        public NetworkManager NetworkManager;
-        public NetworkToken   Token;
-        public Defines        Defines;
-        public GameMode       GameMode;
+        public ServerGameListener   GameListener;
+        public NetworkManager       NetworkManager;
+        public NetworkToken         Token;
+        public Defines              Defines;
+        public GameMode             GameMode;
 
         public State State;
 

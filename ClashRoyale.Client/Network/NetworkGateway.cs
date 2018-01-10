@@ -1,159 +1,180 @@
-namespace ClashRoyale.Client.Network
+namespace ClashRoyale.Network
 {
     using System;
+    using System.Net;
     using System.Net.Sockets;
+    using System.Threading;
 
-    using ClashRoyale.Client.Logic;
-    using ClashRoyale.Client.Network.Packets;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Messages;
 
-    internal class NetworkGateway
+    public static class NetworkTcp
     {
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="NetworkGateway"/> is connected.
-        /// </summary>
-        internal bool IsConnected
-        {
-            get
-            {
-                if (this.Socket.Connected)
-                {
-                    try
-                    {
-                        if (!this.Socket.Poll(1000, SelectMode.SelectRead) || this.Socket.Available != 0)
-                        {
-                            return true;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        return false;
-                    }
-                }
-
-                return false;
-            }
-        }
+        private static NetworkPool ReadPool;
+        private static NetworkPool WritePool;
 
         /// <summary>
-        /// Gets the <see cref="AddressFamily"/> used for this instance.
+        /// Gets or sets a value indicating whether this <see cref="NetworkTcp"/> has been already initialized.
         /// </summary>
-        internal AddressFamily Interface
+        private static bool Initialized
         {
-            get
-            {
-                return this.Socket.AddressFamily;
-            }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="Bot"/> aka bot, used to manage and handle packets.
-        /// </summary>
-        private Bot Bot
-        {
-            get
-            {
-                if (this.Manager != null)
-                {
-                    return this.Manager.Bot;
-                }
-
-                return null;
-            }
-        }
-
-        internal NetworkManager Manager;
-
-        private NetworkToken Token;
-        private Socket Socket;
-
-        private bool Aborting;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NetworkGateway"/> class.
-        /// </summary>
-        internal NetworkGateway()
-        {
-            this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            this.Token  = new NetworkToken(this);
-            this.Token.Args.Completed += this.OnReceiveCompleted;
-            this.Token.Args.SetBuffer(new byte[Config.BufferSize], 0, Config.BufferSize);
+            get;
+            set;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkGateway"/> class.
         /// </summary>
-        /// <param name="Device">The bot.</param>
-        internal NetworkGateway(NetworkManager Manager) : this()
+        public static void Initialize()
         {
-            this.Manager = Manager;
+            if (NetworkTcp.Initialized)
+            {
+                return;
+            }
+
+            NetworkTcp.ReadPool             = new NetworkPool();
+            NetworkTcp.WritePool            = new NetworkPool();
+
+            foreach (var AsyncEvent in NetworkTcp.ReadPool)
+            {
+                AsyncEvent.Completed += NetworkTcp.OnReceiveCompleted;
+            }
+
+            foreach (var AsyncEvent in NetworkTcp.WritePool)
+            {
+                AsyncEvent.Completed += NetworkTcp.OnSendCompleted;
+            }
+
+            NetworkTcp.Initialized          = true;
         }
 
         /// <summary>
-        /// Connects this instance.
+        /// Connets the specified token to the remote host.
         /// </summary>
-        internal void Connect(string Host)
+        public static bool StartConnect(out NetworkToken Token)
         {
-            this.Socket.Connect(Host, 9339);
+            Socket Socket               = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            Socket.Blocking             = false;
+            Socket.NoDelay              = true;
 
-            if (this.IsConnected)
+            var ConnectEvent            = new SocketAsyncEventArgs();
+            ConnectEvent.RemoteEndPoint = new DnsEndPoint("game.clashroyaleapp.com", 9339);
+
+            ManualResetEventSlim Waiter = new ManualResetEventSlim();
+            ConnectEvent.Completed     += NetworkTcp.OnConnectCompleted;
+            ConnectEvent.UserToken      = Waiter;
+
+            if (!Socket.ConnectAsync(ConnectEvent))
             {
-                this.Receive();
+                NetworkTcp.OnConnectCompleted(Socket, ConnectEvent);
+            }
+
+            if (Waiter.Wait(10000))
+            {
+                var AsyncEvent = NetworkTcp.ReadPool.Dequeue();
+
+                if (AsyncEvent != null)
+                {
+                    Token = new NetworkToken(AsyncEvent, ConnectEvent.ConnectSocket);
+
+                    Token.AsyncEvent.AcceptSocket   = null;
+                    Token.AsyncEvent.RemoteEndPoint = new DnsEndPoint("game.clashroyaleapp.com", 9339);
+
+                    return true;
+                }
+                else
+                {
+                    Logging.Info(typeof(NetworkTcp), "AsyncEvent == null at StartConnect().");
+                }
+            }
+            else
+            {
+                Logging.Info(typeof(NetworkTcp), "Waiter.Wait(10000) != true at StartConnect().");
+            }
+
+            Token = null;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Called when the client has been connected.
+        /// </summary>
+        /// <param name="Sender">The sender.</param>
+        /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
+        private static void OnConnectCompleted(object Sender, SocketAsyncEventArgs AsyncEvent)
+        {
+            if (AsyncEvent.SocketError == SocketError.Success)
+            {
+                ((ManualResetEventSlim) AsyncEvent.UserToken).Set();
+            }
+            else
+            {
+                NetworkTcp.Disconnect(AsyncEvent);
             }
         }
 
         /// <summary>
-        /// Receives this instance.
+        /// Starts to receive data from remote host.
         /// </summary>
-        private void Receive()
+        public static void StartReceive(NetworkToken Token)
         {
-            if (!this.Socket.ReceiveAsync(this.Token.Args))
+            if (!Token.Socket.ReceiveAsync(Token.AsyncEvent))
             {
-                this.ProcessReceive();
+                NetworkTcp.ProcessReceive(Token.AsyncEvent);
             }
         }
 
         /// <summary>
         /// Receives data from the specified client.
         /// </summary>
-        private void ProcessReceive()
+        /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
+        private static void ProcessReceive(SocketAsyncEventArgs AsyncEvent)
         {
-            if (this.Token.Args.BytesTransferred > 0 && this.Token.Args.SocketError == SocketError.Success)
+            if (AsyncEvent.BytesTransferred == 0)
             {
-                if (!this.Token.Aborting)
+                NetworkTcp.Disconnect(AsyncEvent);
+            }
+
+            if (AsyncEvent.SocketError != SocketError.Success)
+            {
+                NetworkTcp.Disconnect(AsyncEvent);
+            }
+
+            NetworkToken Token = (NetworkToken) AsyncEvent.UserToken;
+
+            if (Token.IsConnected)
+            {
+                Token.AddData();
+
+                try
                 {
-                    Token.AddData();
-
-                    try
+                    if (Token.Socket.Available == 0)
                     {
-                        if (this.Socket.Available == 0)
-                        {
-                            Token.Process();
+                        Token.Process();
+                    }
 
-                            if (!Token.Aborting)
-                            {
-                                if (!this.Socket.ReceiveAsync(this.Token.Args))
-                                {
-                                    this.ProcessReceive();
-                                }
-                            }
-                        }
-                        else
+                    if (Token.IsFailing == false)
+                    {
+                        if (!Token.Socket.ReceiveAsync(AsyncEvent))
                         {
-                            if (!this.Socket.ReceiveAsync(this.Token.Args))
-                            {
-                                this.ProcessReceive();
-                            }
+                            NetworkTcp.ProcessReceive(AsyncEvent);
                         }
                     }
-                    catch (Exception Exception)
+                    else
                     {
-                        Logging.Error(this.GetType(), "[" + this.Bot.BotId + "] " + Exception.GetType().Name + " at ProcessReceive() !");
+                        NetworkTcp.Disconnect(AsyncEvent);
                     }
+                }
+                catch (Exception Exception)
+                {
+                    Logging.Warning(typeof(NetworkTcp), Exception.GetType().Name + " thrown at ProcessReceive(" + AsyncEvent.RemoteEndPoint + ").");
+                    NetworkTcp.Disconnect(AsyncEvent);
                 }
             }
             else
             {
-                Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] Disconnected at ProcessReceive() !");
+                NetworkTcp.Disconnect(AsyncEvent);
             }
         }
 
@@ -162,67 +183,148 @@ namespace ClashRoyale.Client.Network
         /// </summary>
         /// <param name="Sender">The sender.</param>
         /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
-        private void OnReceiveCompleted(object Sender, SocketAsyncEventArgs AsyncEvent)
+        private static void OnReceiveCompleted(object Sender, SocketAsyncEventArgs AsyncEvent)
         {
             if (AsyncEvent.SocketError == SocketError.Success)
             {
-                this.ProcessReceive();
+                NetworkTcp.ProcessReceive(AsyncEvent);
             }
             else
             {
-                this.Aborting = true;
+                NetworkTcp.Disconnect(AsyncEvent);
             }
         }
 
         /// <summary>
-        /// Sends this instance.
+        /// Sends the specified message.
         /// </summary>
-        internal void Send(Message Message)
+        /// <param name="Buffer">The buffer.</param>
+        /// <param name="Token">The token.</param>
+        public static void Send(byte[] Buffer, NetworkToken Token)
         {
-            if (this.IsConnected && this.Aborting == false)
+            if (Buffer == null)
             {
-                if (Message != null)
-                {
-                    byte[] Buffer = Message.ToBytes;
+                throw new ArgumentNullException(nameof(Message), "Buffer == null at Send(Buffer, Token).");
+            }
 
-                    if (Buffer != null)
-                    {
-                        this.Socket.BeginSend(Buffer, 0, Buffer.Length, 0, this.SendCallback, Message);
-                    }
-                    else
-                    {
-                        Logging.Error(this.GetType(), "[" + this.Bot.BotId + "] Buffer == null at Send(Message) !");
-                    }
-                }
-                else
+            if (Token == null)
+            {
+                throw new ArgumentNullException(nameof(Token), "Token == null at Send(Buffer, Token).");
+            }
+
+            if (Token.IsConnected)
+            {
+                SocketAsyncEventArgs WriteEvent = NetworkTcp.WritePool.Dequeue();
+
+                if (WriteEvent == null)
                 {
-                    Logging.Error(this.GetType(), "[" + this.Bot.BotId + "] Message == null at Send(Message) !");
+                    WriteEvent = new SocketAsyncEventArgs
+                    {
+                        DisconnectReuseSocket = false
+                    };
+                }
+
+                WriteEvent.SetBuffer(Buffer, 0, Buffer.Length);
+
+                WriteEvent.AcceptSocket     = Token.Socket;
+                WriteEvent.RemoteEndPoint   = Token.Socket.RemoteEndPoint;
+                WriteEvent.UserToken        = Token;
+
+                if (!Token.Socket.SendAsync(WriteEvent))
+                {
+                    NetworkTcp.ProcessSend(WriteEvent);
                 }
             }
             else
             {
-                Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] IsConnected == false at Send(Message) !");
+                NetworkTcp.Disconnect(Token.AsyncEvent);
             }
         }
 
-        private void SendCallback(IAsyncResult AsyncResult)
+        /// <summary>
+        /// Processes to send a <see cref="Message"/> using the specified <see cref="SocketAsyncEventArgs"/>.
+        /// </summary>
+        /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
+        private static void ProcessSend(SocketAsyncEventArgs AsyncEvent)
         {
-            if (AsyncResult.AsyncState is Message Message)
-            {
-                if (!this.Token.Aborting)
-                {
-                    int BytesSent = this.Socket.EndSend(AsyncResult);
+            NetworkToken Token = (NetworkToken) AsyncEvent.UserToken;
 
-                    if (BytesSent < Message.Length + 7)
+            if (AsyncEvent.SocketError == SocketError.Success)
+            {
+                if (AsyncEvent.Count > AsyncEvent.BytesTransferred)
+                {
+                    int Offset = AsyncEvent.Offset + AsyncEvent.BytesTransferred;
+
+                    if (Token.IsConnected)
                     {
-                        Logging.Warning(this.GetType(), "[" + this.Bot.BotId + "] BytesSent < (Message.Length + 7) at SendCallback(AsyncResult) !");
+                        AsyncEvent.SetBuffer(Offset, AsyncEvent.Buffer.Length - Offset);
+
+                        if (!Token.Socket.SendAsync(AsyncEvent))
+                        {
+                            NetworkTcp.ProcessSend(AsyncEvent);
+                        }
+
+                        return;
                     }
+
+                    NetworkTcp.Disconnect(Token.AsyncEvent);
                 }
             }
             else
             {
-                Logging.Error(this.GetType(), "[" + this.Bot.BotId + "] Message == null at SendCallback(AsyncResult) !");
+                NetworkTcp.Disconnect(Token.AsyncEvent);
             }
+
+            NetworkTcp.OnSendCompleted(null, AsyncEvent);
+        }
+
+        /// <summary>
+        /// Called when [send completed].
+        /// </summary>
+        /// <param name="Sender">The sender.</param>
+        /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
+        private static void OnSendCompleted(object Sender, SocketAsyncEventArgs AsyncEvent)
+        {
+            NetworkTcp.WritePool.Enqueue(AsyncEvent);
+        }
+
+        /// <summary>
+        /// Closes the specified client's socket.
+        /// </summary>
+        /// <param name="AsyncEvent">The <see cref="SocketAsyncEventArgs"/> instance containing the event data.</param>
+        public static void Disconnect(SocketAsyncEventArgs AsyncEvent)
+        {
+            NetworkToken Token = AsyncEvent.UserToken as NetworkToken;
+
+            Logging.Info(typeof(NetworkToken), "Disconnect(AsyncEvent).");
+
+            if (Token.IsAborting)
+            {
+                return;
+            }
+
+            Token.IsAborting = true;
+
+            if (Token.Device != null)
+            {
+                Token.Device.State = State.Disconnected;
+
+                if (Token.IsConnected)
+                {
+                    try
+                    {
+                        Token.Socket.Shutdown(SocketShutdown.Both);
+                    }
+                    catch (Exception Exception)
+                    {
+                        Logging.Warning(typeof(NetworkTcp), Exception.GetType().Name + " thrown at Disconnect(" + AsyncEvent.RemoteEndPoint + ").");
+                    }
+                }
+
+                Token.Socket.Close();
+            }
+
+            NetworkTcp.ReadPool.Enqueue(AsyncEvent);
         }
     }
 }

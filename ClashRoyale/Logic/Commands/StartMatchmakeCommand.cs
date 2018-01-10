@@ -25,7 +25,7 @@
         /// Initializes a new instance of the <see cref="StartMatchmakeCommand"/> class.
         /// </summary>
         public StartMatchmakeCommand()
-        {
+        {                       
             // StartMatchmakeCommand.
         }
 
