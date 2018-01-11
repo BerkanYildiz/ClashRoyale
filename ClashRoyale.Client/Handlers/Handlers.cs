@@ -18,7 +18,7 @@
     using ClashRoyale.Messages.Server.Account;
     using ClashRoyale.Messages.Server.Home;
 
-    internal static class Handlers
+    public static class Handlers
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="MessageHandlers"/> has been initialized.
@@ -46,7 +46,7 @@
         /// <summary>
         /// Initializes this instance.
         /// </summary>
-        internal static void Initialize()
+        public static void Initialize()
         {
             if (Handlers.Initialized)
             {

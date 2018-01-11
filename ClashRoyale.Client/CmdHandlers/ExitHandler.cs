@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal static class ExitHandler
+    public static class ExitHandler
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="ExitHandler"/> is already exiting.

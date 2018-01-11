@@ -6,7 +6,7 @@
     using ClashRoyale.Logic.Alliance;
     using ClashRoyale.Maths;
 
-    internal static class ClanHandler
+    public static class ClanHandler
     {
         private static LogicLong SelectedClan;
 

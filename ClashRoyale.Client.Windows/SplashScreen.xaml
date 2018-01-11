@@ -1,0 +1,13 @@
+﻿<Window x:Class="ClashRoyale.Client.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Clash Royale" Height="837.726" Width="527.165" WindowStartupLocation="Manual" Icon="favicon.ico" Background="Black" ResizeMode="CanResizeWithGrip">
+    <Grid>
+        <Image Name="ScLogo" Margin="50,-3,50,0" Source="Images/sc_logo.png" Opacity="0" />
+        <Image Name="ScBackground" Source="Images/splashscreen.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0"/>
+
+    </Grid>
+</Window>

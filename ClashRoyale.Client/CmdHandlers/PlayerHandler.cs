@@ -6,7 +6,7 @@
     using ClashRoyale.Logic.Player;
     using ClashRoyale.Maths;
 
-    internal static class PlayerHandler
+    public static class PlayerHandler
     {
         private static LogicLong SelectedPlayer;
 

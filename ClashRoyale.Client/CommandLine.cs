@@ -5,7 +5,7 @@
     using ClashRoyale.CmdHandlers;
     using ClashRoyale.Logic;
 
-    internal static class CommandLine
+    public static class CommandLine
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="CommandLine"/> has been initialized.

@@ -3,7 +3,7 @@
     using ClashRoyale.Database;
     using ClashRoyale.Network;
 
-    internal class Program
+    public class Program
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Program"/> has been initialized.
