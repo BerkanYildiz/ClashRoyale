@@ -62,6 +62,7 @@
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
@@ -136,10 +137,13 @@
     <Compile Include="Enums\Gamefile.cs" />
     <Compile Include="Enums\HomeState.cs" />
     <Compile Include="Enums\Node.cs" />
+    <Compile Include="Enums\PixFormat.cs" />
     <Compile Include="Enums\Rank.cs" />
     <Compile Include="Enums\Reason.cs" />
     <Compile Include="Enums\State.cs" />
     <Compile Include="Exceptions\LogicException.cs" />
+    <Compile Include="Extensions\BinaryWriterHelper.cs" />
+    <Compile Include="Extensions\BinaryReaderHelper.cs" />
     <Compile Include="Extensions\ByteHelper.cs" />
     <Compile Include="Extensions\ByteStream.cs" />
     <Compile Include="Extensions\ChecksumEncoder.cs" />
@@ -149,6 +153,7 @@
     <Compile Include="Extensions\Helper\ByteStreamHelper.cs" />
     <Compile Include="Extensions\Helper\JsonHelper.cs" />
     <Compile Include="Extensions\Helper\ListHelper.cs" />
+    <Compile Include="Extensions\Helper\PixHelper.cs" />
     <Compile Include="Extensions\Helper\ZLibHelper.cs" />
     <Compile Include="Extensions\Utils\TimeUtil.cs" />
     <Compile Include="Files\Csv\Client\BackgroundDecoData.cs" />
@@ -231,6 +236,13 @@
     <Compile Include="Files\Csv\Tilemaps\TilemapData.cs" />
     <Compile Include="Files\Fingerprint.cs" />
     <Compile Include="Files\Home.cs" />
+    <Compile Include="Files\Sc\ScSpirite.cs" />
+    <Compile Include="Files\Sc\ScStats.cs" />
+    <Compile Include="Files\Sc\ScInfo.cs" />
+    <Compile Include="Files\Sc\ScObject.cs" />
+    <Compile Include="Files\Sc\ScTexture.cs" />
+    <Compile Include="Files\Sc\ScFile.cs" />
+    <Compile Include="Files\Sc\ScFiles.cs" />
     <Compile Include="Listener\GameListener.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Logic\Alliance\Clan.cs" />

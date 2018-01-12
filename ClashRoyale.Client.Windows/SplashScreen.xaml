@@ -8,6 +8,5 @@
     <Grid>
         <Image Name="ScLogo" Margin="50,-3,50,0" Source="Images/sc_logo.png" Opacity="0" />
         <Image Name="ScBackground" Source="Images/splashscreen.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0"/>
-
     </Grid>
 </Window>

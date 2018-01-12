@@ -5,6 +5,7 @@
     using ClashRoyale.Extensions.Game;
     using ClashRoyale.Files;
     using ClashRoyale.Files.Csv;
+    using ClashRoyale.Files.Sc;
     using ClashRoyale.Messages;
 
     public static class Base
@@ -28,9 +29,10 @@
                 return;
             }
 
-            Sentry.Initialize();
+            // Sentry.Initialize();
             XorShift.Initialize();
 
+            ScFiles.Initialize();
             CsvFiles.Initialize();
             Fingerprint.Initialize();
             Home.Initialize();

@@ -251,6 +251,28 @@
         }
 
         /// <summary>
+        /// Writes the ASCII.
+        /// </summary>
+        /// <param name="Value">The value to write.</param>
+        public void WriteAscii(string Value)
+        {
+            if (string.IsNullOrEmpty(Value))
+            {
+                this.Add(0xFF);
+            }
+            else
+            {
+                if (Value.Length > 255)
+                {
+                    throw new Exception("String length inferior to 256 characters expected.");
+                }
+
+                this.WriteByte((byte) Value.Length);
+                this.AddRange(Encoding.UTF8.GetBytes(Value));
+            }
+        }
+
+        /// <summary>
         /// Adds a vint.
         /// </summary>
         public override void WriteVInt(int Value)
@@ -503,6 +525,25 @@
 
             return this.ReadRange(Length);
         }
+        
+        /// <summary>
+        /// Reads a byte array using the specified length.
+        /// </summary>
+        /// <param name="Length">The length.</param>
+        public byte[] ReadBytes(int Length)
+        {
+            if (Length < 0)
+            {
+                if (Length != -1)
+                {
+                    throw new Exception("ByteStream::readBytes() - Byte array length is invalid. (" + Length + ")");
+                }
+
+                return null;
+            }
+
+            return this.ReadRange(Length);
+        }
 
         /// <summary>
         /// Reads a byte array reference.
@@ -565,6 +606,26 @@
             }
 
             return Encoding.UTF8.GetString(this.ReadRange(Length));
+        }
+
+        /// <summary>
+        /// Reads the ASCII.
+        /// </summary>
+        public string ReadAscii()
+        {
+            byte Length = this.Read();
+
+            if (Length > 0)
+            {
+                if (Length == 0xFF)
+                {
+                    return null;
+                }
+
+                return Encoding.UTF8.GetString(this.ReadBytes(Length));
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
