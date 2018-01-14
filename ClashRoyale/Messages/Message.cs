@@ -52,15 +52,6 @@
         }
         
         /// <summary>
-        /// Gets the offset of this <see cref="Message"/>.
-        /// </summary>
-        public int Offset
-        {
-            get;
-            set;
-        }
-        
-        /// <summary>
         /// Gets the version of this <see cref="Message"/>.
         /// </summary>
         public short Version
@@ -112,7 +103,7 @@
         }
 
         /// <summary>
-        /// Gets the packet data, in/from a byte array.
+        /// Gets the packet data, in a byte array.
         /// </summary>
         /// <returns>The packet data, in a byte array, header included.</returns>
         public byte[] ToBytes
@@ -123,10 +114,31 @@
 
                 using (ByteStream Packet = new ByteStream(7 + this.Length))
                 {
+                    Packet.AddRange(this.ToHeaderBytes);
+                    Packet.AddRange(this.Stream.ToArray());
+
+                    Buffer = Packet.ToArray();
+                }
+
+                return Buffer;
+            }
+        }
+
+        /// <summary>
+        /// Gets the packet header, in a byte array.
+        /// </summary>
+        /// <returns>The packet header, in a byte array..</returns>
+        public byte[] ToHeaderBytes
+        {
+            get
+            {
+                byte[] Buffer;
+
+                using (ByteStream Packet = new ByteStream(7))
+                {
                     Packet.WriteShort(this.Type);
                     Packet.WriteInt24(this.Length);
                     Packet.WriteShort(this.Version);
-                    Packet.AddRange(this.Stream.ToArray());
 
                     Buffer = Packet.ToArray();
                 }

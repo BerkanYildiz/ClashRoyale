@@ -11,10 +11,8 @@
     using ClashRoyale.Logic;
 
     using ClashRoyale.Messages;
-
-    using ClashRoyale.Messages.Client;
+    using ClashRoyale.Messages.Client.Account;
     using ClashRoyale.Messages.Client.Home;
-
     using ClashRoyale.Messages.Server.Account;
     using ClashRoyale.Messages.Server.Home;
 
@@ -96,7 +94,7 @@
                     }
                     catch (OperationCanceledException)
                     {
-                        Logging.Warning(typeof(Factory), "Operation has been cancelled after 4 seconds.");
+                        Logging.Warning(typeof(MessageFactory), "Operation has been cancelled after 4 seconds.");
                     }
                 }
             }

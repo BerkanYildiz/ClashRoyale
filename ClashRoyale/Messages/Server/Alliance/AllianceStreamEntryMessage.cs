@@ -63,7 +63,7 @@
         /// </summary>
         public override void Decode()
         {
-            this.EntryType = Stream.ReadVInt();
+            this.EntryType = this.Stream.ReadVInt();
             this.StreamEntry.Decode(this.Stream);
         }
 

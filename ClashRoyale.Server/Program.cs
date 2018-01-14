@@ -1,6 +1,11 @@
 ﻿namespace ClashRoyale
 {
+    using System;
+
+    using ClashRoyale.CmdHandlers;
     using ClashRoyale.Database;
+    using ClashRoyale.Handlers;
+
     using ClashRoyale.Logic.Battle;
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Logic.Event;
@@ -38,12 +43,32 @@
             BattleManager.Initialize();
             RoyalTvManager.Initialize();
 
-            Handlers.Handlers.Initialize();
+            HandlerFactory.Initialize();
             NetworkTcp.Initialize();
 
-            Program.Initialized = true;
+            Program.Initialized     = true;
+            Console.CancelKeyPress += ConsoleOnCancelKeyPress;
 
             CommandLine.Initialize();
+        }
+
+        /// <summary>
+        /// Called when the cancel key has been pressed.
+        /// </summary>
+        /// <param name="Sender">The sender.</param>
+        /// <param name="ConsoleCancelEventArgs">The <see cref="ConsoleCancelEventArgs"/> instance containing the event data.</param>
+        private static void ConsoleOnCancelKeyPress(object Sender, ConsoleCancelEventArgs ConsoleCancelEventArgs)
+        {
+            ConsoleCancelEventArgs.Cancel = true;
+
+            if (Program.Initialized == false)
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+                ExitHandler.Run("exit", "-f");
+            }
         }
     }
 }

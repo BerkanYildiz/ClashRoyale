@@ -12,7 +12,7 @@
     using ClashRoyale.Logic;
     using ClashRoyale.Maths;
     using ClashRoyale.Messages;
-    using ClashRoyale.Messages.Client;
+    using ClashRoyale.Messages.Client.Account;
 
     public class NetworkManager
     {
@@ -108,25 +108,22 @@
             {
                 using (ByteStream Stream = new ByteStream(Packet))
                 {
-                    Message Message = Factory.CreateMessage(Type, Stream);
+                    Message Message = MessageFactory.CreateMessage(Type, Stream);
 
                     if (Message != null)
                     {
                         Logging.Info(this.GetType(), "Receiving " + Message.GetType().Name + ".");
 
-                        // if (this.RequestTime.CanHandleMessage(Message))
+                        try
                         {
-                            try
-                            {
-                                Message.Decode();
-                            }
-                            catch (Exception Exception)
-                            {
-                                Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + Message.Type + " has been processed. " + Exception);
-                            }
-
-                            Handlers.Handlers.MessageHandle(this.Device, Message).ConfigureAwait(false);
+                            Message.Decode();
                         }
+                        catch (Exception Exception)
+                        {
+                            Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + Message.Type + " has been processed. " + Exception);
+                        }
+
+                        Handlers.Handlers.MessageHandle(this.Device, Message).ConfigureAwait(false);
                     }
                     else
                     {

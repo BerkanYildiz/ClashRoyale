@@ -12,6 +12,7 @@
         /// </summary>
         /// <param name="Type">The type.</param>
         /// <param name="Message">The message.</param>
+        [Conditional("DEBUG")]
         public static void Info(Type Type, string Message)
         {
             Debug.WriteLine("[ INFO  ] " + Type.Name.Pad() + " : " + Message);
@@ -26,7 +27,7 @@
         {
             Debug.WriteLine("[WARNING] " + Type.Name.Pad() + " : " + Message);
 
-            if (Sentry.Initialized)
+            /* if (Sentry.Initialized)
             {
                 var SentryEvent = new SentryEvent(Message)
                 {
@@ -37,7 +38,7 @@
                 SentryEvent.Tags.Add("projectName", Type.Assembly.GetName().Name);
 
                 Sentry.Raven.CaptureAsync(SentryEvent);
-            }
+            } */
         }
 
         /// <summary>

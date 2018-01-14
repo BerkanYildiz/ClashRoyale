@@ -8,6 +8,7 @@
     using ClashRoyale.Crypto.Inits;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
+    using ClashRoyale.Handlers;
     using ClashRoyale.Logic;
     using ClashRoyale.Logic.Structures;
     using ClashRoyale.Maths;
@@ -118,7 +119,7 @@
 
                 using (ByteStream Stream = new ByteStream(Packet))
                 {
-                    Message Message = Factory.CreateMessage(Type, Stream);
+                    Message Message = MessageFactory.CreateMessage(Type, Stream);
 
                     if (Message != null)
                     {
@@ -135,12 +136,12 @@
                                 Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + Message.Type + " has been processed. " + Exception);
                             }
 
-                            Handlers.Handlers.MessageHandle(this.Device, Message).ConfigureAwait(false);
+                            HandlerFactory.MessageHandle(this.Device, Message).ConfigureAwait(false);
                         }
                     }
                     else
                     {
-                        Logging.Info(this.GetType(), BitConverter.ToString(Stream.ReadBytesWithoutLength(Stream.BytesLeft)));
+                        Logging.Info(this.GetType(), BitConverter.ToString(Stream.ReadBytes(Stream.BytesLeft)));
                     }
                 }
             }
@@ -191,10 +192,10 @@
                         Bytes = this.SendEncrypter.Encrypt(Bytes);
                     }
 
-                    // Message.Stream.SetByteArray(Bytes);
+                    Message.Stream.SetByteArray(Bytes);
 
-                    NetworkTcp.Send(Bytes, this.Device.Token);
-                    Handlers.Handlers.MessageHandle(this.Device, Message).ConfigureAwait(false);
+                    NetworkTcp.Send(Message.ToBytes, this.Device.Token);
+                    HandlerFactory.MessageHandle(this.Device, Message).ConfigureAwait(false);
                 }
                 else
                 {

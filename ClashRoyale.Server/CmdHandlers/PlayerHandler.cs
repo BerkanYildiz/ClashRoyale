@@ -6,7 +6,6 @@
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Logic.Player;
     using ClashRoyale.Maths;
-    using ClashRoyale.Network;
 
     internal static class PlayerHandler
     {

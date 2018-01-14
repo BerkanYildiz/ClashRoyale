@@ -7,7 +7,7 @@
     using ClashRoyale.Exceptions;
     using ClashRoyale.Logic;
     using ClashRoyale.Messages;
-    using ClashRoyale.Messages.Client;
+    using ClashRoyale.Messages.Client.Account;
 
     public static class LoginHandler
     {

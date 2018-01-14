@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Clash Royale" Height="837.726" Width="527.165" WindowStartupLocation="Manual" Icon="favicon.ico" Background="Black" ResizeMode="CanResizeWithGrip">
+        Title="Clash Royale" Height="837.726" Width="527.165" WindowStartupLocation="Manual" Icon="favicon.ico" Background="Black" ResizeMode="CanResizeWithGrip" Topmost="True">
     <Grid>
         <Image Name="ScLogo" Margin="50,-3,50,0" Source="Images/sc_logo.png" Opacity="0" />
         <Image Name="ScBackground" Source="Images/splashscreen.jpg" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0"/>

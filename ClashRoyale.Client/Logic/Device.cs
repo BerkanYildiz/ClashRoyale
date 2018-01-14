@@ -3,7 +3,7 @@
     using ClashRoyale.Enums;
     using ClashRoyale.Listener;
     using ClashRoyale.Logic.Mode;
-    using ClashRoyale.Messages.Client;
+    using ClashRoyale.Messages.Client.Account;
     using ClashRoyale.Network;
 
     using Timer = System.Timers.Timer;

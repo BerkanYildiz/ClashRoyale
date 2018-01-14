@@ -4,12 +4,14 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
+
     using ClashRoyale.Logic.Battle.Event;
     using ClashRoyale.Logic.Commands;
     using ClashRoyale.Logic.Commands.Storage;
     using ClashRoyale.Logic.Mode;
     using ClashRoyale.Logic.Player;
     using ClashRoyale.Logic.Time;
+
     using ClashRoyale.Messages.Server.Attack;
     using ClashRoyale.Messages.Server.Avatar;
     using ClashRoyale.Messages.Server.Sector;

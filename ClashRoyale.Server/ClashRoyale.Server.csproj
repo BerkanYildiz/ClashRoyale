@@ -143,36 +143,37 @@
     <Compile Include="Database\Models\BattleDb.cs" />
     <Compile Include="Database\Models\ClanDb.cs" />
     <Compile Include="Database\Models\PlayerDb.cs" />
+    <Compile Include="Handlers\Server\Home\OwnHomeDataHandler.cs" />
     <Compile Include="Listener\ServerGameListener.cs" />
     <Compile Include="Logic\Device.cs" />
-    <Compile Include="Handlers\Client\AskForAvatarLocalRankingListHandler.cs" />
-    <Compile Include="Handlers\Client\ChangeAvatarNameHandler.cs" />
-    <Compile Include="Handlers\Client\CancelMatchmakeHandler.cs" />
-    <Compile Include="Handlers\Client\AskForAvatarRankingListHandler.cs" />
-    <Compile Include="Handlers\Client\AskForAllianceDataHandler.cs" />
+    <Compile Include="Handlers\Client\Scoring\AskForAvatarLocalRankingListHandler.cs" />
+    <Compile Include="Handlers\Client\Avatar\ChangeAvatarNameHandler.cs" />
+    <Compile Include="Handlers\Client\Matchmaking\CancelMatchmakeHandler.cs" />
+    <Compile Include="Handlers\Client\Scoring\AskForAvatarRankingListHandler.cs" />
+    <Compile Include="Handlers\Client\Alliance\AskForAllianceDataHandler.cs" />
     <Compile Include="Handlers\Client\DefaultHandler.cs" />
-    <Compile Include="Handlers\Client\SectorCommandHandler.cs" />
-    <Compile Include="Handlers\Client\SendBattleEventHandler.cs" />
-    <Compile Include="Handlers\Client\StartTrainingBattleHandler.cs" />
-    <Compile Include="Handlers\Client\HomeBattleReplayHandler.cs" />
-    <Compile Include="Handlers\Client\VisitHomeHandler.cs" />
-    <Compile Include="Handlers\Client\GoHomeHandler.cs" />
-    <Compile Include="Handlers\Client\AskForBattleReplayStreamHandler.cs" />
-    <Compile Include="Handlers\Client\ClientHelloHandler.cs" />
-    <Compile Include="Handlers\Client\AskForAvatarStreamHandler.cs" />
-    <Compile Include="Handlers\Client\EndClientTurnHandler.cs" />
-    <Compile Include="Handlers\Client\LoginHandler.cs" />
-    <Compile Include="Handlers\Client\KeepAliveHandler.cs" />
-    <Compile Include="Handlers\Client\ClientCapabilitiesHandler.cs" />
-    <Compile Include="Handlers\Handlers.cs" />
-    <Compile Include="Handlers\Server\ServerShutdownHandler.cs" />
-    <Compile Include="Handlers\Server\ServerErrorHandler.cs" />
-    <Compile Include="Handlers\Server\DisconnectedHandler.cs" />
+    <Compile Include="Handlers\Client\Attack\SectorCommandHandler.cs" />
+    <Compile Include="Handlers\Client\Attack\SendBattleEventHandler.cs" />
+    <Compile Include="Handlers\Client\Sector\StartTrainingBattleHandler.cs" />
+    <Compile Include="Handlers\Client\Avatar\HomeBattleReplayHandler.cs" />
+    <Compile Include="Handlers\Client\Home\VisitHomeHandler.cs" />
+    <Compile Include="Handlers\Client\Home\GoHomeHandler.cs" />
+    <Compile Include="Handlers\Client\Avatar\AskForBattleReplayStreamHandler.cs" />
+    <Compile Include="Handlers\Client\Account\ClientHelloHandler.cs" />
+    <Compile Include="Handlers\Client\Avatar\AskForAvatarStreamHandler.cs" />
+    <Compile Include="Handlers\Client\Home\EndClientTurnHandler.cs" />
+    <Compile Include="Handlers\Client\Account\LoginHandler.cs" />
+    <Compile Include="Handlers\Client\Account\KeepAliveHandler.cs" />
+    <Compile Include="Handlers\Client\Account\ClientCapabilitiesHandler.cs" />
+    <Compile Include="Handlers\HandlerFactory.cs" />
+    <Compile Include="Handlers\Server\Account\ServerShutdownHandler.cs" />
+    <Compile Include="Handlers\Server\Home\ServerErrorHandler.cs" />
+    <Compile Include="Handlers\Server\Account\DisconnectedHandler.cs" />
     <Compile Include="Handlers\Server\DefaultHandler.cs" />
-    <Compile Include="Handlers\Server\KeepAliveOkHandler.cs" />
-    <Compile Include="Handlers\Server\LoginOkHandler.cs" />
-    <Compile Include="Handlers\Server\LoginFailedHandler.cs" />
-    <Compile Include="Handlers\Server\ServerHelloHandler.cs" />
+    <Compile Include="Handlers\Server\Account\KeepAliveOkHandler.cs" />
+    <Compile Include="Handlers\Server\Account\LoginOkHandler.cs" />
+    <Compile Include="Handlers\Server\Account\LoginFailedHandler.cs" />
+    <Compile Include="Handlers\Server\Account\ServerHelloHandler.cs" />
     <Compile Include="Logic\Battle\BattleManager.cs" />
     <Compile Include="Logic\Collections\Battles.cs" />
     <Compile Include="Logic\Collections\Clans.cs" />
@@ -213,7 +214,20 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Handlers\Client\RoyalTv\" />
+    <Folder Include="Handlers\Client\Socials\" />
+    <Folder Include="Handlers\Client\Tournament\" />
+    <Folder Include="Handlers\Server\Alliance\" />
+    <Folder Include="Handlers\Server\Attack\" />
+    <Folder Include="Handlers\Server\Avatar\" />
+    <Folder Include="Handlers\Server\Matchmaking\" />
+    <Folder Include="Handlers\Server\RoyalTv\" />
+    <Folder Include="Handlers\Server\Scoring\" />
+    <Folder Include="Handlers\Server\Sector\" />
+    <Folder Include="Handlers\Server\Socials\" />
+    <Folder Include="Handlers\Server\Tournament\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClashRoyale.Patcher\ClashRoyale.Patcher.csproj">
       <Project>{15a935b7-d610-435e-9ade-5eb8fcd004ea}</Project>

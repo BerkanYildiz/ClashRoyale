@@ -11,7 +11,7 @@
     using ClashRoyale.Files;
     using ClashRoyale.Logic;
     using ClashRoyale.Messages;
-    using ClashRoyale.Messages.Client;
+    using ClashRoyale.Messages.Client.Account;
     using ClashRoyale.Messages.Server.Account;
 
     public static class ClientHelloHandler

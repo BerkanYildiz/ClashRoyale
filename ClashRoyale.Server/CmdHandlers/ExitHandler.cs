@@ -6,7 +6,6 @@
 
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Messages.Server.Account;
-    using ClashRoyale.Network;
 
     internal static class ExitHandler
     {
@@ -24,6 +23,11 @@
         /// </summary>
         internal static void Run(params string[] Args)
         {
+            if (Program.Initialized == false)
+            {
+                Environment.Exit(0);
+            }
+
             if (ExitHandler.Exiting)
             {
                 return;

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Messages.Client.Socials.Bind
+﻿namespace ClashRoyale.Messages.Client.Socials
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;

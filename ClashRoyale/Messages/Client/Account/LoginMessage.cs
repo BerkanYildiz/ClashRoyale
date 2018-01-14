@@ -1,4 +1,4 @@
-﻿namespace ClashRoyale.Messages.Client
+﻿namespace ClashRoyale.Messages.Client.Account
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;

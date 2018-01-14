@@ -1,7 +1,5 @@
 ﻿namespace ClashRoyale.Database
 {
-    using System;
-
     using ClashRoyale.Database.Models;
 
     using MongoDB.Driver;
@@ -35,11 +33,6 @@
             var MongoDb         = MongoClient.GetDatabase("ClashRoyale");
 
             Logging.Info(typeof(GameDb), "GameDb is connected to " + MongoClient.Settings.Server.Host + ".");
-
-            if (MongoDb == null)
-            {
-                throw new Exception("MongoDb == null at Initialize().");
-            }
 
             if (MongoDb.GetCollection<PlayerDb>("Players") == null)
             {

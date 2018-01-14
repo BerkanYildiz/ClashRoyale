@@ -40,7 +40,7 @@
             Globals.Initialize();
             ClientGlobals.Initialize();
 
-            Factory.Initialize();
+            MessageFactory.Initialize();
             IpRequester.Initialize();
 
             Tests.Initialize();
