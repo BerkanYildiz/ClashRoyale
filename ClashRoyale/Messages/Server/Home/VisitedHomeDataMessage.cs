@@ -105,7 +105,7 @@
                 
                 this.Stream.WriteLong(this.Player.PlayerId);
 
-                this.Stream.WriteBoolean(false);
+                this.Stream.WriteBoolean(true);
                 {
                     this.Stream.WriteVInt(this.Player.GameMode.Home.HighId);
                     this.Stream.WriteVInt(this.Player.GameMode.Home.LowId);
