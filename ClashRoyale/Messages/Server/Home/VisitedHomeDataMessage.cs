@@ -4,6 +4,8 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Player;
 
+    using Home = ClashRoyale.Logic.Home.Home;
+
     public class VisitedHomeDataMessage : Message
     {
         /// <summary>
@@ -29,6 +31,7 @@
         }
 
         public Player Player;
+        public Home Home;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VisitedHomeDataMessage"/> class.
@@ -51,9 +54,11 @@
         /// Initializes a new instance of the <see cref="VisitedHomeDataMessage"/> class.
         /// </summary>
         /// <param name="Player">The player.</param>
-        public VisitedHomeDataMessage(Player Player)
+        /// <param name="Home">The home.</param>
+        public VisitedHomeDataMessage(Player Player, Home Home)
         {
             this.Player = Player;
+            this.Home   = Home;
         }
 
         /// <summary>
@@ -66,15 +71,15 @@
 
             if (this.Stream.ReadBoolean())
             {
-                this.Player.Home.SpellDeck.Decode(this.Stream);
+                this.Home.SpellDeck.Decode(this.Stream);
 
                 this.Player.HighId  = this.Stream.ReadInt();
                 this.Player.LowId   = this.Stream.ReadInt();
 
                 if (this.Stream.ReadBoolean())
                 {
-                    this.Player.GameMode.Home.HighId = this.Stream.ReadVInt();
-                    this.Player.GameMode.Home.LowId  = this.Stream.ReadVInt();
+                    this.Home.HighId = this.Stream.ReadVInt();
+                    this.Home.LowId  = this.Stream.ReadVInt();
                 }
 
                 this.Stream.ReadVInt();
@@ -99,9 +104,11 @@
             this.Stream.WriteVInt(1);
             this.Stream.WriteVInt(0);
 
-            this.Stream.WriteBoolean(true);
+            this.Stream.WriteBoolean(this.Home != null);
+
+            if (this.Home != null)
             {
-                this.Player.Home.SpellDeck.Encode(this.Stream);
+                this.Home.SpellDeck.Encode(this.Stream);
                 
                 this.Stream.WriteLong(this.Player.PlayerId);
 
@@ -114,7 +121,9 @@
                 this.Stream.WriteVInt(0);
             }
 
-            this.Stream.WriteBoolean(true);
+            this.Stream.WriteBoolean(this.Player != null);
+
+            if (this.Player != null)
             {
                 this.Player.Encode(this.Stream);
             }

@@ -98,7 +98,7 @@
             HandlerFactory.MessageHandlers.Add(new DisconnectedMessage().Type,                  DisconnectedHandler.Handle);
 
             HandlerFactory.MessageHandlers.Add(new AskForAvatarRankingListMessage().Type,       AskForAvatarRankingListHandler.Handle);
-            HandlerFactory.MessageHandlers.Add(new AskForAvatarLocalRankingListMessage().Type,  AskForAvatarRankingListHandler.Handle);
+            HandlerFactory.MessageHandlers.Add(new AskForAvatarLocalRankingListMessage().Type,  AskForAvatarLocalRankingListHandler.Handle);
 
             HandlerFactory.Initialized = true;
         }

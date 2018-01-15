@@ -26,16 +26,19 @@
                 throw new LogicException(typeof(OwnHomeDataHandler), nameof(OwnHomeDataMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
 
-            var Player = OwnHomeDataMessage.Player;
+            var Player  = OwnHomeDataMessage.Player;
+            var NewHome = OwnHomeDataMessage.Home;
+            var OldHome = Device.GameMode.Home;
 
-            if (Player != null)
+
+            if (Player != null && NewHome != null)
             {
-                Device.GameMode.LoadHomeState(Player, Player.Home.SecondsSinceLastSave, 113);
-                Device.GameMode.Home.LastTick = DateTime.UtcNow;
+                Device.GameMode.LoadHomeState(Player, NewHome, OldHome.SecondsSinceLastSave, 113);
+                NewHome.LastTick = DateTime.UtcNow;
             }
             else
             {
-                Logging.Info(typeof(OwnHomeDataHandler), "Player == null at Handle(Device, Message, CancellationToken).");
+                Logging.Info(typeof(OwnHomeDataHandler), "Player OR Home == null at Handle(Device, Message, CancellationToken).");
             }
         }
     }
