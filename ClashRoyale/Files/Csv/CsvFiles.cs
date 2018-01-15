@@ -173,6 +173,8 @@
             {
                 CsvFiles.Tilemaps.Add(FilePath, new TilemapData(FilePath));
             }
+
+            Logging.Info(typeof(CsvFiles), "Loaded " + Files.Count + " CSV files.");
         }
 
         /// <summary>

@@ -19,7 +19,7 @@
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling            = TypeNameHandling.None,            MissingMemberHandling   = MissingMemberHandling.Ignore,
-            DefaultValueHandling        = DefaultValueHandling.Include,     NullValueHandling       = NullValueHandling.Include,
+            DefaultValueHandling        = DefaultValueHandling.Ignore,      NullValueHandling       = NullValueHandling.Ignore,
             ReferenceLoopHandling       = ReferenceLoopHandling.Ignore,     Formatting              = Formatting.None
         };
 

@@ -20,6 +20,7 @@ namespace ClashRoyale.Logic.Player
 
     using Math = ClashRoyale.Maths.Math;
 
+    [JsonObject(MemberSerialization.OptIn)]
     public class Player : PlayerBase
     {
         public GameMode GameMode;

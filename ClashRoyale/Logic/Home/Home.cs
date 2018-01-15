@@ -19,6 +19,7 @@ namespace ClashRoyale.Logic.Home
 
     using Math = ClashRoyale.Maths.Math;
 
+    [JsonObject(MemberSerialization.OptIn)]
     public class Home
     {
         public GameMode GameMode;

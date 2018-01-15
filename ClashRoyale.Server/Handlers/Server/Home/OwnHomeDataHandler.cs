@@ -27,14 +27,12 @@
             }
 
             var Player  = OwnHomeDataMessage.Player;
-            var NewHome = OwnHomeDataMessage.Home;
-            var OldHome = Device.GameMode.Home;
+            var Home    = OwnHomeDataMessage.Home;
 
-
-            if (Player != null && NewHome != null)
+            if (Player != null && Home != null)
             {
-                Device.GameMode.LoadHomeState(Player, NewHome, OldHome.SecondsSinceLastSave, 113);
-                NewHome.LastTick = DateTime.UtcNow;
+                Device.GameMode.LoadHomeState(Player, Home.SecondsSinceLastSave, 113);
+                Device.GameMode.Home.LastTick = DateTime.UtcNow;
             }
             else
             {

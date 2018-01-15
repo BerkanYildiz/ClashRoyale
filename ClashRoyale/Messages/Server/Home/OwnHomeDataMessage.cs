@@ -4,6 +4,8 @@ namespace ClashRoyale.Messages.Server.Home
     using ClashRoyale.Extensions;
     using ClashRoyale.Logic.Player;
 
+    using Home = ClashRoyale.Logic.Home.Home;
+
     public class OwnHomeDataMessage : Message
     {
         /// <summary>
@@ -29,6 +31,7 @@ namespace ClashRoyale.Messages.Server.Home
         }
 
         public Player Player;
+        public Home Home;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OwnHomeDataMessage"/> class.
@@ -51,9 +54,11 @@ namespace ClashRoyale.Messages.Server.Home
         /// Initializes a new instance of the <see cref="OwnHomeDataMessage"/> class.
         /// </summary>
         /// <param name="Player">The player.</param>
-        public OwnHomeDataMessage(Player Player)
+        /// <param name="Home">The home.</param>
+        public OwnHomeDataMessage(Player Player, Home Home)
         {
             this.Player = Player;
+            this.Home   = Home;
         }
 
         /// <summary>
@@ -69,7 +74,7 @@ namespace ClashRoyale.Messages.Server.Home
         /// </summary>
         public override void Encode()
         {
-            this.Player.Home.Encode(this.Stream);
+            this.Home.Encode(this.Stream);
             this.Player.Encode(this.Stream);
 
             this.Stream.WriteVInt(0);

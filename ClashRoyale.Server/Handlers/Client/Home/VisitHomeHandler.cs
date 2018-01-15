@@ -32,7 +32,7 @@
 
             if (Player != null)
             {
-                Device.NetworkManager.SendMessage(new VisitedHomeDataMessage(Player));
+                Device.NetworkManager.SendMessage(new VisitedHomeDataMessage(Player, Player.Home));
             }
             else
             {

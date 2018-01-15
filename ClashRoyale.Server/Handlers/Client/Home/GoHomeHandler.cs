@@ -34,7 +34,7 @@
 
                 if (Player != null)
                 {
-                    Player.GameMode.Listener.SendMessage(new OwnHomeDataMessage(Player));
+                    Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player, Player.Home));
                 }
                 else
                 {

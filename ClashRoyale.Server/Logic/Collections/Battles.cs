@@ -7,8 +7,8 @@
 
     using ClashRoyale.Logic.Battle;
 
-    using BattleDb = ClashRoyale.Database.Models.BattleDb;
-    using GameDb = ClashRoyale.Database.GameDb;
+    using BattleDb  = ClashRoyale.Database.Models.BattleDb;
+    using GameDb    = ClashRoyale.Database.GameDb;
 
     public static class Battles
     {
@@ -19,6 +19,17 @@
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Gets the count.
+        /// </summary>
+        public static int Count
+        {
+            get
+            {
+                return Battles.Entities.Count;
+            }
         }
 
         /// <summary>

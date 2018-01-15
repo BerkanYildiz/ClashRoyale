@@ -8,6 +8,7 @@
     using ClashRoyale.Files;
     using ClashRoyale.Logic;
     using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Logic.Inbox;
     using ClashRoyale.Logic.Mode;
     using ClashRoyale.Logic.Player;
     using ClashRoyale.Maths;
@@ -143,8 +144,15 @@
             Device.NetworkManager.AccountId = new LogicLong(Player.HighId, Player.LowId);
 
             Device.NetworkManager.SendMessage(new LoginOkMessage(Player));
-            Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player));
-            Device.NetworkManager.SendMessage(new InboxCountMessage());
+            Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player, Player.Home));
+
+            if (InboxManager.Entries.Count > 0)
+            {
+                Device.NetworkManager.SendMessage(new InboxCountMessage()
+                {
+                    InboxNewMessageCnt = InboxManager.Entries.Count
+                });
+            }
         }
     }
 }

@@ -48,6 +48,9 @@
     <Reference Include="MongoDB.Driver.Core, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Driver.Core.2.5.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -243,6 +246,8 @@
     <Compile Include="Files\Sc\ScTexture.cs" />
     <Compile Include="Files\Sc\ScFile.cs" />
     <Compile Include="Files\Sc\ScFiles.cs" />
+    <Compile Include="Files\Sound\SoundFile.cs" />
+    <Compile Include="Files\Sound\SoundFiles.cs" />
     <Compile Include="Listener\GameListener.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Logic\Alliance\Clan.cs" />

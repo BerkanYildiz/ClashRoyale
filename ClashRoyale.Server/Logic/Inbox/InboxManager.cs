@@ -15,7 +15,7 @@
             set;
         }
 
-        private static List<InboxEntry> Entries;
+        public static List<InboxEntry> Entries;
 
         /// <summary>
         /// Initializes this instance.

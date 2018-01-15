@@ -57,7 +57,7 @@
 
                 if (Header[0] == (byte) 'S' || Header[1] == (byte) 'C')
                 {
-                    Logging.Warning(this.GetType(), "The SC file is compressed, aborting.");
+                    // Logging.Warning(this.GetType(), "The SC file is compressed, aborting.");
                     return;
                 }
 

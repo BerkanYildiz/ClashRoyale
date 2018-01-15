@@ -16,6 +16,17 @@ namespace ClashRoyale.Logic.Collections
         }
 
         /// <summary>
+        /// Gets the count.
+        /// </summary>
+        public static int Count
+        {
+            get
+            {
+                return Devices.Entities.Count;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the seed.
         /// </summary>
         private static long Seed;

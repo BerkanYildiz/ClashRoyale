@@ -6,6 +6,7 @@
     using ClashRoyale.Files;
     using ClashRoyale.Files.Csv;
     using ClashRoyale.Files.Sc;
+    using ClashRoyale.Files.Sound;
     using ClashRoyale.Messages;
 
     public static class Base
@@ -34,6 +35,7 @@
 
             ScFiles.Initialize();
             CsvFiles.Initialize();
+            SoundFiles.Initialize();
             Fingerprint.Initialize();
             Home.Initialize();
 

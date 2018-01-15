@@ -13,8 +13,8 @@ namespace ClashRoyale.Logic.Collections
 
     using Newtonsoft.Json;
 
-    using GameDb = ClashRoyale.Database.GameDb;
-    using PlayerDb = ClashRoyale.Database.Models.PlayerDb;
+    using GameDb    = ClashRoyale.Database.GameDb;
+    using PlayerDb  = ClashRoyale.Database.Models.PlayerDb;
 
     public static class Players
     {
@@ -25,6 +25,17 @@ namespace ClashRoyale.Logic.Collections
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Gets the count.
+        /// </summary>
+        public static int Count
+        {
+            get
+            {
+                return Players.Entities.Count;
+            }
         }
 
         /// <summary>

@@ -135,6 +135,8 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CmdHandlers\SoundHandler.cs" />
+    <Compile Include="CmdHandlers\StatsHandler.cs" />
     <Compile Include="CommandLine.cs" />
     <Compile Include="CmdHandlers\ClanHandler.cs" />
     <Compile Include="CmdHandlers\PlayerHandler.cs" />
