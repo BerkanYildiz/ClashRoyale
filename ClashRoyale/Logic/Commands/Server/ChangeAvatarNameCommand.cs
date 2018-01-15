@@ -34,9 +34,9 @@
         /// </summary>
         public ChangeAvatarNameCommand(string Name, bool NameSetByUser, int NameChangeState)
         {
-            this.Name = Name;
-            this.NameSetByUser = NameSetByUser;
-            this.NameChangeState = NameChangeState;
+            this.Name               = Name;
+            this.NameSetByUser      = NameSetByUser;
+            this.NameChangeState    = NameChangeState;
         }
 
         /// <summary>
@@ -44,9 +44,9 @@
         /// </summary>
         public override void Decode(ByteStream Stream)
         {
-            this.Name = Stream.ReadString();
-            this.NameChangeState = Stream.ReadInt();
-            this.NameSetByUser = Stream.ReadBoolean();
+            this.Name               = Stream.ReadString();
+            this.NameChangeState    = Stream.ReadInt();
+            this.NameSetByUser      = Stream.ReadBoolean();
 
             base.Decode(Stream);
         }

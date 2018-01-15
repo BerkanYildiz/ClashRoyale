@@ -571,8 +571,8 @@ namespace ClashRoyale.Logic.Player
         /// </summary>
         public void UseDiamonds(int Count)
         {
-            this.Diamonds -= Count;
-            this.FreeDiamonds -= Count;
+            this.Diamonds       -= Count;
+            this.FreeDiamonds   -= Count;
         }
 
         /// <summary>

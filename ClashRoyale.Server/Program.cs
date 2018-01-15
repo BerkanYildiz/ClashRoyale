@@ -33,6 +33,7 @@
             Base.Initialize();
             GameDb.Initialize();
 
+            Devices.Initialize();
             Players.Initialize();
             Clans.Initialize();
             Battles.Initialize();

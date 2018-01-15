@@ -145,6 +145,7 @@
     <Compile Include="Database\Models\PlayerDb.cs" />
     <Compile Include="Handlers\Server\Home\OwnHomeDataHandler.cs" />
     <Compile Include="Listener\ServerGameListener.cs" />
+    <Compile Include="Logic\Collections\Devices.cs" />
     <Compile Include="Logic\Device.cs" />
     <Compile Include="Handlers\Client\Scoring\AskForAvatarLocalRankingListHandler.cs" />
     <Compile Include="Handlers\Client\Avatar\ChangeAvatarNameHandler.cs" />

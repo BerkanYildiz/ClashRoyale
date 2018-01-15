@@ -6,6 +6,7 @@
 
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Messages.Server.Account;
+    using ClashRoyale.Network;
 
     internal static class ExitHandler
     {
@@ -87,7 +88,7 @@
             {
                 Players.ForEach(Player =>
                 {
-                    // NetworkTcp.Disconnect(Player.GameMode.Device.Token.AsyncEvent);
+                    // NetworkTcp.Disconnect();
                 });
 
                 Logging.Info(typeof(ExitHandler), "Disconnected every player for the maintenance.");

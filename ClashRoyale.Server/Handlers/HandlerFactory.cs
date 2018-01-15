@@ -19,7 +19,7 @@
     using ClashRoyale.Handlers.Server.Home;
 
     using ClashRoyale.Logic;
-
+    using ClashRoyale.Logic.Collections;
     using ClashRoyale.Messages;
     using ClashRoyale.Messages.Client.Account;
     using ClashRoyale.Messages.Client.Alliance;
@@ -133,6 +133,11 @@
                     catch (Exception Exception)
                     {
                         Logging.Error(typeof(MessageHandler), "Operation has been aborted because of a " + Exception.GetType().Name + ", while processing " + Message.GetType().Name + ".");
+                    }
+
+                    if (Cancellation.IsCancellationRequested == false)
+                    {
+                        await Players.Save(Device.GameMode.Player);
                     }
                 }
             }

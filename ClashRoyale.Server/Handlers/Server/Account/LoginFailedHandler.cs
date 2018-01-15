@@ -30,7 +30,8 @@
 
             Logging.Info(typeof(LoginFailedHandler), "LoginFailed(" + LoginFailedMessage.Reason + ").");
 
-            // TODO : DONT DISCONNECT THE PLAYER !
+            /* TODO : DONT DISCONNECT THE PLAYER !
+             * CUZ THIS NIGGA NEEDS TO PATCH FIRST */
         }
     }
 }

@@ -6,6 +6,7 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Logic;
+    using ClashRoyale.Logic.Collections;
     using ClashRoyale.Messages;
 
     public static class NetworkTcp
@@ -115,6 +116,8 @@
                     {
                         NetworkToken Token  = new NetworkToken(ReadEvent, AsyncEvent.AcceptSocket);
                         Device Device       = new Device(Token);
+
+                        Devices.Add(Device);
 
                         if (!Token.Socket.ReceiveAsync(ReadEvent))
                         {
@@ -311,6 +314,8 @@
 
             if (Token.Device != null)
             {
+                Devices.Remove(Token.Device);
+
                 Token.Device.State = State.Disconnected;
 
                 if (Token.IsConnected)

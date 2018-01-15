@@ -7,6 +7,15 @@
 
     public class Device
     {
+        /// <summary>
+        /// Gets the device identifier.
+        /// </summary>
+        public long DeviceId
+        {
+            get;
+            set;
+        }
+
         public ServerGameListener   GameListener;
         public NetworkManager       NetworkManager;
         public NetworkToken         Token;
