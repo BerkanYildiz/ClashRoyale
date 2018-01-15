@@ -971,7 +971,14 @@ namespace ClashRoyale.Logic.Home
 
             this.RequestCooldownTimer.Encode(Stream);
 
-            Stream.WriteVInt(2817); // this.Tutorial  - 2817
+            if (this.GameMode.Player.IsNameSet)
+            {
+                Stream.WriteVInt(2819);
+            }
+            else // TEST
+            {
+                Stream.WriteVInt(2817);
+            }
 
             // 2817 -> Name Pop Up -> 0000101100000001
             // 2819 -> Name Pop Up -> 0000101100000011

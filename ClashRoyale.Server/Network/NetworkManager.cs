@@ -136,7 +136,7 @@
                                 Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + Message.Type + " has been processed. " + Exception);
                             }
 
-                            HandlerFactory.MessageHandle(this.Device, Message).ConfigureAwait(false);
+                            HandlerFactory.MessageHandle(this.Device, Message).Wait();
                         }
                     }
                     else
@@ -195,7 +195,7 @@
                     Message.Stream.SetByteArray(Bytes);
 
                     NetworkTcp.Send(Message.ToBytes, this.Device.Token);
-                    HandlerFactory.MessageHandle(this.Device, Message).ConfigureAwait(false);
+                    HandlerFactory.MessageHandle(this.Device, Message).Wait();
                 }
                 else
                 {

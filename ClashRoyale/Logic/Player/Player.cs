@@ -60,7 +60,8 @@ namespace ClashRoyale.Logic.Player
 
         [JsonProperty("expLevel")]              public int ExpLevel;
         [JsonProperty("expPoints")]             public int ExpPoints;
-        [JsonProperty("nameChangeState")]       public int NameChangeState = -1;
+
+        [JsonProperty("nameChangeState")]       public int NameChangeState;
         [JsonProperty("clanRole")]              public int AllianceRole;
 
         [JsonProperty("username")]              public string Name;
@@ -257,6 +258,7 @@ namespace ClashRoyale.Logic.Player
             this.CommoditySlots.Initialize();
 
             this.ExpLevel       = 1;
+            this.NameChangeState= -1;
             this.Diamonds       = Globals.StartingDiamonds;
             this.FreeDiamonds   = Globals.StartingDiamonds;
             this.Arena          = CsvFiles.Get(Gamefile.Arenas).GetWithInstanceId<ArenaData>(1);
@@ -641,7 +643,9 @@ namespace ClashRoyale.Logic.Player
             Stream.EncodeLogicData(this.Arena, 54);
             Stream.WriteVInt(this.Score);
             Stream.WriteVInt(0);
-            Stream.WriteVInt(this.MaxScore);
+            Stream.WriteVInt(0);
+
+            // Stream.WriteVInt(this.MaxScore);
 
             if (!BattleEncode)
             {

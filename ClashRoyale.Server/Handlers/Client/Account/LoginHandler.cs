@@ -148,10 +148,10 @@
 
             if (InboxManager.Entries.Count > 0)
             {
-                Device.NetworkManager.SendMessage(new InboxCountMessage()
+                /* Device.NetworkManager.SendMessage(new InboxCountMessage()
                 {
                     InboxNewMessageCnt = InboxManager.Entries.Count
-                });
+                }); */
             }
         }
     }

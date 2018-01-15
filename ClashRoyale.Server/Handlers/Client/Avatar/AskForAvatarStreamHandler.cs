@@ -7,7 +7,6 @@
     using ClashRoyale.Logic;
     using ClashRoyale.Messages;
     using ClashRoyale.Messages.Client.Avatar;
-    using ClashRoyale.Messages.Server.Avatar;
 
     public static class AskForAvatarStreamHandler
     {
@@ -26,7 +25,7 @@
                 throw new LogicException(typeof(AskForAvatarStreamHandler), nameof(AskForAvatarStreamMessage) + " == null at Handle(Device, Message, CancellationToken).");
             }
 
-            Device.NetworkManager.SendMessage(new AvatarStreamMessage());
+            // Device.NetworkManager.SendMessage(new AvatarStreamMessage());
         }
     }
 }
