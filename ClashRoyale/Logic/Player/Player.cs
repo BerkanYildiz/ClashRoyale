@@ -271,21 +271,61 @@ namespace ClashRoyale.Logic.Player
         {
             if (Count > 0)
             {
-                this.Diamonds += Count;
+                this.Diamonds     += Count;
                 this.FreeDiamonds += Count;
             }
         }
 
         /// <summary>
-        /// Adds free gold.
+        /// Adds the specified free gold.
         /// </summary>
+        /// <param name="Count">The count.</param>
         public void AddFreeGold(int Count)
         {
-            if (Count > 0)
+            this.AddResource(CsvFiles.GoldData, Count);
+            this.AddResource(CsvFiles.FreeGoldData, Count);
+        }
+
+        /// <summary>
+        /// Adds the specified resource.
+        /// </summary>
+        /// <param name="ResourceData">The resource data.</param>
+        /// <param name="Count">The count.</param>
+        public void AddResource(ResourceData ResourceData, int Count)
+        {
+            if (Count <= 0)
             {
-                this.CommoditySlots.AddCommodityCount(CommodityType.Resource, CsvFiles.GoldData, Count);
-                this.CommoditySlots.AddCommodityCount(CommodityType.Resource, CsvFiles.FreeGoldData, Count);
+                return;
             }
+
+            if (ResourceData.HasCap)
+            {
+                int CurrentResource = this.CommoditySlots.GetCommodityCount(CommodityType.Resource, ResourceData);
+
+                if (CurrentResource + Count > ResourceData.Cap)
+                {
+                    return;
+                }
+            }
+
+            this.CommoditySlots.AddCommodityCount(CommodityType.Resource, ResourceData, Count);
+        }
+        
+        /// <summary>
+        /// Removes the specified resource.
+        /// </summary>
+        /// <param name="ResourceData">The resource data.</param>
+        /// <param name="Count">The count.</param>
+        public void RemoveResource(ResourceData ResourceData, int Count)
+        {
+            Count = Math.Abs(Count);
+
+            if (Count == 0)
+            {
+                return;
+            }
+
+            this.CommoditySlots.UseCommodity(CommodityType.Resource, ResourceData, Count);
         }
 
         /// <summary>
@@ -643,9 +683,7 @@ namespace ClashRoyale.Logic.Player
             Stream.EncodeLogicData(this.Arena, 54);
             Stream.WriteVInt(this.Score);
             Stream.WriteVInt(0);
-            Stream.WriteVInt(0);
-
-            // Stream.WriteVInt(this.MaxScore);
+            Stream.WriteVInt(this.MaxScore);
 
             if (!BattleEncode)
             {
@@ -707,11 +745,11 @@ namespace ClashRoyale.Logic.Player
 
             Stream.WriteBool(false);
 
-            Stream.WriteVInt(7); // Training Step
-            Stream.WriteVInt(1); // 0x00 = Training
+            Stream.WriteVInt(6); // Training Step
+            Stream.WriteVInt(1); // 0x00 = Training || bool (?)
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);
-            Stream.WriteVInt(1);
+            Stream.WriteVInt(1); // bool (?)
             Stream.WriteVInt(0);
         }
 

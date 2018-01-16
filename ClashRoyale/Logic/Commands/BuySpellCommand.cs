@@ -37,8 +37,20 @@
         {
             base.Decode(Stream);
 
-            this.SpellIndex = Stream.ReadVInt();
-            this.SpellUnknown = Stream.ReadVInt();
+            this.SpellIndex     = Stream.ReadVInt();
+            this.SpellUnknown   = Stream.ReadVInt();
+        }
+
+        /// <summary>
+        /// Encodes the specified stream.
+        /// </summary>
+        /// <param name="Stream">The stream.</param>
+        public override void Encode(ChecksumEncoder Stream)
+        {
+            base.Encode(Stream);
+
+            Stream.WriteVInt(this.SpellIndex);
+            Stream.WriteVInt(this.SpellUnknown);
         }
 
         /// <summary>

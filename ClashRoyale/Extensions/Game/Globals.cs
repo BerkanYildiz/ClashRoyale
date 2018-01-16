@@ -25,6 +25,15 @@ namespace ClashRoyale.Extensions.Game
         public static int ChestCatchupChance;
         public static int TournamentMatchLengthSeconds;
         public static int TournamentOvertimeLengthSeconds;
+
+        public static int ResourceDiamondCost1000000;
+        public static int ResourceDiamondCost100000;
+        public static int ResourceDiamondCost10000;
+        public static int ResourceDiamondCost1000;
+        public static int ResourceDiamondCost100;
+        public static int ResourceDiamondCost10;
+        public static int ResourceDiamondCost1;
+
         public static int[] FreeChestDiamondLoop;
         public static int[] CrownDiamondLoop;
 
@@ -39,8 +48,8 @@ namespace ClashRoyale.Extensions.Game
         /// </summary>
         public static void Initialize()
         {
-            Globals.StartingGold                    = 100 * CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("STARTING_GOLD").NumberValue;
-            Globals.StartingDiamonds                = 100 * CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("STARTING_DIAMONDS").NumberValue;
+            Globals.StartingGold                    = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("STARTING_GOLD").NumberValue;
+            Globals.StartingDiamonds                = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("STARTING_DIAMONDS").NumberValue;
 
             Globals.AllianceCreateCost              = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("ALLIANCE_CREATE_COST").NumberValue;
             Globals.MultipleDecks                   = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("MULTIPLE_DECKS_ENABLED").BooleanValue;
@@ -64,6 +73,14 @@ namespace ClashRoyale.Extensions.Game
             Globals.StartingArena                   = CsvFiles.Get(Gamefile.Arenas).GetData<ArenaData>(CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("STARTING_ARENA").TextValue);
             Globals.TournamentMatchLengthSeconds    = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("TOURNAMENT_MATCH_LENGTH_SECONDS").NumberValue;
             Globals.TournamentOvertimeLengthSeconds = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("TOURNAMENT_OVERTIME_LENGTH_SECONDS").NumberValue;
+
+            Globals.ResourceDiamondCost1000000      = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_1000000").NumberValue;
+            Globals.ResourceDiamondCost100000       = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_100000").NumberValue;
+            Globals.ResourceDiamondCost10000        = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_10000").NumberValue;
+            Globals.ResourceDiamondCost1000         = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_1000").NumberValue;
+            Globals.ResourceDiamondCost100          = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_100").NumberValue;
+            Globals.ResourceDiamondCost10           = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_10").NumberValue;
+            Globals.ResourceDiamondCost1            = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_1").NumberValue;
         }
     }
 }

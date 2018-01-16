@@ -145,6 +145,7 @@
     <Compile Include="Database\Models\BattleDb.cs" />
     <Compile Include="Database\Models\ClanDb.cs" />
     <Compile Include="Database\Models\PlayerDb.cs" />
+    <Compile Include="Handlers\Client\RoyalTv\AskForTvContentHandler.cs" />
     <Compile Include="Handlers\Server\Home\OwnHomeDataHandler.cs" />
     <Compile Include="Listener\ServerGameListener.cs" />
     <Compile Include="Logic\Collections\Devices.cs" />
@@ -218,7 +219,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Handlers\Client\RoyalTv\" />
     <Folder Include="Handlers\Client\Socials\" />
     <Folder Include="Handlers\Client\Tournament\" />
     <Folder Include="Handlers\Server\Alliance\" />

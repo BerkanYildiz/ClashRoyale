@@ -46,10 +46,10 @@
 
             // TODO : Implement the BattleReport().
 
-            /* Device.NetworkManager.SendMessage(new BattleReportStreamMessage()
+            Device.NetworkManager.SendMessage(new BattleReportStreamMessage()
             {
                 PlayerId = Player.PlayerId
-            }); */
+            });
         }
     }
 }

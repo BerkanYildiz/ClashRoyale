@@ -1,16 +1,14 @@
 ﻿namespace ClashRoyale.Logic.Commands
 {
+    using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
+    using ClashRoyale.Files.Csv;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Logic.Home;
     using ClashRoyale.Logic.Mode;
-    using ClashRoyale.Logic.Player;
 
     public class BuyResourcePackCommand : Command
     {
-        private TreasureChestData ChestData;
-
         /// <summary>
         /// Gets the type of this command.
         /// </summary>
@@ -22,6 +20,8 @@
             }
         }
 
+        private ResourcePackData ResourcePackData;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BuyResourcePackCommand"/> class.
         /// </summary>
@@ -31,12 +31,21 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="BuyResourcePackCommand"/> class.
+        /// </summary>
+        /// <param name="ResourcePackData">The resource pack data.</param>
+        public BuyResourcePackCommand(ResourcePackData ResourcePackData)
+        {
+            this.ResourcePackData = ResourcePackData;
+        }
+
+        /// <summary>
         /// Decodes this instance.
         /// </summary>
         public override void Decode(ByteStream Stream)
         {
             base.Decode(Stream);
-            this.ChestData = Stream.DecodeData<TreasureChestData>();
+            this.ResourcePackData = Stream.DecodeData<ResourcePackData>();
         }
 
         /// <summary>
@@ -45,7 +54,7 @@
         public override void Encode(ChecksumEncoder Stream)
         {
             base.Encode(Stream);
-            Stream.EncodeData(this.ChestData);
+            Stream.EncodeData(this.ResourcePackData);
         }
 
         /// <summary>
@@ -53,49 +62,23 @@
         /// </summary>
         public override byte Execute(GameMode GameMode)
         {
-            if (this.ChestData != null)
+            if (this.ResourcePackData != null)
             {
-                Home Home = GameMode.Home;
-                Player Player = GameMode.Player;
+                var ResourceData = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>(this.ResourcePackData.Resource);
 
-                if (Home != null && Player != null)
+                if (ResourceData != null)
                 {
-                    if (this.ChestData.ArenaData != null)
+                    int Cost = this.ResourcePackData.Cost;
+
+                    if (GameMode.Player.HasEnoughDiamonds(Cost))
                     {
-                        if (!this.ChestData.ArenaData.TrainingCamp)
-                        {
-                            if (this.ChestData.ArenaData == Player.Arena.ChestArenaData)
-                            {
-                                if (this.ChestData.InShop)
-                                {
-                                    int Cost = this.ChestData.ShopPrice;
-                                    
-                                    if (Player.HasEnoughDiamonds(Cost))
-                                    {
-                                        if (Home.PurchasedChest == null)
-                                        {
-                                            Player.UseDiamonds(Cost);
-                                            Home.ChestPurchased(this.ChestData, 3);
+                        GameMode.Player.UseDiamonds(Cost);
+                        GameMode.Player.AddResource(ResourceData, this.ResourcePackData.Amount);
 
-                                            return 0;
-                                        }
-
-                                        return 8;
-                                    }
-
-                                    return 7;
-                                }
-
-                                return 6;
-                            }
-
-                            return 5;
-                        }
-
-                        return 4;
+                        return 0;
                     }
 
-                    return 3;
+                     return 3;
                 }
 
                 return 2;

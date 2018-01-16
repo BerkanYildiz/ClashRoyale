@@ -35,18 +35,7 @@
                 return;
             }
 
-            NetworkTcp.ReadPool             = new NetworkPool();
-            NetworkTcp.WritePool            = new NetworkPool();
-
-            foreach (var AsyncEvent in NetworkTcp.ReadPool)
-            {
-                AsyncEvent.Completed += NetworkTcp.OnReceiveCompleted;
-            }
-
-            foreach (var AsyncEvent in NetworkTcp.WritePool)
-            {
-                AsyncEvent.Completed += NetworkTcp.OnSendCompleted;
-            }
+            NetworkTcp.FillPools();
 
             NetworkTcp.Listener             = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             NetworkTcp.Listener.NoDelay     = true;
@@ -64,6 +53,35 @@
             AcceptEvent.DisconnectReuseSocket = true;
 
             NetworkTcp.StartAccept(AcceptEvent);
+        }
+
+        /// <summary>
+        /// Fills the pools.
+        /// </summary>
+        private static void FillPools()
+        {
+            NetworkTcp.ReadPool  = new NetworkPool();
+            NetworkTcp.WritePool = new NetworkPool();
+
+            for (int i = 0; i < Config.MaxPlayers; i++)
+            {
+                var AsyncEvent = new SocketAsyncEventArgs();
+
+                AsyncEvent.SetBuffer(new byte[Config.BufferSize], 0, Config.BufferSize);
+                AsyncEvent.DisconnectReuseSocket = true;
+                AsyncEvent.Completed += NetworkTcp.OnReceiveCompleted;
+
+                NetworkTcp.ReadPool.Enqueue(AsyncEvent);
+            }
+
+            for (int i = 0; i < Config.MaxPlayers; i++)
+            {
+                var AsyncEvent = new SocketAsyncEventArgs();
+                AsyncEvent.DisconnectReuseSocket = true;
+                AsyncEvent.Completed += NetworkTcp.OnSendCompleted;
+
+                NetworkTcp.WritePool.Enqueue(AsyncEvent);
+            }
         }
 
         /// <summary>

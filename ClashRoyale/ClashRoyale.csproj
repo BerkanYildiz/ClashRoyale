@@ -263,6 +263,10 @@
     <Compile Include="Logic\Alliance\Stream\Factory\StreamEntryFactory.cs" />
     <Compile Include="Logic\Alliance\Stream\JoinRequestAllianceStreamEntry.cs" />
     <Compile Include="Logic\Alliance\Stream\StreamEntry.cs" />
+    <Compile Include="Logic\Commands\BuyDiamondsCommand.cs" />
+    <Compile Include="Logic\Commands\QuestsSeenCommand.cs" />
+    <Compile Include="Logic\Commands\FilterClanChatCommand.cs" />
+    <Compile Include="Logic\Commands\RequestNewQuestCommand.cs" />
     <Compile Include="Logic\Converters\StreamEntryConverter.cs" />
     <Compile Include="Logic\Apis\ApiManager.cs" />
     <Compile Include="Logic\Apis\Facebook.cs" />

@@ -38,6 +38,8 @@
 
         public List<Command> Commands;
 
+        public byte[] Debug;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EndClientTurnMessage"/> class.
         /// </summary>
@@ -92,6 +94,10 @@
                     this.Commands.Add(Command);
                 }
             }
+            else
+            {
+                this.Debug = this.Stream.ReadBytes();
+            }
         }
 
         /// <summary>
@@ -108,7 +114,7 @@
                 Command.Encode(this.Stream);
             }
 
-            this.Stream.WriteInt(-1);
+            this.Stream.WriteBytes(this.Debug);
         }
     }
 }

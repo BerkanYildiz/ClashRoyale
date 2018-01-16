@@ -139,20 +139,33 @@
                 Player.AccountLocation = Message.Locale;
             }
 
-            Device.GameMode = new GameMode();
-            Device.GameMode.Listener = Device.GameListener;
+            Device.GameMode = new GameMode
+            {
+                Listener = Device.GameListener
+            };
+
             Device.GameMode.SetPlayer(Player);
+
             Device.NetworkManager.AccountId = new LogicLong(Player.HighId, Player.LowId);
+            
+            Device.Defines.Region       = Message.Region;
+            Device.Defines.OpenUdid     = Message.OpenUdid;
+            Device.Defines.MacAddress   = Message.MacAddress;
+            Device.Defines.Model        = Message.Model;
+            Device.Defines.AdvertiseId  = Message.AdvertiseId;
+            Device.Defines.AndroidId    = Message.AndroidId;
+            Device.Defines.OsVersion    = Message.OsVersion;
+            Device.Defines.Android      = Message.IsAndroid;
 
             Device.NetworkManager.SendMessage(new LoginOkMessage(Player));
             Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player, Player.Home, TimeUtil.Timestamp));
 
             if (InboxManager.Entries.Count > 0)
             {
-                /* Device.NetworkManager.SendMessage(new InboxCountMessage()
+                Device.NetworkManager.SendMessage(new InboxCountMessage()
                 {
                     InboxNewMessageCnt = InboxManager.Entries.Count
-                }); */
+                });
             }
         }
     }

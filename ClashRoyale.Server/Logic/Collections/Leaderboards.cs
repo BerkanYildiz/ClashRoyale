@@ -90,7 +90,6 @@
             {
                 throw new LogicException(typeof(Leaderboards), "Region == null at GetRegionalClans(Region).");
             }
-
             #endif
 
             if (Region.Contains("-"))

@@ -13,6 +13,7 @@
     using ClashRoyale.Handlers.Client.Avatar;
     using ClashRoyale.Handlers.Client.Home;
     using ClashRoyale.Handlers.Client.Matchmaking;
+    using ClashRoyale.Handlers.Client.RoyalTv;
     using ClashRoyale.Handlers.Client.Scoring;
     using ClashRoyale.Handlers.Client.Sector;
     using ClashRoyale.Handlers.Server.Account;
@@ -27,6 +28,7 @@
     using ClashRoyale.Messages.Client.Avatar;
     using ClashRoyale.Messages.Client.Home;
     using ClashRoyale.Messages.Client.Matchmaking;
+    using ClashRoyale.Messages.Client.RoyalTv;
     using ClashRoyale.Messages.Client.Scoring;
     using ClashRoyale.Messages.Server.Account;
     using ClashRoyale.Messages.Server.Home;
@@ -92,6 +94,7 @@
             HandlerFactory.MessageHandlers.Add(new StartTrainingBattleMessage().Type,           StartTrainingBattleHandler.Handle);
             HandlerFactory.MessageHandlers.Add(new SectorCommandMessage().Type,                 SectorCommandHandler.Handle);
             HandlerFactory.MessageHandlers.Add(new SendBattleEventMessage().Type,               SendBattleEventHandler.Handle);
+            HandlerFactory.MessageHandlers.Add(new AskForTvContentMessage().Type,               AskForTvContentHandler.Handle);
 
             HandlerFactory.MessageHandlers.Add(new ServerErrorMessage().Type,                   ServerErrorHandler.Handle);
             HandlerFactory.MessageHandlers.Add(new ServerShutdownMessage().Type,                ServerShutdownHandler.Handle);
@@ -108,7 +111,7 @@
         /// </summary>
         /// <param name="Device">The device.</param>
         /// <param name="Message">The message.</param>
-        public static async Task MessageHandle(Device Device, Message Message)
+        public static async Task<bool> MessageHandle(Device Device, Message Message)
         {
             using (var Cancellation = new CancellationTokenSource())
             {
@@ -144,9 +147,17 @@
                                 await Players.Save(Device.GameMode.Player);
                             }
                         }
+
+                        return true;
+                    }
+                    else
+                    {
+                        Logging.Warning(typeof(MessageHandler), "Operation has been cancelled after processing " + Message.GetType().Name + ".");
                     }
                 }
             }
+
+            return false;
         }
     }
 }

@@ -185,8 +185,12 @@
                     return new BuyResourcePackCommand();
                 case 512:
                     return new SelectDeckCommand();
+                case 513:
+                    return new FilterClanChatCommand();
                 case 517:
                     return new SpellSeenCommand();
+                case 522:
+                    return new QuestsSeenCommand();
                 /* case 523:
                     return new ClaimAchievementRewardCommand();
                 case 526:
@@ -197,8 +201,12 @@
                     return new BuyChestCommand();
                 case 544:
                     return new BuySpellCommand();
+                case 548:
+                    return new BuyDiamondsCommand();
                 case 576:
                     return new UpdateLastShownLevelUpCommand();
+                case 584:
+                    return new RequestNewQuestCommand();
                 case 592:
                     return new FuseSpellsCommand();
                 case 594:

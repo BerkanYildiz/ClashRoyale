@@ -973,11 +973,11 @@ namespace ClashRoyale.Logic.Home
 
             if (this.GameMode.Player.IsNameSet)
             {
-                Stream.WriteVInt(2819);
+                Stream.WriteVInt(2817);
             }
             else // TEST
             {
-                Stream.WriteVInt(2817);
+                Stream.WriteVInt(2819);
             }
 
             // 2817 -> Name Pop Up -> 0000101100000001

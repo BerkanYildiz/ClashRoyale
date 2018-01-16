@@ -85,5 +85,15 @@ namespace ClashRoyale.Files.Csv.Logic
             get; set;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance has a cap.
+        /// </summary>
+        public bool HasCap
+        {
+            get
+            {
+                return this.Cap > 0;
+            }
+        }
     }
 }
