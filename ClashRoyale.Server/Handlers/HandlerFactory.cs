@@ -137,7 +137,13 @@
 
                     if (Cancellation.IsCancellationRequested == false)
                     {
-                        await Players.Save(Device.GameMode.Player);
+                        if (Device.GameMode != null)
+                        {
+                            if (Device.GameMode.Player != null)
+                            {
+                                await Players.Save(Device.GameMode.Player);
+                            }
+                        }
                     }
                 }
             }
