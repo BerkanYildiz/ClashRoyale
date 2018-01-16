@@ -5,6 +5,7 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Exceptions;
+    using ClashRoyale.Extensions.Utils;
     using ClashRoyale.Logic;
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Messages;
@@ -34,7 +35,7 @@
 
                 if (Player != null)
                 {
-                    Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player, Player.Home));
+                    Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player, Player.Home, TimeUtil.Timestamp));
                 }
                 else
                 {

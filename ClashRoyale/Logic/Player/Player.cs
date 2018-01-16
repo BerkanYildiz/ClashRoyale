@@ -709,6 +709,10 @@ namespace ClashRoyale.Logic.Player
 
             Stream.WriteVInt(7); // Training Step
             Stream.WriteVInt(1); // 0x00 = Training
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(0);
+            Stream.WriteVInt(1);
+            Stream.WriteVInt(0);
         }
 
         /// <summary>

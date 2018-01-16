@@ -32,6 +32,7 @@ namespace ClashRoyale.Messages.Server.Home
 
         public Player Player;
         public Home Home;
+        public int CurrentTimestamp;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OwnHomeDataMessage"/> class.
@@ -55,10 +56,11 @@ namespace ClashRoyale.Messages.Server.Home
         /// </summary>
         /// <param name="Player">The player.</param>
         /// <param name="Home">The home.</param>
-        public OwnHomeDataMessage(Player Player, Home Home)
+        public OwnHomeDataMessage(Player Player, Home Home, int currentTimestamp)
         {
             this.Player = Player;
             this.Home   = Home;
+            this.CurrentTimestamp = currentTimestamp;
         }
 
         /// <summary>
@@ -76,10 +78,10 @@ namespace ClashRoyale.Messages.Server.Home
         {
             this.Home.Encode(this.Stream);
             this.Player.Encode(this.Stream);
-
-            this.Stream.WriteVInt(0);
-            this.Stream.WriteVInt(0);
-            this.Stream.WriteVInt(0);
+            
+            this.Stream.WriteVInt(-1956785812); // SEED
+            this.Stream.WriteVInt(this.CurrentTimestamp);
+            this.Stream.WriteVInt(626930);
         }
     }
 }

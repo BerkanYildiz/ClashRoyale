@@ -5,6 +5,7 @@
 
     using ClashRoyale.Enums;
     using ClashRoyale.Exceptions;
+    using ClashRoyale.Extensions.Utils;
     using ClashRoyale.Files;
     using ClashRoyale.Logic;
     using ClashRoyale.Logic.Collections;
@@ -144,7 +145,7 @@
             Device.NetworkManager.AccountId = new LogicLong(Player.HighId, Player.LowId);
 
             Device.NetworkManager.SendMessage(new LoginOkMessage(Player));
-            Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player, Player.Home));
+            Device.NetworkManager.SendMessage(new OwnHomeDataMessage(Player, Player.Home, TimeUtil.Timestamp));
 
             if (InboxManager.Entries.Count > 0)
             {
