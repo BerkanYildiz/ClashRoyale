@@ -745,7 +745,7 @@ namespace ClashRoyale.Logic.Player
 
             Stream.WriteBool(false);
 
-            Stream.WriteVInt(6); // Training Step
+            Stream.WriteVInt(7); // Training Step
             Stream.WriteVInt(1); // 0x00 = Training || bool (?)
             Stream.WriteVInt(0);
             Stream.WriteVInt(0);

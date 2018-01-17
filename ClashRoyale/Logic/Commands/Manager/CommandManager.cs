@@ -189,12 +189,12 @@
                     return new FilterClanChatCommand();
                 case 517:
                     return new SpellSeenCommand();
+                case 518:
+                    return new RefreshAchievementsCommand();
                 case 522:
                     return new QuestsSeenCommand();
                 /* case 523:
                     return new ClaimAchievementRewardCommand();
-                case 526:
-                    return new RefreshAchievementsCommand();
                 case 538:
                     return new SpellPageOpenedCommand(); */
                 case 539:

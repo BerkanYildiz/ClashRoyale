@@ -237,6 +237,10 @@ namespace ClashRoyale.Logic.Home
             this.ShopTimer                      = new Timer();
             this.ShopTimer.StartTimer(86400);
 
+            this.ShopDay                        = DateTime.UtcNow.Day;
+            this.ShopDaySeen                    = DateTime.UtcNow.Day;
+            this.ShopSeed                       = 346;
+
             // CHEST
 
             this.FreeChestTimer                 = new Timer();
@@ -971,17 +975,10 @@ namespace ClashRoyale.Logic.Home
 
             this.RequestCooldownTimer.Encode(Stream);
 
-            if (this.GameMode.Player.IsNameSet)
-            {
-                Stream.WriteVInt(2817);
-            }
-            else // TEST
-            {
-                Stream.WriteVInt(2819);
-            }
-
             // 2817 -> Name Pop Up -> 0000101100000001
             // 2819 -> Name Pop Up -> 0000101100000011
+
+            Stream.WriteVInt(3);
 
             for (int J = 0; J < 7; J++)
             {
@@ -991,8 +988,9 @@ namespace ClashRoyale.Logic.Home
             Stream.WriteVInt(this.PageOpened);
             Stream.WriteVInt(this.LastLevelUpPopup);
             Stream.EncodeData(this.LastArena);
+
             Stream.WriteVInt(this.ShopDay);
-            Stream.WriteVInt(this.ShopSeed); // Not sure
+            Stream.WriteVInt(this.ShopSeed); // 9A-05
             Stream.WriteVInt(this.ShopDaySeen);
 
             this.ShopTimer.Encode(Stream);

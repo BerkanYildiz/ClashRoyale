@@ -62,6 +62,8 @@
                 {
                     TreasureChestData ChestData = null; // TODO : Retrieve the chest at the specified index in the shop.
 
+                    return 69;
+
                     if (ChestData.ArenaData != null)
                     {
                         if (!ChestData.ArenaData.TrainingCamp)
