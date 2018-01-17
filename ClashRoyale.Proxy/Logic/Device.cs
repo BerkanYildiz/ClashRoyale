@@ -1,105 +1,90 @@
-﻿namespace ClashRoyale.Proxy.Logic
+﻿namespace ClashRoyale.Logic
 {
-    using System;
-    using System.IO;
-    using System.Net;
-    using System.Net.Sockets;
+    using ClashRoyale.Enums;
+    using ClashRoyale.Listener;
+    using ClashRoyale.Logic.Mode;
+    using ClashRoyale.Network;
 
-    using ClashRoyale.Extensions;
-    using ClashRoyale.Proxy.Network;
-    using ClashRoyale.Proxy.Packets;
-
-    internal class Device
+    public class Device
     {
-        internal Processor Processor;
-        internal EnDecrypt EnDecrypt;
+        /// <summary>
+        /// Gets the device identifier.
+        /// </summary>
+        public long DeviceId
+        {
+            get;
+            set;
+        }
 
-        internal Socket Client;
-        internal Socket Server;
+        public GameListener         GameListener;
+        public NetworkManager       NetworkManager;
+        public NetworkToken         Token;
+        public Defines              Defines;
+        public GameMode             GameMode;
 
-        internal IPEndPoint UdpClientEndPoint;
-        internal IPEndPoint UdpServerEndPoint;
+        public State State;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Device"/> class.
         /// </summary>
-        /// <param name="Socket">The socket.</param>
-        internal Device(Socket Socket)
+        public Device()
         {
-            this.Client     = Socket;
-            this.Server     = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.GameListener   = new ClientGameListener(this);
+            this.NetworkManager = new NetworkManager(this);
+            this.Defines        = new Defines();
 
-            this.Server.Connect("game.clashroyaleapp.com", 9339);
-
-            Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Logs\\" + ((IPEndPoint) this.Client.RemoteEndPoint).Address + "\\TCP");
-            Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Logs\\" + ((IPEndPoint) this.Client.RemoteEndPoint).Address + "\\UDP");
-
-            this.EnDecrypt  = new EnDecrypt();
-            this.Processor  = new Processor(this.Client, this.Server);
+            // Prepare..
         }
 
         /// <summary>
-        /// Processes the packet.
+        /// Initializes a new instance of the <see cref="Device"/> class.
         /// </summary>
-        internal void Process(int Type, ref byte[] Packet)
+        /// <param name="Token">The token.</param>
+        public Device(NetworkToken Token)
         {
-            using (ByteStream Reader = new ByteStream(Packet))
+            this.NetworkManager = new NetworkManager(this);
+            this.Token          = Token;
+            this.Token.SetDevice(this);
+
+            Device Server       = new Device();
+
+            this.GameListener   = new ServerGameListener(Server);
+            Server.GameListener = new ClientGameListener(this);
+
+            Server.Connect("game.clashroyaleapp.com");
+        }
+
+        /// <summary>
+        /// Connects this instance.
+        /// </summary>
+        public void Connect(string Host)
+        {
+            if (NetworkTcp.StartConnect(Host, out this.Token))
             {
-                switch (Type)
+                this.Token.SetDevice(this);
+
+                if (this.Token.IsConnected)
                 {
-                    case 10100:
+                    /* this.NetworkManager.SendMessage(new ClientHelloMessage()
                     {
-                        Packet[4 + 4 - 1] = 15;
-                        Packet[4 + 4 + 4 - 1] = 0x03;
-                        Packet[4 + 4 + 4 + 4 - 1] = 0x00;
-                        Packet[4 + 4 + 4 + 4 + 4 - 2] = 0x03;
-                        Packet[4 + 4 + 4 + 4 + 4 - 1] = 0x3E;
-                        Packet[4 + 4 + 4 + 4 + 4 + (4 + 0x28) + 4 - 1] = 0x03;
-
-                        Logging.Info(this.GetType(), BitConverter.ToString(Packet));
-                        break;
-                    }
-
-                    case 10101:
-                    {
-                        if (Packet[4 + 4] == 0xFF)
-                        {
-                            Packet[4 + 4 + 4 + 4 - 1] = 0x03;
-                            Packet[4 + 4 + 4 + 4 + 4 - 1] = 0x00;
-                            Packet[4 + 4 + 4 + 4 + 4 + 4 - 1] = 0x03;
-                            Packet[4 + 4 + 4 + 4 + 4 + 4 - 2] = 0x3E;
-
-                            // Packet = Packet.Skip(4 + 4 + 4).ToArray();
-                        }
-                        else
-                        {
-                            Packet[4 + 4 + (4 + 0x28) + 4 - 1] = 0x03;
-                            Packet[4 + 4 + (4 + 0x28) + 4 + 4 - 1] = 0x00;
-                            Packet[4 + 4 + (4 + 0x28) + 4 + 4 + 4 - 1] = 0x03;
-                            Packet[4 + 4 + (4 + 0x28) + 4 + 4 + 4 - 2] = 0x3E;
-
-                            // Packet = Packet.Skip(4 + 4 + (4 + 40)).ToArray();
-                        }
-
-                        /* 
-                        Logging.Info(this.GetType(), BitConverter.ToString(Packet));
-
-                        byte[] High  = new byte[] { 0x00, 0x00, 0x00, 0x02};
-                        byte[] Low   = new byte[] { 0x00, 0x00, 0x37, 0xEE};
-                        byte[] Token = new byte[]
-                        {
-                            0x00, 0x00, 0x00, 0x28,
-                            0x68, 0x77, 0x38, 0x72, 0x37, 0x32, 0x78, 0x66, 0x6B, 0x6D, 0x6E, 0x67, 0x65, 0x72, 0x39, 0x6A, 0x72, 0x77, 0x6E, 0x74,
-                            0x77, 0x6B, 0x77, 0x68, 0x61, 0x33, 0x6B, 0x73, 0x61, 0x73, 0x32, 0x79, 0x77, 0x72, 0x62, 0x63, 0x61, 0x66, 0x77, 0x6A
-                        };
-
-                        Packet = High.Concat(Low.Concat(Token.Concat(Packet))).ToArray(); */
-
-                        Logging.Info(this.GetType(), BitConverter.ToString(Packet));
-
-                        break;
-                    }
+                        Protocol        = 1,
+                        KeyVersion      = 15,
+                        BuildVersion    = Config.ClientBuildVersion,
+                        MajorVersion    = Config.ClientMajorVersion,
+                        MinorVersion    = Config.ClientMinorVersion,
+                        MasterHash      = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        AppStore        = 2,
+                        DeviceType      = 2
+                    }); */
                 }
+                else
+                {
+                    Logging.Warning(this.GetType(), "Token.IsConnected == false at Device().");
+                }
+            }
+            else
+            {
+                Logging.Warning(this.GetType(), "StartConnect(out this.Token) == false at Device().");
             }
         }
     }

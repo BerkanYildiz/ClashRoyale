@@ -14,7 +14,12 @@
         {
             get
             {
-                throw new Exception(this.GetType() + ", type must be overridden.");
+                if (this._Identifier == 0)
+                {
+                    throw new Exception(this.GetType() + ", type must be overridden.");
+                }
+
+                return this._Identifier;
             }
         }
 
@@ -68,6 +73,8 @@
             get;
             set;
         }
+
+        public short _Identifier;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Message"/> class.

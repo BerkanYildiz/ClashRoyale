@@ -1,22 +1,37 @@
-﻿namespace ClashRoyale.Proxy
+﻿namespace ClashRoyale
 {
-    using System;
+    using System.Threading;
 
-    using ClashRoyale.Proxy.Logic.Collections;
-    using ClashRoyale.Proxy.Network;
+    using ClashRoyale.Handlers;
+    using ClashRoyale.Logic.Collections;
+    using ClashRoyale.Network;
 
-    internal class Program
+    internal static class Program
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Program"/> has been initialized.
+        /// </summary>
+        internal static bool Initialized
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Defines the entry point of the application.
         /// </summary>
-        private static void Main()
+        internal static void Main()
         {
-            Launcher.Initialize();
-            PacketType.Initialize();
+            Base.Initialize();
+
             Devices.Initialize();
-            new Gateway();
-            Console.ReadKey(false);
+
+            HandlerFactory.Initialize();
+            NetworkTcp.Initialize();
+
+            Program.Initialized = true;
+
+            Thread.Sleep(-1);
         }
     }
 }

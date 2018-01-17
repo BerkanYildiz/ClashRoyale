@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F3008EEB-87AC-4265-BC28-046B2D426F12}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ClashRoyale.Proxy</RootNamespace>
+    <RootNamespace>ClashRoyale</RootNamespace>
     <AssemblyName>ClashRoyale.Proxy</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -37,42 +37,65 @@
     <FileAlignment>1024</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ClashRoyale.Proxy.Program</StartupObject>
+    <StartupObject>ClashRoyale.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Launcher.cs" />
-    <Compile Include="Network\Gateway.cs" />
-    <Compile Include="Network\Packet.cs" />
-    <Compile Include="Network\Processor.cs" />
-    <Compile Include="Network\States\ClientState.cs" />
-    <Compile Include="Network\States\ServerState.cs" />
-    <Compile Include="Network\States\State.cs" />
-    <Compile Include="Logic\Device.cs" />
-    <Compile Include="Packets\EnDecrypt.cs" />
-    <Compile Include="Packets\PacketType.cs" />
+    <Compile Include="Handlers\Client\DefaultHandler.cs" />
+    <Compile Include="Handlers\HandlerFactory.cs" />
+    <Compile Include="Handlers\Server\DefaultHandler.cs" />
+    <Compile Include="Listener\ClientGameListener.cs" />
+    <Compile Include="Listener\ServerGameListener.cs" />
     <Compile Include="Logic\Collections\Devices.cs" />
+    <Compile Include="Logic\Device.cs" />
+    <Compile Include="Network\NetworkManager.cs" />
+    <Compile Include="Network\NetworkPool.cs" />
+    <Compile Include="Network\NetworkTcp.cs" />
+    <Compile Include="Network\NetworkToken.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ClashRoyale\ClashRoyale.csproj">
-      <Project>{BED31336-C114-4E3B-9251-590EA24B223F}</Project>
+      <Project>{bed31336-c114-4e3b-9251-590ea24b223f}</Project>
       <Name>ClashRoyale</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Handlers\Client\Account\" />
+    <Folder Include="Handlers\Client\Alliance\" />
+    <Folder Include="Handlers\Client\Attack\" />
+    <Folder Include="Handlers\Client\Avatar\" />
+    <Folder Include="Handlers\Client\Home\" />
+    <Folder Include="Handlers\Client\Matchmaking\" />
+    <Folder Include="Handlers\Client\RoyalTv\" />
+    <Folder Include="Handlers\Client\Scoring\" />
+    <Folder Include="Handlers\Client\Sector\" />
+    <Folder Include="Handlers\Client\Socials\" />
+    <Folder Include="Handlers\Client\Tournament\" />
+    <Folder Include="Handlers\Server\Account\" />
+    <Folder Include="Handlers\Server\Alliance\" />
+    <Folder Include="Handlers\Server\Attack\" />
+    <Folder Include="Handlers\Server\Avatar\" />
+    <Folder Include="Handlers\Server\Home\" />
+    <Folder Include="Handlers\Server\Matchmaking\" />
+    <Folder Include="Handlers\Server\RoyalTv\" />
+    <Folder Include="Handlers\Server\Scoring\" />
+    <Folder Include="Handlers\Server\Sector\" />
+    <Folder Include="Handlers\Server\Socials\" />
+    <Folder Include="Handlers\Server\Tournament\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>IF EXIST "$(TargetDir)Library\" RMDIR /S /Q "$(TargetDir)Library\"
