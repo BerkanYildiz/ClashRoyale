@@ -119,7 +119,7 @@
             {
                 byte[] Buffer;
 
-                using (ByteStream Packet = new ByteStream(7 + this.Length))
+                using (ByteStream Packet = new ByteStream())
                 {
                     Packet.AddRange(this.ToHeaderBytes);
                     Packet.AddRange(this.Stream.ToArray());

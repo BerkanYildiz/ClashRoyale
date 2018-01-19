@@ -33,8 +33,11 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("shopDay")]                   public int ShopDay;
         [JsonProperty("shopDaySeen")]               public int ShopDaySeen;
         [JsonProperty("dayOfYear")]                 public int DayOfYear;
-        [JsonProperty("shopItems")]                 public List<ShopItem> ShopItems;
+
         [JsonProperty("shopTimer")]                 public Timer ShopTimer;
+
+        [JsonProperty("shopItems")]                 public List<ShopItem> ShopItems;
+        [JsonProperty("shopChests")]                public List<ChestEvent> ShopChests;
 
         // CHEST
 
@@ -233,6 +236,7 @@ namespace ClashRoyale.Logic.Home
             // SHOP
 
             this.ShopItems                      = new List<ShopItem>(8);
+            this.ShopChests                     = new List<ChestEvent>(3);
 
             this.ShopTimer                      = new Timer();
             this.ShopTimer.StartTimer(86400);
@@ -1127,55 +1131,14 @@ namespace ClashRoyale.Logic.Home
                 ShopItem.Encode(Stream);
             }
 
-            Stream.AddRange("03-13-B9-04-98-01-00".HexaToBytes());
+            Stream.WriteVInt(this.ShopChests.Count);
 
-            Stream.WriteString("Lightning");
+            foreach (ChestEvent ChestEvent in this.ShopChests)
             {
-                Stream.WriteVInt(346);
-                Stream.WriteVInt(0); // Index
-
-                Stream.WriteVInt(0); // Array
-
-                for (int i = 0; i < 0; i++)
-                {
-                    // Encode Data.
-                }
-
-                Stream.AddRange("7F-00-7F-13-85-05-98-01-02".HexaToBytes());
-            }
-            
-            Stream.WriteString("Fortune");
-            {
-                Stream.WriteVInt(346);
-                Stream.WriteVInt(1); // Index
-
-                Stream.WriteVInt(4); // Array
-                {
-                    Stream.AddRange("1A-02".HexaToBytes());
-                    Stream.AddRange("1A-15".HexaToBytes());
-                    Stream.AddRange("1A-26".HexaToBytes());
-                    Stream.AddRange("1A-19".HexaToBytes());
-                }
-
-                Stream.AddRange("85-AA-EA-55-00-7F-13-91-05-98-01-04".HexaToBytes());
+                ChestEvent.Encode(Stream);
             }
 
-            Stream.WriteString("Kings");
-            {
-                Stream.WriteVInt(346);
-                Stream.WriteVInt(2); // Index
-
-                Stream.WriteVInt(0); // Array
-
-                for (int i = 0; i < 0; i++)
-                {
-                    // Encode Data.
-                }
-
-                Stream.AddRange("7F-00-7F-00-03".HexaToBytes());
-            }
-
-            Stream.AddRange("00-01-02-00-00-00-00-00-7F-95-11-00-00".HexaToBytes());
+            Stream.AddRange("00-03-00-01-02-00-00-00-00-00-7F-95-11-00-00".HexaToBytes());
         }
     }
 }

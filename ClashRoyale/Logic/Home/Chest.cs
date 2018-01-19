@@ -123,10 +123,10 @@
         /// </summary>
         public void Decode(ByteStream Reader)
         {
-            this.ChestData = Reader.DecodeData<TreasureChestData>();
-            this.Unlocked = Reader.ReadBoolean();
-            this.Claimed = Reader.ReadBoolean();
-            this.New = Reader.ReadBoolean();
+            this.ChestData  = Reader.DecodeData<TreasureChestData>();
+            this.Unlocked   = Reader.ReadBoolean();
+            this.Claimed    = Reader.ReadBoolean();
+            this.New        = Reader.ReadBoolean();
 
             if (Reader.ReadBoolean())
             {
@@ -135,8 +135,9 @@
             }
 
             Reader.ReadVInt();
-            this.Source = Reader.ReadVInt();
-            this.SlotIndex = Reader.ReadVInt();
+
+            this.Source     = Reader.ReadVInt();
+            this.SlotIndex  = Reader.ReadVInt();
 
             Reader.ReadVInt();
             Reader.ReadVInt();
@@ -156,13 +157,12 @@
             Stream.WriteBoolean(this.Claimed);
             Stream.WriteBoolean(this.New);
 
+            Stream.WriteBoolean(this.UnlockTimer != null);
+
             if (this.UnlockTimer != null)
             {
-                Stream.WriteBoolean(true);
                 this.UnlockTimer.Encode(Stream);
             }
-            else 
-                Stream.WriteBoolean(false);
 
             Stream.WriteVInt(0);
             Stream.WriteVInt(this.Source);
@@ -266,7 +266,7 @@
         /// </summary>
         public void UnlockDone()
         {
-            this.Unlocked = true;
+            this.Unlocked    = true;
             this.UnlockTimer = null;
         }
 
@@ -299,6 +299,7 @@
             Json.Add("s", this.Source);
             Json.Add("n", this.New);
             Json.Add("slot", this.SlotIndex);
+
             JsonHelper.SetLogicData(Json, "d", this.ChestData);
 
             if (this.UnlockTimer != null)

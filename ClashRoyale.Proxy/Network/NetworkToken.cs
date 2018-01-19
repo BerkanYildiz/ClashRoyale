@@ -121,7 +121,7 @@
         public void TcpProcess(byte[] Buffer)
         {
             short Type      = (short) (Buffer[1] | Buffer[0] << 8);
-            int Length      = Buffer[4] | Buffer[3] << 8 | Buffer[2] << 16;
+            int Length      =  (int)  (Buffer[4] | Buffer[3] << 8 | Buffer[2] << 16);
             short Version   = (short) (Buffer[6] | Buffer[5] << 8);
 
             if (Length < 0x800000)

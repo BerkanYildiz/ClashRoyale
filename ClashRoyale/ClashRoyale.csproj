@@ -323,8 +323,10 @@
     <Compile Include="Logic\GameObject\GameObject.cs" />
     <Compile Include="Logic\GameObject\Manager\GameObjectManager.cs" />
     <Compile Include="Logic\GameObject\Summoner.cs" />
+    <Compile Include="Logic\Home\ChestEvent.cs" />
     <Compile Include="Logic\Home\Chest.cs" />
     <Compile Include="Logic\Home\Home.cs" />
+    <Compile Include="Logic\Home\Manager\ChestManager.cs" />
     <Compile Include="Logic\Home\Spells\Spell.cs" />
     <Compile Include="Logic\Home\Spells\SpellCollection.cs" />
     <Compile Include="Logic\Home\Spells\SpellDeck.cs" />
@@ -4615,7 +4617,6 @@
   <ItemGroup>
     <Folder Include="Logic\Commands\Debug\" />
     <Folder Include="Logic\Event\" />
-    <Folder Include="Logic\Home\Manager\" />
     <Folder Include="Logic\Home\Slot\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

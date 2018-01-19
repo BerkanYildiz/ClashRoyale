@@ -67,6 +67,15 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SpellCollection"/> class.
+        /// </summary>
+        /// <param name="Capacity">The capacity.</param>
+        public SpellCollection(int Capacity)
+        {
+            this.Spells = new List<Spell>(Capacity);
+        }
+
+        /// <summary>
         /// Adds the specified spell in collection.
         /// </summary>
         public void AddSpell(Spell Spell)
