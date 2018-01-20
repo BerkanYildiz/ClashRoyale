@@ -4617,7 +4617,6 @@
   <ItemGroup>
     <Folder Include="Logic\Commands\Debug\" />
     <Folder Include="Logic\Event\" />
-    <Folder Include="Logic\Home\Slot\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

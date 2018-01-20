@@ -1,14 +1,12 @@
 ﻿namespace ClashRoyale.Logic.Player.Slots
 {
     using System.Collections.Generic;
-
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Game;
     using ClashRoyale.Files.Csv;
     using ClashRoyale.Logic.Converters;
     using ClashRoyale.Logic.Player.Enums;
     using ClashRoyale.Logic.Player.Items;
-
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
@@ -18,7 +16,7 @@
         [JsonProperty] private List<DataSlot>[] Slots;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommoditySlots"/> class.
+        ///     Initializes a new instance of the <see cref="CommoditySlots" /> class.
         /// </summary>
         public CommoditySlots()
         {
@@ -35,7 +33,7 @@
         }
 
         /// <summary>
-        /// Decodes this instance.
+        ///     Decodes this instance.
         /// </summary>
         public void Decode(ByteStream Stream)
         {
@@ -58,7 +56,7 @@
         }
 
         /// <summary>
-        /// Encodes this instance.
+        ///     Encodes this instance.
         /// </summary>
         public void Encode(ChecksumEncoder Stream)
         {
@@ -68,15 +66,12 @@
             {
                 Stream.WriteVInt(this.Slots[I].Count);
 
-                this.Slots[I].ForEach(Slot =>
-                {
-                    Slot.Encode(Stream);
-                });
+                this.Slots[I].ForEach(Slot => { Slot.Encode(Stream); });
             }
         }
 
         /// <summary>
-        /// Adds the commodity count.
+        ///     Adds the commodity count.
         /// </summary>
         public void AddCommodityCount(CommodityType Type, CsvData CsvData, int Count)
         {
@@ -84,7 +79,7 @@
         }
 
         /// <summary>
-        /// Adds the commodity count.
+        ///     Adds the commodity count.
         /// </summary>
         public void AddCommodityCount(int CommodityType, CsvData CsvData, int Count)
         {
@@ -101,11 +96,13 @@
                 this.Slots[CommodityType].Add(new DataSlot(CsvData, Count));
             }
             else
+            {
                 Slot.Count += Count;
+            }
         }
 
         /// <summary>
-        /// Gets if the collection has the specified data.
+        ///     Gets if the collection has the specified data.
         /// </summary>
         public bool Exists(int CommodityType, CsvData CsvData)
         {
@@ -119,7 +116,7 @@
         }
 
         /// <summary>
-        /// Gets the commodity count.
+        ///     Gets the commodity count.
         /// </summary>
         public int GetCommodityCount(CommodityType Type, CsvData CsvData)
         {
@@ -127,7 +124,7 @@
         }
 
         /// <summary>
-        /// Gets the commodity count.
+        ///     Gets the commodity count.
         /// </summary>
         public int GetCommodityCount(int CommodityType, CsvData CsvData)
         {
@@ -148,7 +145,7 @@
         }
 
         /// <summary>
-        /// Sets the commodity count.
+        ///     Sets the commodity count.
         /// </summary>
         public void SetCommodityCount(CommodityType Type, CsvData CsvData, int Count)
         {
@@ -156,7 +153,7 @@
         }
 
         /// <summary>
-        /// Sets the commodity count.
+        ///     Sets the commodity count.
         /// </summary>
         public void SetCommodityCount(int CommodityType, CsvData CsvData, int Count)
         {
@@ -173,11 +170,13 @@
                 this.Slots[CommodityType].Add(new DataSlot(CsvData, Count));
             }
             else
+            {
                 Slot.Count = Count;
+            }
         }
 
         /// <summary>
-        /// Uses the specified commodity count.
+        ///     Uses the specified commodity count.
         /// </summary>
         public void UseCommodity(CommodityType CommodityType, CsvData CsvData, int Count)
         {
@@ -185,7 +184,7 @@
         }
 
         /// <summary>
-        /// Uses the specified commodity count.
+        ///     Uses the specified commodity count.
         /// </summary>
         public void UseCommodity(int CommodityType, CsvData CsvData, int Count)
         {
@@ -204,7 +203,7 @@
         }
 
         /// <summary>
-        /// Loads this instance from json.
+        ///     Loads this instance from json.
         /// </summary>
         public void Load(JArray Array)
         {
@@ -222,7 +221,7 @@
         }
 
         /// <summary>
-        /// Saves this instance to json.
+        ///     Saves this instance to json.
         /// </summary>
         public JArray Save()
         {
@@ -232,10 +231,7 @@
             {
                 JArray Array2 = new JArray();
 
-                this.Slots[I].ForEach(Slot =>
-                {
-                    Array2.Add(Slot.Save());
-                });
+                this.Slots[I].ForEach(Slot => { Array2.Add(Slot.Save()); });
 
                 Array1.Add(Array2);
             }
@@ -244,7 +240,7 @@
         }
 
         /// <summary>
-        /// Initializes commodities.
+        ///     Initializes commodities.
         /// </summary>
         public void Initialize()
         {

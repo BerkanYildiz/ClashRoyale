@@ -318,9 +318,7 @@ namespace ClashRoyale.Logic.Player
         /// <param name="Count">The count.</param>
         public void RemoveResource(ResourceData ResourceData, int Count)
         {
-            Count = Math.Abs(Count);
-
-            if (Count == 0)
+            if (Count <= 0)
             {
                 return;
             }

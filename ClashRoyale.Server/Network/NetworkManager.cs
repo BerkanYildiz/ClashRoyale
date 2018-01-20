@@ -194,7 +194,7 @@
 
                     Message.Stream.SetByteArray(Bytes);
 
-                    NetworkTcp.Send(Message.ToBytes, this.Device.Token);
+                    NetworkTcp.Send(this.WriteHeader(Message), this.Device.Token);
                     HandlerFactory.MessageHandle(this.Device, Message); // TODO : Probably call Task.Wait().
                 }
                 else
@@ -202,6 +202,32 @@
                     Logging.Error(this.GetType(), "Message.IsServerToClientMessage != true at SendMessage(Message " + Message.Type + ").");
                 }
             }
+        }
+
+        /// <summary>
+        ///     Writes the header of message.
+        /// </summary>
+        public byte[] WriteHeader(Message message)
+        {
+            byte[] stream = message.GetBytes();
+            byte[] packet = new byte[7 + stream.Length];
+            int messageLength = stream.Length;
+            int messageType = message.Type;
+            int messageVersion = message.Version;
+
+            Array.Copy(stream, 0, packet, 7, messageLength);
+
+            packet[1] = (byte) (messageType);
+            packet[0] = (byte) (messageType >> 8);
+
+            packet[4] = (byte) (messageLength);
+            packet[3] = (byte) (messageLength >> 8);
+            packet[2] = (byte) (messageLength >> 16);
+
+            packet[6] = (byte) (messageVersion);
+            packet[5] = (byte) (messageVersion >> 8);
+
+            return packet;
         }
 
         /// <summary>

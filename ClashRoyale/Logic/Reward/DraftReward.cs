@@ -4,14 +4,14 @@
 
     public class DraftReward : Reward
     {
-        private int ChestId;
         private int ChestGlobalId;
+        private int ChestId;
         private int ChestType;
-        private int PaidGems;
         private int FreeGems;
+        private int PaidGems;
 
         /// <summary>
-        /// Gets the type of this reward.
+        ///     Gets the type of this reward.
         /// </summary>
         public override int Type
         {
@@ -22,15 +22,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DraftReward"/> class.
-        /// </summary>
-        public DraftReward()
-        {
-            // DraftReward.
-        }
-
-        /// <summary>
-        /// Decodes this instance.
+        ///     Decodes this instance.
         /// </summary>
         public override void Decode(ByteStream Stream)
         {
@@ -44,7 +36,7 @@
         }
 
         /// <summary>
-        /// Encodes this instance.
+        ///     Encodes this instance.
         /// </summary>
         public override void Encode(ChecksumEncoder Stream)
         {

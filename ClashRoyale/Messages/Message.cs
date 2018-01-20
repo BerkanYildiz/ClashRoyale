@@ -14,12 +14,7 @@
         {
             get
             {
-                if (this._Identifier == 0)
-                {
-                    throw new Exception(this.GetType() + ", type must be overridden.");
-                }
-
-                return this._Identifier;
+                throw new Exception(this.GetType() + ", type must be overridden.");
             }
         }
 
@@ -73,9 +68,7 @@
             get;
             set;
         }
-
-        public short _Identifier;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Message"/> class.
         /// </summary>
@@ -110,48 +103,11 @@
         }
 
         /// <summary>
-        /// Gets the packet data, in a byte array.
+        ///     Gets bytes of stream.
         /// </summary>
-        /// <returns>The packet data, in a byte array, header included.</returns>
-        public byte[] ToBytes
+        public byte[] GetBytes()
         {
-            get
-            {
-                byte[] Buffer;
-
-                using (ByteStream Packet = new ByteStream())
-                {
-                    Packet.AddRange(this.ToHeaderBytes);
-                    Packet.AddRange(this.Stream.ToArray());
-
-                    Buffer = Packet.ToArray();
-                }
-
-                return Buffer;
-            }
-        }
-
-        /// <summary>
-        /// Gets the packet header, in a byte array.
-        /// </summary>
-        /// <returns>The packet header, in a byte array..</returns>
-        public byte[] ToHeaderBytes
-        {
-            get
-            {
-                byte[] Buffer;
-
-                using (ByteStream Packet = new ByteStream(7))
-                {
-                    Packet.WriteShort(this.Type);
-                    Packet.WriteInt24(this.Length);
-                    Packet.WriteShort(this.Version);
-
-                    Buffer = Packet.ToArray();
-                }
-
-                return Buffer;
-            }
+            return this.Stream.ToArray();
         }
 
         /// <summary>

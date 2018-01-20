@@ -1,23 +1,21 @@
 ﻿namespace ClashRoyale.Logic.Reward
 {
     using System.Collections.Generic;
-
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Logic.Home.Spells;
-
     using Newtonsoft.Json.Linq;
 
     public class Reward
     {
-        public List<Spell> Spells;
+        public int Diamonds;
         public List<Spell> DiscardedSpells;
 
         public int Gold;
-        public int Diamonds;
-        
+        public List<Spell> Spells;
+
         /// <summary>
-        /// Gets the type of this reward.
+        ///     Gets the type of this reward.
         /// </summary>
         public virtual int Type
         {
@@ -28,15 +26,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Reward"/> class.
-        /// </summary>
-        public Reward()
-        {
-            // Reward.
-        }
-
-        /// <summary>
-        /// Decodes this instance.
+        ///     Decodes this instance.
         /// </summary>
         public virtual void Decode(ByteStream Stream)
         {
@@ -73,7 +63,7 @@
         }
 
         /// <summary>
-        /// Encodes this instance.
+        ///     Encodes this instance.
         /// </summary>
         public virtual void Encode(ChecksumEncoder Stream)
         {
@@ -82,26 +72,24 @@
             if (this.Spells != null)
             {
                 Stream.WriteVInt(this.Spells.Count);
-                
-                this.Spells.ForEach(Spell =>
-                {
-                    Spell.Encode(Stream);
-                });
+
+                this.Spells.ForEach(Spell => { Spell.Encode(Stream); });
             }
             else
+            {
                 Stream.WriteVInt(-1);
+            }
 
             if (this.DiscardedSpells != null)
             {
                 Stream.WriteVInt(this.DiscardedSpells.Count);
-                
-                this.DiscardedSpells.ForEach(Spell =>
-                {
-                    Spell.Encode(Stream);
-                });
+
+                this.DiscardedSpells.ForEach(Spell => { Spell.Encode(Stream); });
             }
             else
+            {
                 Stream.WriteVInt(-1);
+            }
 
             Stream.WriteVInt(this.Gold);
             Stream.WriteVInt(this.Diamonds);
@@ -110,7 +98,7 @@
         }
 
         /// <summary>
-        /// Creates the specified reward type.
+        ///     Creates the specified reward type.
         /// </summary>
         public static Reward CreateFromType(int Type)
         {
@@ -132,7 +120,7 @@
         }
 
         /// <summary>
-        /// Decodes the reward.
+        ///     Decodes the reward.
         /// </summary>
         public static Reward DecodeReward(ByteStream Stream)
         {
@@ -147,7 +135,7 @@
         }
 
         /// <summary>
-        /// Encodes the reward.
+        ///     Encodes the reward.
         /// </summary>
         public static void EncodeReward(ChecksumEncoder Stream, Reward Reward)
         {
@@ -156,7 +144,7 @@
         }
 
         /// <summary>
-        /// Saves this instance to json.
+        ///     Saves this instance to json.
         /// </summary>
         public JObject Save()
         {

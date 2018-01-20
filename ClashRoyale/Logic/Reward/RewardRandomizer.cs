@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Logic.Reward
 {
     using System.Collections.Generic;
-
     using ClashRoyale.Crypto.Randomizers;
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions.Game;
@@ -14,15 +13,7 @@
     public class RewardRandomizer
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RewardRandomizer"/> class.
-        /// </summary>
-        public RewardRandomizer()
-        {
-            // RewardRandomizer.
-        }
-
-        /// <summary>
-        /// Creates a spell with spell data.
+        ///     Creates a spell with spell data.
         /// </summary>
         public static Spell CreateSpell(SpellData Data)
         {
@@ -40,7 +31,7 @@
         }
 
         /// <summary>
-        /// Combines a list of spells.
+        ///     Combines a list of spells.
         /// </summary>
         public static void CombineSpells(List<Spell> Spells, int Count, int[] CountByRarity, Home Home)
         {
@@ -87,7 +78,7 @@
                                             int LvlIdx1 = Existing.LevelIndexIfAllMaterialUsed;
                                             int LvlIdx2 = Existing2.LevelIndexIfAllMaterialUsed;
 
-                                            if (I >= Multiplier2 | RndCatchupChance >= CatchupChance | LvlIdx1 <= LvlIdx2)
+                                            if ((I >= Multiplier2) | (RndCatchupChance >= CatchupChance) | (LvlIdx1 <= LvlIdx2))
                                             {
                                                 if (Existing.Data.RarityData == Existing2.Data.RarityData)
                                                 {
@@ -128,9 +119,9 @@
                 }
             }
         }
-        
+
         /// <summary>
-        /// Randomizes the reward.
+        ///     Randomizes the reward.
         /// </summary>
         public static Reward RandomizeReward(Chest Chest, Home Home)
         {
@@ -158,7 +149,7 @@
         }
 
         /// <summary>
-        /// Randomizes spells.
+        ///     Randomizes spells.
         /// </summary>
         public static List<Spell> RandomizeSpells(TreasureChestData Data, Home Home)
         {
@@ -191,7 +182,7 @@
 
                         CountByRarity[I] = Cnt;
                         RandomSpellCount -= Cnt;
-                        
+
                         if (XorShift.Next(Chance) < Data.RandomSpellCount % Chance)
                         {
                             ++CountByRarity[I];
@@ -200,9 +191,9 @@
                     }
                 }
             }
-            
+
             CountByRarity[0] = RandomSpellCount;
-            
+
             for (int I = 0; I < CountByRarity.Length; I++)
             {
                 int J = 0;
@@ -234,7 +225,7 @@
 
                             if (Existing != null)
                             {
-                                if (Home.HasSpell(RandomSpellData) ^ true | J - 1 >= 1000)
+                                if ((Home.HasSpell(RandomSpellData) ^ true) | (J - 1 >= 1000))
                                 {
                                     Existing.AddMaterial(1);
                                     ++K;

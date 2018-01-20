@@ -92,7 +92,6 @@
         {
             if (this.GameMode.State != HomeState.Replay)
             {
-                Home Home       = this.GameMode.Home;
                 Player Player   = this.GameMode.Player;
 
                 CsvFiles.Get(Gamefile.Achievements).Datas.ForEach(Achievement =>
