@@ -7,6 +7,7 @@
     using ClashRoyale.Crypto.Encrypters;
     using ClashRoyale.Crypto.Inits;
     using ClashRoyale.Enums;
+    using ClashRoyale.Exceptions;
     using ClashRoyale.Extensions;
     using ClashRoyale.Handlers;
     using ClashRoyale.Logic;
@@ -214,6 +215,11 @@
             int messageLength = stream.Length;
             int messageType = message.Type;
             int messageVersion = message.Version;
+
+            if (messageLength > 0xFFFFFF)
+            {
+                throw new LogicException(this.GetType(), "Message is too big. length: " + messageLength);
+            }
 
             Array.Copy(stream, 0, packet, 7, messageLength);
 
