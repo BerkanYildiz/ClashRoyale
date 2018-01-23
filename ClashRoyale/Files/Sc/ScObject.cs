@@ -5,23 +5,7 @@
     public class ScObject
     {
         /// <summary>
-        /// Gets or sets the type.
-        /// </summary>
-        public short Type
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the SC file.
-        /// </summary>
-        public ScFile ScFile
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ScObject"/> class.
+        ///     Initializes a new instance of the <see cref="ScObject" /> class.
         /// </summary>
         public ScObject()
         {
@@ -29,7 +13,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScObject"/> class.
+        ///     Initializes a new instance of the <see cref="ScObject" /> class.
         /// </summary>
         /// <param name="BlockType">Type of the block.</param>
         public ScObject(short BlockType)
@@ -38,18 +22,28 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScObject"/> class.
+        ///     Initializes a new instance of the <see cref="ScObject" /> class.
         /// </summary>
         /// <param name="ScFile">The sc file.</param>
         /// <param name="BlockType">Type of the block.</param>
         public ScObject(ScFile ScFile, short BlockType)
         {
             this.ScFile = ScFile;
-            this.Type   = BlockType;
+            this.Type = BlockType;
         }
 
         /// <summary>
-        /// Decodes this instance from the specified stream.
+        ///     Gets or sets the type.
+        /// </summary>
+        public short Type { get; }
+
+        /// <summary>
+        ///     Gets the SC file.
+        /// </summary>
+        public ScFile ScFile { get; }
+
+        /// <summary>
+        ///     Decodes this instance from the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
         public virtual void Decode(BinaryReader Stream)
@@ -58,7 +52,7 @@
         }
 
         /// <summary>
-        /// Encodes this instance in the specified stream.
+        ///     Encodes this instance in the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
         public virtual void Encode(BinaryWriter Stream)

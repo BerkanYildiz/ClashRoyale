@@ -8,7 +8,7 @@
         private readonly List<string> Values;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Column"/> class.
+        ///     Initializes a new instance of the <see cref="Column" /> class.
         /// </summary>
         public Column()
         {
@@ -16,7 +16,7 @@
         }
 
         /// <summary>
-        /// Gets the size from a specified offset to the specified limit.
+        ///     Gets the size from a specified offset to the specified limit.
         /// </summary>
         /// <param name="Offset">The offset.</param>
         /// <param name="Limit">The limit.</param>
@@ -26,7 +26,7 @@
         }
 
         /// <summary>
-        /// Adds the specified value.
+        ///     Adds the specified value.
         /// </summary>
         /// <param name="Value">The value.</param>
         public void Add(string Value)
@@ -45,7 +45,7 @@
         }
 
         /// <summary>
-        /// Gets the column name at the specified index.
+        ///     Gets the column name at the specified index.
         /// </summary>
         /// <param name="ColumnIndex">The column index.</param>
         public string Get(int ColumnIndex)
@@ -59,7 +59,7 @@
         }
 
         /// <summary>
-        /// Gets the size.
+        ///     Gets the size.
         /// </summary>
         public int GetSize()
         {

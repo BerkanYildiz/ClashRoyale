@@ -2,8 +2,8 @@ namespace ClashRoyale.Files.Csv.Logic
 {
     public class DraftDeckData : CsvData
     {
-		/// <summary>
-        /// Initializes a new instance of the <see cref="DraftDeckData"/> class.
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DraftDeckData" /> class.
         /// </summary>
         /// <param name="CsvRow">The row.</param>
         /// <param name="CsvTable">The data table.</param>
@@ -12,23 +12,16 @@ namespace ClashRoyale.Files.Csv.Logic
             // DraftDeckData.
         }
 
+        public string[] RequiredSets { get; set; }
+
+        public string[] OptionalSets { get; set; }
+
         /// <summary>
-        /// Called when all instances has been loaded for initialized members in instance.
+        ///     Called when all instances has been loaded for initialized members in instance.
         /// </summary>
-		public override void LoadingFinished()
-		{
-	    	// LoadingFinished.
-		}
-	
-        public string RequiredSets
+        public override void LoadingFinished()
         {
-            get; set;
+            // LoadingFinished.
         }
-
-        public string OptionalSets
-        {
-            get; set;
-        }
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Files.Csv
 {
     using System;
-
     using Newtonsoft.Json;
 
     public class CsvConverter : JsonConverter
@@ -40,7 +39,7 @@
         }
 
         /// <summary>
-        /// Determines whether the specified object type can be converted to <see cref="CsvData"/>.
+        ///     Determines whether the specified object type can be converted to <see cref="CsvData" />.
         /// </summary>
         /// <param name="ObjectType">Type of the object.</param>
         public override bool CanConvert(Type ObjectType)

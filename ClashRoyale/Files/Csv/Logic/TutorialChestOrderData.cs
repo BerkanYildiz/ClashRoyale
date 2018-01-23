@@ -2,8 +2,8 @@ namespace ClashRoyale.Files.Csv.Logic
 {
     public class TutorialChestOrderData : CsvData
     {
-		/// <summary>
-        /// Initializes a new instance of the <see cref="TutorialChestOrderData"/> class.
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="TutorialChestOrderData" /> class.
         /// </summary>
         /// <param name="CsvRow">The row.</param>
         /// <param name="CsvTable">The data table.</param>
@@ -12,28 +12,18 @@ namespace ClashRoyale.Files.Csv.Logic
             // TutorialChestOrderData.
         }
 
+        public string[] Chest { get; set; }
+
+        public string[] NPC { get; set; }
+
+        public string[] PvETutorial { get; set; }
+
         /// <summary>
-        /// Called when all instances has been loaded for initialized members in instance.
+        ///     Called when all instances has been loaded for initialized members in instance.
         /// </summary>
-		public override void LoadingFinished()
-		{
-	    	// LoadingFinished.
-		}
-	
-        public string Chest
+        public override void LoadingFinished()
         {
-            get; set;
+            // LoadingFinished.
         }
-
-        public string Npc
-        {
-            get; set;
-        }
-
-        public string PvETutorial
-        {
-            get; set;
-        }
-
     }
 }

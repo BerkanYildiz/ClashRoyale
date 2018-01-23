@@ -11,7 +11,17 @@
         public readonly CsvReader Reader;
 
         /// <summary>
-        /// Gets the name of this CSV.
+        ///     Initializes a new instance of the <see cref="CsvRow" /> class.
+        /// </summary>
+        /// <param name="Reader">The reader.</param>
+        public CsvRow(CsvReader Reader)
+        {
+            this.Reader = Reader;
+            this.Offset = this.Reader.GetColumnRowCount();
+        }
+
+        /// <summary>
+        ///     Gets the name of this CSV.
         /// </summary>
         public string Name
         {
@@ -22,17 +32,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CsvRow"/> class.
-        /// </summary>
-        /// <param name="Reader">The reader.</param>
-        public CsvRow(CsvReader Reader)
-        {
-            this.Reader     = Reader;
-            this.Offset     = this.Reader.GetColumnRowCount();
-        }
-
-        /// <summary>
-        /// Gets the size of the specified column.
+        ///     Gets the size of the specified column.
         /// </summary>
         /// <param name="Name">The name.</param>
         public int GetSize(string Name)
@@ -48,7 +48,7 @@
         }
 
         /// <summary>
-        /// Gets the value at the specified row.
+        ///     Gets the value at the specified row.
         /// </summary>
         /// <param name="Name">The name.</param>
         /// <param name="Offset">The offset.</param>
@@ -58,7 +58,7 @@
         }
 
         /// <summary>
-        /// Reads the data.
+        ///     Reads the data.
         /// </summary>
         /// <param name="Data">The data.</param>
         /// <exception cref="System.Exception"></exception>
@@ -93,12 +93,12 @@
                     {
                         if (Property.PropertyType == typeof(List<>))
                         {
-                            Type ListType       = typeof(List<>);
-                            Type[] Generic      = Property.PropertyType.GetGenericArguments();
-                            Type ConcreteType   = ListType.MakeGenericType(Generic);
-                            object NewList      = Activator.CreateInstance(ConcreteType);
-                            MethodInfo Add      = ConcreteType.GetMethod("Add");
-                            string IndexerName  = ((DefaultMemberAttribute) NewList.GetType().GetCustomAttributes(typeof(DefaultMemberAttribute), true)[0]).MemberName;
+                            Type ListType = typeof(List<>);
+                            Type[] Generic = Property.PropertyType.GetGenericArguments();
+                            Type ConcreteType = ListType.MakeGenericType(Generic);
+                            object NewList = Activator.CreateInstance(ConcreteType);
+                            MethodInfo Add = ConcreteType.GetMethod("Add");
+                            string IndexerName = ((DefaultMemberAttribute) NewList.GetType().GetCustomAttributes(typeof(DefaultMemberAttribute), true)[0]).MemberName;
 
                             PropertyInfo IndexProperty = NewList.GetType().GetProperty(IndexerName);
 
@@ -153,7 +153,7 @@
         }
 
         /// <summary>
-        /// Loads the bool array.
+        ///     Loads the bool array.
         /// </summary>
         /// <param name="Column">The column.</param>
         /// <exception cref="System.Exception">The value is not a valid boolean.</exception>
@@ -182,7 +182,7 @@
         }
 
         /// <summary>
-        /// Loads the int array.
+        ///     Loads the int array.
         /// </summary>
         /// <param name="Column">The column.</param>
         /// <exception cref="System.Exception">The value is not a valid integer.</exception>
@@ -211,7 +211,7 @@
         }
 
         /// <summary>
-        /// Loads the string array.
+        ///     Loads the string array.
         /// </summary>
         /// <param name="Column">The column.</param>
         private string[] LoadStringArray(string Column)

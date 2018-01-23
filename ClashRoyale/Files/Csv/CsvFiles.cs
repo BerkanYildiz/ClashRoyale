@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.IO;
-
     using ClashRoyale.Enums;
     using ClashRoyale.Files.Csv.Logic;
     using ClashRoyale.Files.Csv.Tilemaps;
@@ -29,16 +28,12 @@
         public static int MaxExpLevel;
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="CsvFiles"/> has been already initialized.
+        ///     Gets or sets a value indicating whether this <see cref="CsvFiles" /> has been already initialized.
         /// </summary>
-        public static bool Initialized
-        {
-            get;
-            set;
-        }
+        public static bool Initialized { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CsvFiles"/> class.
+        ///     Initializes a new instance of the <see cref="CsvFiles" /> class.
         /// </summary>
         public static void Initialize()
         {
@@ -47,20 +42,20 @@
                 return;
             }
 
-            CsvFiles.Files      = new Dictionary<int, CsvTable>();
-            CsvFiles.Paths      = new Dictionary<int, string>();
-            CsvFiles.Tilemaps   = new Dictionary<string, TilemapData>(32);
+            CsvFiles.Files = new Dictionary<int, CsvTable>();
+            CsvFiles.Paths = new Dictionary<int, string>();
+            CsvFiles.Tilemaps = new Dictionary<string, TilemapData>(32);
 
-            CsvFiles.Spells     = new List<SpellData>(72);
+            CsvFiles.Spells = new List<SpellData>(72);
             CsvFiles.Characters = new List<CharacterData>(72);
 
-            CsvFiles.Paths.Add(1,  @"Gamefiles/csv_client/locales.csv");
-            CsvFiles.Paths.Add(2,  @"Gamefiles/csv_client/billing_packages.csv");
-            CsvFiles.Paths.Add(3,  @"Gamefiles/csv_logic/globals.csv");
-            CsvFiles.Paths.Add(4,  @"Gamefiles/csv_client/sounds.csv");
-            CsvFiles.Paths.Add(5,  @"Gamefiles/csv_logic/resources.csv");
+            CsvFiles.Paths.Add(1, @"Gamefiles/csv_client/locales.csv");
+            CsvFiles.Paths.Add(2, @"Gamefiles/csv_client/billing_packages.csv");
+            CsvFiles.Paths.Add(3, @"Gamefiles/csv_logic/globals.csv");
+            CsvFiles.Paths.Add(4, @"Gamefiles/csv_client/sounds.csv");
+            CsvFiles.Paths.Add(5, @"Gamefiles/csv_logic/resources.csv");
 
-            CsvFiles.Paths.Add(9,  @"Gamefiles/csv_logic/character_buffs.csv");
+            CsvFiles.Paths.Add(9, @"Gamefiles/csv_logic/character_buffs.csv");
 
             CsvFiles.Paths.Add(10, @"Gamefiles/csv_logic/projectiles.csv");
             CsvFiles.Paths.Add(11, @"Gamefiles/csv_client/effects.csv");
@@ -154,14 +149,14 @@
                 }
             }
 
-            CsvFiles.MaxExpLevel        = CsvFiles.Get(Gamefile.ExpLevels).Datas.Count;
+            CsvFiles.MaxExpLevel = CsvFiles.Get(Gamefile.ExpLevels).Datas.Count;
 
-            CsvFiles.GoldData           = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("Gold");
-            CsvFiles.FreeGoldData       = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("FreeGold");
-            CsvFiles.StarCountData      = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("StarCount");
-            CsvFiles.CardCountData      = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("CardCount");
-            CsvFiles.ChestCountData     = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("ChestCount");
-            CsvFiles.SummonerData       = CsvFiles.Get(Gamefile.Buildings).GetData<CharacterData>("KingTower");
+            CsvFiles.GoldData = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("Gold");
+            CsvFiles.FreeGoldData = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("FreeGold");
+            CsvFiles.StarCountData = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("StarCount");
+            CsvFiles.CardCountData = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("CardCount");
+            CsvFiles.ChestCountData = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>("ChestCount");
+            CsvFiles.SummonerData = CsvFiles.Get(Gamefile.Buildings).GetData<CharacterData>("KingTower");
             CsvFiles.GameModeLadderData = CsvFiles.Get(Gamefile.GameModes).GetData<GameModeData>("Ladder");
 
             foreach (ArenaData ArenaData in CsvFiles.Get(Gamefile.Arenas).Datas)
@@ -174,11 +169,11 @@
                 CsvFiles.Tilemaps.Add(FilePath, new TilemapData(FilePath));
             }
 
-            Logging.Info(typeof(CsvFiles), "Loaded " + Files.Count + " CSV files.");
+            Logging.Info(typeof(CsvFiles), "Loaded " + CsvFiles.Files.Count + " CSV files.");
         }
 
         /// <summary>
-        /// Gets the spell data by name.
+        ///     Gets the spell data by name.
         /// </summary>
         public static SpellData GetSpellDataByName(string Name)
         {
@@ -188,7 +183,7 @@
         }
 
         /// <summary>
-        /// Gets the <see cref="DataTable"/> at the specified index.
+        ///     Gets the <see cref="DataTable" /> at the specified index.
         /// </summary>
         /// <param name="Index">The index.</param>
         public static CsvTable Get(Gamefile Index)
@@ -197,7 +192,7 @@
         }
 
         /// <summary>
-        /// Gets the <see cref="DataTable"/> at the specified index.
+        ///     Gets the <see cref="DataTable" /> at the specified index.
         /// </summary>
         /// <param name="Index">The index.</param>
         public static CsvTable Get(int Index)
@@ -211,7 +206,7 @@
         }
 
         /// <summary>
-        /// Gets the with global identifier.
+        ///     Gets the with global identifier.
         /// </summary>
         /// <param name="GlobalId">The global identifier.</param>
         public static CsvData GetWithGlobalId(int GlobalId)

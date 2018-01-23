@@ -298,7 +298,7 @@ namespace ClashRoyale.Logic.Player
                 return;
             }
 
-            if (ResourceData.HasCap)
+            if (ResourceData.HasCap())
             {
                 int CurrentResource = this.CommoditySlots.GetCommodityCount(CommodityType.Resource, ResourceData);
 

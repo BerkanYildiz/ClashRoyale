@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Server", "ClashRoyale.Server\ClashRoyale.Server.csproj", "{D37FC105-EF32-4B9E-B347-1436D72693EA}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale", "ClashRoyale\ClashRoyale.csproj", "{BED31336-C114-4E3B-9251-590EA24B223F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Client.Windows", "ClashRoyale.Client.Windows\ClashRoyale.Client.Windows.csproj", "{BF4C7DC4-8095-4C7E-B3ED-C87C74FD10C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.CSV", "ClashRoyale.CSV\ClashRoyale.CSV.csproj", "{A3A24EE1-20BC-4D41-B0E9-6BC54E43046C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{BF4C7DC4-8095-4C7E-B3ED-C87C74FD10C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF4C7DC4-8095-4C7E-B3ED-C87C74FD10C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF4C7DC4-8095-4C7E-B3ED-C87C74FD10C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A24EE1-20BC-4D41-B0E9-6BC54E43046C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A24EE1-20BC-4D41-B0E9-6BC54E43046C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A24EE1-20BC-4D41-B0E9-6BC54E43046C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A24EE1-20BC-4D41-B0E9-6BC54E43046C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

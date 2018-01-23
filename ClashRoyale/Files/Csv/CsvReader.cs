@@ -1,28 +1,27 @@
 ﻿namespace ClashRoyale.Files.Csv
 {
     using System.Collections.Generic;
-
     using Microsoft.VisualBasic.FileIO;
 
     public class CsvReader
     {
         private readonly List<Column> Columns;
-        private readonly List<CsvRow> Rows;
 
         private readonly List<string> Headers;
+        private readonly List<CsvRow> Rows;
         private readonly List<string> Types;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CsvReader"/> class.
+        ///     Initializes a new instance of the <see cref="CsvReader" /> class.
         /// </summary>
         /// <param name="Path">The path.</param>
         public CsvReader(string Path)
         {
-            this.Columns    = new List<Column>();
-            this.Rows       = new List<CsvRow>();
+            this.Columns = new List<Column>();
+            this.Rows = new List<CsvRow>();
 
-            this.Headers    = new List<string>();
-            this.Types      = new List<string>();
+            this.Headers = new List<string>();
+            this.Types = new List<string>();
 
             using (TextFieldParser Reader = new TextFieldParser(Path))
             {
@@ -61,7 +60,7 @@
         }
 
         /// <summary>
-        /// Gets the row at.
+        ///     Gets the row at.
         /// </summary>
         /// <param name="Offset">The offset.</param>
         /// <returns></returns>
@@ -71,7 +70,7 @@
         }
 
         /// <summary>
-        /// Gets the row count.
+        ///     Gets the row count.
         /// </summary>
         /// <returns></returns>
         public int GetRowCount()
@@ -80,7 +79,7 @@
         }
 
         /// <summary>
-        /// Gets the value at the specified offset.
+        ///     Gets the value at the specified offset.
         /// </summary>
         /// <param name="Name">The name.</param>
         /// <param name="Offset">The offset.</param>
@@ -91,7 +90,7 @@
         }
 
         /// <summary>
-        /// Gets the value at the specified offsets.
+        ///     Gets the value at the specified offsets.
         /// </summary>
         /// <param name="Column">The column.</param>
         /// <param name="Row">The row.</param>
@@ -106,7 +105,7 @@
         }
 
         /// <summary>
-        /// Adds the specified row.
+        ///     Adds the specified row.
         /// </summary>
         /// <param name="Row">The row.</param>
         public void AddRow(CsvRow Row)
@@ -115,7 +114,7 @@
         }
 
         /// <summary>
-        /// Gets the array size.
+        ///     Gets the array size.
         /// </summary>
         /// <param name="Row">The row.</param>
         /// <param name="ColumnIndex">Index of the column.</param>
@@ -147,7 +146,7 @@
         }
 
         /// <summary>
-        /// Gets the index of the column using its name.
+        ///     Gets the index of the column using its name.
         /// </summary>
         /// <param name="Name">The name.</param>
         public int GetColumnIndexByName(string Name)
@@ -156,7 +155,7 @@
         }
 
         /// <summary>
-        /// Gets the name of the column at the specified offset.
+        ///     Gets the name of the column at the specified offset.
         /// </summary>
         /// <param name="Offset">The offset.</param>
         public string GetColumnName(int Offset)
@@ -165,7 +164,7 @@
         }
 
         /// <summary>
-        /// Gets the column row count.
+        ///     Gets the column row count.
         /// </summary>
         public int GetColumnRowCount()
         {

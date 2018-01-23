@@ -82,5 +82,43 @@ namespace ClashRoyale.Extensions.Game
             Globals.ResourceDiamondCost10           = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_10").NumberValue;
             Globals.ResourceDiamondCost1            = CsvFiles.Get(Gamefile.Globals).GetData<GlobalData>("RESOURCE_DIAMOND_COST_1").NumberValue;
         }
+
+        /// <summary>
+        ///     Gets the resource diamonds cost.
+        /// </summary>
+        public static int GetResourceCost(int resourceCount)
+        {
+            if (resourceCount > 0)
+            {
+                if (resourceCount > 9)
+                {
+                    if (resourceCount > 99)
+                    {
+                        if (resourceCount > 999)
+                        {
+                            if (resourceCount > 9999)
+                            {
+                                if (resourceCount > 99999)
+                                {
+                                    return Globals.ResourceDiamondCost100000 + ((Globals.ResourceDiamondCost1000000 - Globals.ResourceDiamondCost100000) * (resourceCount / 100 - 1000) + 4500) / 9000;
+                                }
+
+                                return Globals.ResourceDiamondCost10000 + ((Globals.ResourceDiamondCost100000 - Globals.ResourceDiamondCost10000) * (resourceCount / 10 - 1000) + 4500) / 9000;
+                            }
+
+                            return Globals.ResourceDiamondCost1000 + ((Globals.ResourceDiamondCost10000 - Globals.ResourceDiamondCost1000) * (resourceCount - 1000) + 4500) / 9000;
+                        }
+
+                        return Globals.ResourceDiamondCost100 + ((Globals.ResourceDiamondCost1000 - Globals.ResourceDiamondCost100) * (resourceCount - 100) + 4500) / 9000;
+                    }
+
+                    return Globals.ResourceDiamondCost10 + ((Globals.ResourceDiamondCost100 - Globals.ResourceDiamondCost10) * (resourceCount - 10) + 4500) / 9000;
+                }
+
+                return Globals.ResourceDiamondCost1;
+            }
+
+            return 0;
+        }
     }
 }

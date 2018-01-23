@@ -4,45 +4,37 @@
 
     public class ScStats
     {
-        public short SpiritesCount;
         public short AnimationsCount;
+        public short ColorTransformsCount;
         public short SheetsCount;
+        public short SpiritesCount;
+        public short StringsCount;
         public short TextsFieldCount;
         public short TransformsCount;
-        public short ColorTransformsCount;
-        public short StringsCount;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScStats"/> class.
-        /// </summary>
-        public ScStats()
-        {
-            // ScStats.
-        }
-
-        /// <summary>
-        /// Decodes the specified stream.
+        ///     Decodes the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
         public void Decode(BinaryReader Stream)
         {
-            this.SpiritesCount          = Stream.ReadInt16();
-            this.AnimationsCount        = Stream.ReadInt16();
-            this.SheetsCount            = Stream.ReadInt16();
-            this.TextsFieldCount        = Stream.ReadInt16();
-            this.TransformsCount        = Stream.ReadInt16();
-            this.ColorTransformsCount   = Stream.ReadInt16();
+            this.SpiritesCount = Stream.ReadInt16();
+            this.AnimationsCount = Stream.ReadInt16();
+            this.SheetsCount = Stream.ReadInt16();
+            this.TextsFieldCount = Stream.ReadInt16();
+            this.TransformsCount = Stream.ReadInt16();
+            this.ColorTransformsCount = Stream.ReadInt16();
 
             for (int i = 0; i < 5; i++)
             {
                 Stream.ReadByte();
             }
 
-            this.StringsCount           = Stream.ReadInt16();
+            this.StringsCount = Stream.ReadInt16();
         }
 
         /// <summary>
-        /// Encodes in the specified stream.
+        ///     Encodes in the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
         public void Encode(BinaryWriter Stream)
@@ -63,7 +55,7 @@
         }
 
         /// <summary>
-        /// Logs this instance.
+        ///     Logs this instance.
         /// </summary>
         public void Log()
         {

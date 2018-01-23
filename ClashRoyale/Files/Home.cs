@@ -2,7 +2,6 @@
 {
     using System.IO;
     using System.Text;
-
     using Newtonsoft.Json.Linq;
 
     public static class Home
@@ -10,16 +9,12 @@
         public static JObject Json;
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Home"/> has been already initalized.
+        ///     Gets or sets a value indicating whether this <see cref="Home" /> has been already initalized.
         /// </summary>
-        public static bool Initalized
-        {
-            get;
-            set;
-        }
+        public static bool Initalized { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Home"/> class.
+        ///     Initializes a new instance of the <see cref="Home" /> class.
         /// </summary>
         public static void Initialize()
         {

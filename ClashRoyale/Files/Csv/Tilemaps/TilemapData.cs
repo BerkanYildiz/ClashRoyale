@@ -2,39 +2,18 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using Microsoft.VisualBasic.FileIO;
 
     public class TilemapData
     {
-        /// <summary>
-        /// Gets the global identifier.
-        /// </summary>
-        public int GlobalId
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        /// <summary>
-        /// Gets the tilemap name.
-        /// </summary>
-        public string Name
-        {
-            get;
-            set;
-        }
+        public int[] Map;
 
         public int MapHeight;
         public int MapWidth;
-
-        public int[] Map;
         public List<Object> Objects;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TilemapData"/> class.
+        ///     Initializes a new instance of the <see cref="TilemapData" /> class.
         /// </summary>
         public TilemapData(string Path)
         {
@@ -42,7 +21,7 @@
 
             List<MapRow> MapRows = new List<MapRow>();
             List<LayoutRow> LayoutRows = new List<LayoutRow>();
-            
+
             bool ReadLayout = false;
 
             using (TextFieldParser FieldParser = new TextFieldParser(Path))
@@ -123,7 +102,7 @@
                                 if (LayoutRows.Count > 0)
                                 {
                                     LayoutRow Row = LayoutRows[LayoutRows.Count - 1];
-                                    
+
                                     for (int I = 0; I < Row.Columns.Count; I++)
                                     {
                                         if (!string.IsNullOrEmpty(Value[2 + I]))
@@ -179,11 +158,27 @@
         }
 
         /// <summary>
-        /// Gets if the specified tile is water.
+        ///     Gets the global identifier.
+        /// </summary>
+        public int GlobalId
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the tilemap name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        ///     Gets if the specified tile is water.
         /// </summary>
         public bool IsWater(int X, int Y)
         {
-            return ((this.Map[X + this.MapWidth * Y] & 32) >> 5) > 0;
+            return (this.Map[X + this.MapWidth * Y] & 32) >> 5 > 0;
         }
     }
 }

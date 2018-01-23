@@ -10,14 +10,14 @@
         private static List<ScInfo> Infos;
 
         /// <summary>
-        /// Initializes this instance.
+        ///     Initializes this instance.
         /// </summary>
         public static void Initialize()
         {
-            string[] Files      = Directory.GetFiles("Gamefiles/sc/", "*.sc");
+            string[] Files = Directory.GetFiles("Gamefiles/sc/", "*.sc");
 
-            ScFiles.Textures    = new List<ScTexture>(Files.Length);
-            ScFiles.Infos       = new List<ScInfo>(Files.Length);
+            ScFiles.Textures = new List<ScTexture>(Files.Length);
+            ScFiles.Infos = new List<ScInfo>(Files.Length);
 
             foreach (string FilePath in Files)
             {
@@ -50,7 +50,7 @@
         }
 
         /// <summary>
-        /// Search and return the correct <see cref="ScFile"/> according to the given <see cref="ScTexture"/> file.
+        ///     Search and return the correct <see cref="ScFile" /> according to the given <see cref="ScTexture" /> file.
         /// </summary>
         /// <param name="Path">The path.</param>
         public static ScInfo GetScInfoFile(ScTexture ScTexture)
@@ -66,7 +66,8 @@
         }
 
         /// <summary>
-        /// Search and return the correct <see cref="ScTexture"/> according to the given <see cref="ScInfo"/> file, and the specified resolution.
+        ///     Search and return the correct <see cref="ScTexture" /> according to the given <see cref="ScInfo" /> file, and the
+        ///     specified resolution.
         /// </summary>
         /// <param name="Path">The path.</param>
         public static ScTexture GetScTextureFile(ScInfo ScInfo)
@@ -82,7 +83,8 @@
         }
 
         /// <summary>
-        /// Search and return the correct <see cref="ScTexture"/> according to the given <see cref="ScInfo"/> file, and the specified resolution.
+        ///     Search and return the correct <see cref="ScTexture" /> according to the given <see cref="ScInfo" /> file, and the
+        ///     specified resolution.
         /// </summary>
         /// <param name="Path">The path.</param>
         /// <param name="HighRes">The resolution.</param>

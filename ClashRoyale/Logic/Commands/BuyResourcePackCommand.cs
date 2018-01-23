@@ -2,6 +2,7 @@
 {
     using ClashRoyale.Enums;
     using ClashRoyale.Extensions;
+    using ClashRoyale.Extensions.Game;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv;
     using ClashRoyale.Files.Csv.Logic;
@@ -64,21 +65,14 @@
         {
             if (this.ResourcePackData != null)
             {
-                var ResourceData = CsvFiles.Get(Gamefile.Resources).GetData<ResourceData>(this.ResourcePackData.Resource);
+                int cost = Globals.GetResourceCost(this.ResourcePackData.Amount);
 
-                if (ResourceData != null)
+                if (GameMode.Player.HasEnoughDiamonds(cost))
                 {
-                    int Cost = this.ResourcePackData.Cost;
+                    GameMode.Player.UseDiamonds(cost);
+                    GameMode.Player.AddResource(this.ResourcePackData.ResourceData, this.ResourcePackData.Amount);
 
-                    if (GameMode.Player.HasEnoughDiamonds(Cost))
-                    {
-                        GameMode.Player.UseDiamonds(Cost);
-                        GameMode.Player.AddResource(ResourceData, this.ResourcePackData.Amount);
-
-                        return 0;
-                    }
-
-                     return 3;
+                    return 0;
                 }
 
                 return 2;

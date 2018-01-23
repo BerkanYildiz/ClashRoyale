@@ -9,42 +9,42 @@
     public class ScSpirite : ScObject
     {
         /// <summary>
-        /// Gets or sets the shape identifier.
+        ///     Gets or sets the shape identifier.
         /// </summary>
         public short Identifier;
 
         /// <summary>
-        /// Gets or sets the polygon count.
-        /// </summary>
-        public short PolygonCount;
-
-        /// <summary>
-        /// Gets or sets the points count.
-        /// </summary>
-        public short PointsCount;
-
-        /// <summary>
-        /// Gets or sets the XY points.
-        /// </summary>
-        public List<PointF> PointsXY;
-
-        /// <summary>
-        /// Gets or sets the UV points.
-        /// </summary>
-        public List<PointF> PointsUV;
-
-        /// <summary>
-        /// Gets or sets the polygon.
-        /// </summary>
-        public GraphicsPath Polygon;
-
-        /// <summary>
-        /// Gets or sets the image.
+        ///     Gets or sets the image.
         /// </summary>
         public Bitmap Image;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScSpirite"/> class.
+        ///     Gets or sets the points count.
+        /// </summary>
+        public short PointsCount;
+
+        /// <summary>
+        ///     Gets or sets the UV points.
+        /// </summary>
+        public List<PointF> PointsUV;
+
+        /// <summary>
+        ///     Gets or sets the XY points.
+        /// </summary>
+        public List<PointF> PointsXY;
+
+        /// <summary>
+        ///     Gets or sets the polygon.
+        /// </summary>
+        public GraphicsPath Polygon;
+
+        /// <summary>
+        ///     Gets or sets the polygon count.
+        /// </summary>
+        public short PolygonCount;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ScSpirite" /> class.
         /// </summary>
         public ScSpirite()
         {
@@ -52,7 +52,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScSpirite"/> class.
+        ///     Initializes a new instance of the <see cref="ScSpirite" /> class.
         /// </summary>
         /// <param name="BlockType">Type of the block.</param>
         public ScSpirite(short BlockType) : base(BlockType)
@@ -61,7 +61,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScSpirite"/> class.
+        ///     Initializes a new instance of the <see cref="ScSpirite" /> class.
         /// </summary>
         /// <param name="ScFile">The sc file.</param>
         /// <param name="BlockType">Type of the block.</param>
@@ -71,13 +71,13 @@
         }
 
         /// <summary>
-        /// Decodes this instance from the specified stream.
+        ///     Decodes this instance from the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
         public override void Decode(BinaryReader Stream)
         {
-            this.Identifier     = Stream.ReadInt16();
-            this.PolygonCount   = Stream.ReadInt16();
+            this.Identifier = Stream.ReadInt16();
+            this.PolygonCount = Stream.ReadInt16();
 
             if (this.Type == 0x12)
             {
@@ -96,14 +96,14 @@
         }
 
         /// <summary>
-        /// Encodes this instance in the specified stream.
+        ///     Encodes this instance in the specified stream.
         /// </summary>
         /// <param name="Stream">The stream.</param>
         public override void Encode(BinaryWriter Stream)
         {
             Stream.Write(this.Identifier);
             Stream.Write(this.PolygonCount);
-            
+
             if (this.Type == 0x12)
             {
                 Stream.Write(this.PointsCount);
@@ -116,12 +116,12 @@
         }
 
         /// <summary>
-        /// Decodes the sub block using the specified reader.
+        ///     Decodes the sub block using the specified reader.
         /// </summary>
         /// <param name="Stream">The stream.</param>
         internal void DecodeSubBlock(BinaryReader Stream)
         {
-            byte BlockType  = Stream.ReadByte();
+            byte BlockType = Stream.ReadByte();
             int BlockLength = Stream.ReadInt32();
 
             long BlockStart = Stream.BaseStream.Position;
@@ -131,9 +131,9 @@
             if (BlockLength > 0)
             {
                 byte SheetId = Stream.ReadByte();
-                byte Vertex  = (byte) (BlockType == 0x04 ? 0x04 : Stream.ReadByte());
+                byte Vertex = (byte) (BlockType == 0x04 ? 0x04 : Stream.ReadByte());
 
-                var ScSheet  = ScFiles.GetScTextureFile((ScInfo) this.ScFile);
+                ScTexture ScSheet = ScFiles.GetScTextureFile((ScInfo) this.ScFile);
 
                 if (ScSheet == null)
                 {
@@ -197,8 +197,8 @@
                 Logging.Warning(this.GetType(), "BlockLength == 0 at DecodeSubBlock(BinaryReader Reader).");
             }
 
-            long BlockEnd   = Stream.BaseStream.Position;
-            long BlockLeft  = BlockEnd - BlockStart;
+            long BlockEnd = Stream.BaseStream.Position;
+            long BlockLeft = BlockEnd - BlockStart;
 
             if (BlockLeft == BlockLength)
             {

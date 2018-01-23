@@ -7,16 +7,34 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-
     using ClashRoyale.Extensions.Helper;
 
     public class ScTexture : ScFile
     {
+        public readonly List<Bitmap> Sheets;
+
         /// <summary>
-        /// Gets the <see cref="Bitmap"/> at the specified offset.
+        ///     Initializes a new instance of the <see cref="ScTexture" /> class.
+        /// </summary>
+        public ScTexture()
+        {
+            this.Sheets = new List<Bitmap>();
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ScTexture" /> class.
+        /// </summary>
+        /// <param name="File">The file.</param>
+        public ScTexture(FileInfo File) : base(File)
+        {
+            this.Sheets = new List<Bitmap>();
+        }
+
+        /// <summary>
+        ///     Gets the <see cref="Bitmap" /> at the specified offset.
         /// </summary>
         /// <value>
-        /// The <see cref="Bitmap"/>.
+        ///     The <see cref="Bitmap" />.
         /// </value>
         /// <param name="Offset">The offset.</param>
         public Bitmap this[int Offset]
@@ -27,27 +45,8 @@
             }
         }
 
-        public readonly List<Bitmap> Sheets;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScTexture"/> class.
-        /// </summary>
-        public ScTexture()
-        {
-            this.Sheets = new List<Bitmap>();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ScTexture"/> class.
-        /// </summary>
-        /// <param name="File">The file.</param>
-        public ScTexture(FileInfo File) : base(File)
-        {
-            this.Sheets = new List<Bitmap>();
-        }
-
-        /// <summary>
-        /// Reads this instance.
+        ///     Reads this instance.
         /// </summary>
         public virtual async Task Read()
         {
@@ -65,19 +64,19 @@
 
                 while (Stream.BaseStream.Position < Stream.BaseStream.Length)
                 {
-                    byte PacketId       = Stream.ReadByte();
-                    uint PacketSize     = Stream.ReadUInt16();
-                     
+                    byte PacketId = Stream.ReadByte();
+                    uint PacketSize = Stream.ReadUInt16();
+
                     Logging.Info(this.GetType(), "ID : " + PacketId + ", SIZE : " + PacketSize + ".");
 
                     if (PacketSize > 0)
                     {
-                        byte PixFormat  = Stream.ReadByte();
+                        byte PixFormat = Stream.ReadByte();
 
-                        ushort Width    = Stream.ReadUInt16();
-                        ushort Height   = Stream.ReadUInt16();
+                        ushort Width = Stream.ReadUInt16();
+                        ushort Height = Stream.ReadUInt16();
 
-                        bool Is32x32    = false;
+                        bool Is32x32 = false;
 
                         switch (PacketId)
                         {
@@ -89,13 +88,13 @@
                             }
                         }
 
-                        Bitmap Sheet    = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+                        Bitmap Sheet = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
 
-                        int ModWidth    = Width % 32;
-                        int TimeWidth   = (Width - ModWidth) / 32;
+                        int ModWidth = Width % 32;
+                        int TimeWidth = (Width - ModWidth) / 32;
 
-                        int ModHeight   = Height % 32;
-                        int TimeHeight  = (Height - ModHeight) / 32;
+                        int ModHeight = Height % 32;
+                        int TimeHeight = (Height - ModHeight) / 32;
 
                         Color[,] Pixels = new Color[Height, Width];
 
@@ -152,7 +151,7 @@
                     }
                     else
                     {
-                        bool IsValid    = true;
+                        bool IsValid = true;
 
                         byte[] Checksum = Stream.ReadBytes(5);
 
@@ -174,7 +173,7 @@
         }
 
         /// <summary>
-        /// Gets the texture image for the given texture identifier.
+        ///     Gets the texture image for the given texture identifier.
         /// </summary>
         /// <param name="TextureId">The texture identifier.</param>
         /// <exception cref="System.Exception">Expected a non-negative value.</exception>
@@ -194,7 +193,7 @@
         }
 
         /// <summary>
-        /// Gets the texture image for the given texture identifier.
+        ///     Gets the texture image for the given texture identifier.
         /// </summary>
         /// <param name="TextureId">The texture identifier.</param>
         /// <exception cref="System.Exception">Expected a non-negative value.</exception>
@@ -216,7 +215,7 @@
         }
 
         /// <summary>
-        /// Gets the textures images for this <see cref="ScTexture"/> file.
+        ///     Gets the textures images for this <see cref="ScTexture" /> file.
         /// </summary>
         public List<Bitmap> GetImages()
         {
@@ -229,7 +228,7 @@
         }
 
         /// <summary>
-        /// Saves this instance.
+        ///     Saves this instance.
         /// </summary>
         public void Save()
         {

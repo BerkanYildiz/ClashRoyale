@@ -1,31 +1,24 @@
 ﻿namespace ClashRoyale.Files
 {
     using System.IO;
-
     using Newtonsoft.Json.Linq;
 
     public static class Fingerprint
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance has been already initialized.
-        /// </summary>
-        public static bool Initialized
-        {
-            get;
-            set;
-        }
-        
-        /// <summary>
-        /// Gets or sets a value indicating whether the patch is custom.
-        /// </summary>
-        public static bool IsCustom
-        {
-            get;
-            set;
-        }
+        public static JObject Json;
 
         /// <summary>
-        /// Gets the masterhash of the patch.
+        ///     Gets or sets a value indicating whether this instance has been already initialized.
+        /// </summary>
+        public static bool Initialized { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether the patch is custom.
+        /// </summary>
+        public static bool IsCustom { get; set; }
+
+        /// <summary>
+        ///     Gets the masterhash of the patch.
         /// </summary>
         public static string Masterhash
         {
@@ -36,7 +29,7 @@
         }
 
         /// <summary>
-        /// Gets the version of the patch.
+        ///     Gets the version of the patch.
         /// </summary>
         public static string[] Version
         {
@@ -46,10 +39,8 @@
             }
         }
 
-        public static JObject Json;
-
         /// <summary>
-        /// Initializes this instance.
+        ///     Initializes this instance.
         /// </summary>
         public static void Initialize()
         {
@@ -60,7 +51,7 @@
 
             if (File.Exists(@"Gamefiles\fingerprint.json"))
             {
-                var RawFile = File.ReadAllText(Directory.GetCurrentDirectory() + @"\Gamefiles\fingerprint.json");
+                string RawFile = File.ReadAllText(Directory.GetCurrentDirectory() + @"\Gamefiles\fingerprint.json");
 
                 if (!string.IsNullOrEmpty(RawFile))
                 {
@@ -94,7 +85,7 @@
 
                             if (!string.IsNullOrEmpty(RawFile))
                             {
-                                Fingerprint.Json     = JObject.Parse(RawFile);
+                                Fingerprint.Json = JObject.Parse(RawFile);
                                 Fingerprint.IsCustom = true;
                             }
                             else

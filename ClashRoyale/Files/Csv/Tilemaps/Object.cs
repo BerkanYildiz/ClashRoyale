@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Files.Csv.Tilemaps
 {
     using System;
-
     using ClashRoyale.Files.Csv.Logic;
 
     public struct Object
@@ -12,7 +11,7 @@
         public CharacterData Data;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Object"/> struct.
+        ///     Initializes a new instance of the <see cref="Object" /> struct.
         /// </summary>
         /// <param name="X">The x.</param>
         /// <param name="Y">The y.</param>
@@ -20,10 +19,10 @@
         /// <exception cref="System.Exception">Object == null at Object(X, Y, Name).</exception>
         public Object(int X, int Y, string Name)
         {
-            this.X      = X;
-            this.Y      = Y;
-            this.Name   = Name;
-            this.Data   = CsvFiles.Characters.Find(T => T.Name == Name);
+            this.X = X;
+            this.Y = Y;
+            this.Name = Name;
+            this.Data = CsvFiles.Characters.Find(T => T.Name == Name);
 
             if (this.Data == null)
             {

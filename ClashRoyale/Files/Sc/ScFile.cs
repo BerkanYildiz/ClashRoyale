@@ -8,7 +8,24 @@
         public FileInfo File;
 
         /// <summary>
-        /// Gets the clean name of the current sc file.
+        ///     Initializes a new instance of the <see cref="ScFile" /> class.
+        /// </summary>
+        public ScFile()
+        {
+            // ScFile.
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ScFile" /> class.
+        /// </summary>
+        /// <param name="File">The file.</param>
+        public ScFile(FileInfo File) : this()
+        {
+            this.File = File;
+        }
+
+        /// <summary>
+        ///     Gets the clean name of the current sc file.
         /// </summary>
         public string ScName
         {
@@ -32,7 +49,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this sc file is in high resolution.
+        ///     Gets a value indicating whether this sc file is in high resolution.
         /// </summary>
         public bool IsHighRes
         {
@@ -43,7 +60,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this sc file is in low resolution.
+        ///     Gets a value indicating whether this sc file is in low resolution.
         /// </summary>
         public bool IsLowRes
         {
@@ -54,7 +71,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this sc file is in multiple resolution.
+        ///     Gets a value indicating whether this sc file is in multiple resolution.
         /// </summary>
         public bool IsMultiRes
         {
@@ -70,7 +87,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is a <see cref="ScTexture"/>.
+        ///     Gets a value indicating whether this instance is a <see cref="ScTexture" />.
         /// </summary>
         public bool IsTextureFile
         {
@@ -81,7 +98,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is a <see cref="ScInfo"/>.
+        ///     Gets a value indicating whether this instance is a <see cref="ScInfo" />.
         /// </summary>
         public bool IsInfoFile
         {
@@ -92,24 +109,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScFile"/> class.
-        /// </summary>
-        public ScFile()
-        {
-            // ScFile.
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ScFile"/> class.
-        /// </summary>
-        /// <param name="File">The file.</param>
-        public ScFile(FileInfo File) : this()
-        {
-            this.File = File;
-        }
-
-        /// <summary>
-        /// Reads this instance.
+        ///     Reads this instance.
         /// </summary>
         public virtual Task Read()
         {

@@ -1,7 +1,6 @@
 ﻿namespace ClashRoyale.Files.Csv
 {
     using System.Collections.Generic;
-
     using ClashRoyale.Files.Csv.Client;
     using ClashRoyale.Files.Csv.Logic;
 
@@ -10,15 +9,7 @@
         public readonly List<CsvData> Datas;
 
         /// <summary>
-        /// Gets the offset of this <see cref="CsvTable"/>.
-        /// </summary>
-        public int Offset
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CsvTable"/> class.
+        ///     Initializes a new instance of the <see cref="CsvTable" /> class.
         /// </summary>
         /// <param name="Offset">The offset.</param>
         /// <param name="Path">The path.</param>
@@ -26,13 +17,13 @@
         {
             this.Offset = Offset;
 
-            this.Datas  = new List<CsvData>();
-            var Reader  = new CsvReader(Path);
+            this.Datas = new List<CsvData>();
+            CsvReader Reader = new CsvReader(Path);
 
             for (int i = 0; i < Reader.GetRowCount(); i++)
             {
-                CsvRow Row      = Reader.GetRowAt(i);
-                CsvData Data    = this.Load(Row);
+                CsvRow Row = Reader.GetRowAt(i);
+                CsvData Data = this.Load(Row);
 
                 if (Row == null)
                 {
@@ -51,7 +42,12 @@
         }
 
         /// <summary>
-        /// Loads the specified CSV row.
+        ///     Gets the offset of this <see cref="CsvTable" />.
+        /// </summary>
+        public int Offset { get; }
+
+        /// <summary>
+        ///     Loads the specified CSV row.
         /// </summary>
         /// <param name="CsvRow">The CSV row.</param>
         public CsvData Load(CsvRow CsvRow)
@@ -103,7 +99,7 @@
                 {
                     return new PredefinedDeckData(CsvRow, this);
                 }
-                    
+
                 case 14:
                 {
                     return new RarityData(CsvRow, this);
@@ -118,7 +114,7 @@
                 {
                     return new AllianceBadgeData(CsvRow, this);
                 }
-                    
+
                 case 18:
                 {
                     return new NpcData(CsvRow, this);
@@ -183,7 +179,7 @@
                 {
                     return new ExpLevelData(CsvRow, this);
                 }
-                    
+
                 case 50:
                 {
                     return new BackgroundDecoData(CsvRow, this);
@@ -248,7 +244,7 @@
                 {
                     return new HelpshiftData(CsvRow, this);
                 }
-				
+
                 case 63:
                 {
                     return new TournamentTierData(CsvRow, this);
@@ -278,12 +274,7 @@
                 {
                     return new DraftDeckData(CsvRow, this);
                 }
-
-                case 70:
-                {
-                    return new AbilityData(CsvRow, this);
-                }
-
+                    
                 case 72:
                 {
                     return new GameModeData(CsvRow, this);
@@ -323,12 +314,12 @@
                 {
                     return new TutorialChestOrderData(CsvRow, this);
                 }
-				
+
                 case 83:
                 {
                     return new SkinData(CsvRow, this);
                 }
-				
+
                 case 84:
                 {
                     return new QuestOrderData(CsvRow, this);
@@ -354,7 +345,7 @@
         }
 
         /// <summary>
-        /// Gets the data with identifier.
+        ///     Gets the data with identifier.
         /// </summary>
         /// <param name="Identifier">The identifier.</param>
         public CsvData GetWithInstanceId(int Identifier)
@@ -368,7 +359,7 @@
         }
 
         /// <summary>
-        /// Gets the data with identifier.
+        ///     Gets the data with identifier.
         /// </summary>
         /// <param name="Identifier">The identifier.</param>
         public T GetWithInstanceId<T>(int Identifier) where T : CsvData
@@ -382,7 +373,7 @@
         }
 
         /// <summary>
-        /// Gets the data with identifier.
+        ///     Gets the data with identifier.
         /// </summary>
         /// <param name="GlobalId">The identifier.</param>
         public CsvData GetWithGlobalId(int GlobalId)
@@ -391,7 +382,7 @@
         }
 
         /// <summary>
-        /// Gets the data with identifier.
+        ///     Gets the data with identifier.
         /// </summary>
         /// <param name="GlobalId">The identifier.</param>
         public T GetWithGlobalId<T>(int GlobalId) where T : CsvData
@@ -400,7 +391,7 @@
         }
 
         /// <summary>
-        /// Gets the data.
+        ///     Gets the data.
         /// </summary>
         /// <param name="Name">The name.</param>
         public CsvData GetData(string Name)
@@ -409,7 +400,7 @@
         }
 
         /// <summary>
-        /// Gets the data.
+        ///     Gets the data.
         /// </summary>
         /// <param name="Name">The name.</param>
         public T GetData<T>(string Name) where T : CsvData

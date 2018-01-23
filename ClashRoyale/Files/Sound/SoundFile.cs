@@ -2,7 +2,6 @@
 {
     using System.IO;
     using System.Threading.Tasks;
-
     using NAudio.Wave;
 
     public class SoundFile
@@ -10,7 +9,16 @@
         public FileInfo File;
 
         /// <summary>
-        /// Gets the trimmed file name.
+        ///     Initializes a new instance of the <see cref="SoundFile" /> class.
+        /// </summary>
+        /// <param name="FileInfo">The file information.</param>
+        public SoundFile(FileInfo FileInfo)
+        {
+            this.File = FileInfo;
+        }
+
+        /// <summary>
+        ///     Gets the trimmed file name.
         /// </summary>
         public string Name
         {
@@ -21,16 +29,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SoundFile"/> class.
-        /// </summary>
-        /// <param name="FileInfo">The file information.</param>
-        public SoundFile(FileInfo FileInfo)
-        {
-            this.File = FileInfo;
-        }
-
-        /// <summary>
-        /// Plays this instance.
+        ///     Plays this instance.
         /// </summary>
         public async Task Play()
         {

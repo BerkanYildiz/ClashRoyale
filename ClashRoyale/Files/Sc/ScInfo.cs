@@ -4,23 +4,21 @@
     using System.Drawing;
     using System.IO;
     using System.Threading.Tasks;
-
     using ClashRoyale.Extensions;
 
     public class ScInfo : ScFile
     {
-        public ScStats Statistics;
-
         public List<short> Identifiers;
         public List<string> Names;
 
-        public List<Bitmap> Sheets;
-        public List<ScSpirite> Spirites;
-
         public int ReadedSheets;
 
+        public List<Bitmap> Sheets;
+        public List<ScSpirite> Spirites;
+        public ScStats Statistics;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScInfo"/> class.
+        ///     Initializes a new instance of the <see cref="ScInfo" /> class.
         /// </summary>
         public ScInfo()
         {
@@ -28,22 +26,22 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScInfo"/> class.
+        ///     Initializes a new instance of the <see cref="ScInfo" /> class.
         /// </summary>
         /// <param name="File">The file.</param>
         public ScInfo(FileInfo File) : base(File)
         {
-            this.Statistics  = new ScStats();
+            this.Statistics = new ScStats();
 
             this.Identifiers = new List<short>();
-            this.Names       = new List<string>();
+            this.Names = new List<string>();
 
-            this.Sheets      = new List<Bitmap>();
-            this.Spirites    = new List<ScSpirite>();
+            this.Sheets = new List<Bitmap>();
+            this.Spirites = new List<ScSpirite>();
         }
 
         /// <summary>
-        /// Reads this instance.
+        ///     Reads this instance.
         /// </summary>
         public override async Task Read()
         {
@@ -87,7 +85,7 @@
 
                 while (Stream.BaseStream.Position < Stream.BaseStream.Length)
                 {
-                    byte BlockType  = Stream.ReadByte();
+                    byte BlockType = Stream.ReadByte();
                     int BlockLength = Stream.ReadInt32();
                     long BlockBegin = Stream.BaseStream.Position;
 
@@ -95,9 +93,9 @@
                     {
                         case 0x01: // Sheets
                         {
-                            byte Format     = Stream.ReadByte();
-                            short Width     = Stream.ReadInt16();
-                            short height    = Stream.ReadInt16();
+                            byte Format = Stream.ReadByte();
+                            short Width = Stream.ReadInt16();
+                            short height = Stream.ReadInt16();
 
                             if (BlockLength > 5)
                             {
@@ -141,8 +139,8 @@
 
                             double[,] matrixArrayD =
                             {
-                                { Points[0] * val1, Points[1] * val1, Points[2] * val1 },
-                                { Points[3] * val1, Points[4] / val2, Points[5] / val2 }
+                                {Points[0] * val1, Points[1] * val1, Points[2] * val1},
+                                {Points[3] * val1, Points[4] / val2, Points[5] / val2}
                             };
 
                             //Matrix<double> Matrix = Matrix<double>.Build.DenseOfArray(matrixArrayD);
@@ -179,8 +177,8 @@
                         }
                     }
 
-                    long BlockEnd   = Stream.BaseStream.Position;
-                    long BlockLeft  = BlockEnd - BlockBegin;
+                    long BlockEnd = Stream.BaseStream.Position;
+                    long BlockLeft = BlockEnd - BlockBegin;
 
                     if (BlockLeft != BlockLength)
                     {
