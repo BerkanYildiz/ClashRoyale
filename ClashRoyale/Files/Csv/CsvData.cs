@@ -7,22 +7,12 @@
     {
         public readonly int GlobalId;
         public readonly int Instance;
-        
+
+        public readonly string Name;
         public readonly int Type;
 
         public CsvRow CsvRow;
         public CsvTable CsvTable;
-
-        /// <summary>
-        ///     Gets the data name.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.CsvRow.Name;
-            }
-        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CsvData" /> class.
@@ -40,6 +30,7 @@
         public CsvData(CsvRow Row, CsvTable Table)
         {
             this.CsvRow = Row;
+            this.Name = Row.Name;
 
             this.CsvTable = Table;
             this.Type = Table.Offset;

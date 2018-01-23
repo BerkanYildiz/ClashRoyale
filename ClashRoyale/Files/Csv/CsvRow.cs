@@ -72,7 +72,7 @@
                     {
                         Type ElementType = Property.PropertyType.GetElementType();
 
-                        if (ElementType == typeof(bool))
+                        if (ElementType == typeof(byte))
                         {
                             Property.SetValue(Data, this.LoadBoolArray(Property.Name));
                         }

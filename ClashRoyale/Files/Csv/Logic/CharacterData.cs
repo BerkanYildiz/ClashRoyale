@@ -455,7 +455,7 @@ namespace ClashRoyale.Files.Csv.Logic
         /// </summary>
         public override void LoadingFinished()
         {
-            CsvFiles.Characters.Add(this);
+            // LoadingFinished.
         }
     }
 }

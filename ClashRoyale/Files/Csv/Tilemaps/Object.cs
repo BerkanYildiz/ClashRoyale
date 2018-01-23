@@ -8,7 +8,6 @@
         public int X;
         public int Y;
         public string Name;
-
         public CharacterData Data;
 
         /// <summary>
