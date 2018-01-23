@@ -59,55 +59,23 @@
             this.Session        = DateTime.UtcNow;
             this.LastMessage    = DateTime.UtcNow;
             this.LastKeepAlive  = DateTime.UtcNow;
+
+            this.SendEncrypter    = new Rc4Encrypter("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
+            this.ReceiveEncrypter = new Rc4Encrypter("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
         }
 
         /// <summary>
         /// Receives the message.
         /// </summary>
-        public void ReceiveMessage(short Type, short Version, byte[] Packet)
+        public void ReceiveMessage(short type, short version, byte[] packet)
         {
-            if (this.ReceiveEncrypter == null)
-            {
-                if (this.PepperInit.State == 0)
-                {
-                    if (Type == 10101)
-                    {
-                        this.SendEncrypter      = new Rc4Encrypter("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
-                        this.ReceiveEncrypter   = new Rc4Encrypter("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
+            packet = this.ReceiveEncrypter.Decrypt(packet);
 
-                        Packet = this.ReceiveEncrypter.Decrypt(Packet);
-                    }
-                    else if (Type == 10100)
-                    {
-                        Packet = PepperCrypto.HandlePepperAuthentification(ref this.PepperInit, Packet);
-                    }
-                    else
-                    {
-                        Packet = null;
-                    }
-                }
-                else
-                {
-                    if (this.PepperInit.State == 2)
-                    {
-                        Packet = Type == 10101 ? PepperCrypto.HandlePepperLogin(ref this.PepperInit, Packet) : null;
-                    }
-                    else
-                    {
-                        Packet = null;
-                    }
-                }
-            }
-            else
-            {
-                Packet = this.ReceiveEncrypter.Decrypt(Packet);
-            }
-
-            if (Packet != null)
+            if (packet != null)
             {
                 if (this.Device.State != State.Logged)
                 {
-                    if (Type != 10100 && Type != 10101)
+                    if (type != 10100 && type != 10101)
                     {
                         if (++this.InvalidMessageStateCnt >= 5)
                         {
@@ -118,31 +86,31 @@
                     }
                 }
 
-                using (ByteStream Stream = new ByteStream(Packet))
+                using (ByteStream stream = new ByteStream(packet))
                 {
-                    Message Message = MessageFactory.CreateMessage(Type, Stream);
+                    Message message = MessageFactory.CreateMessage(type, stream);
 
-                    if (Message != null)
+                    if (message != null)
                     {
-                        Logging.Info(this.GetType(), "Receiving " + Message.GetType().Name + ".");
+                        Logging.Info(this.GetType(), "Receiving " + message.GetType().Name + ".");
 
-                        if (this.RequestTime.CanHandleMessage(Message))
+                        if (this.RequestTime.CanHandleMessage(message))
                         {
                             try
                             {
-                                Message.Decode();
+                                message.Decode();
                             }
                             catch (Exception Exception)
                             {
-                                Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + Message.Type + " has been processed. " + Exception);
+                                Logging.Error(this.GetType(), "ReceiveMessage() - An error has been throwed when the message type " + message.Type + " has been processed. " + Exception);
                             }
 
-                            HandlerFactory.MessageHandle(this.Device, Message); // TODO : Probably call Task.Wait().
+                            HandlerFactory.MessageHandle(this.Device, message); // TODO : Probably call Task.Wait().
                         }
                     }
                     else
                     {
-                        Logging.Info(this.GetType(), BitConverter.ToString(Stream.ReadBytes(Stream.BytesLeft)));
+                        Logging.Info(this.GetType(), BitConverter.ToString(stream.ReadBytes(stream.BytesLeft)));
                     }
                 }
             }
@@ -150,7 +118,7 @@
             {
                 if (this.Device.State == State.Logged)
                 {
-                    Logging.Error(this.GetType(), "Packet == null at ReceiveMessage().");
+                    Logging.Error(this.GetType(), "packet == null at ReceiveMessage().");
                 }
             }
         }
