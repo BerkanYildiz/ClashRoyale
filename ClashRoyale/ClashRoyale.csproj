@@ -270,6 +270,7 @@
     <Compile Include="Logic\Alliance\Stream\JoinRequestAllianceStreamEntry.cs" />
     <Compile Include="Logic\Alliance\Stream\StreamEntry.cs" />
     <Compile Include="Logic\Commands\BuyDiamondsCommand.cs" />
+    <Compile Include="Logic\Commands\CopyDeckCommand.cs" />
     <Compile Include="Logic\Commands\QuestsSeenCommand.cs" />
     <Compile Include="Logic\Commands\FilterClanChatCommand.cs" />
     <Compile Include="Logic\Commands\RequestNewQuestCommand.cs" />

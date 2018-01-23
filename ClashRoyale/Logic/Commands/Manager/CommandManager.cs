@@ -205,6 +205,8 @@
                     return new BuyDiamondsCommand();
                 case 576:
                     return new UpdateLastShownLevelUpCommand();
+                case 580:
+                    return new CopyDeckCommand();
                 case 584:
                     return new RequestNewQuestCommand();
                 case 592:

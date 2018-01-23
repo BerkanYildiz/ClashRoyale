@@ -19,7 +19,7 @@
             }
         }
 
-        private int ChestIndex;
+        public int ChestIndex;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BuyChestCommand"/> class.
@@ -35,8 +35,7 @@
         public override void Decode(ByteStream Stream)
         {
             base.Decode(Stream);
-            Logging.Info(this.GetType(), this.ToHexa(Stream));
-            // this.ChestIndex = Stream.ReadVInt();
+            this.ChestIndex = Stream.ReadVInt();
         }
 
         /// <summary>
@@ -53,59 +52,47 @@
         /// </summary>
         public override byte Execute(GameMode GameMode)
         {
-            if (this.ChestIndex < 3)
+            if (this.ChestIndex < 0)
             {
-                Home Home     = GameMode.Home;
-                Player Player = GameMode.Player;
-
-                if (Home != null && Player != null)
-                {
-                    TreasureChestData ChestData = null; // TODO : Retrieve the chest at the specified index in the shop.
-
-                    return 69;
-
-                    if (ChestData.ArenaData != null)
-                    {
-                        if (!ChestData.ArenaData.TrainingCamp)
-                        {
-                            if (ChestData.ArenaData == Player.Arena.ChestArenaData)
-                            {
-                                if (ChestData.InShop)
-                                {
-                                    int Cost = ChestData.ShopPrice;
-                                    
-                                    if (Player.HasEnoughDiamonds(Cost))
-                                    {
-                                        if (Home.PurchasedChest == null)
-                                        {
-                                            Player.UseDiamonds(Cost);
-                                            Home.ChestPurchased(ChestData, 3);
-
-                                            return 0;
-                                        }
-
-                                        return 8;
-                                    }
-
-                                    return 7;
-                                }
-
-                                return 6;
-                            }
-
-                            return 5;
-                        }
-
-                        return 4;
-                    }
-
-                    return 3;
-                }
-
-                return 2;
+                return 1;
             }
 
-            return 1;
+            Home Home     = GameMode.Home;
+            Player Player = GameMode.Player;
+
+            if (Home != null && Player != null)
+            {
+                if (this.ChestIndex < Home.ShopChests.Count)
+                {
+                    var Chest = Home.ShopChests[this.ChestIndex];
+
+                    if (Chest != null)
+                    {
+                        int Cost = Chest.Cost;
+
+                        if (Player.HasEnoughDiamonds(Cost))
+                        {
+                            if (Home.PurchasedChest == null)
+                            {
+                                Player.UseDiamonds(Cost);
+                                Home.ChestPurchased(Chest.ChestData, 3);
+
+                                return 0;
+                            }
+
+                            return 6;
+                        }
+
+                        return 5;
+                    }
+
+                    return 4;
+                }
+
+                return 3;
+            }
+
+            return 2;
         }
     }
 }

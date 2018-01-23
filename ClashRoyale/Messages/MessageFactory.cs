@@ -72,6 +72,7 @@
             MessageFactory.Messages.Add(10857, typeof(AskForJoinableAlliancesListMessage));
             MessageFactory.Messages.Add(10949, typeof(SearchAllianceMessage));
 
+            MessageFactory.Messages.Add(11033, typeof(CreateAllianceMessage));
             MessageFactory.Messages.Add(11149, typeof(AskForAvatarRankingListMessage));
             MessageFactory.Messages.Add(11639, typeof(AskForAvatarLocalRankingListMessage));
             MessageFactory.Messages.Add(11688, typeof(ClientCapabilitiesMessage));

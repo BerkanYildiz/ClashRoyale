@@ -8,21 +8,31 @@
 
     public class ChestEvent
     {
-        private TreasureChestData ChestData;
-        // private ShopChestData ShopChestData;
+        public ShopChestData ShopChestData;
+        public TreasureChestData ChestData;
+        public List<SpellData> FortuneSpells;
 
-        private List<SpellData> FortuneSpells;
-
-        private int Index;
+        public int Index;
 
         /// <summary>
         /// Gets the type name of the current <see cref="ShopChestData"/>.
         /// </summary>
-        public string Name
+        public string Type
         {
             get
             {
-                return this.ChestData?.Name; // this.ShopChestData?.Type
+                return this.ShopChestData.Type;
+            }
+        }
+
+        /// <summary>
+        /// Gets the cost of the current <see cref="ShopChestData"/>.
+        /// </summary>
+        public int Cost
+        {
+            get
+            {
+                return this.ShopChestData.Price;
             }
         }
 
@@ -32,6 +42,21 @@
         public ChestEvent()
         {
             this.FortuneSpells = new List<SpellData>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChestEvent"/> class.
+        /// </summary>
+        /// <param name="ShopChest">The shop chest.</param>
+        public ChestEvent(ShopChestData ShopChest, TreasureChestData ChestData) : this()
+        {
+            this.ShopChestData  = ShopChest;
+            this.ChestData      = ChestData;
+
+            if (this.ShopChestData.DailyCardRotation)
+            {
+                // TODO : Generate cards for this.FortuneSpells..
+            }
         }
 
         /// <summary>
@@ -67,7 +92,7 @@
             Stream.WriteVInt(88);
             Stream.WriteVInt(0);
 
-            Stream.WriteString(this.Name);
+            Stream.WriteString(this.Type);
 
             Stream.WriteVInt(346);
             Stream.WriteVInt(this.Index);
