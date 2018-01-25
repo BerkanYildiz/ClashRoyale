@@ -37,11 +37,15 @@
 
             NetworkTcp.FillPools();
 
-            NetworkTcp.Listener             = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            NetworkTcp.Listener.NoDelay     = true;
-            NetworkTcp.Listener.Blocking    = false;
+            NetworkTcp.Listener     = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+            {
+                NoDelay             = true,
+                Blocking            = false,
+                ReceiveBufferSize   = Config.BufferSize,
+                SendBufferSize      = Config.BufferSize
+            };
 
-            NetworkTcp.Initialized          = true;
+            NetworkTcp.Initialized  = true;
 
             NetworkTcp.Listener.Bind(new IPEndPoint(IPAddress.Any, 9339));
             NetworkTcp.Listener.Listen(150);

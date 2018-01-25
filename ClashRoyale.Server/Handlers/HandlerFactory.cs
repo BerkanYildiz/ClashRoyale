@@ -140,13 +140,13 @@
 
                     if (Cancellation.IsCancellationRequested == false)
                     {
-                        if (Device.GameMode != null)
+                        /* if (Device.GameMode != null)
                         {
                             if (Device.GameMode.Player != null)
                             {
                                 await Players.Save(Device.GameMode.Player);
                             }
-                        }
+                        } */
 
                         return true;
                     }

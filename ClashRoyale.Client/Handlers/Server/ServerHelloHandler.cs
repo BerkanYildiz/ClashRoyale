@@ -7,6 +7,7 @@
     using ClashRoyale.Exceptions;
     using ClashRoyale.Logic;
     using ClashRoyale.Messages;
+    using ClashRoyale.Messages.Client.Account;
     using ClashRoyale.Messages.Server.Account;
 
     public static class ServerHelloHandler
@@ -40,7 +41,25 @@
 
             Device.NetworkManager.PepperInit.SessionKey = ServerHelloMessage.SessionKey;
 
-            // TODO : Send LoginMessage().
+            /* Device.NetworkManager.SendMessage(
+                new LoginMessage
+                {
+                    HighId          = 0,
+                    LowId           = 0,
+                    Token           = null,
+                    MasterHash      = null,
+
+                    MajorVersion    = Config.ClientMajorVersion,
+                    MinorVersion    = Config.ClientMinorVersion,
+                    BuildVersion    = Config.ClientBuildVersion,
+
+                    IsAndroid       = true,
+
+                    Region          = "FR-fr",
+                    Model           = "iPhone GL",
+                    OsVersion       = "0.0.0"
+                }
+            ); */
         }
     }
 }

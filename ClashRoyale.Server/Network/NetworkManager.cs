@@ -206,34 +206,35 @@
         }
 
         /// <summary>
-        ///     Writes the header of message.
+        /// Writes the header of message.
         /// </summary>
-        public byte[] WriteHeader(Message message)
+        public byte[] WriteHeader(Message Message)
         {
-            byte[] stream = message.GetBytes();
-            byte[] packet = new byte[7 + stream.Length];
-            int messageLength = stream.Length;
-            int messageType = message.Type;
-            int messageVersion = message.Version;
+            byte[] Stream       = Message.GetBytes();
+            byte[] Packet       = new byte[7 + Stream.Length];
 
-            if (messageLength > 0xFFFFFF)
+            int MessageLength   = Stream.Length;
+            int MessageType     = Message.Type;
+            int MessageVersion  = Message.Version;
+
+            if (MessageLength > 0xFFFFFF)
             {
-                throw new LogicException(this.GetType(), "Message is too big. length: " + messageLength);
+                throw new LogicException(this.GetType(), "Message is too big. length: " + MessageLength);
             }
 
-            Array.Copy(stream, 0, packet, 7, messageLength);
+            Array.Copy(Stream, 0, Packet, 7, MessageLength);
 
-            packet[1] = (byte) (messageType);
-            packet[0] = (byte) (messageType >> 8);
+            Packet[1] = (byte) (MessageType);
+            Packet[0] = (byte) (MessageType >> 8);
 
-            packet[4] = (byte) (messageLength);
-            packet[3] = (byte) (messageLength >> 8);
-            packet[2] = (byte) (messageLength >> 16);
+            Packet[4] = (byte) (MessageLength);
+            Packet[3] = (byte) (MessageLength >> 8);
+            Packet[2] = (byte) (MessageLength >> 16);
 
-            packet[6] = (byte) (messageVersion);
-            packet[5] = (byte) (messageVersion >> 8);
+            Packet[6] = (byte) (MessageVersion);
+            Packet[5] = (byte) (MessageVersion >> 8);
 
-            return packet;
+            return Packet;
         }
 
         /// <summary>
