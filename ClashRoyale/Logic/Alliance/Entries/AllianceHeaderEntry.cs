@@ -1,7 +1,5 @@
 ﻿namespace ClashRoyale.Logic.Alliance.Entries
 {
-    using System.Linq;
-
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Client;
@@ -9,62 +7,32 @@
 
     using Newtonsoft.Json;
 
+    [JsonObject(MemberSerialization.OptIn)]
     public class AllianceHeaderEntry
     {
-        private Clan Clan;
-
-        [JsonProperty("highId")]        private int HighId;
-        [JsonProperty("lowId")]         private int LowId;
+        [JsonProperty("highId")]        public int HighId;
+        [JsonProperty("lowId")]         public int LowId;
 
         [JsonProperty("name")]          public string Name;
 
         [JsonProperty("type")] 			public int Type;
+        [JsonProperty("score")]         public int Score;
         [JsonProperty("requiredScore")] public int RequiredScore;
+        [JsonProperty("members")]       public int MembersCount;
+        [JsonProperty("donations")]     public int Donations;
 
         [JsonProperty("region")]        public RegionData Region;
         [JsonProperty("locale")]        public LocaleData Locale;
         [JsonProperty("badge")]         public AllianceBadgeData Badge;
 
-        [JsonProperty("members")]       public int MembersCount
+        public long ClanId
         {
             get
             {
-                return this.Clan.Members.Count;
+                return (long) (uint) this.HighId << 32 | (uint) this.LowId;
             }
         }
 
-        [JsonProperty("score")]         public int Score
-        {
-            get
-            {
-                int Score      = 0;
-                var Entries    = this.Clan.Members.Values.ToArray();
-
-                for (int I = 0; I < Entries.Length; I++)
-                {
-                    Score += Entries[I].Score;
-                }
-
-                return Score / 2;
-            }
-        }
-
-        [JsonProperty("donations")]     public int Donations
-        {
-            get
-            {
-                int Donations  = 0;
-                var Entries    = this.Clan.Members.Values.ToArray();
-
-                for (int I = 0; I < Entries.Length; I++)
-                {
-                    Donations += Entries[I].Donations;
-                }
-
-                return Donations;
-            }
-        }
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceHeaderEntry"/> class.
         /// </summary>
@@ -76,11 +44,23 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceHeaderEntry"/> class.
         /// </summary>
-        public AllianceHeaderEntry(Clan Clan)
+        public AllianceHeaderEntry(int HighId, int LowId)
         {
-            this.Clan           = Clan;
-            this.HighId 	    = Clan.HighId;
-            this.LowId 	        = Clan.LowId;
+            this.HighId 	    = HighId;
+            this.LowId 	        = LowId;
+        }
+
+        /// <summary>
+        /// Sets the alliance.
+        /// </summary>
+        /// <param name="HighId">The high identifier.</param>
+        /// <param name="LowId">The low identifier.</param>
+        /// <param name="MembersCount">The members count.</param>
+        public void SetAlliance(int HighId, int LowId, int MembersCount)
+        {
+            this.HighId         = HighId;
+            this.LowId          = LowId;
+            this.MembersCount   = MembersCount;
         }
 
         /// <summary>
@@ -96,8 +76,8 @@
             this.Badge          = Stream.DecodeData<AllianceBadgeData>();
 
             this.Type           = Stream.ReadVInt();
-            // this.MembersCount   = Stream.ReadVInt();
-            // this.Score          = Stream.ReadVInt();
+            this.MembersCount   = Stream.ReadVInt();
+            this.Score          = Stream.ReadVInt();
             this.RequiredScore  = Stream.ReadVInt();
 
             Stream.ReadVInt();
@@ -105,7 +85,7 @@
             Stream.ReadVInt();
             Stream.ReadVInt();
 
-            // this.Donations      = Stream.ReadVInt();
+            this.Donations      = Stream.ReadVInt();
 
             Stream.ReadVInt();
 
@@ -126,7 +106,8 @@
         /// <param name="Stream">The stream.</param>
         public void Encode(ChecksumEncoder Stream)
         {
-            Stream.WriteLong(this.Clan.AllianceId);
+            Stream.WriteInt(this.HighId);
+            Stream.WriteInt(this.LowId);
             Stream.WriteString(this.Name);
             Stream.EncodeData(this.Badge);
 
@@ -151,16 +132,6 @@
             {
                 // TODO : Encode the clan event.
             }
-        }
-
-        /// <summary>
-        /// Sets the alliance.
-        /// </summary>
-        public void SetAlliance(Clan Clan)
-        {
-            this.Clan       = Clan;
-            this.HighId     = Clan.HighId;
-            this.LowId      = Clan.LowId;
         }
     }
 }

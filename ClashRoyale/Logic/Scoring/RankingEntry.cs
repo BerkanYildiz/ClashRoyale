@@ -6,7 +6,7 @@
 
     public class RankingEntry
     {
-        public LogicLong Id;
+        public LogicLong EntryId;
 
         public string Name;
 
@@ -25,14 +25,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="RankingEntry"/> class.
         /// </summary>
-        /// <param name="Id">The identifier.</param>
+        /// <param name="EntryId">The entry identifier.</param>
         /// <param name="Name">The name.</param>
         /// <param name="Score">The score.</param>
         /// <param name="Order">The order.</param>
         /// <param name="PreviousOrder">The previous order.</param>
-        public RankingEntry(LogicLong Id, string Name, int Score, int Order, int PreviousOrder)
+        public RankingEntry(LogicLong EntryId, string Name, int Score, int Order, int PreviousOrder)
         {
-            this.Id             = Id;
+            this.EntryId        = EntryId;
             this.Name           = Name;
             this.Score          = Score;
             this.Order          = Order;
@@ -40,16 +40,16 @@
         }
 
         /// <summary>
-        /// Initializes the specified identifier.
+        /// Initializes the specified entry identifier.
         /// </summary>
-        /// <param name="Id">The identifier.</param>
+        /// <param name="Id">The entry identifier.</param>
         /// <param name="Name">The name.</param>
         /// <param name="Score">The score.</param>
         /// <param name="Order">The order.</param>
         /// <param name="PreviousOrder">The previous order.</param>
         public void Initialize(LogicLong Id, string Name, int Score, int Order, int PreviousOrder)
         {
-            this.Id             = Id;
+            this.EntryId        = EntryId;
             this.Name           = Name;
             this.Score          = Score;
             this.Order          = Order;
@@ -62,7 +62,7 @@
         /// <param name="Stream">The stream.</param>
         public virtual void Decode(ByteStream Stream)
         {
-            this.Id             = Stream.DecodeLogicLong();
+            this.EntryId        = Stream.DecodeLogicLong();
             this.Name           = Stream.ReadString();
             this.Order          = Stream.ReadVInt();
             this.Score          = Stream.ReadVInt();
@@ -75,7 +75,7 @@
         /// <param name="Stream">The stream.</param>
         public virtual void Encode(ChecksumEncoder Stream)
         {
-            Stream.EncodeLogicLong(this.Id);
+            Stream.EncodeLogicLong(this.EntryId);
             Stream.WriteString(this.Name);
             Stream.WriteVInt(this.Order);
             Stream.WriteVInt(this.Score);

@@ -1,6 +1,7 @@
 ﻿namespace ClashRoyale.Logic.Home.Spells
 {
     using System;
+    using System.Collections.Generic;
 
     using ClashRoyale.Extensions;
     using ClashRoyale.Files.Csv.Logic;
@@ -184,6 +185,14 @@
             {
                 Logging.Error(this.GetType(), "CanBeInserted returns false, should check it before trying to move.");
             }
+        }
+
+        /// <summary>
+        /// Gets the spells.
+        /// </summary>
+        public Spell[] GetSpells()
+        {
+            return this.Spells;
         }
 
         /// <summary>

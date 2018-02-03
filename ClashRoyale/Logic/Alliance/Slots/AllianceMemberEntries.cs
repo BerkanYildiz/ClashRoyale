@@ -1,6 +1,5 @@
 ﻿namespace ClashRoyale.Logic.Alliance.Slots
 {
-    using System;
     using System.Collections.Concurrent;
     using System.Linq;
     using System.Threading.Tasks;
@@ -11,188 +10,138 @@
 
     public class AllianceMemberEntries : ConcurrentDictionary<long, AllianceMemberEntry>
     {
-        public Clan Clan;
-        public ConcurrentDictionary<long, Player> Connected;
+        private readonly ConcurrentDictionary<long, Player> Connected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceMemberEntries"/> class.
         /// </summary>
         public AllianceMemberEntries()
         {
-            this.Connected  = new ConcurrentDictionary<long, Player>();
+            this.Connected = new ConcurrentDictionary<long, Player>();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AllianceMemberEntries"/> class.
+        /// Tries to add the specified player.
         /// </summary>
-        /// <param name="Clan">The alliance.</param>
-        public AllianceMemberEntries(Clan Clan) : this()
+        /// <param name="Player">The player.</param>
+        public bool TryAdd(Player Player)
         {
-            this.Clan = Clan;
+            if (!this.ContainsKey(Player.PlayerId))
+            {
+                if (this.Count < 50)
+                {
+                    AllianceMemberEntry Entry = new AllianceMemberEntry(Player, 1);
+
+                    if (this.Count == 0)
+                    {
+                        Entry.SetRole(2);
+                    }
+
+                    if (this.TryAdd(Player.PlayerId, Entry))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Logging.Error(this.GetType(), "TryAdd(PlayerId, Entry) != true at TryAdd(Player).");
+                    }
+                }
+                else
+                {
+                    Logging.Warning(this.GetType(), "Count >= 50 at TryAdd(Player).");
+                }
+            }
+            else
+            {
+                Logging.Error(this.GetType(), "ContainsKey(PlayerId) != false at TryAdd(Player).");
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Removes the specified player.
+        /// </summary>
+        /// <param name="Player">The player.</param>
+        public bool TryRemove(Player Player)
+        {
+            if (Player != null)
+            {
+                if (this.TryRemove(Player.PlayerId, out AllianceMemberEntry _))
+                {
+                    return true;
+                }
+                else
+                {
+                    Logging.Warning(this.GetType(), "TryRemove(PlayerId, out _) != true at TryRemove(Player).");
+                }
+            }
+            else
+            {
+                Logging.Error(this.GetType(), "Player == null at TryRemove(Player).");
+            }
+
+            return false;
         }
 
         /// <summary>
         /// Adds the specified player to the online list.
         /// </summary>
-        public async Task<bool> AddOnlinePlayer(Player Player)
+        public async Task<bool> TryAddOnlineMember(Player Player)
         {
             if (this.Connected.TryAdd(Player.PlayerId, Player))
             {
-                int Online = this.Connected.Count;
-
-                await Task.Run(() =>
-                {
-                    foreach (Player Connected in this.Connected.Values.ToArray())
-                    {
-                        Connected.GameMode.Listener.SendMessage(new AllianceOnlineStatusUpdatedMessage(Online));
-                    }
-                });
-
+                await this.SendStatusUpdated();
                 return true;
             }
             else
             {
-                Logging.Error(this.GetType(), "AddOnlinePlayer() - Player can't be added, false has been returned.");
+                Logging.Warning(this.GetType(), "TryAdd(PlayerId, Player) != true at TryAddOnlineMember(Player).");
             }
 
             return false;
         }
 
         /// <summary>
-        /// Removes the specified player of the online list.
+        /// Removes the specified player from the online list.
         /// </summary>
-        public async Task<bool> RemoveOnlinePlayer(Player Player)
+        public async Task<bool> TryRemoveOnlineMember(Player Player)
         {
             if (this.Connected.TryRemove(Player.PlayerId, out _))
             {
-                int Online = this.Connected.Count;
-
-                await Task.Run(() =>
-                {
-                    foreach (Player Connected in this.Connected.Values.ToArray())
-                    {
-                        Connected.GameMode.Listener.SendMessage(new AllianceOnlineStatusUpdatedMessage(Online));
-                    }
-                });
-
+                await this.SendStatusUpdated();
                 return true;
             }
             else
             {
-                Logging.Error(this.GetType(), "RemoveOnlinePlayer() - Player can't be removed, false has been returned.");
+                Logging.Warning(this.GetType(), "TryRemove(PlayerId, out _) != true at TryRemoveOnlineMember(Player).");
             }
 
             return false;
         }
 
         /// <summary>
-        /// Adds the specified player.
+        /// Sends the message saying that the alliance status has been updated.
         /// </summary>
-        /// <param name="Player">The player.</param>
-        /// <param name="NewAlliance">true if alliance is new.</param>
-        public async Task<bool> TryAdd(Player Player, bool NewAlliance)
+        private async Task SendStatusUpdated()
         {
-            if (!this.ContainsKey(Player.PlayerId))
-            {
-                if (NewAlliance || (this.Count < 50 && this.Count > 0))
-                {
-                    AllianceMemberEntry Entry = new AllianceMemberEntry(this.Clan, Player, NewAlliance ? 2 : 1);
+            var OnlineMembers = this.Connected.Values.ToArray();
 
-                    if (this.TryAdd(Player.PlayerId, Entry))
-                    {
-                        await this.AddOnlinePlayer(Player);
-                        return true;
-                    }
-                    else
-                    {
-                        Logging.Error(this.GetType(), "TryAdd() - Player can't be added, false has been returned.");
-                    }
-                }
-                else
-                {
-                    Logging.Error(this.GetType(), "TryAdd() - Player can't be added, the limit of 50 members has been reached.");
-                }
-            }
-            else
+            await Task.Run(() =>
             {
-                Logging.Error(this.GetType(), "TryAdd() - Member can't be added, this instance is already in the list.");
-            }
-
-            return false;
+                foreach (Player Member in OnlineMembers)
+                {
+                    Member.GameMode.Listener.SendMessage(new AllianceOnlineStatusUpdatedMessage(OnlineMembers.Length));
+                }
+            });
         }
 
         /// <summary>
-        /// Removes the specified member.
+        /// Returns this instance data as an array.
         /// </summary>
-        /// <param name="Member">The member.</param>
-        public async Task<bool> TryRemove(AllianceMemberEntry Member)
+        public AllianceMemberEntry[] ToArray()
         {
-            if (Member != null)
-            {
-                if (this.TryRemove(Member.PlayerId, out AllianceMemberEntry _))
-                {
-                    if (this.Connected.TryGetValue(Member.PlayerId, out Player Player))
-                    {
-                        await this.RemoveOnlinePlayer(Player);
-                    }
-
-                    return true;
-                }
-                else
-                {
-                    Logging.Error(this.GetType(), "TryRemove(PlayerID, out _) returned false.");
-                }
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "TryRemove() - Member was null at Remove(Member).");
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Removes the specified member.
-        /// </summary>
-        /// <param name="Member">The member.</param>
-        public async Task<bool> TryRemove(Player Member)
-        {
-            if (Member != null)
-            {
-                if (this.TryRemove(Member.PlayerId, out AllianceMemberEntry _))
-                {
-                    if (this.Connected.TryGetValue(Member.PlayerId, out Player Player))
-                    {
-                        await this.RemoveOnlinePlayer(Player);
-                    }
-
-                    return true;
-                }
-                else
-                {
-                    Logging.Error(this.GetType(), "TryRemove(PlayerID, out _) returned false.");
-                }
-            }
-            else
-            {
-                Logging.Error(this.GetType(), "TryRemove() - Member was null at Remove(Member).");
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Executes the specific action for each <see cref="AllianceMemberEntry"/>.
-        /// </summary>
-        /// <param name="Action">The action.</param>
-        public void ForEach(Action<AllianceMemberEntry> Action)
-        {
-            AllianceMemberEntry[] Entries = this.Values.ToArray();
-
-            for (int I = 0; I < Entries.Length; I++)
-            {
-                Action.Invoke(Entries[I]);
-            }
+            return this.Values.ToArray();
         }
     }
 }

@@ -67,11 +67,6 @@
                     {
                         if (!Player.IsBanned)
                         {
-                            if (Player.IsConnected)
-                            {
-                                Player.GameMode.Listener.SendMessage(new DisconnectedMessage());
-                            }
-
                             await LoginHandler.Login(Device, LoginMessage, Player);
                         }
                         else
@@ -134,6 +129,12 @@
         /// </summary>
         private static async Task Login(Device Device, LoginMessage Message, Player Player)
         {
+            if (Player.IsConnected)
+            {
+                Player.GameMode.Listener.SendMessage(new DisconnectedMessage());
+                Player.GameMode.Listener.Disconnect();
+            }
+
             if (Player.AccountLocation == null)
             {
                 Player.AccountLocation = Message.Locale;

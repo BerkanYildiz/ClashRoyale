@@ -54,7 +54,7 @@
                 {
                     if (Clan.Members.TryGetValue(Player.PlayerId, out var Member))
                     {
-                        Member.Update(Player);
+                        Member.SetPlayer(Player);
                     }
                 }
                 else

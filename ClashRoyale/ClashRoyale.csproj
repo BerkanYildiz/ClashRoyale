@@ -256,7 +256,6 @@
     <Compile Include="Files\Sound\SoundFiles.cs" />
     <Compile Include="Listener\GameListener.cs" />
     <Compile Include="Logging.cs" />
-    <Compile Include="Logic\Alliance\Clan.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceFullEntry.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceHeaderEntry.cs" />
     <Compile Include="Logic\Alliance\Entries\AllianceMemberEntry.cs" />
@@ -735,6 +734,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Gamefiles\font\supercell-magic_0.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\hs__data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Gamefiles\level\starting_home.json">
@@ -1719,6 +1721,30 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Gamefiles\tilemaps\tilemap_tve.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\titan\fonts\android_emoji.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\titan\fonts\droid_naskh_ui_regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\titan\fonts\droid_sans_armenian.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\titan\fonts\droid_sans_devanagari_regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\titan\fonts\droid_sans_fallback.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\titan\fonts\droid_sans_hebrew_regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\titan\fonts\droid_sans_thai.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Gamefiles\titan\fonts\won_type.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

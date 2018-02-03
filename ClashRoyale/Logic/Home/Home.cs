@@ -459,6 +459,40 @@ namespace ClashRoyale.Logic.Home
         }
 
         /// <summary>
+        /// Adds all spells not owned by the player.
+        /// </summary>
+        public void AddAllSpells()
+        {
+            foreach (SpellData SpellData in CsvFiles.Spells)
+            {
+                if (this.HasSpell(SpellData))
+                {
+                    continue;
+                }
+
+                this.AddSpell(new Spell(SpellData));
+            }
+        }
+
+        /// <summary>
+        /// Max all spells owned by the player.
+        /// </summary>
+        public void MaxAllSpells()
+        {
+            foreach (var Spell in this.SpellDeck.GetSpells())
+            {
+                Spell.SetMaterialCount(0);
+                Spell.Level = 99;
+            }
+
+            foreach (var Spell in this.SpellCollection.GetSpells())
+            {
+                Spell.SetMaterialCount(0);
+                Spell.Level = 99;
+            }
+        }
+
+        /// <summary>
         /// Increases the number of stars for star chest.
         /// </summary>
         public void IncreaseStarsToStarChest(int Count)

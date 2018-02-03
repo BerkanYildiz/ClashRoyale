@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Alliance.Entries;
 
     public class LeaderboardClans
     {
@@ -53,21 +53,21 @@
         /// <summary>
         /// Adds the entry.
         /// </summary>
-        /// <param name="Clan">The alliance.</param>
-        public async void AddEntry(Clan Clan)
+        /// <param name="HeaderEntry">The alliance header entry.</param>
+        public async void AddEntry(AllianceHeaderEntry HeaderEntry)
         {
-            AllianceRankingEntry TopAlliance    = this.Clans.Find(T => T.Id == Clan.AllianceId);
+            AllianceRankingEntry TopAlliance    = this.Clans.Find(T => T.EntryId == HeaderEntry.ClanId);
             AllianceRankingEntry BypassedClan   = null;
 
             if (TopAlliance != null)
             {
-                TopAlliance.Initialize(Clan);
+                TopAlliance.Initialize(HeaderEntry);
 
                 await Task.Run(() =>
                 {
                     foreach (AllianceRankingEntry ScoredClan in this.Clans)
                     {
-                        if (ScoredClan.Id == TopAlliance.Id)
+                        if (ScoredClan.EntryId == TopAlliance.EntryId)
                         {
                             continue;
                         }
@@ -92,7 +92,7 @@
             }
             else
             {
-                TopAlliance = new AllianceRankingEntry(Clan);
+                TopAlliance = new AllianceRankingEntry(HeaderEntry);
 
                 await Task.Run(() =>
                 {

@@ -35,7 +35,7 @@ namespace ClashRoyale.Messages.Server.Account
         /// </summary>
         public LoginOkMessage()
         {
-            this.Version = 1;
+            this.Version        = 1;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace ClashRoyale.Messages.Server.Account
         /// <param name="Stream">The stream.</param>
         public LoginOkMessage(ByteStream Stream) : base(Stream)
         {
-            this.Version = 1;
+            this.Version        = 1;
         }
 
         /// <summary>
@@ -53,8 +53,8 @@ namespace ClashRoyale.Messages.Server.Account
         /// <param name="Player">The player.</param>
         public LoginOkMessage(Player Player)
         {
-            this.Version = 1;
-            this.Player = Player;
+            this.Version        = 1;
+            this.Player         = Player;
         }
 
         /// <summary>

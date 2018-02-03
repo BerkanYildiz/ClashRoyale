@@ -12,11 +12,11 @@
         public int HighId;
         public int LowId;
 
-        public string AllianceName;
+        public string Name;
 
-        public bool Created;
+        public bool Creation;
 
-        public AllianceBadgeData AllianceBadgeData;
+        public AllianceBadgeData BadgeData;
 
         /// <summary>
         /// Gets the type of this command.
@@ -40,13 +40,18 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="JoinAllianceCommand"/> class.
         /// </summary>
-        public JoinAllianceCommand(int HighId, int LowId, string Name, AllianceBadgeData Data, bool Created)
+        /// <param name="HighId">The high identifier.</param>
+        /// <param name="LowId">The low identifier.</param>
+        /// <param name="Name">The name.</param>
+        /// <param name="BadgeData">The badge data.</param>
+        /// <param name="Creation">if set to <c>true</c> [creation].</param>
+        public JoinAllianceCommand(int HighId, int LowId, string Name, AllianceBadgeData BadgeData, bool Creation)
         {
-            this.HighId = HighId;
-            this.LowId = LowId;
-            this.AllianceName = Name;
-            this.AllianceBadgeData = Data;
-            this.Created = Created;
+            this.HighId     = HighId;
+            this.LowId      = LowId;
+            this.Name       = Name;
+            this.BadgeData  = BadgeData;
+            this.Creation   = Creation;
         }
 
         /// <summary>
@@ -54,11 +59,11 @@
         /// </summary>
         public override void Decode(ByteStream Stream)
         {
-            this.HighId = Stream.ReadInt();
-            this.LowId = Stream.ReadInt();
-            this.AllianceName = Stream.ReadString();
-            this.AllianceBadgeData = Stream.DecodeData<AllianceBadgeData>();
-            this.Created = Stream.ReadBoolean();
+            this.HighId     = Stream.ReadInt();
+            this.LowId      = Stream.ReadInt();
+            this.Name       = Stream.ReadString();
+            this.BadgeData  = Stream.DecodeData<AllianceBadgeData>();
+            this.Creation   = Stream.ReadBoolean();
 
             base.Decode(Stream);
         }
@@ -70,9 +75,9 @@
         {
             Stream.WriteInt(this.HighId);
             Stream.WriteInt(this.LowId);
-            Stream.WriteString(this.AllianceName);
-            Stream.EncodeData(this.AllianceBadgeData);
-            Stream.WriteBoolean(this.Created);
+            Stream.WriteString(this.Name);
+            Stream.EncodeData(this.BadgeData);
+            Stream.WriteBoolean(this.Creation);
 
             base.Encode(Stream);
         }
@@ -86,7 +91,7 @@
 
             if (Player != null)
             {
-                if (this.Created)
+                if (this.Creation)
                 {
                     if (Player.Gold >= Globals.AllianceCreateCost)
                     {
@@ -99,9 +104,9 @@
                 }
 
                 Player.SetAllianceId(this.HighId, this.LowId);
-                Player.SetAllianceName(this.AllianceName);
-                Player.SetAllianceRole(this.Created ? 2 : 1);
-                Player.SetAllianceBadge(this.AllianceBadgeData);
+                Player.SetAllianceName(this.Name);
+                Player.SetAllianceRole(this.Creation ? 2 : 1);
+                Player.SetAllianceBadge(this.BadgeData);
                 
                 GameMode.AchievementManager.UpdateAchievementProgress(0, 1);
             }

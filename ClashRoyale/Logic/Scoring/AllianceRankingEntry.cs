@@ -3,14 +3,14 @@
     using ClashRoyale.Extensions;
     using ClashRoyale.Extensions.Helper;
     using ClashRoyale.Files.Csv.Logic;
-    using ClashRoyale.Logic.Alliance;
+    using ClashRoyale.Logic.Alliance.Entries;
 
     public class AllianceRankingEntry : RankingEntry
     {
-        public AllianceBadgeData AllianceBadgeData;
-        public RegionData AllianceRegionData;
+        public AllianceBadgeData BadgeData;
+        public RegionData RegionData;
 
-        public int NumberOfMembers;
+        public int MembersCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceRankingEntry"/> class.
@@ -23,23 +23,23 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceRankingEntry"/> class.
         /// </summary>
-        /// <param name="Clan">The alliance.</param>
-        public AllianceRankingEntry(Clan Clan)
+        /// <param name="HeaderEntry">The header entry.</param>
+        public AllianceRankingEntry(AllianceHeaderEntry HeaderEntry)
         {
-            this.Initialize(Clan);
+            this.Initialize(HeaderEntry);
         }
 
         /// <summary>
         /// Initializes the specified alliance.
         /// </summary>
         /// <param name="Clan">The alliance.</param>
-        public void Initialize(Clan Clan)
+        public void Initialize(AllianceHeaderEntry HeaderEntry)
         {
-            base.Initialize(Clan.AllianceId, Clan.HeaderEntry.Name, Clan.HeaderEntry.Score, 1, 1);
+            base.Initialize(HeaderEntry.HighId, HeaderEntry.Name, HeaderEntry.Score, 1, 1);
 
-            this.AllianceRegionData    = Clan.HeaderEntry.Region;
-            this.AllianceBadgeData     = Clan.HeaderEntry.Badge;
-            this.NumberOfMembers       = Clan.HeaderEntry.MembersCount;
+            this.RegionData     = HeaderEntry.Region;
+            this.BadgeData      = HeaderEntry.Badge;
+            this.MembersCount   = HeaderEntry.MembersCount;
         }
 
         /// <summary>
@@ -50,9 +50,9 @@
         {
             base.Decode(Stream);
 
-            this.AllianceBadgeData  = Stream.DecodeData<AllianceBadgeData>();
-            this.AllianceRegionData = Stream.DecodeData<RegionData>();
-            this.NumberOfMembers    = Stream.ReadVInt();
+            this.BadgeData      = Stream.DecodeData<AllianceBadgeData>();
+            this.RegionData     = Stream.DecodeData<RegionData>();
+            this.MembersCount   = Stream.ReadVInt();
         }
 
         /// <summary>
@@ -63,9 +63,9 @@
         {
             base.Encode(Stream);
 
-            Stream.EncodeData(this.AllianceBadgeData);
-            Stream.EncodeData(this.AllianceRegionData);
-            Stream.WriteVInt(this.NumberOfMembers);
+            Stream.EncodeData(this.BadgeData);
+            Stream.EncodeData(this.RegionData);
+            Stream.WriteVInt(this.MembersCount);
         }
         
         /// <summary>

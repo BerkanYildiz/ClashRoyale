@@ -103,6 +103,8 @@
             HandlerFactory.MessageHandlers.Add(new AskForAvatarRankingListMessage().Type,       AskForAvatarRankingListHandler.Handle);
             HandlerFactory.MessageHandlers.Add(new AskForAvatarLocalRankingListMessage().Type,  AskForAvatarLocalRankingListHandler.Handle);
 
+            HandlerFactory.MessageHandlers.Add(new CreateAllianceMessage().Type,                CreateAllianceHandler.Handle);
+
             HandlerFactory.Initialized = true;
         }
 

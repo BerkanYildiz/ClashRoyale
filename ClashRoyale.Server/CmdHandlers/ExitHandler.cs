@@ -48,6 +48,7 @@
             {
                 if (Args[1] == "--force" || Args[1] == "-f")
                 {
+                    ExitHandler.DisconnectEveryone().Wait();
                     Environment.Exit(0);
                 }
             }
@@ -88,7 +89,7 @@
             {
                 Players.ForEach(Player =>
                 {
-                    // NetworkTcp.Disconnect();
+                    Player.GameMode.Listener.Disconnect();
                 });
 
                 Logging.Info(typeof(ExitHandler), "Disconnected every player for the maintenance.");

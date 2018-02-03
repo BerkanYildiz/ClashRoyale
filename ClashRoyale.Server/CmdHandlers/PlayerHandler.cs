@@ -6,6 +6,7 @@
     using ClashRoyale.Logic.Collections;
     using ClashRoyale.Logic.Player;
     using ClashRoyale.Maths;
+    using ClashRoyale.Network;
 
     internal static class PlayerHandler
     {
@@ -38,6 +39,10 @@
                 else if (Args[1] == "disconnect")
                 {
                     PlayerHandler.Disconnect(Args);
+                }
+                else if (Args[1] == "max")
+                {
+                    PlayerHandler.Max(Args);
                 }
             }
         }
@@ -184,7 +189,7 @@
             {
                 if (Player.IsConnected)
                 {
-                    // NetworkTcp.Disconnect(Player.GameMode.Device.Token.AsyncEvent);
+                    Player.GameMode.Listener.Disconnect();
 
                     if (Player.IsConnected == false)
                     {
@@ -199,6 +204,29 @@
                 {
                     Console.WriteLine("[*] Operation aborted, player is already disconnected.");
                 }
+            }
+            else
+            {
+                Console.WriteLine("[*] Invalid arguments, please select a valid player first.");
+            }
+        }
+
+        /// <summary>
+        /// Max the specified <see cref="Player"/>.
+        /// </summary>
+        /// <param name="Args">The arguments.</param>
+        internal static void Max(params string[] Args)
+        {
+            var Player = PlayerHandler.GetEntity(PlayerHandler.SelectedPlayer.HigherInt, PlayerHandler.SelectedPlayer.LowerInt);
+
+            if (Player != null)
+            {
+                Player.Home.AddAllSpells();
+                Player.Home.MaxAllSpells();
+
+                Players.Save(Player).Wait();
+
+                Console.WriteLine("[*] The player's cards have been maxed.");
             }
             else
             {

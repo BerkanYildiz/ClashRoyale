@@ -107,6 +107,22 @@
         }
 
         /// <summary>
+        /// Gets a value indicating whether this <see cref="Spell"/> is maxed.
+        /// </summary>
+        public bool IsMaxed
+        {
+            get
+            {
+                if (this.Level >= this.Data.MaxLevelIndex)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Spell"/> class.
         /// </summary>
         public Spell()

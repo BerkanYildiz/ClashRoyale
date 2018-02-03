@@ -28,7 +28,7 @@
         }
 
         public string Username;
-        public int Unknown1;
+        public int ChangeState;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeAvatarNameMessage"/> class.
@@ -53,7 +53,7 @@
         public override void Decode()
         {
             this.Username = this.Stream.ReadString();
-            this.Unknown1 = this.Stream.ReadVInt();
+            this.ChangeState = this.Stream.ReadVInt();
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         public override void Encode()
         {
             this.Stream.WriteString(this.Username);
-            this.Stream.WriteVInt(this.Unknown1);
+            this.Stream.WriteVInt(this.ChangeState);
         }
     }
 }

@@ -9,8 +9,6 @@
 
     public class AllianceMemberEntry
     {
-        private Clan Clan;
-
         [JsonProperty("highId")]    public int HighId;
         [JsonProperty("lowId")]     public int LowId;
 
@@ -46,33 +44,33 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceMemberEntry"/> class.
         /// </summary>
-        public AllianceMemberEntry(Clan Clan)
+        public AllianceMemberEntry(Player Player, int Role)
         {
-            this.Clan = Clan;
+            this.SetPlayer(Player);
+            this.SetRole(Role);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AllianceMemberEntry"/> class.
+        /// Updates this instance.
         /// </summary>
-        public AllianceMemberEntry(Clan Clan, Player Player, int Role) : this(Clan)
+        public void SetPlayer(Player Player)
         {
-            this.Role = Role;
-            this.Update(Player);
+            this.HighId     = Player.HighId;
+            this.LowId      = Player.LowId;
+            this.Level      = Player.ExpLevel;
+            this.Arena      = Player.Arena;
+            this.Name       = Player.Name;
+            this.Score      = Player.Score;
+
+            Player.SetAllianceRole(this.Role);
         }
 
         /// <summary>
-        /// Clones this instance.
+        /// Sets the alliance role.
         /// </summary>
-        public AllianceMemberEntry Clone()
+        public void SetRole(int Role)
         {
-            ByteStream Stream = new ByteStream();
-            AllianceMemberEntry MemberEntry = new AllianceMemberEntry(this.Clan);
-
-            this.Encode(Stream);
-            Stream.SetOffset(0);
-            MemberEntry.Decode(Stream);
-
-            return MemberEntry;
+            this.Role       = Role;
         }
 
         /// <summary>
@@ -104,7 +102,7 @@
 
             if (Stream.ReadBoolean())
             {
-                Stream.ReadVInt(); // HomeID
+                Stream.ReadVInt(); // HomeId
                 Stream.ReadVInt();
             }
         }
@@ -137,14 +135,11 @@
             Stream.WriteBoolean(false);
             Stream.WriteBoolean(false);
 
+            Stream.WriteBoolean(true);
+
             if (true)
             {
-                Stream.WriteBoolean(true);
                 Stream.WriteLong(this.PlayerId);
-            }
-            else
-            {
-                Stream.WriteBoolean(false);
             }
         }
 
@@ -172,30 +167,6 @@
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Sets the alliance role.
-        /// </summary>
-        public void SetAllianceRole(int Role)
-        {
-            this.Role = Role;
-        }
-        
-        /// <summary>
-        /// Updates this instance.
-        /// </summary>
-        public void Update(Player Player)
-        {
-            this.HighId = Player.HighId;
-            this.LowId  = Player.LowId;
-            this.Level  = Player.ExpLevel;
-            this.Arena  = Player.Arena;
-            this.Role   = Player.AllianceRole;
-            this.Name   = Player.Name;
-            this.Score  = Player.Score;
-
-            Player.SetAllianceRole(this.Role);
         }
     }
 }

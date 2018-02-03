@@ -56,7 +56,7 @@
         /// <param name="Player">The player.</param>
         public async void AddEntry(Player Player)
         {
-            AvatarRankingEntry TopPlayer         = this.Players.Find(RankedPlayer => RankedPlayer.Id == Player.PlayerId);
+            AvatarRankingEntry TopPlayer         = this.Players.Find(RankedPlayer => RankedPlayer.EntryId == Player.PlayerId);
             AvatarRankingEntry BypassedPlayer    = null;
 
             return;
@@ -69,7 +69,7 @@
                 {
                     foreach (AvatarRankingEntry ScoredPlayer in this.Players)
                     {
-                        if (ScoredPlayer.Id == TopPlayer.Id)
+                        if (ScoredPlayer.EntryId == TopPlayer.EntryId)
                         {
                             continue;
                         }

@@ -29,14 +29,14 @@
             }
         }
 
-        public string AllianceName;
-        public string AllianceDescription;
+        public string Name;
+        public string Description;
 
-        public int AllianceType;
+        public int AccessType;
         public int RequiredScore;
 
         public RegionData RegionData;
-        public AllianceBadgeData AllianceBadgeData;
+        public AllianceBadgeData BadgeData;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateAllianceMessage"/> class.
@@ -60,12 +60,12 @@
         /// </summary>
         public override void Decode()
         {
-            this.AllianceName       = this.Stream.ReadString();
-            this.AllianceDescription= this.Stream.ReadString();
-            this.AllianceBadgeData  = this.Stream.DecodeData<AllianceBadgeData>();
-            this.AllianceType       = this.Stream.ReadVInt();
-            this.RequiredScore      = this.Stream.ReadVInt();
-            this.RegionData         = this.Stream.DecodeData<RegionData>();
+            this.Name           = this.Stream.ReadString();
+            this.Description    = this.Stream.ReadString();
+            this.BadgeData      = this.Stream.DecodeData<AllianceBadgeData>();
+            this.AccessType     = this.Stream.ReadVInt();
+            this.RequiredScore  = this.Stream.ReadVInt();
+            this.RegionData     = this.Stream.DecodeData<RegionData>();
         }
 
         /// <summary>
@@ -73,10 +73,10 @@
         /// </summary>
         public override void Encode()
         {
-            this.Stream.WriteString(this.AllianceName);
-            this.Stream.WriteString(this.AllianceDescription);
-            this.Stream.EncodeData(this.AllianceBadgeData);
-            this.Stream.WriteVInt(this.AllianceType);
+            this.Stream.WriteString(this.Name);
+            this.Stream.WriteString(this.Description);
+            this.Stream.EncodeData(this.BadgeData);
+            this.Stream.WriteVInt(this.AccessType);
             this.Stream.WriteVInt(this.RequiredScore);
             this.Stream.EncodeData(this.RegionData);
         }

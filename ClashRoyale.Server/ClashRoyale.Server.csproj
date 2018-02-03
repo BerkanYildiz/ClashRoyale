@@ -145,9 +145,11 @@
     <Compile Include="Database\Models\BattleDb.cs" />
     <Compile Include="Database\Models\ClanDb.cs" />
     <Compile Include="Database\Models\PlayerDb.cs" />
+    <Compile Include="Handlers\Client\Alliance\CreateAllianceHandler.cs" />
     <Compile Include="Handlers\Client\RoyalTv\AskForTvContentHandler.cs" />
     <Compile Include="Handlers\Server\Home\OwnHomeDataHandler.cs" />
     <Compile Include="Listener\ServerGameListener.cs" />
+    <Compile Include="Logic\Alliance\Clan.cs" />
     <Compile Include="Logic\Collections\Devices.cs" />
     <Compile Include="Logic\Device.cs" />
     <Compile Include="Handlers\Client\Scoring\AskForAvatarLocalRankingListHandler.cs" />

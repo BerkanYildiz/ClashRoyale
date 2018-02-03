@@ -2,6 +2,7 @@
 {
     using ClashRoyale.Logic;
     using ClashRoyale.Messages;
+    using ClashRoyale.Network;
 
     public sealed class ServerGameListener : GameListener
     {
@@ -53,6 +54,14 @@
         public override void SendMessage(Message Message)
         {
             this.Device.NetworkManager.SendMessage(Message);
+        }
+
+        /// <summary>
+        /// Disconnects this instance.
+        /// </summary>
+        public override void Disconnect()
+        {
+            NetworkTcp.Disconnect(this.Device.Token.AsyncEvent);
         }
     }
 }

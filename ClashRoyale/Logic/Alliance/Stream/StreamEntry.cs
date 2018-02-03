@@ -10,7 +10,7 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    [JsonConverter(typeof(StreamEntryConverter))]
+    [JsonConverter(typeof(StreamEntryConverter)), JsonObject(MemberSerialization.OptIn)]
     public class StreamEntry
     {
         public int HighId;

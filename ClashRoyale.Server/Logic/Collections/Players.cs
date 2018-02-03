@@ -119,7 +119,7 @@ namespace ClashRoyale.Logic.Collections
 
                     if (Clan != null)
                     {
-                        await Clan.Members.RemoveOnlinePlayer(Entity);
+                        await Clan.Members.TryRemoveOnlineMember(Entity);
                     }
                 }
 

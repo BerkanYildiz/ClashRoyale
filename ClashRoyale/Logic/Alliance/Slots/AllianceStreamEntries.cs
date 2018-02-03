@@ -3,36 +3,22 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
-    using System.Threading.Tasks;
 
     using ClashRoyale.Logic.Alliance.Stream;
-    using ClashRoyale.Logic.Player;
-    using ClashRoyale.Messages.Server.Alliance;
 
     using Newtonsoft.Json;
 
     public class AllianceStreamEntries
     {
-        private Clan Clan;
-
-        [JsonProperty("s")]     private int Seed;
-        [JsonProperty("slots")] private Dictionary<long, StreamEntry> Slots;
+        [JsonProperty("seed")]      private int Seed;
+        [JsonProperty("entries")]   private Dictionary<long, StreamEntry> Entries;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllianceStreamEntries"/> class.
         /// </summary>
         public AllianceStreamEntries()
         {
-            this.Slots 		= new Dictionary<long, StreamEntry>(100);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AllianceStreamEntries"/> class.
-        /// </summary>
-        /// <param name="Clan">The alliance.</param>
-        public AllianceStreamEntries(Clan Clan) : this()
-        {
-            this.Clan 	= Clan;
+            this.Entries    = new Dictionary<long, StreamEntry>(Config.MaxChatEntries);
         }
 
         /// <summary>
@@ -43,20 +29,12 @@
             Entry.HighId 	= Config.ServerId;
             Entry.LowId 	= Interlocked.Increment(ref this.Seed);
 
-            if (this.Slots.Count > 100)
+            if (this.Entries.Count > Config.MaxChatEntries)
             {
-                this.RemoveEntry(this.Slots.Values.First());
+                this.RemoveEntry(this.Entries.Values.First()); // TODO : Not wise, performance side
             }
 
-            this.Slots.Add(Entry.StreamId, Entry);
-
-            Task.Run(() =>
-            {
-                foreach (Player Player in this.Clan.Members.Connected.Values.ToArray())
-                {
-                    Player.GameMode.Listener.SendMessage(new AllianceStreamEntryMessage(Entry));
-                }
-            });
+            this.Entries.Add(Entry.StreamId, Entry);
         }
 
         /// <summary>
@@ -66,17 +44,9 @@
         {
             if (!Entry.Removed)
             {
-                if (this.Slots.Remove(Entry.StreamId))
+                if (this.Entries.Remove(Entry.StreamId))
                 {
                     Entry.Removed = true;
-
-                    Task.Run(() =>
-                    {
-                        foreach (Player Player in this.Clan.Members.Connected.Values.ToArray())
-                        {
-                            Player.GameMode.Listener.SendMessage(new AllianceStreamRemovedMessage(Entry.StreamId));
-                        }
-                    });
                 }
                 else
                 {
@@ -90,39 +60,11 @@
         }
 
         /// <summary>
-        /// Updates the specified entry.
-        /// </summary>
-        public void UpdateEntry(StreamEntry Entry)
-        {
-            if (this.Slots.ContainsKey(Entry.StreamId))
-            {
-                if (!Entry.Removed)
-                {
-                    Task.Run(() =>
-                    {
-                        foreach (Player Player in this.Clan.Members.Connected.Values.ToArray())
-                        {
-                            Player.GameMode.Listener.SendMessage(new AllianceStreamEntryMessage(Entry));
-                        }
-                    });
-                }
-                else
-                {
-                    Logging.Warning(this.GetType(), "Tried to update an entry that was removed.");
-                }
-            }
-            else
-            {
-                Logging.Warning(this.GetType(), "Tried to remove an entry that wasn't in the list.");
-            }
-        }
-
-        /// <summary>
         /// Gets the specified entry from the collection.
         /// </summary>
         public StreamEntry GetEntry(long StreamId)
         {
-            if (this.Slots.TryGetValue(StreamId, out StreamEntry Entry))
+            if (this.Entries.TryGetValue(StreamId, out StreamEntry Entry))
             {
                 return Entry;
             }
@@ -135,7 +77,7 @@
         /// </summary>
         public StreamEntry[] ToArray()
         {
-            return this.Slots.Values.ToArray();
+            return this.Entries.Values.ToArray();
         }
     }
 }

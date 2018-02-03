@@ -675,6 +675,7 @@ namespace ClashRoyale.Logic.Player
 
             if (!BattleEncode)
             {
+                
                 Stream.WriteVInt(this.NameChangeState);
             }
 
@@ -711,6 +712,8 @@ namespace ClashRoyale.Logic.Player
                 Stream.WriteVInt(this.ExpPoints);
                 Stream.WriteVInt(this.ExpLevel);
                 Stream.WriteVInt(0);
+
+                
 
                 Stream.WriteBoolean(this.IsNameSet);
                 Stream.WriteBoolean(false); // ?

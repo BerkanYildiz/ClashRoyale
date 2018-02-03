@@ -8,6 +8,7 @@
 
     using Newtonsoft.Json;
 
+    [JsonObject(MemberSerialization.OptIn)]
     public class Clan
     {
         [JsonProperty("highId")] 	    public int HighId;
@@ -26,7 +27,7 @@
         {
             get
             {
-                return (long) this.HighId << 32 | (uint) this.LowId;
+                return (long) (uint) this.HighId << 32 | (uint) this.LowId;
             }
         }
 
@@ -35,9 +36,9 @@
         /// </summary>
         public Clan()
         {
-            this.HeaderEntry	= new AllianceHeaderEntry(this);
-            this.Members    	= new AllianceMemberEntries(this);
-            this.Messages   	= new AllianceStreamEntries(this);
+            this.HeaderEntry	= new AllianceHeaderEntry();
+            this.Members    	= new AllianceMemberEntries();
+            this.Messages   	= new AllianceStreamEntries();
         }
 
         /// <summary>
@@ -47,10 +48,10 @@
         /// <param name="LowId">The low identifier.</param>
         public Clan(int HighId, int LowId) : this()
         {
-            this.HighId = HighId;
-            this.LowId 	= LowId;
+            this.HighId         = HighId;
+            this.LowId 	        = LowId;
 
-            this.HeaderEntry.SetAlliance(this);
+            this.HeaderEntry.SetAlliance(this.HighId, this.LowId, this.Members.Count);
         }
 
         /// <summary>
