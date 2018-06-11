@@ -794,8 +794,8 @@
         /// </summary>
         public byte[] ToArray()
         {
-            byte[] bytes = new byte[this.Offset];
-            Array.Copy(this.Buffer, 0, bytes, 0, this.Offset);
+            byte[] bytes = new byte[this.Length];
+            Array.Copy(this.Buffer, 0, bytes, 0, this.Length);
             return bytes;
         }
 
@@ -804,8 +804,8 @@
         /// </summary>
         public byte[] ToArray(int StartOffset)
         {
-            byte[] bytes = new byte[this.Offset - StartOffset];
-            Array.Copy(this.Buffer, StartOffset, bytes, 0, this.Offset - StartOffset);
+            byte[] bytes = new byte[this.Length - StartOffset];
+            Array.Copy(this.Buffer, StartOffset, bytes, 0, this.Length - StartOffset);
             return bytes;
         }
 
